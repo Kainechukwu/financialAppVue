@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="h-full overflow-auto">
     <!-- <AccountCreated v-if="accountCreated" :userEmail="userEmail" /> -->
     <div
-      class="min-h-full register-page flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 register-page"
+      class="min-h-full pt-10 register-page flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
     >
       <div class="mb-9">
-        <SuprBizLogo />
+        <StarLogoSvg />
       </div>
       <div class="register-form">
         <div class="w-96">
@@ -79,22 +79,33 @@
           >
         </div> -->
       </div>
-      Don’t have an account? Sign Up
+      <div class="mt-11">
+        <span class="fs-14 fw-400 blacktext"
+          >Don’t have an account?
+          <span @click="goToSignUp" class="cursor-pointer fw-600"
+            >Sign Up</span
+          ></span
+        >
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import StarLogoSvg from "@/components/svg/StarLogoSvg.vue";
 import { reactive, toRefs } from "vue";
-// import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import ApiResource from "@/components/core/ApiResource";
 import LoginService from "@/services/login/LoginService.js";
 import { Log } from "@/components/util";
 
 export default {
   name: "Login",
+  components: {
+    StarLogoSvg,
+  },
   setup() {
-    // const router = useRouter();
+    const router = useRouter();
 
     const loginUser = ApiResource.create();
 
@@ -121,9 +132,14 @@ export default {
       );
     };
 
+    const goToSignUp = () => {
+      router.push("/signup");
+    };
+
     return {
       ...toRefs(user),
       handleLogin,
+      goToSignUp,
     };
   },
 };

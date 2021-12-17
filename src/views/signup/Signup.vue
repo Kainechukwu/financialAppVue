@@ -2,7 +2,7 @@
   <div>
     <!-- <AccountCreated v-if="accountCreated" :userEmail="userEmail" /> -->
     <div
-      class="min-h-full register-page flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 register-page"
+      class="min-h-full register-page flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
     >
       <div class="mb-9">
         <SuprBizLogo />
