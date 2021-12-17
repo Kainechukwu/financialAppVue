@@ -9,7 +9,7 @@
       </div>
       <div class="register-form">
         <div class="flex flex-col justify-center items-center">
-          <h2 class="mb-0 text-2xl font-extrabold blacktext">
+          <h2 class="mb-0 fs-24 fw-600 font-extrabold blacktext">
             Create an account
           </h2>
         </div>
@@ -19,7 +19,7 @@
           <div class="">
             <div class="grid grid-cols-2 gap-4">
               <div class="mb-6">
-                <label for="First Name" class="text-xs tx-666666 fw-600"
+                <label for="First Name" class="fs-14 tx-666666 fw-600"
                   >First Name</label
                 >
                 <input
@@ -33,7 +33,7 @@
                 />
               </div>
               <div class="mb-6">
-                <label for="Last Name" class="text-xs tx-666666 fw-600"
+                <label for="Last Name" class="fs-14 tx-666666 fw-600"
                   >Last Name</label
                 >
                 <input
@@ -49,7 +49,7 @@
             </div>
             <!-- --------------- -->
             <div class="mb-6">
-              <label for="Name of Organization" class="text-xs tx-666666 fw-600"
+              <label for="Name of Organization" class="fs-14 tx-666666 fw-600"
                 >Name of Organization</label
               >
               <input
@@ -64,7 +64,7 @@
             </div>
             <!-- ---------------- -->
             <div class="mb-6">
-              <label for="email-address" class="text-xs tx-666666 fw-600"
+              <label for="email-address" class="fs-14 tx-666666 fw-600"
                 >Email address</label
               >
               <input
@@ -81,7 +81,7 @@
             <!-- ------------ -->
             <div class="grid grid-cols-3 gap-4">
               <div class="mb-6">
-                <label for="Phone No" class="text-xs tx-666666 fw-600"
+                <label for="Phone No" class="fs-14 tx-666666 fw-600"
                   >Phone No</label
                 >
                 <input
@@ -97,7 +97,7 @@
               </div>
               <div class="mb-6 col-span-2 flex flex-col justify-between">
                 <div>
-                  <label for="Phone No" class="sr-only text-xs tx-666666 fw-600"
+                  <label for="Phone No" class="sr-only fs-14 tx-666666 fw-600"
                     >Phone No</label
                   >
                 </div>
@@ -116,7 +116,7 @@
             </div>
             <!-- ------------- -->
             <div class="mb-8">
-              <label for="password" class="text-xs tx-666666 fw-600"
+              <label for="password" class="fs-14 tx-666666 fw-600"
                 >Password</label
               >
               <input
@@ -137,7 +137,7 @@
               type="submit"
               class="bluebtn h-50px relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
             >
-              <span class="items-center text-white fw-400 my-auto">
+              <span class="fs-14 items-center text-white fw-400 my-auto">
                 Create account
               </span>
             </button>
@@ -145,7 +145,7 @@
         </form>
         <div class="text-center tx-666666 fs-14 fw-400 mt-10">
           <span>
-            By clicking “Create Account, you agree to bonfree’s terms of
+            By clicking "Create Account", you agree to bonfree’s terms of
             acceptable use</span
           >
         </div>
