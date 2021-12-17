@@ -79,6 +79,7 @@
           >
         </div> -->
       </div>
+      Don’t have an account? Sign Up
     </div>
   </div>
 </template>
