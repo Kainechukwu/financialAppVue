@@ -33,7 +33,7 @@
 					:percentage="'36'"
 				/>
 			</div>
-			<div class="grid grid-cols-3">
+			<div class="grid grid-cols-3 gap-4">
 				<div class="col-span-2">
 					<BarChart />
 				</div>

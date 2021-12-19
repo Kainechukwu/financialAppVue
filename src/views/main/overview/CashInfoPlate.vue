@@ -15,7 +15,7 @@
 			</div>
 		</div>
 		<div class="flex justify-between mt-4 h-7">
-			<span class="blacktext fw-600 fs-22 counter">N{{ props.cash }}</span>
+			<span class="blacktext fw-600 fs-22 counter">₦{{ props.cash }}</span>
 			<!-- <slot></slot> -->
 			<div
 				class="flex br-10 w-16 justify-between items-center px-2"
