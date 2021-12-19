@@ -15,7 +15,8 @@
 			</div>
 		</div>
 		<div class="flex justify-between mt-4 h-7">
-			<span class="blacktext fw-600 fs-22">N{{ props.cash }}</span>
+			<span class="blacktext fw-600 fs-22 counter">N{{ props.cash }}</span>
+			<!-- <slot></slot> -->
 			<div
 				class="flex br-10 w-16 justify-between items-center px-2"
 				:class="props.trend === 'trending-up' ? 'bg-green-100' : 'bg-red-100'"
@@ -91,6 +92,9 @@
 </template>
 
 <script>
+import counterUp from "counterup2";
+import { onMounted } from "vue";
+
 export default {
 	name: "CashInfoPlate",
 	props: {
@@ -100,6 +104,17 @@ export default {
 		title: String,
 	},
 	setup(props) {
+		onMounted(() => {
+			const items = document.querySelectorAll(".counter");
+
+			// Start counting, do this on DOM ready or with Waypoints.
+			items.forEach((el) => {
+				counterUp(el, {
+					duration: 900,
+					delay: 16,
+				});
+			});
+		});
 		return {
 			props,
 		};
