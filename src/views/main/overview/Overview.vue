@@ -34,7 +34,9 @@
 				/>
 			</div>
 			<div class="grid grid-cols-3">
-				<div class="col-span-2"></div>
+				<div class="col-span-2">
+					<BarChart />
+				</div>
 				<BalanceOverview />
 			</div>
 
@@ -45,12 +47,14 @@
 
 <script>
 import CashinfoPlate from "./CashInfoPlate";
+import BarChart from "./BarChart.vue";
 import RecentTransactions from "./RecentTransactions.vue";
 import BalanceOverview from "./BalanceOverview.vue";
 export default {
 	name: "Overview",
 	components: {
 		CashinfoPlate,
+		BarChart,
 		RecentTransactions,
 		BalanceOverview,
 	},
