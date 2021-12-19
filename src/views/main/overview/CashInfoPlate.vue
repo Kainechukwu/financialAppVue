@@ -21,7 +21,9 @@
 				class="flex br-10 w-16 justify-between items-center px-2"
 				:class="props.trend === 'trending-up' ? 'bg-green-100' : 'bg-red-100'"
 			>
-				<span>{{ props.percentage }}%</span>
+				<span :style="{ color: props.trend === 'trending-up' ? '#138663' : '#FF4D4F' }"
+					>{{ props.percentage }}%</span
+				>
 
 				<div>
 					<svg
