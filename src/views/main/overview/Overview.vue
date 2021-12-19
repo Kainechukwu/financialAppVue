@@ -5,63 +5,56 @@
 				<h1 class="fw-600 fs-24 blacktext">Overview</h1>
 				<span class="tx-999999 fw-400 fs-12">Easily get a quick summary of your business</span>
 			</div>
-			<div class="grid grid-cols-4 gap-3">
+			<div class="grid grid-cols-4 gap-3 mb-7">
 				<CashinfoPlate
 					:trend="'trending-up'"
 					:cash="'216,000'"
 					:title="'Net Earnings'"
 					:percentage="'36'"
-				>
-					<!-- <span class="blacktext fw-600 fs-22 counter">N200,000</span> -->
-				</CashinfoPlate>
+				/>
 
 				<CashinfoPlate
 					:trend="'trending-down'"
 					:cash="'216,000'"
 					:title="'Total Earnings'"
 					:percentage="'36'"
-				>
-					<!-- <span class="blacktext fw-600 fs-22 counter">N200,000</span> -->
-				</CashinfoPlate>
+				/>
 
 				<CashinfoPlate
 					:trend="'trending-down'"
 					:cash="'216,000'"
 					:title="'Deposit Count'"
 					:percentage="'36'"
-				></CashinfoPlate>
+				/>
 				<CashinfoPlate
 					:trend="'trending-up'"
 					:cash="'216,000'"
 					:title="'Withdrawal Count'"
 					:percentage="'36'"
-				></CashinfoPlate>
+				/>
 			</div>
+			<div class="grid grid-cols-3">
+				<div class="col-span-2"></div>
+				<BalanceOverview />
+			</div>
+
+			<RecentTransactions />
 		</div>
 	</div>
 </template>
 
 <script>
-// import counterUp from "counterup2";
-// import { onMounted } from "vue";
 import CashinfoPlate from "./CashInfoPlate";
+import RecentTransactions from "./RecentTransactions.vue";
+import BalanceOverview from "./BalanceOverview.vue";
 export default {
 	name: "Overview",
 	components: {
 		CashinfoPlate,
+		RecentTransactions,
+		BalanceOverview,
 	},
 	setup() {
-		// onMounted(() => {
-		// 	const items = document.querySelectorAll(".counter");
-
-		// 	// Start counting, do this on DOM ready or with Waypoints.
-		// 	items.forEach((el) => {
-		// 		counterUp(el, {
-		// 			duration: 1000,
-		// 			delay: 16,
-		// 		});
-		// 	});
-		// });
 		return {};
 	},
 };
