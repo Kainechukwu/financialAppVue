@@ -11,33 +11,39 @@
 					:cash="'216,000'"
 					:title="'Net Earnings'"
 					:percentage="'36'"
-				/>
+				>
+					<!-- <span class="blacktext fw-600 fs-22 counter">N200,000</span> -->
+				</CashinfoPlate>
 
 				<CashinfoPlate
 					:trend="'trending-down'"
 					:cash="'216,000'"
 					:title="'Total Earnings'"
 					:percentage="'36'"
-				/>
+				>
+					<!-- <span class="blacktext fw-600 fs-22 counter">N200,000</span> -->
+				</CashinfoPlate>
 
 				<CashinfoPlate
 					:trend="'trending-down'"
 					:cash="'216,000'"
 					:title="'Deposit Count'"
 					:percentage="'36'"
-				/>
+				></CashinfoPlate>
 				<CashinfoPlate
 					:trend="'trending-up'"
 					:cash="'216,000'"
 					:title="'Withdrawal Count'"
 					:percentage="'36'"
-				/>
+				></CashinfoPlate>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+// import counterUp from "counterup2";
+// import { onMounted } from "vue";
 import CashinfoPlate from "./CashInfoPlate";
 export default {
 	name: "Overview",
@@ -45,6 +51,17 @@ export default {
 		CashinfoPlate,
 	},
 	setup() {
+		// onMounted(() => {
+		// 	const items = document.querySelectorAll(".counter");
+
+		// 	// Start counting, do this on DOM ready or with Waypoints.
+		// 	items.forEach((el) => {
+		// 		counterUp(el, {
+		// 			duration: 1000,
+		// 			delay: 16,
+		// 		});
+		// 	});
+		// });
 		return {};
 	},
 };
