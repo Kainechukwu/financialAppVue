@@ -18,7 +18,22 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior() {
+    let currentScroll = document.documentElement.scrollTop,
+      int = setInterval(frame, 0)
+
+    function frame() {
+      if (0 > currentScroll) {
+        clearInterval(int)
+      } else {
+        currentScroll = currentScroll - 12
+        document.documentElement.scrollTop = currentScroll
+
+      }
+    }
+    // return { x: 0, y: 0 }
+  }
 })
 
 export default router
