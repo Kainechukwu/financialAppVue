@@ -1,6 +1,6 @@
 <template>
 	<div class="main-page p-8">
-		<div class="flex flex-col justify-start">
+		<div class="flex flex-col justify-start mb-40">
 			<div class="mb-6">
 				<h1 class="fw-600 fs-24 blacktext">Settings</h1>
 			</div>
