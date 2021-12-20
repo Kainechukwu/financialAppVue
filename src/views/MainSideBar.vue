@@ -35,7 +35,7 @@
 				>
 					<component :is="item.icon"></component>
 					<span
-						:class="route.name === item.routeName ? 'fw-600' : 'fw-400'"
+						:class="route.name.includes(item.routeName) ? 'fw-600' : 'fw-400'"
 						class="ml-3 text-white fs-16"
 						>{{ item.name }}</span
 					>

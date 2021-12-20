@@ -3,13 +3,13 @@
 		<div class="col-span-1">
 			<div class="grid grid-rows-3 gap-5 mb-10">
 				<div class="">
-					<label for="First Name" class="fs-14 fw-400 tx-666666">Test Public Key</label>
+					<label for="acceskey1" class="fs-14 fw-400 tx-666666">Test Public Key</label>
 					<div class="relative">
 						<input
 							readonly
 							style="background-color: #f8f8f8"
-							id="First Name"
-							name="FirstName"
+							id="acceskey1"
+							name="acceskey1"
 							type="text"
 							autocomplete="off"
 							:value="key1"
@@ -17,7 +17,10 @@
 							placeholder=""
 							class="mt-1.5 br-5 h-12 appearance-none block w-full pl-3 pr-16 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						/>
-						<div class="absolute right-0 top-0 bottom-0 flex items-center px-3 cursor-pointer">
+						<div
+							@click="copyToClipboard('acceskey1')"
+							class="cursor-pointer absolute right-0 top-0 bottom-0 flex items-center px-3 cursor-pointer"
+						>
 							<svg
 								class=""
 								width="20"
@@ -47,13 +50,13 @@
 
 				<!-- ---------------- -->
 				<div class="">
-					<label for="First Name" class="fs-14 fw-400 tx-666666">Test Secret Key</label>
+					<label for="acceskey2" class="fs-14 fw-400 tx-666666">Test Secret Key</label>
 					<div class="relative">
 						<input
 							readonly
 							style="background-color: #f8f8f8"
-							id="First Name"
-							name="FirstName"
+							id="acceskey2"
+							name="acceskey2"
 							type="text"
 							autocomplete="off"
 							:value="key2"
@@ -61,7 +64,10 @@
 							placeholder=""
 							class="mt-1.5 br-5 h-12 appearance-none block w-full pl-3 pr-16 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						/>
-						<div class="absolute right-0 top-0 bottom-0 flex items-center px-3 cursor-pointer">
+						<div
+							@click="copyToClipboard('acceskey2')"
+							class="cursor-pointer absolute right-0 top-0 bottom-0 flex items-center px-3 cursor-pointer"
+						>
 							<svg
 								class=""
 								width="20"
@@ -91,13 +97,13 @@
 
 				<!-- ------------- -->
 				<div class="">
-					<label for="First Name" class="fs-14 fw-400 tx-666666">Test Encryption Key</label>
+					<label for="acceskey3" class="fs-14 fw-400 tx-666666">Test Encryption Key</label>
 					<div class="relative">
 						<input
 							readonly
 							style="background-color: #f8f8f8"
-							id="First Name"
-							name="FirstName"
+							id="acceskey3"
+							name="acceskey3"
 							type="text"
 							autocomplete="off"
 							:value="key3"
@@ -105,7 +111,10 @@
 							placeholder=""
 							class="mt-1.5 br-5 h-12 appearance-none block w-full pl-3 pr-16 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						/>
-						<div class="absolute right-0 top-0 bottom-0 flex items-center px-3 cursor-pointer">
+						<div
+							@click="copyToClipboard('acceskey3')"
+							class="cursor-pointer absolute right-0 top-0 bottom-0 flex items-center px-3 cursor-pointer"
+						>
 							<svg
 								class=""
 								width="20"
@@ -155,8 +164,14 @@ export default {
 			key2: "FLWSECK-40a5caaf054df7397794e89e20b5cefe-X",
 			key3: "40a5caaf054d552c3e8387a9",
 		});
+		const copyToClipboard = (id) => {
+			var textBox = document.getElementById(id);
+			textBox.select();
+			document.execCommand("copy");
+		};
 		return {
 			...toRefs(accessKeys),
+			copyToClipboard,
 		};
 	},
 };
