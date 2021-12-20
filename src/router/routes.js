@@ -59,13 +59,28 @@ export default [
 						path: "/settings",
 						redirect: "/settings/profile",
 						name: "Settings",
-						component: () => import("@/views/kyc/Settings.vue"),
+						component: () => import("@/views/settings/Settings.vue"),
 						children: [
 							{
 								path: "/settings/profile",
 								name: "ProfileSettings",
-								component: () => import("@/views/kyc/ProfileSettings.vue")
+								component: () => import("@/views/settings/ProfileSettings.vue")
 
+							},
+							{
+								path: "/settings/security",
+								name: "Change Password Settings",
+								component: () => import("@/views/settings/Security.vue")
+							},
+							{
+								path: "/settings/access_keys",
+								name: "Access Key Settings",
+								component: () => import("@/views/settings/AccessKeys.vue")
+							},
+							{
+								path: "/settings/compliance",
+								name: "Compliance Settings",
+								component: () => import("@/views/settings/Compliance.vue")
 							}
 						]
 					}

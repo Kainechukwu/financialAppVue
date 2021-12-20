@@ -7,7 +7,7 @@
 				</div>
 			</div>
 			<div class="col-span-3">
-				<div class="flex flex-col w-11/12">
+				<div class="flex flex-col w-9/12">
 					<div class="flex flex-col">
 						<div class="grid grid-cols-2 gap-4">
 							<div class="mb-8">
@@ -88,7 +88,7 @@
 
 						<div class="flex justify-end">
 							<div
-								class="cursor-po greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
+								class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 							>
 								<span class="text-white">Submit</span>
 							</div>
