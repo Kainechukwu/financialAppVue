@@ -35,7 +35,7 @@
 					autocomplete="off"
 					required=""
 					placeholder="Search payments, invoices and transactions"
-					class="placeholder-gray-400 h-12 w-80 fw-400 fs-16 appearance-none relative block px-3 py-2 text-gray-900"
+					class="focus:border-none placeholder-gray-400 h-12 w-80 fw-400 fs-16 appearance-none relative block px-3 py-2 text-gray-900"
 				/>
 			</div>
 			<div class="flex items-center">
