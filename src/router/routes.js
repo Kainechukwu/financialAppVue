@@ -54,6 +54,20 @@ export default [
 						path: "/pending_tasks",
 						name: "Pending Tasks",
 						component: () => import("@/views/main/PendingTasks.vue")
+					},
+					{
+						path: "/settings",
+						redirect: "/settings/profile",
+						name: "Settings",
+						component: () => import("@/views/kyc/Settings.vue"),
+						children: [
+							{
+								path: "/settings/profile",
+								name: "ProfileSettings",
+								component: () => import("@/views/kyc/ProfileSettings.vue")
+
+							}
+						]
 					}
 				]
 			}
