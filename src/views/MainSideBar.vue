@@ -54,11 +54,13 @@
 import { useRoute } from "vue-router";
 import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
 import DashBoardSvg from "@/components/svg/DashboardSvg.vue";
+import SettingsSvg from "@/components/svg/SettingsSvg";
 export default {
 	name: "MainSideBar",
 	components: {
 		CheckedSvgOutlined,
 		DashBoardSvg,
+		SettingsSvg,
 	},
 	setup() {
 		const route = useRoute();
@@ -70,6 +72,7 @@ export default {
 				routeName: "Pending Tasks",
 			},
 			{ name: "Dashboard", href: "/overview", icon: DashBoardSvg, routeName: "Overview" },
+			{ name: "Settings", href: "/settings", icon: SettingsSvg, routeName: "Settings" },
 		];
 		return { navigation, route };
 	},

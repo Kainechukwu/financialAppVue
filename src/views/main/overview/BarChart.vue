@@ -8,9 +8,9 @@
 			<div class="flex">
 				<div
 					style="background-color: #f2f6ff"
-					class="mr-4 br-5 flex p-2 justify-between items-center"
+					class="mr-4 br-5 flex px-2 py-1 justify-between items-center"
 				>
-					<span class="blacktext mr-5 fw-400 fs-12">Today</span>
+					<span class="blacktext mr-5 fw-400 fs-12">Total Assets</span>
 					<svg
 						width="8"
 						height="5"

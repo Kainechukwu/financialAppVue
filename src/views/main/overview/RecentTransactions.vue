@@ -68,7 +68,7 @@
 										</td>
 										<td style="color: #18ae81" class="px-6 py-4 whitespace-nowrap fs-12 fw-600">
 											<div
-												class="flex justify-center items-center h-7"
+												class="flex justify-center items-center h-8"
 												style="background-color: #d2f9ed; border-radius: 100px; max-width: 93px"
 											>
 												{{ person.status }}
