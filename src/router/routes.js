@@ -81,6 +81,11 @@ export default [
 								path: "/settings/compliance",
 								name: "Compliance Settings",
 								component: () => import("@/views/settings/Compliance.vue")
+							},
+							{
+								path: "/settings/roles",
+								name: "Roles Settings",
+								component: () => import("@/views/settings/RolesSettings.vue")
 							}
 						]
 					}
