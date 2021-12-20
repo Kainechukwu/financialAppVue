@@ -1,4 +1,12 @@
+import Home from '../views/Home.vue'
+
 export default [
+	{
+		path: '/',
+		redirect: "/signup",
+		name: 'Home',
+		component: Home
+	},
 	{
 		path: "/signup",
 		name: "Signup",
@@ -41,6 +49,11 @@ export default [
 						path: "/overview",
 						name: "Overview",
 						component: () => import("@/views/main/overview/Overview.vue")
+					},
+					{
+						path: "/pending_tasks",
+						name: "Pending Tasks",
+						component: () => import("@/views/main/PendingTasks.vue")
 					}
 				]
 			}

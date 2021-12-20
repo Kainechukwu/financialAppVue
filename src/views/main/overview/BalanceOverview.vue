@@ -1,6 +1,6 @@
 <template>
 	<div class="mb-7 col-span-1">
-		<div class="w-full grid grid-rows-2 bg-white br-10">
+		<div style="max-height: 320px" class="w-full grid grid-rows-2 bg-white br-10">
 			<div class="w-full px-6 py-5 flex flex-col border-b border-gray-100">
 				<span class="fs-12 fw-400 tx-999999 mb-3">Available Balance</span>
 
