@@ -4,7 +4,7 @@
 			<h1 class="mb-6 mt-7 fw-600 fs-18 blacktext">Team Members - 4</h1>
 			<div class="">
 				<table class="min-w-full">
-					<thead class="bg-white divide-y divide-gray-100">
+					<thead class="bg-white divide-y divide-gray-100 border-b border-t border-gray-100">
 						<tr>
 							<th style="max-width: 26px" scope="col" class="pr-6 py-3 fw-600 fs-14 t">
 								<div class="flex justify-start">Name</div>
@@ -17,24 +17,24 @@
 								<div class="flex justify-start">Role</div>
 							</th>
 							<th style="max-width: 26px" scope="col" class="relative pr-6 py-3">
-								<span class="sr-only">Edit</span>
+								<span class="sr-only">Menu</span>
 							</th>
 						</tr>
 					</thead>
-					<tbody class="bg-white divide-y divide-gray-100">
+					<tbody class="bg-white divide-y divide-gray-100 border-b border-gray-100">
 						<tr v-for="person in people" :key="person.email">
-							<td class="pr-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+							<td class="pr-6 py-4 fw-400 fs-14 tx-666666">
 								{{ person.name }}
 							</td>
 
-							<td class="pr-6 py-4 whitespace-nowrap text-sm text-gray-500">
+							<td class="pr-6 py-4 fw-400 fs-14 tx-666666">
 								{{ person.email }}
 							</td>
-							<td class="pr-6 py-4 whitespace-nowrap text-sm text-gray-500">
+							<td class="pr-6 py-4 fw-400 fs-14 tx-666666">
 								{{ person.role }}
 							</td>
-							<td class="pr-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-								<div class="flex-justify-end">
+							<td class="pr-6 py-4">
+								<div class="flex-justify-center">
 									<svg
 										width="4"
 										height="16"
