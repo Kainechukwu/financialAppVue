@@ -20,7 +20,7 @@
 							<input
 								id="Current Password"
 								name="Current Password"
-								type="text"
+								type="password"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -33,7 +33,7 @@
 							<input
 								id="New Password"
 								name="New Password"
-								type="number"
+								type="password"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -47,7 +47,7 @@
 							<input
 								id="Confirm New Password"
 								name="Confirm New Password"
-								type="number"
+								type="password"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"

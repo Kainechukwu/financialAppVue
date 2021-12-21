@@ -47,7 +47,7 @@
 							</div>
 						</div>
 
-						<div class="mb-8">
+						<div @click="goToPasswordReset" class="mb-8">
 							<span class="fs-14 fw-500 cursor-pointer blacktext">Forgot Password?</span>
 						</div>
 
@@ -127,10 +127,15 @@ export default {
 			router.push("/signup");
 		};
 
+		const goToPasswordReset = () => {
+			router.push("/reset_password");
+		};
+
 		return {
 			...toRefs(user),
 			handleLogin,
 			goToSignUp,
+			goToPasswordReset,
 		};
 	},
 };
