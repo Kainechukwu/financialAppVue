@@ -68,7 +68,7 @@ export default [
 					{
 						path: "/plans",
 						name: "Plans",
-						component: () => import("@/views/main/Plans.vue")
+						component: () => import("@/views/main/plans/Plans.vue")
 					},
 					{
 						path: "/customers",

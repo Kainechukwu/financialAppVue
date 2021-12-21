@@ -3,7 +3,7 @@
 		<div class="flex flex-col justify-start">
 			<div class="mb-6">
 				<h1 class="fw-600 fs-24 blacktext">Pending Tasks</h1>
-				<span class="tx-999999 fw-400 fs-12">You have 3 pending actions to complete</span>
+				<span class="tx-999999 fw-400 fs-14">You have 3 pending actions to complete</span>
 			</div>
 			<div class="bg-white br-5 p-4">
 				<div class="flex justify-between items-center py-3">
