@@ -1,5 +1,5 @@
 <template>
-	<div class="h-24 header w-full flex items-center px-10">
+	<div class="h-24 header w-full flex items-center px-8">
 		<div class="flex w-full items-center justify-between">
 			<div class="flex">
 				<div class="flex items-center mr-4">
@@ -27,7 +27,7 @@
 					</svg>
 				</div>
 				<input
-					style="border: none; width"
+					style="border: none"
 					id="Search"
 					name="Search"
 					type="text"
@@ -35,7 +35,7 @@
 					autocomplete="off"
 					required=""
 					placeholder="Search payments, invoices and transactions"
-					class="focus:border-none placeholder-gray-400 h-12 w-80 fw-400 fs-16 appearance-none relative block px-3 py-2 text-gray-900"
+					class="placeholder-gray-400 h-12 w-80 fw-400 fs-16 appearance-none relative block px-3 py-2 text-gray-900"
 				/>
 			</div>
 			<div class="flex items-center">

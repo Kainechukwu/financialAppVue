@@ -56,6 +56,26 @@ export default [
 						component: () => import("@/views/main/PendingTasks.vue")
 					},
 					{
+						path: "/transactions",
+						name: "Transactions",
+						component: () => import("@/views/main/Transactions.vue")
+					},
+					{
+						path: "/payouts",
+						name: "Payouts",
+						component: () => import("@/views/main/Payouts.vue")
+					},
+					{
+						path: "/plans",
+						name: "Plans",
+						component: () => import("@/views/main/Plans.vue")
+					},
+					{
+						path: "/customers",
+						name: "Customers",
+						component: () => import("@/views/main/Customers.vue")
+					},
+					{
 						path: "/settings",
 						redirect: "/settings/profile",
 						name: "Settings",

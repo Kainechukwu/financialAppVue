@@ -55,12 +55,17 @@ import { useRoute } from "vue-router";
 import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
 import DashBoardSvg from "@/components/svg/DashboardSvg.vue";
 import SettingsSvg from "@/components/svg/SettingsSvg";
+import TransactionsSvg from "@/components/svg/TransactionsSvg.vue";
+import PayoutsSvg from "@/components/svg/PayoutsSvg.vue";
+import CustomersSvg from "@/components/svg/CustomersSvg.vue";
 export default {
 	name: "MainSideBar",
 	components: {
 		CheckedSvgOutlined,
 		DashBoardSvg,
 		SettingsSvg,
+		TransactionsSvg,
+		CustomersSvg,
 	},
 	setup() {
 		const route = useRoute();
@@ -72,6 +77,24 @@ export default {
 				routeName: "Pending Tasks",
 			},
 			{ name: "Dashboard", href: "/overview", icon: DashBoardSvg, routeName: "Overview" },
+			{
+				name: "Transactions",
+				href: "/transactions",
+				icon: TransactionsSvg,
+				routeName: "Transactions",
+			},
+			{
+				name: "Payouts",
+				href: "/payouts",
+				icon: PayoutsSvg,
+				routeName: "Payouts",
+			},
+			{
+				name: "Customers",
+				href: "/customers",
+				icon: CustomersSvg,
+				routeName: "Customers",
+			},
 			{ name: "Settings", href: "/settings", icon: SettingsSvg, routeName: "Settings" },
 		];
 		return { navigation, route };

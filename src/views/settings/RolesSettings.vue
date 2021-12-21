@@ -1,7 +1,15 @@
 <template>
 	<div class="w-full px-10 pb-8">
 		<div class="flex flex-col">
-			<h1 class="mb-6 mt-7 fw-600 fs-18 blacktext">Team Members - 4</h1>
+			<div class="flex justify-between items-center">
+				<h1 class="mb-6 mt-7 fw-600 fs-18 blacktext">Team Members - 4</h1>
+
+				<div
+					class="cursor-pointer greenButton fs-14 fw-500 h-10 px-4 br-5 flex items-center justify-center"
+				>
+					<span class="text-white">Add User</span>
+				</div>
+			</div>
 			<div class="">
 				<table class="min-w-full">
 					<thead class="bg-white divide-y divide-gray-100 border-b border-t border-gray-100">
@@ -27,14 +35,14 @@
 								{{ person.name }}
 							</td>
 
-							<td class="pr-6 py-4 fw-400 fs-14 tx-666666">
+							<td style="max-width: 60px" class="pr-6 py-4 fw-400 fs-14 tx-666666">
 								{{ person.email }}
 							</td>
 							<td class="pr-6 py-4 fw-400 fs-14 tx-666666">
 								{{ person.role }}
 							</td>
 							<td class="pr-6 py-4">
-								<div class="flex-justify-center">
+								<div class="flex justify-center">
 									<svg
 										width="4"
 										height="16"
