@@ -2,18 +2,21 @@
 	<div class="h-full">
 		<MainSideBar />
 		<router-view />
-		<add-product-modal />
+		<!-- <add-product-modal /> -->
+		<this-product-modal />
 	</div>
 </template>
 
 <script>
-import AddProductModal from "@/views/modals/AddProductModal.vue";
+// import AddProductModal from "@/views/modals/AddProductModal.vue";
 import MainSideBar from "./MainSideBar.vue";
+import ThisProductModal from "./modals/ThisProductModal.vue";
 export default {
 	name: "Dashboard",
 	components: {
 		MainSideBar,
-		AddProductModal,
+		// AddProductModal,
+		ThisProductModal,
 	},
 	setup() {
 		return {};

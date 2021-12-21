@@ -21,12 +21,12 @@
 								class="px-6 flex items-center justify-between mb-4"
 							>
 								<div class="">
-									<h2 class="blacktext fw-600 fs-16">Add Product</h2>
+									<h2 class="blacktext fw-600 fs-16">Add Plan</h2>
 								</div>
 							</div>
 							<div style="border-bottom: 1px solid #efefef" class="p-6 flex flex-col">
 								<div class="mb-6">
-									<label for="Product Name" class="fs-14 fw-400 tx-666666">Product Name</label>
+									<label for="Product Name" class="fs-14 fw-400 tx-666666">Plan Name</label>
 									<input
 										id="Product Name"
 										name="Product Name"
@@ -92,6 +92,7 @@
 							</div>
 							<div class="flex justify-end items-center mt-6 px-6">
 								<div
+									@click="$emit('addProduct', product)"
 									class="cursor-pointer greenButton fs-14 fw-500 w-2/5 h-11 br-5 flex items-center justify-center"
 								>
 									<span class="text-white">Add Product</span>
@@ -108,12 +109,19 @@
 
 <script>
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { computed, reactive, toRefs } from "vue";
 
 export default {
 	name: "AddProductModal",
 	setup() {
 		const store = useStore();
+		const product = reactive({
+			name: "",
+			description: "",
+			customerRate: "",
+			sellingRate: "",
+			country: "",
+		});
 		const isModalOpen = computed(() => store.state.addProductModal);
 		const close = () => {
 			store.commit("setAddProductModal", false);
@@ -122,6 +130,7 @@ export default {
 		return {
 			isModalOpen,
 			close,
+			...toRefs(product),
 		};
 	},
 };
