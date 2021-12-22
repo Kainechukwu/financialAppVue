@@ -1,16 +1,9 @@
 import { createApp } from 'vue'
-<<<<<<< HEAD
-=======
 // import Vue from "vue";
->>>>>>> b614a954d775031a5810b9d37f04bff7575eac64
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import './tailwind.css'
-<<<<<<< HEAD
-
-createApp(App).use(store).use(router).mount('#app')
-=======
 import "./assets/css/styles.scss"
 import "./assets/css/base.css"
 import VueChartkick from "vue-chartkick";
@@ -25,4 +18,3 @@ createApp(App)
 	.use(VueChartkick)
 	.use(router)
 	.mount('#app')
->>>>>>> b614a954d775031a5810b9d37f04bff7575eac64
