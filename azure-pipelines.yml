@@ -12,15 +12,13 @@ pool:
 # define variables to use during the build
 variables:
   projectFolder: "src"
-  buildOutputFolder: "src/dist"
+  buildOutputFolder: "dist"
 
 # define the steps of the build
 strategy:
   matrix:
-    node_13_x:
-      node_version: 13.x
     node_14_x:
-      node_version: 14.x
+      node_version: 14.15.0
 
 steps:
   - task: NodeTool@0
