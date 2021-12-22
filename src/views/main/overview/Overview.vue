@@ -3,7 +3,7 @@
 		<div class="flex flex-col justify-start">
 			<div class="mb-6">
 				<h1 class="fw-600 fs-24 blacktext">Overview</h1>
-				<span class="tx-999999 fw-400 fs-12">Easily get a quick summary of your business</span>
+				<span class="tx-999999 fw-400 fs-14">Easily get a quick summary of your business</span>
 			</div>
 			<div class="grid grid-cols-4 gap-3 mb-7">
 				<CashinfoPlate
