@@ -59,6 +59,7 @@ import TransactionsSvg from "@/components/svg/TransactionsSvg.vue";
 import PayoutsSvg from "@/components/svg/PayoutsSvg.vue";
 import CustomersSvg from "@/components/svg/CustomersSvg.vue";
 import PlansSvg from "@/components/svg/PlansSvg.vue";
+import ConfigurationsSvg from "@/components/svg/ConfigurationsSvg";
 
 export default {
 	name: "MainSideBar",
@@ -68,6 +69,7 @@ export default {
 		SettingsSvg,
 		TransactionsSvg,
 		CustomersSvg,
+		ConfigurationsSvg,
 	},
 	setup() {
 		const route = useRoute();
@@ -104,6 +106,12 @@ export default {
 				routeName: "Plans",
 			},
 			{ name: "Settings", href: "/settings", icon: SettingsSvg, routeName: "Settings" },
+			{
+				name: "Configurations",
+				href: "/configurations",
+				icon: ConfigurationsSvg,
+				routeName: "Configurations",
+			},
 		];
 		return { navigation, route };
 	},

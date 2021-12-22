@@ -108,6 +108,19 @@ export default [
 								component: () => import("@/views/settings/RolesSettings.vue")
 							}
 						]
+					},
+					{
+						path: "/configurations",
+						name: "Configurations",
+						redirect: "/configurations/profile"
+						, component: () => import("@/views/main/configurations/Configurations.vue"),
+						children: [
+							{
+								path: "/configurations/profile",
+								name: "Configurations Profile",
+								component: () => import("@/views/main/configurations/ConfigProfile.vue")
+							}
+						]
 					}
 				]
 			}
