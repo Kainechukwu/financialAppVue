@@ -23,24 +23,13 @@
 			<div class="h-2"></div>
 			<div
 				class="fw-600 fs-14"
-				:class="{ 'nav-link-color': currentPage === 'Compliance Settings' }"
+				:class="{ 'nav-link-color': currentPage === 'Configurations Setting' }"
 			>
-				<router-link to="/settings/compliance">Compliance</router-link>
-			</div>
-			<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'Compliance Settings' }"></div>
-		</div>
-		<!-- ------------------------- -->
-		<div class="h-16 ml-2 flex flex-col justify-between mr-10">
-			<div class="h-2"></div>
-			<div
-				class="fw-600 fs-14"
-				:class="{ 'nav-link-color': currentPage === 'Change Password Settings' }"
-			>
-				<router-link to="/settings/security">Security</router-link>
+				<router-link to="/configurations/settings">Settings</router-link>
 			</div>
 			<div
 				class="h-02rem"
-				:class="{ 'nav-link-bg': currentPage === 'Change Password Settings' }"
+				:class="{ 'nav-link-bg': currentPage === 'Configurations Setting' }"
 			></div>
 		</div>
 		<!-- ------------------------- -->
@@ -48,20 +37,13 @@
 			<div class="h-2"></div>
 			<div
 				class="fw-600 fs-14"
-				:class="{ 'nav-link-color': currentPage === 'Access Key Settings' }"
+				:class="{ 'nav-link-color': currentPage === 'Configurations Rates' }"
 			>
-				<router-link to="/settings/access_keys">Access Keys</router-link>
+				<router-link to="/configurations/rates">Rates</router-link>
 			</div>
-			<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'Access Key Settings' }"></div>
+			<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'Configurations Rates' }"></div>
 		</div>
 		<!-- ------------------------- -->
-		<div class="h-16 ml-2 flex flex-col justify-between mr-10">
-			<div class="h-2"></div>
-			<div class="fw-600 fs-14" :class="{ 'nav-link-color': currentPage === 'Roles Settings' }">
-				<router-link to="/settings/roles">Roles</router-link>
-			</div>
-			<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'Roles Settings' }"></div>
-		</div>
 	</div>
 </template>
 

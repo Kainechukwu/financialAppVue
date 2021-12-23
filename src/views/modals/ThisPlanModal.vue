@@ -76,12 +76,12 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 
 export default {
-	name: "AddProductModal",
+	name: "ThisPlanModal",
 	setup() {
 		const store = useStore();
-		const isModalOpen = computed(() => store.state.thisProductModal);
+		const isModalOpen = computed(() => store.state.thisPlanModal);
 		const close = () => {
-			store.commit("setThisProductModal", false);
+			store.commit("setThisPlanModal", false);
 		};
 
 		return {

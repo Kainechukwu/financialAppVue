@@ -1,5 +1,5 @@
 <template>
-	<div class="main-page p-8 h-full">
+	<div class="main-page p-8">
 		<div class="flex flex-col justify-start">
 			<div class="mb-6">
 				<h1 class="fw-600 fs-24 blacktext">Overview</h1>

@@ -109,7 +109,7 @@
 				<!-- <div class="flex justify-between"> -->
 
 				<div class="w-full flex items-center justify-center flex-col">
-					<div>
+					<div @click="turnOnAddProductModal" class="cursor-pointer">
 						<svg
 							width="60"
 							height="60"
@@ -140,17 +140,26 @@
 			</div>
 			<!-- ---------------- -->
 		</div>
+		<add-product-modal />
 	</div>
 </template>
 
 <script>
+import { useStore } from "vuex";
+import AddProductModal from "@/views/modals/AddProductModal.vue";
 import ConfigProductsIcon from "@/components/svg/ConfigProductsIcon.vue";
 export default {
 	name: "Configurations Profile",
 	components: {
 		ConfigProductsIcon,
+		AddProductModal,
 	},
 	setup() {
+		const store = useStore();
+		const turnOnAddProductModal = () => {
+			store.commit("setAddProductModal", true);
+		};
+
 		// const products = [
 		// 	{
 		// 		name: "Cash Vault",
@@ -173,6 +182,7 @@ export default {
 		// ];
 		return {
 			// products,
+			turnOnAddProductModal,
 		};
 	},
 };

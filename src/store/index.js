@@ -2,15 +2,19 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    addProductModal: false,
-    thisProductModal: false,
+    addPlanModal: false,
+    thisPlanModal: false,
+    addProductModal: false
   },
   mutations: {
+    setAddPlanModal(state, payload) {
+      state.addPlanModal = payload;
+    },
+    setThisPlanModal(state, payload) {
+      state.thisPlanModal = payload;
+    },
     setAddProductModal(state, payload) {
       state.addProductModal = payload;
-    },
-    setThisProductModal(state, payload) {
-      state.thisProductModal = payload;
     }
   },
   actions: {

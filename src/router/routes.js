@@ -71,6 +71,11 @@ export default [
 						component: () => import("@/views/main/plans/Plans.vue")
 					},
 					{
+						path: "/merchants",
+						name: "Merchants",
+						component: () => import("@/views/main/Merchants.vue")
+					},
+					{
 						path: "/customers",
 						name: "Customers",
 						component: () => import("@/views/main/Customers.vue")
@@ -119,8 +124,23 @@ export default [
 								path: "/configurations/profile",
 								name: "Configurations Profile",
 								component: () => import("@/views/main/configurations/ConfigProfile.vue")
+							},
+							{
+								path: "/configurations/settings",
+								name: "Configurations Setting",
+								component: () => import("@/views/main/configurations/ConfigSettings.vue")
+							},
+							{
+								path: "/configurations/rates",
+								name: "Configurations Rates",
+								component: () => import("@/views/main/configurations/ConfigRates.vue")
 							}
 						]
+					},
+					{
+						path: "/audit_logs",
+						name: "AuditLogs",
+						component: () => import("@/views/main/AuditLogs.vue")
 					}
 				]
 			}
