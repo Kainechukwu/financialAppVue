@@ -1,0 +1,21 @@
+<template>
+	<div>
+		<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M3.75 9H14.25"
+				stroke="#666666"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+		</svg>
+	</div>
+</template>
+
+<script>
+export default {
+	name: "MinusSvg",
+};
+</script>
+
+<style lang="scss" scoped></style>

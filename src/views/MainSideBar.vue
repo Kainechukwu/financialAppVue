@@ -60,7 +60,8 @@ import PayoutsSvg from "@/components/svg/PayoutsSvg.vue";
 import CustomersSvg from "@/components/svg/CustomersSvg.vue";
 import PlansSvg from "@/components/svg/PlansSvg.vue";
 import ConfigurationsSvg from "@/components/svg/ConfigurationsSvg";
-
+import MerchantsSvg from "@/components/svg/MerchantsSvg.vue";
+import AuditLogsSvg from "@/components/svg/AuditLogsSvg.vue";
 export default {
 	name: "MainSideBar",
 	components: {
@@ -70,6 +71,8 @@ export default {
 		TransactionsSvg,
 		CustomersSvg,
 		ConfigurationsSvg,
+		MerchantsSvg,
+		AuditLogsSvg,
 	},
 	setup() {
 		const route = useRoute();
@@ -94,6 +97,12 @@ export default {
 				routeName: "Payouts",
 			},
 			{
+				name: "Merchants",
+				href: "/merchants",
+				icon: MerchantsSvg,
+				routeName: "Merchants",
+			},
+			{
 				name: "Customers",
 				href: "/customers",
 				icon: CustomersSvg,
@@ -111,6 +120,12 @@ export default {
 				href: "/configurations",
 				icon: ConfigurationsSvg,
 				routeName: "Configurations",
+			},
+			{
+				name: "AuditLogs",
+				href: "/audit_logs",
+				icon: AuditLogsSvg,
+				routeName: "AuditLogs",
 			},
 		];
 		return { navigation, route };

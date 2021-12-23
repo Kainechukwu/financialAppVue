@@ -17,7 +17,7 @@
 
 			<div class="grid grid-cols-3 gap-4 max-w-6xl">
 				<PlansCardFrame>
-					<div @click="turnOnThisProductModal" class="cursor-pointer">
+					<div @click="turnOnThisPlanModal" class="cursor-pointer">
 						<div class="flex justify-between">
 							<div>
 								<svg
@@ -64,7 +64,7 @@
 				</PlansCardFrame>
 				<PlansCardFrame>
 					<div class="w-full flex items-center justify-center flex-col">
-						<div @click="turnOnAddProductModal">
+						<div @click="turnOnAddPlanModal">
 							<svg
 								width="60"
 								height="60"
@@ -94,7 +94,7 @@
 				</PlansCardFrame>
 			</div>
 		</div>
-		<add-product-modal />
+		<add-plan-modal />
 	</div>
 </template>
 
@@ -102,36 +102,36 @@
 import { useStore } from "vuex";
 import PlansCardFrame from "./PlansCardFrame.vue";
 
-import AddProductModal from "@/views/modals/AddProductModal.vue";
+import AddPlanModal from "@/views/modals/AddPlanModal.vue";
 export default {
 	name: "Plans",
 	components: {
 		PlansCardFrame,
-		AddProductModal,
+		AddPlanModal,
 	},
 	setup() {
 		const store = useStore();
-		const turnOnAddProductModal = () => {
-			store.commit("setAddProductModal", true);
+		const turnOnAddPlanModal = () => {
+			store.commit("setAddPlanModal", true);
 		};
 
-		const turnOnThisProductModal = () => {
-			store.commit("setThisProductModal", true);
+		const turnOnThisPlanModal = () => {
+			store.commit("setThisPlanModal", true);
 		};
 
 		// const closeModal = () => {
-		// 	store.commit("setThisProductModal", false);
+		// 	store.commit("setThisPlanModal", false);
 		// }
 		return {
-			turnOnAddProductModal,
-			turnOnThisProductModal,
+			turnOnAddPlanModal,
+			turnOnThisPlanModal,
 		};
 	},
 };
 </script>
 
 <style lang="scss" scoped>
-.productCard {
+.PlanCard {
 	width: 330px;
 }
 </style>
