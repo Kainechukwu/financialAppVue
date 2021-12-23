@@ -1,5 +1,5 @@
 <template>
-	<div class="h-full overflow-auto">
+	<div class="h-full">
 		<!-- <AccountCreated v-if="accountCreated" :userEmail="userEmail" /> -->
 		<div
 			class="min-h-full pt-10 register-page flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
@@ -7,14 +7,14 @@
 			<div class="mb-9">
 				<StarLogoSvg />
 			</div>
-			<div class="register-form">
-				<div class="w-96">
+			<div class="register-form sm:mx-auto w-full sm:w-full">
+				<div class="">
 					<div class="flex flex-col justify-center items-center">
 						<h2 class="mb-2 fs-24 fw-600 font-extrabold blacktext">Reset Password</h2>
 						<p class="tx-666666 fw-400 fs-14">Enter the email associated with your account .</p>
 					</div>
 
-					<form class="mt-8 w-full" action="#" method="POST">
+					<form class="mt-8" action="#" method="POST">
 						<!-- <input type="hidden" name="remember" value="true" /> -->
 						<div class="">
 							<!-- --------------- -->

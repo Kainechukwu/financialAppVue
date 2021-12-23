@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="h-full">
 		<!-- <AccountCreated v-if="accountCreated" :userEmail="userEmail" /> -->
 		<div
 			class="min-h-full register-page flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
@@ -15,8 +15,8 @@
 				<form class="mt-8" action="#" method="POST">
 					<!-- <input type="hidden" name="remember" value="true" /> -->
 					<div class="">
-						<div class="grid grid-cols-2 gap-4">
-							<div class="mb-6">
+						<div class="grid grid-cols-2 sm:gap-4">
+							<div class="mb-6 col-span-2 sm:col-span-1">
 								<label for="First Name" class="fs-14 tx-666666 fw-600">First Name</label>
 								<input
 									id="First Name"
@@ -28,7 +28,7 @@
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 							</div>
-							<div class="mb-6">
+							<div class="mb-6 col-span-2 sm:col-span-1">
 								<label for="Last Name" class="fs-14 tx-666666 fw-600">Last Name</label>
 								<input
 									id="Last Name"
