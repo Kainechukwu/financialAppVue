@@ -5,7 +5,7 @@
 				<h1 class="fw-600 fs-24 blacktext">Overview</h1>
 				<span class="tx-999999 fw-400 fs-14">Easily get a quick summary of your business</span>
 			</div>
-			<div class="grid grid-cols-4 gap-3 mb-7">
+			<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 mb-7">
 				<CashinfoPlate
 					:trend="'trending-up'"
 					:cash="'216,000'"
@@ -34,7 +34,7 @@
 				/>
 			</div>
 			<div class="grid grid-cols-3 gap-4">
-				<div class="col-span-2">
+				<div class="col-span-3 xl:col-span-2">
 					<BarChart />
 				</div>
 				<BalanceOverview />
