@@ -32,6 +32,11 @@ export default [
 		name: "Verification Code",
 		component: () => import("@/views/otp/VerificationCode.vue")
 	},
+	{
+		path: "/business_details",
+		name: "Business Details",
+		component: () => import("@/views/businessDetails/BusinessDetails.vue")
+	},
 
 	{
 		path: "/dashboard",
