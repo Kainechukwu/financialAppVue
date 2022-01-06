@@ -84,17 +84,17 @@ export default {
 				routeName: "Pending Tasks",
 			},
 			{ name: "Dashboard", href: "/overview", icon: DashBoardSvg, routeName: "Overview" },
+			// {
+			// 	name: "Transactions",
+			// 	href: "/transactions",
+			// 	icon: TransactionsSvg,
+			// 	routeName: "Transactions",
+			// },
 			{
-				name: "Transactions",
-				href: "/transactions",
-				icon: TransactionsSvg,
-				routeName: "Transactions",
-			},
-			{
-				name: "Payouts",
-				href: "/payouts",
+				name: "Earn",
+				href: "/earn",
 				icon: PayoutsSvg,
-				routeName: "Payouts",
+				routeName: "Earn",
 			},
 			{
 				name: "Merchants",

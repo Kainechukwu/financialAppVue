@@ -61,6 +61,11 @@ export default [
 						component: () => import("@/views/main/PendingTasks.vue")
 					},
 					{
+						path: "/earn",
+						name: "Earn",
+						component: () => import("@/views/main/earn/Earn.vue")
+					},
+					{
 						path: "/transactions",
 						name: "Transactions",
 						component: () => import("@/views/main/Transactions.vue")
