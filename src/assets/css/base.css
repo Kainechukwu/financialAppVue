@@ -1,214 +1,217 @@
-
 .center-text {
-	text-align: center;
+  text-align: center;
 }
 
 .weight-300 {
-	font-weight: 300 !important;
+  font-weight: 300 !important;
 }
 
 .padding-zero {
-	padding: 0;
+  padding: 0;
 }
 
 .page-content {
-	padding: calc(100px + 1.25rem) calc(1.25rem / 2) 60px calc(1.25rem / 2);
+  padding: calc(100px + 1.25rem) calc(1.25rem / 2) 60px calc(1.25rem / 2);
 }
 
 .card-body {
-	padding: 30px 30px;
+  padding: 30px 30px;
 }
 
 .form-select {
-	padding: .7rem 1.75rem .47rem .75rem;
+  padding: 0.7rem 1.75rem 0.47rem 0.75rem;
 }
 
 .font-size-30 {
-	font-size: 30px !important;
+  font-size: 30px !important;
 }
 
 .font-size-20 {
-	font-size: 20px !important;
+  font-size: 20px !important;
 }
 
 .auth-full-page-content {
-	min-height: 100vh;
+  min-height: 100vh;
 }
 
 label {
-	font-weight: 300 !important;
+  font-weight: 300 !important;
 }
 
 .register-page {
-	padding:  100px 0;
-	background: #F0F4FE;
-	background-image:  url(../images/login-bg.png);
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: bottom center;
+  padding: 100px 0;
+  background: #f0f4fe;
+  background-image: url(../images/login-bg.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom center;
 }
 
 .register-form {
-	max-width: 500px;
-	margin: 0 auto;
-	background: #fff;
-	border-radius: 10px;
-	padding:  40px;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
-
+  /* max-width: 500px; */
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 10px;
+  padding: 40px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
 }
 
 .text-primary {
-	color: #2270FA !important;
+  color: #2270fa !important;
 }
 
 .form-control {
-	padding:  .60rem .75rem;
+  padding: 0.6rem 0.75rem;
 }
 
 .black-6 {
-	color:  #666 !important;
+  color: #666 !important;
 }
 
-                                       
 .tab-overflow {
-    overflow:scroll
+  overflow: scroll;
 }
 
 .sub-tab-nav {
-    margin-bottom: 0px;
-    width: 100%;
-    min-width: 400px;
-    overflow-x:hidden
+  margin-bottom: 0px;
+  width: 100%;
+  min-width: 400px;
+  overflow-x: hidden;
 }
 
 .sub-tab-nav ul {
-    margin: 0;
-    padding: 0;
-    padding-left:  30px;
-    border-bottom:1px solid #e6e8ed
+  margin: 0;
+  padding: 0;
+  padding-left: 30px;
+  border-bottom: 1px solid #e6e8ed;
 }
 
 .sub-tab-nav ul li {
-    display:inline-block
+  display: inline-block;
 }
 
 .sub-tab-nav ul li a {
-    color: #666;
-    font-size: 1em;
-    display: inline-block;
-    padding: 15px 0;
-    margin-right:20px
+  color: #666;
+  font-size: 1em;
+  display: inline-block;
+  padding: 15px 0;
+  margin-right: 20px;
 }
 
 .sub-tab-nav ul li a:hover {
-    text-decoration:none
+  text-decoration: none;
 }
 
 .sub-tab-nav ul li a.active {
-    color: #5b73e8;
-    font-weight: 500;
-    border-bottom:3px solid #5b73e8;
+  color: #5b73e8;
+  font-weight: 500;
+  border-bottom: 3px solid #5b73e8;
 }
 
 .transaction-details {
-	Padding:  20px;
+  padding: 20px;
 }
 
 .transaction-details p {
-	float: left;
-	margin-bottom: 30px;
-	color: #666;
+  float: left;
+  margin-bottom: 30px;
+  color: #666;
 }
 
 .transaction-details span {
-	float: right;
-	font-weight: 600;
-	color: #333;
+  float: right;
+  font-weight: 600;
+  color: #333;
 }
 
 .receipt-bg {
-	background: #14529E;
-	height: 200px;
+  background: #14529e;
+  height: 200px;
 }
 
 .offcanvas-end {
-	border-left: none !important;
+  border-left: none !important;
 }
 
 .transaction-details h5 {
-	font-size: 14px;
-	color: #666;
+  font-size: 14px;
+  color: #666;
 }
 
 .card-receipt {
-	text-align: center;
-	display: block;
-	margin: 0 auto;
-	margin-top: -68px;
-	margin-bottom: 30px;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  margin-top: -68px;
+  margin-bottom: 30px;
 }
 
 .dash-drop {
-	background: #F2F6FF;
-	padding: 5px 10px;
-	border-radius: 5px;
+  background: #f2f6ff;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
 .locked-bal {
- font-size: 14px; font-weight: 300;display: block;margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 300;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .amount-left {
-	width: 50%;
-	float: left;
+  width: 50%;
+  float: left;
 }
 
 .amount-right {
-	width: 50%;
-	float: right;
-	text-align: right;
+  width: 50%;
+  float: right;
+  text-align: right;
 }
 
 .border-line {
-	border:  .5px solid #f7f7f7;
-	width: 100%;
-	margin-bottom: 50px;
+  border: 0.5px solid #f7f7f7;
+  width: 100%;
+  margin-bottom: 50px;
 }
 
 .new-plan-pad {
-	padding:  39px 0;
+  padding: 39px 0;
 }
 
 .navbar-brand-box {
-	background-color: #1860B9;
+  background-color: #1860b9;
 }
 
 .vertical-menu {
-background: #1860B9;
+  background: #1860b9;
 }
 
-#sidebar-menu ul li a, #sidebar-menu ul li a i {
-    color: #fff;
+#sidebar-menu ul li a,
+#sidebar-menu ul li a i {
+  color: #fff;
 }
 
-#sidebar-menu ul li a:hover, #sidebar-menu ul li a:hover i {
-    color: #fff;
+#sidebar-menu ul li a:hover,
+#sidebar-menu ul li a:hover i {
+  color: #fff;
 }
 
-.mm-active .active span, .mm-active .active i {
-    color: #1860B9 !important;
-    font-weight: 500;
+.mm-active .active span,
+.mm-active .active i {
+  color: #1860b9 !important;
+  font-weight: 500;
 }
 
 .header-item {
-    color: #fff;
+  color: #fff;
 }
 
 .header-item:hover {
-    color: #fff;
+  color: #fff;
 }
 
 .header-item.blue-nav {
-    color: #1860B9;
+  color: #1860b9;
 }
