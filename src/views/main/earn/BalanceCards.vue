@@ -70,7 +70,7 @@ export default {
 	setup() {
 		const router = useRouter();
 		const goToDeposit = () => {
-			router.push("/earn/deposit");
+			router.push("/deposit");
 		};
 		return {
 			goToDeposit,

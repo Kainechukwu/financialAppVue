@@ -72,15 +72,23 @@ export default [
 								component: () => import("@/views/main/earn/EarnOverview.vue")
 							},
 							{
-								path: "/earn/deposit",
-								name: "Earn Deposit 1",
-								component: () => import("@/views/main/earn/EarnDeposit.vue")
-							},
-							{
-								path: "/earn/fund_account",
-								name: "fund Account",
-								component: () => import("@/views/main/earn/FundAccount.vue")
-							},
+								path: "/deposit",
+								name: "Deposit",
+								redirect: "/earn/deposit",
+								component: () => import("@/views/main/earn/Deposit.vue"),
+								children: [
+									{
+										path: "/earn/deposit",
+										name: "Earn Deposit 1",
+										component: () => import("@/views/main/earn/EarnDeposit.vue")
+									},
+									{
+										path: "/earn/fund_account",
+										name: "fund Account",
+										component: () => import("@/views/main/earn/FundAccount.vue")
+									},
+								]
+							}
 						]
 					},
 					{
