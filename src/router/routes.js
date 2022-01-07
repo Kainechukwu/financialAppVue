@@ -88,14 +88,30 @@ export default [
 										component: () => import("@/views/main/earn/FundAccount.vue")
 									},
 								]
-							}
+							},
+							{
+								path: "/withdraw",
+								name: "Withdraw",
+								component: () => import("@/views/main/earn/Withdraw.vue")
+							},
+							{
+								path: "/bank_details",
+								name: "Bank Details",
+								component: () => import("@/views/main/earn/BankDetails.vue")
+							},
+							{
+								path: "/confirm_withdrawal",
+								name: "Confirm Withdrawal",
+								component: () => import("@/views/main/earn/ConfirmWithdrawal.vue")
+							},
+
 						]
 					},
-					{
-						path: "/transactions",
-						name: "Transactions",
-						component: () => import("@/views/main/Transactions.vue")
-					},
+					// {
+					// 	path: "/transactions",
+					// 	name: "Transactions",
+					// 	component: () => import("@/views/main/Transactions.vue")
+					// },
 					{
 						path: "/payouts",
 						name: "Payouts",

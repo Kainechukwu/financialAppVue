@@ -18,11 +18,11 @@
 					placeholder="1000.00"
 				/>
 			</div>
-			<span class="fs-12 fw-500 tx-666666 mt-3"
+			<span class="fs-12 fw-400 tx-666666 mt-3"
 				>You will receive <span class="fs-12 fw-600 blacktext">999 UST</span></span
 			>
 
-			<span class="mt-6">Payment Method</span>
+			<span class="mt-6 mb-4">Payment Method</span>
 
 			<div class="grid grid-cols-2 gap-4 mb-8">
 				<div class="col-span-1">
@@ -129,7 +129,7 @@
 			<div
 				@click="goToNext"
 				style="background-color: #2b7ee4"
-				class="mx-auto flex items-center justify-center h-14 w-52 br-5"
+				class="mx-auto flex items-center justify-center h-12 w-52 br-5"
 			>
 				<span class="fw-500 fs-16 text-white"> Next</span>
 			</div>

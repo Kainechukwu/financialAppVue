@@ -14,7 +14,11 @@
 						<div @click="goToDeposit" class="br-3 h-6 bg-white mr-3 px-3.5">
 							<span class="fw-400 fs-10"> Add Funds </span>
 						</div>
-						<div style="border: 1px solid #ffffff" class="br-3 h-6 px-3.5 bg-transparent">
+						<div
+							@click="goToWithdraw"
+							style="border: 1px solid #ffffff"
+							class="br-3 h-6 px-3.5 bg-transparent"
+						>
 							<span class="fw-400 fs-10 text-white"> Withdraw </span>
 						</div>
 					</div>
@@ -72,8 +76,14 @@ export default {
 		const goToDeposit = () => {
 			router.push("/deposit");
 		};
+
+		const goToWithdraw = () => {
+			router.push("/withdraw");
+		};
+
 		return {
 			goToDeposit,
+			goToWithdraw,
 		};
 	},
 };
