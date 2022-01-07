@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col mt-3">
+	<div class="flex flex-col">
 		<div class="mb-2.5">
 			<div
 				style="background-color: #ed713c"
@@ -11,7 +11,7 @@
 				</div>
 				<div class="relative flex items-center justify-between w-full">
 					<div class="flex">
-						<div class="br-3 h-6 bg-white mr-3 px-3.5">
+						<div @click="goToDeposit" class="br-3 h-6 bg-white mr-3 px-3.5">
 							<span class="fw-400 fs-10"> Add Funds </span>
 						</div>
 						<div style="border: 1px solid #ffffff" class="br-3 h-6 px-3.5 bg-transparent">
@@ -64,10 +64,17 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
 export default {
 	name: "BalanceCards",
 	setup() {
-		return {};
+		const router = useRouter();
+		const goToDeposit = () => {
+			router.push("/earn/deposit");
+		};
+		return {
+			goToDeposit,
+		};
 	},
 };
 </script>

@@ -2,7 +2,7 @@
 	<div class="px-10 pb-8 grid grid-cols-5 mt-12">
 		<div class="col-span-2">
 			<div class="flex flex-col">
-				<h1 class="blacktext fw-500 fs-18 mb-8">Business Details</h1>
+				<h1 class="blacktext fw-500 fs-18 mb-8">Business Verification</h1>
 			</div>
 		</div>
 		<div class="col-span-3">
@@ -59,35 +59,17 @@
 						</div>
 
 						<div class="mb-6 col-span-1">
-							<label for="State" class="fs-14 tx-666666 fw-600">State</label>
+							<label for="RC Number" class="fs-14 tx-666666 fw-600">RC Number</label>
 							<div class="relative">
 								<input
-									id="State"
-									name="State"
+									id="RC Number"
+									name="RC Number"
 									type="text"
 									autocomplete="off"
 									required=""
-									placeholder="Texas"
+									placeholder="RC132345"
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
-
-								<div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
-									<svg
-										width="12"
-										height="6"
-										viewBox="0 0 12 6"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											d="M1 1L5.73 5.2L10.46 1"
-											stroke="#BFBFBF"
-											stroke-width="1.5"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										/>
-									</svg>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -95,16 +77,18 @@
 					<!-- -------------- -->
 
 					<div class="grid grid-cols-2 gap-4">
-						<div class="mb-6 col-span-1">
-							<label for="Industry" class="fs-14 tx-666666 fw-600">Industry</label>
+						<div class="mb-6 col-span-2">
+							<label for="Registration Type" class="fs-14 tx-666666 fw-600"
+								>Registration Type</label
+							>
 							<div class="relative">
 								<input
-									id="Industry"
-									name="Industry"
+									id="Registration Type"
+									name="Registration Type"
 									type="text"
 									autocomplete="off"
 									required=""
-									placeholder="Information Technology"
+									placeholder="Limited Liability Company"
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 
@@ -127,68 +111,39 @@
 								</div>
 							</div>
 						</div>
-						<div class="mb-6 col-span-1">
-							<label for="Number of Staff" class="fs-14 tx-666666 fw-600">Number of Staff</label>
+						<div class="mb-6 col-span-2">
+							<label for="Address" class="fs-14 tx-666666 fw-600">Address</label>
 							<div class="relative">
 								<input
-									id="Number of Staff"
-									name="Number of Staff"
+									id="Address"
+									name="Address"
 									type="text"
 									autocomplete="off"
 									required=""
-									placeholder="1-50"
+									placeholder="2715 Ash Dr. San Jose, South Dakota 83475"
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
-
-								<div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
-									<svg
-										width="12"
-										height="6"
-										viewBox="0 0 12 6"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											d="M1 1L5.73 5.2L10.46 1"
-											stroke="#BFBFBF"
-											stroke-width="1.5"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										/>
-									</svg>
-								</div>
 							</div>
 						</div>
 					</div>
 					<!-- ---------------- -->
-					<div class="mb-6">
-						<label for="Website URL" class="fs-14 fw-400 tx-666666">Website URL</label>
-						<input
-							id="Website URL"
-							name="Website URL"
-							type="text"
-							autocomplete="off"
-							required=""
-							placeholder="http://"
-							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-						/>
-					</div>
-
-					<!-- ---------------- -->
-					<div class="mb-6">
-						<label for="Company description" class="fs-14 fw-400 tx-666666"
-							>Tell us about your company</label
-						>
-						<textarea
-							id="Company description"
-							rows="5"
-							name="Company description"
-							type="text"
-							autocomplete="off"
-							required=""
-							placeholder=""
-							class="mt-1.5 br-5 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-						></textarea>
+					<div class="mb-8">
+						<label for="Upload ID" class="inter fs-14 fw-400 tx-666666">Upload ID</label>
+						<div class="relative">
+							<input
+								readonly
+								id="upload id"
+								name="upload id"
+								type="number"
+								autocomplete="off"
+								required=""
+								placeholder="No document uploaded"
+								class="bg-gray-100 mt-1.5 br-5 h-14 appearance-none relative block w-full pr-3 pl-11 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+							/>
+							<div class="absolute mx-3 inset-y-0 h-full flex items-center">
+								<CheckedSvgOutlined />
+							</div>
+						</div>
 					</div>
 
 					<!-- ----------  -->
@@ -207,8 +162,13 @@
 </template>
 
 <script>
+import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
+
 export default {
-	name: "BusinessDetails",
+	name: "Business Verification",
+	components: {
+		CheckedSvgOutlined,
+	},
 	setup() {
 		return {};
 	},
