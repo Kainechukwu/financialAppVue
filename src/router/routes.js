@@ -61,10 +61,57 @@ export default [
 						component: () => import("@/views/main/PendingTasks.vue")
 					},
 					{
-						path: "/transactions",
-						name: "Transactions",
-						component: () => import("@/views/main/Transactions.vue")
+						path: "/earn",
+						name: "Earn",
+						redirect: "/earn/overview",
+						component: () => import("@/views/main/earn/Earn.vue"),
+						children: [
+							{
+								path: "/earn/overview",
+								name: "Earn Overview",
+								component: () => import("@/views/main/earn/EarnOverview.vue")
+							},
+							{
+								path: "/deposit",
+								name: "Deposit",
+								redirect: "/earn/deposit",
+								component: () => import("@/views/main/earn/Deposit.vue"),
+								children: [
+									{
+										path: "/earn/deposit",
+										name: "Earn Deposit 1",
+										component: () => import("@/views/main/earn/EarnDeposit.vue")
+									},
+									{
+										path: "/earn/fund_account",
+										name: "fund Account",
+										component: () => import("@/views/main/earn/FundAccount.vue")
+									},
+								]
+							},
+							{
+								path: "/withdraw",
+								name: "Withdraw",
+								component: () => import("@/views/main/earn/Withdraw.vue")
+							},
+							{
+								path: "/bank_details",
+								name: "Bank Details",
+								component: () => import("@/views/main/earn/BankDetails.vue")
+							},
+							{
+								path: "/confirm_withdrawal",
+								name: "Confirm Withdrawal",
+								component: () => import("@/views/main/earn/ConfirmWithdrawal.vue")
+							},
+
+						]
 					},
+					// {
+					// 	path: "/transactions",
+					// 	name: "Transactions",
+					// 	component: () => import("@/views/main/Transactions.vue")
+					// },
 					{
 						path: "/payouts",
 						name: "Payouts",
@@ -82,8 +129,21 @@ export default [
 					},
 					{
 						path: "/customers",
+						redirect: "/customers/customer_list",
 						name: "Customers",
-						component: () => import("@/views/main/Customers.vue")
+						component: () => import("@/views/main/customers/Customers.vue"),
+						children: [
+							{
+								path: "/customers/customer_list",
+								name: "Customer List",
+								component: () => import("@/views/main/customers/CustomerList.vue")
+							},
+							{
+								path: "/customers/transactions",
+								name: "Transactions",
+								component: () => import("@/views/main/customers/Transactions.vue")
+							},
+						]
 					},
 					{
 						path: "/settings",
@@ -95,6 +155,12 @@ export default [
 								path: "/settings/profile",
 								name: "ProfileSettings",
 								component: () => import("@/views/settings/ProfileSettings.vue")
+
+							},
+							{
+								path: "/settings/business_details",
+								name: "Business Details",
+								component: () => import("@/views/settings/BusinessDetails.vue")
 
 							},
 							{
@@ -116,6 +182,11 @@ export default [
 								path: "/settings/roles",
 								name: "Roles Settings",
 								component: () => import("@/views/settings/RolesSettings.vue")
+							},
+							{
+								path: "/settings/pin",
+								name: "PIN",
+								component: () => import("@/views/settings/Pin.vue")
 							}
 						]
 					},

@@ -58,9 +58,9 @@ import SettingsSvg from "@/components/svg/SettingsSvg";
 import TransactionsSvg from "@/components/svg/TransactionsSvg.vue";
 import PayoutsSvg from "@/components/svg/PayoutsSvg.vue";
 import CustomersSvg from "@/components/svg/CustomersSvg.vue";
-import PlansSvg from "@/components/svg/PlansSvg.vue";
+// import PlansSvg from "@/components/svg/PlansSvg.vue";
 import ConfigurationsSvg from "@/components/svg/ConfigurationsSvg";
-import MerchantsSvg from "@/components/svg/MerchantsSvg.vue";
+// import MerchantsSvg from "@/components/svg/MerchantsSvg.vue";
 import AuditLogsSvg from "@/components/svg/AuditLogsSvg.vue";
 export default {
 	name: "MainSideBar",
@@ -71,7 +71,7 @@ export default {
 		TransactionsSvg,
 		CustomersSvg,
 		ConfigurationsSvg,
-		MerchantsSvg,
+		// MerchantsSvg,
 		AuditLogsSvg,
 	},
 	setup() {
@@ -84,36 +84,36 @@ export default {
 				routeName: "Pending Tasks",
 			},
 			{ name: "Dashboard", href: "/overview", icon: DashBoardSvg, routeName: "Overview" },
+			// {
+			// 	name: "Transactions",
+			// 	href: "/transactions",
+			// 	icon: TransactionsSvg,
+			// 	routeName: "Transactions",
+			// },
 			{
-				name: "Transactions",
-				href: "/transactions",
-				icon: TransactionsSvg,
-				routeName: "Transactions",
-			},
-			{
-				name: "Payouts",
-				href: "/payouts",
+				name: "Earn",
+				href: "/earn",
 				icon: PayoutsSvg,
-				routeName: "Payouts",
+				routeName: "Earn",
 			},
-			{
-				name: "Merchants",
-				href: "/merchants",
-				icon: MerchantsSvg,
-				routeName: "Merchants",
-			},
+			// {
+			// 	name: "Merchants",
+			// 	href: "/merchants",
+			// 	icon: MerchantsSvg,
+			// 	routeName: "Merchants",
+			// },
 			{
 				name: "Customers",
 				href: "/customers",
 				icon: CustomersSvg,
 				routeName: "Customers",
 			},
-			{
-				name: "Plans",
-				href: "/plans",
-				icon: PlansSvg,
-				routeName: "Plans",
-			},
+			// {
+			// 	name: "Plans",
+			// 	href: "/plans",
+			// 	icon: PlansSvg,
+			// 	routeName: "Plans",
+			// },
 			{ name: "Settings", href: "/settings", icon: SettingsSvg, routeName: "Settings" },
 			{
 				name: "Configurations",

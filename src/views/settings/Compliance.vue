@@ -4,7 +4,7 @@
 			<div style="border-bottom: 1px solid #efefef" class="px-10 pb-8 grid grid-cols-5 mt-12">
 				<div class="col-span-2">
 					<div class="flex flex-col">
-						<h1 class="blacktext fw-500 fs-18 mb-8">Personal Information</h1>
+						<h1 class="blacktext fw-500 fs-18 mb-8">Personal KYC</h1>
 					</div>
 				</div>
 				<div class="col-span-3">
@@ -161,19 +161,19 @@
 				</div>
 			</div>
 
-			<BusinessDetails />
+			<BusinessVerification />
 		</div>
 	</div>
 </template>
 
 <script>
 // import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
-import BusinessDetails from "./BusinessDetails.vue";
+import BusinessVerification from "./BusinessVerification.vue";
 export default {
 	name: "Compliance Settings",
 	components: {
 		// CheckedSvgOutlined,
-		BusinessDetails,
+		BusinessVerification,
 	},
 	setup() {
 		return {};
