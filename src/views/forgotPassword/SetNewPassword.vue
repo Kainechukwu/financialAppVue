@@ -5,9 +5,9 @@
 			class="min-h-full pt-10 register-page flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
 		>
 			<div class="mb-9">
-				<StarLogoSvg />
+				<SuprBizLogo />
 			</div>
-			<div class="register-form sm:mx-auto w-full sm:w-full">
+			<div style="max-width: 500px" class="register-form sm:mx-auto w-full sm:w-full">
 				<div class="">
 					<div class="flex flex-col justify-center items-center">
 						<h2 class="mb-2 fs-24 fw-600 font-extrabold blacktext">Set New Password</h2>
@@ -28,7 +28,7 @@
 									v-model="newPassword"
 									autocomplete="off"
 									required=""
-									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 							</div>
 
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import StarLogoSvg from "@/components/svg/StarLogoSvg.vue";
+import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import SmallCheckedSvg from "@/components/svg/SmallCheckedSvg.vue";
@@ -81,7 +81,7 @@ import { Log } from "@/components/util";
 export default {
 	name: "SetNewPassword",
 	components: {
-		StarLogoSvg,
+		SuprBizLogo,
 		SmallCheckedSvg,
 	},
 	setup() {

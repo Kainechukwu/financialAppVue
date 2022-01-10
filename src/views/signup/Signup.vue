@@ -7,7 +7,7 @@
 			<div class="mb-9">
 				<SuprBizLogo />
 			</div>
-			<div style="max-width: 600px" class="register-form">
+			<div style="max-width: 500px" class="register-form">
 				<div class="flex flex-col justify-center items-center">
 					<h2 class="mb-0 fs-24 fw-600 font-extrabold blacktext">Create an account</h2>
 				</div>
@@ -25,7 +25,7 @@
 									v-model="firstName"
 									autocomplete="off"
 									required=""
-									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 							</div>
 							<div class="mb-6 col-span-2 sm:col-span-1">
@@ -37,7 +37,7 @@
 									v-model="lastName"
 									autocomplete="off"
 									required=""
-									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 							</div>
 						</div>
@@ -53,7 +53,7 @@
 								v-model="userEmail"
 								autocomplete="off"
 								required=""
-								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							/>
 						</div>
 
@@ -69,7 +69,7 @@
 								v-model="userPassword"
 								autocomplete="off"
 								required=""
-								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							/>
 						</div>
 					</div>
@@ -87,6 +87,12 @@
 				<div class="text-center tx-666666 fs-14 fw-400 mt-10 w-11/12 mx-auto">
 					<span> By clicking "Create Account", you agree to bonfree’s terms of acceptable use</span>
 				</div>
+			</div>
+			<div class="mt-11">
+				<span class="fs-14 fw-400 blacktext"
+					>Don’t have an account?
+					<span @click="goToLogin" class="cursor-pointer fw-600">Login</span></span
+				>
 			</div>
 		</div>
 	</div>
@@ -130,6 +136,10 @@ export default {
 		//   user.userType = type
 		// }
 
+		const goToLogin = () => {
+			router.push("/login");
+		};
+
 		const handleSignup = () => {
 			router.push("/login");
 
@@ -165,6 +175,7 @@ export default {
 		return {
 			...toRefs(user),
 			handleSignup,
+			goToLogin,
 			// setUserType,
 		};
 	},

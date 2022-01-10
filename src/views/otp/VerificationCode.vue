@@ -5,9 +5,9 @@
 			class="min-h-full pt-10 register-page flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
 		>
 			<div class="mb-9">
-				<StarLogoSvg />
+				<SuprBizLogo />
 			</div>
-			<div class="register-form sm:mx-auto w-full sm:w-full">
+			<div style="max-width: 500px" class="register-form sm:mx-auto w-full sm:w-full">
 				<div class="">
 					<div class="flex flex-col justify-center items-center">
 						<h2 class="mb-2 fs-24 fw-600 font-extrabold blacktext">Verification Code</h2>
@@ -23,63 +23,74 @@
 
 							<div class="mb-4 grid grid-cols-6 gap-2">
 								<input
+									@keyup="clickEvent('code1', 'code2')"
 									id="code1"
+									maxlength="1"
 									name="code1"
 									type="text"
 									v-model="code1"
 									autocomplete="off"
 									required=""
-									class="mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									class="text-center mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 
 								<input
+									@keyup="clickEvent('code2', 'code3')"
 									id="code2"
+									maxlength="1"
 									name="code2"
 									type="text"
 									v-model="code2"
 									autocomplete="off"
 									required=""
-									class="mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									class="text-center mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 
 								<input
+									@keyup="clickEvent('code3', 'code4')"
 									id="code3"
+									maxlength="1"
 									name="code3"
 									type="text"
 									v-model="code3"
 									autocomplete="off"
 									required=""
-									class="mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									class="text-center mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 
 								<input
+									@keyup="clickEvent('code4', 'code5')"
 									id="code4"
+									maxlength="1"
 									name="code4"
 									type="text"
 									v-model="code4"
 									autocomplete="off"
 									required=""
-									class="mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									class="text-center mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 
 								<input
+									@keyup="clickEvent('code5', 'code6')"
 									id="code5"
+									maxlength="1"
 									name="code5"
 									type="text"
 									v-model="code5"
 									autocomplete="off"
 									required=""
-									class="mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									class="text-center mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 
 								<input
 									id="code6"
 									name="code6"
+									maxlength="1"
 									type="text"
 									v-model="code6"
 									autocomplete="off"
 									required=""
-									class="mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									class="text-center mt-1.5 br-5 h-14 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 							</div>
 
@@ -114,7 +125,7 @@
 </template>
 
 <script>
-import StarLogoSvg from "@/components/svg/StarLogoSvg.vue";
+import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
 // import ApiResource from "@/components/core/ApiResource";
@@ -124,7 +135,7 @@ import { Log } from "@/components/util";
 export default {
 	name: "Verification Code",
 	components: {
-		StarLogoSvg,
+		SuprBizLogo,
 	},
 	setup() {
 		const router = useRouter();
@@ -136,6 +147,15 @@ export default {
 			code5: "",
 			code6: "",
 		});
+
+		function clickEvent(e, next) {
+			// console.log(String(curr) + " " + String(next));
+
+			let curr = document.getElementById(e);
+			if (curr.value.length > 0) {
+				document.getElementById(next).focus();
+			}
+		}
 		const submitCode = () => {
 			Log.info(codes);
 		};
@@ -147,6 +167,7 @@ export default {
 			submitCode,
 			goToLogin,
 			...toRefs(codes),
+			clickEvent,
 		};
 	},
 };
