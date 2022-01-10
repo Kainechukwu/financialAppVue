@@ -90,7 +90,7 @@
 			</div>
 			<div class="mt-11">
 				<span class="fs-14 fw-400 blacktext"
-					>Don’t have an account?
+					>Already have an account?
 					<span @click="goToLogin" class="cursor-pointer fw-600">Login</span></span
 				>
 			</div>
