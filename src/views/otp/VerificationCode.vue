@@ -7,7 +7,7 @@
 			<div class="mb-9">
 				<SuprBizLogo />
 			</div>
-			<div style="max-width: 500px" class="register-form sm:mx-auto w-full sm:w-full">
+			<div class="register-form sm:mx-auto w-full sm:w-full max-w-md">
 				<div class="">
 					<div class="flex flex-col justify-center items-center">
 						<h2 class="mb-2 fs-24 fw-600 font-extrabold blacktext">Verification Code</h2>
@@ -128,6 +128,7 @@
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
+import { onMounted } from "vue";
 // import ApiResource from "@/components/core/ApiResource";
 // import LoginService from "@/services/login/LoginService.js";
 import { Log } from "@/components/util";
@@ -138,6 +139,9 @@ export default {
 		SuprBizLogo,
 	},
 	setup() {
+		onMounted(() => {
+			document.getElementById("code1").focus();
+		});
 		const router = useRouter();
 		const codes = reactive({
 			code1: "",
@@ -151,7 +155,7 @@ export default {
 		function clickEvent(e, next) {
 			// console.log(String(curr) + " " + String(next));
 
-			let curr = document.getElementById(e);
+			const curr = document.getElementById(e);
 			if (curr.value.length > 0) {
 				document.getElementById(next).focus();
 			}

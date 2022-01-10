@@ -101,6 +101,7 @@
 <script>
 import { useRouter } from "vue-router";
 
+// import vClickOutside from "v-click-outside";
 import { reactive, toRefs } from "vue";
 // import ApiResource from "@/components/core/ApiResource";
 // import SignupService from "@/services/signup/SignupService.js";
@@ -116,6 +117,9 @@ export default {
 		// BuildingSvg,
 		// PersonalAccountSvg,
 	},
+	// directives: {
+	// 	clickOutside: vClickOutside.directive,
+	// },
 	setup() {
 		const router = useRouter();
 		// const signupUser = ApiResource.create();
@@ -139,6 +143,10 @@ export default {
 		const goToLogin = () => {
 			router.push("/login");
 		};
+
+		// const logit = () => {
+		// 	console.log("hello");
+		// };
 
 		const handleSignup = () => {
 			router.push("/login");
@@ -176,6 +184,7 @@ export default {
 			...toRefs(user),
 			handleSignup,
 			goToLogin,
+			// logit,
 			// setUserType,
 		};
 	},
