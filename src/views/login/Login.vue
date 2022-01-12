@@ -55,11 +55,16 @@
 						<button
 							@click.prevent="handleLogin"
 							type="submit"
-							class="cursor-pointer bluebtn h-50px relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
+							class="bluebtn h-50px relative w-full py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
 						>
-							<span class="fs-14 items-center text-white fw-400 my-auto">
-								Login to your account
-							</span>
+							<div class="flex items-center justify-center">
+								<span class="fs-14 items-center text-white fw-400 my-auto">
+									Login to your account
+								</span>
+								<div v-if="loginUser.loading" class="h-4 w-4 ml-4 rounded-md block">
+									<div class="roundLoader opacity-50 mx-auto"></div>
+								</div>
+							</div>
 						</button>
 					</div>
 				</form>
@@ -85,9 +90,9 @@
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
-// import ApiResource from "@/components/core/ApiResource";
+import ApiResource from "@/components/core/ApiResource";
 // import LoginService from "@/services/login/LoginService.js";
-// import { Log } from "@/components/util";
+import { Log } from "@/components/util";
 
 export default {
 	name: "Login",
@@ -97,7 +102,7 @@ export default {
 	setup() {
 		const router = useRouter();
 
-		// const loginUser = ApiResource.create();
+		const loginUser = ApiResource.create();
 
 		const user = reactive({
 			userEmail: "",
@@ -106,8 +111,8 @@ export default {
 
 		const handleLogin = () => {
 			router.push("/overview");
-			// loginUser.loading = true;
-			// Log.info("user:" + JSON.stringify(user));
+			loginUser.loading = true;
+			Log.info("user:" + JSON.stringify(user));
 			// LoginService.loginUser(
 			//   {
 			//     email: user.userEmail,
@@ -136,6 +141,7 @@ export default {
 			handleLogin,
 			goToSignUp,
 			goToPasswordReset,
+			loginUser,
 		};
 	},
 };

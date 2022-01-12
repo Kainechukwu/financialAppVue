@@ -13,6 +13,11 @@ export default [
 		component: () => import("@/views/signup/Signup.vue")
 	},
 	{
+		path: "/account_created",
+		name: "Account Created",
+		component: () => import("@/views/signup/AccountCreated.vue")
+	},
+	{
 		path: "/login",
 		name: "Login",
 		component: () => import("@/views/login/Login.vue")
@@ -31,6 +36,13 @@ export default [
 		path: "/verification_code",
 		name: "Verification Code",
 		component: () => import("@/views/otp/VerificationCode.vue")
+	},
+	{
+		path: "/api/v1/account/confirm-email",
+		name: "Confirm Email",
+		redirect: "/login",
+		component: () => import("@/views/redirect/Redirect.vue"),
+
 	},
 	{
 		path: "/business_details",
@@ -55,11 +67,11 @@ export default [
 						name: "Overview",
 						component: () => import("@/views/main/overview/Overview.vue")
 					},
-					{
-						path: "/pending_tasks",
-						name: "Pending Tasks",
-						component: () => import("@/views/main/PendingTasks.vue")
-					},
+					// {
+					// 	path: "/pending_tasks",
+					// 	name: "Pending Tasks",
+					// 	component: () => import("@/views/main/PendingTasks.vue")
+					// },
 					{
 						path: "/earn",
 						name: "Earn",
@@ -68,7 +80,7 @@ export default [
 						children: [
 							{
 								path: "/earn/overview",
-								name: "Earn Overview",
+								name: "Earn overview",
 								component: () => import("@/views/main/earn/EarnOverview.vue")
 							},
 							{
@@ -135,12 +147,12 @@ export default [
 						children: [
 							{
 								path: "/customers/customer_list",
-								name: "Customer List",
+								name: "Customers List",
 								component: () => import("@/views/main/customers/CustomerList.vue")
 							},
 							{
 								path: "/customers/transactions",
-								name: "Transactions",
+								name: "Customers Transactions",
 								component: () => import("@/views/main/customers/Transactions.vue")
 							},
 						]
@@ -159,7 +171,7 @@ export default [
 							},
 							{
 								path: "/settings/business_details",
-								name: "Business Details",
+								name: "Business Details Settings",
 								component: () => import("@/views/settings/BusinessDetails.vue")
 
 							},

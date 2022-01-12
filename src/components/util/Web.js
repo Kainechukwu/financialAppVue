@@ -1,5 +1,6 @@
 import axios from 'axios';
 // import store from "@/store";
+import Log from "./Log.js";
 
 axios.interceptors.request.use(req => {
 
@@ -9,10 +10,11 @@ axios.interceptors.request.use(req => {
 	return req;
 
 }, function (error) {
-	console.log(error)
+	Log.info("axios-error" + error)
 	// Do something with request error
 	return Promise.reject(error);
 });
+
 
 
 export default class Web {

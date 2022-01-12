@@ -4,7 +4,8 @@ export default createStore({
   state: {
     addPlanModal: false,
     thisPlanModal: false,
-    addProductModal: false
+    addProductModal: false,
+    signupEmail: "",
   },
   mutations: {
     setAddPlanModal(state, payload) {
@@ -15,6 +16,9 @@ export default createStore({
     },
     setAddProductModal(state, payload) {
       state.addProductModal = payload;
+    },
+    setSignupEmail(state, payload) {
+      state.signupEmail = payload;
     }
   },
   actions: {

@@ -7,25 +7,14 @@ export default class LoginService {
 		errorHandler
 	) {
 		Web.post(
-			Constants.API_BASE + "/Account/sign-in",
+			Constants.API_BASE + "/Account/login",
 			userDetails,
 			successHandler,
 			errorHandler
 		);
 	}
 
-	static forgotPasswordApi(
-		userDetails,
-		successHandler,
-		errorHandler
-	) {
-		Web.post(
-			Constants.API_BASE + "/Account/forgot-password",
-			userDetails,
-			successHandler,
-			errorHandler
-		)
-	}
+
 
 	static resetPassword(
 		userDetails,

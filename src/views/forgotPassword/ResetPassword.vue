@@ -37,11 +37,18 @@
 
 						<div class="">
 							<button
+								:class="[sentEmail.loading ? 'opacity-25' : 'opacity-100']"
+								:disabled="sentEmail.loading"
 								@click.prevent="sendInstructions"
 								type="submit"
-								class="cursor-pointer bluebtn h-11 relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
+								class="bluebtn h-50px relative w-full py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
 							>
-								<span class="fs-14 items-center text-white fw-400 my-auto"> Reset Password </span>
+								<div class="flex items-center justify-center">
+									<span class="fs-14 items-center text-white fw-400 my-auto"> Reset Password </span>
+									<div v-if="sentEmail.loading" class="h-4 w-4 ml-4 rounded-md block">
+										<div class="roundLoader opacity-50 mx-auto"></div>
+									</div>
+								</div>
 							</button>
 						</div>
 					</form>
@@ -62,11 +69,11 @@
 
 <script>
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 // import ApiResource from "@/components/core/ApiResource";
-// import LoginService from "@/services/login/LoginService.js";
-// import { Log } from "@/components/util";
+import userActions from "@/services/userActions/userActions.js";
+import { Log } from "@/components/util";
 
 export default {
 	name: "ResetPassword",
@@ -76,45 +83,48 @@ export default {
 	setup() {
 		const router = useRouter();
 
-		// const sentEmail = ApiResource.create();
+		const sentEmail = reactive({
+			loading: false,
+		});
+
 		const userEmail = ref("");
 		// const isEmailSent = ref(false);
 
 		const sendInstructions = () => {
-			router.push("/set_new_password");
-			// sentEmail.loading = true;
-			// Log.info(sentEmail.loading);
-			// Log.info("userEmail" + userEmail.value);
+			sentEmail.loading = true;
+			// Log.info(sentEmail.loading.value);
+			Log.info("userEmail" + userEmail.value);
 
-			// LoginService.forgotPasswordApi(
-			//   {
-			//     email: userEmail.value,
-			//   },
-			//   (response) => {
-			//     sentEmail.loading = false;
-			//     isEmailSent.value = true;
-			//     Log.info("response: " + JSON.stringify(response));
-			//   },
-			//   (error) => {
-			//     sentEmail.loading = false;
-			//     Log.error("error: " + JSON.stringify(error));
-			//   }
-			// );
+			userActions.forgotPasswordApi(
+				userEmail.value,
+				(response) => {
+					sentEmail.loading = false;
+					// isEmailSent.value = true;
+					Log.info("response: " + JSON.stringify(response));
+					Log.info("sentEmailLoading?" + String(sentEmail.loading));
+				},
+				(error) => {
+					sentEmail.loading = false;
+					Log.info("sentEmailLoading?" + String(sentEmail.loading));
+					Log.error("error: " + JSON.stringify(error));
+				}
+			);
 		};
 
 		const goToLogin = () => {
 			router.push("/login");
 		};
 
-		const setNewPassword = () => {
-			router.push("/set_new_password");
-		};
+		// const setNewPassword = () => {
+		// 	router.push("/set_new_password");
+		// };
 
 		return {
 			userEmail,
 			sendInstructions,
 			goToLogin,
-			setNewPassword,
+			sentEmail,
+			// setNewPassword,
 		};
 	},
 };
