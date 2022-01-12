@@ -78,9 +78,14 @@
 						<button
 							@click.prevent="handleSignup"
 							type="submit"
-							class="bluebtn h-50px relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
+							class="bluebtn h-50px relative w-full py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
 						>
-							<span class="fs-14 items-center text-white fw-400 my-auto"> Create account </span>
+							<div class="flex items-center justify-center">
+								<span class="fs-14 items-center text-white fw-400 my-auto"> Create account </span>
+								<div v-if="signupUser.loading" class="h-4 w-4 ml-4 rounded-md block">
+									<div class="roundLoader opacity-50 mx-auto"></div>
+								</div>
+							</div>
 						</button>
 					</div>
 				</form>
@@ -103,9 +108,9 @@ import { useRouter } from "vue-router";
 
 // import vClickOutside from "v-click-outside";
 import { reactive, toRefs } from "vue";
-// import ApiResource from "@/components/core/ApiResource";
-// import SignupService from "@/services/signup/SignupService.js";
-// import { Log } from "@/components/util";
+import ApiResource from "@/components/core/ApiResource";
+import SignupService from "@/services/signup/SignupService.js";
+import { Log } from "@/components/util";
 // import AccountCreated from "./AccountCreated.vue"
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 // import PersonalAccountSvg from "@/components/svg/PersonalAccountSvg.vue"
@@ -122,18 +127,16 @@ export default {
 	// },
 	setup() {
 		const router = useRouter();
-		// const signupUser = ApiResource.create();
+		const signupUser = ApiResource.create();
 
 		const user = reactive({
 			userEmail: "",
 			userPassword: "",
 			firstName: "",
 			lastName: "",
-			orgName: "",
-			areaCode: "+234",
-			phoneNo: "",
+
 			// userType: "Corporate",
-			accountCreated: false,
+			// accountCreated: false,
 		});
 
 		// const setUserType = (type) => {
@@ -149,31 +152,33 @@ export default {
 		// };
 
 		const handleSignup = () => {
-			router.push("/login");
+			// router.push("/login");
 
-			// signupUser.loading = true;
-			// Log.info("user:" + JSON.stringify(user));
+			signupUser.loading = true;
+			Log.info("user:" + JSON.stringify(user));
 			// Log.info("signupUser:" + JSON.stringify(signupUser));
 
-			// SignupService.signupUser(
-			//   {
-			//     firstName: user.firstName,
-			//     lastName: user.lastName,
-			//     email: user.userEmail,
-			//     password: user.userPassword,
-			//   },
-			//   (response) => {
-			//     Log.info("response:" + JSON.stringify(response));
-			//     signupUser.loading = false;
-			//     if (String(response.status).charAt(0) === "2") {
-			//       user.accountCreated = true;
-			//       Log.info("accountCreated" + JSON.stringify(user.accountCreated));
-			//     }
-			//   },
-			//   (error) => {
-			//     Log.error("error:" + JSON.stringify(error));
-			//   }
-			// );
+			SignupService.signupUser(
+				{
+					firstName: user.firstName,
+					lastName: user.lastName,
+					email: user.userEmail,
+					password: user.userPassword,
+				},
+				(response) => {
+					Log.info("response:" + JSON.stringify(response));
+					signupUser.loading = false;
+					router.push("/login");
+					// if (String(response.status).charAt(0) === "2") {
+					//   user.accountCreated = true;
+					//   Log.info("accountCreated" + JSON.stringify(user.accountCreated));
+					// }
+				},
+				(error) => {
+					signupUser.loading = false;
+					Log.error("error:" + JSON.stringify(error));
+				}
+			);
 		};
 
 		// const router = useRouter()
@@ -184,6 +189,7 @@ export default {
 			...toRefs(user),
 			handleSignup,
 			goToLogin,
+			signupUser,
 			// logit,
 			// setUserType,
 		};

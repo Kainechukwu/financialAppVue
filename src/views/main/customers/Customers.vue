@@ -11,18 +11,24 @@
 				<!-- ------------------------- -->
 				<div class="h-16 flex flex-col justify-between mr-10">
 					<div class="h-2"></div>
-					<div class="fw-600 fs-14" :class="{ 'nav-link-color': currentPage === 'Customer List' }">
+					<div class="fw-600 fs-14" :class="{ 'nav-link-color': currentPage === 'Customers List' }">
 						<router-link to="/customers/customer_list">Customer List</router-link>
 					</div>
-					<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'Customer List' }"></div>
+					<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'Customers List' }"></div>
 				</div>
 				<!-- ------------------------- -->
 				<div class="h-16 ml-2 flex flex-col justify-between mr-10">
 					<div class="h-2"></div>
-					<div class="fw-600 fs-14" :class="{ 'nav-link-color': currentPage === 'Transactions' }">
+					<div
+						class="fw-600 fs-14"
+						:class="{ 'nav-link-color': currentPage === 'Customers Transactions' }"
+					>
 						<router-link to="/customers/transactions">Transactions</router-link>
 					</div>
-					<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'Transactions' }"></div>
+					<div
+						class="h-02rem"
+						:class="{ 'nav-link-bg': currentPage === 'Customers Transactions' }"
+					></div>
 				</div>
 			</div>
 

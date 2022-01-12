@@ -13,6 +13,11 @@ export default [
 		component: () => import("@/views/signup/Signup.vue")
 	},
 	{
+		path: "/account_created",
+		name: "Account Created",
+		component: () => import("@/views/signup/AccountCreated.vue")
+	},
+	{
 		path: "/login",
 		name: "Login",
 		component: () => import("@/views/login/Login.vue")
@@ -68,7 +73,7 @@ export default [
 						children: [
 							{
 								path: "/earn/overview",
-								name: "Earn Overview",
+								name: "Earn overview",
 								component: () => import("@/views/main/earn/EarnOverview.vue")
 							},
 							{
@@ -135,12 +140,12 @@ export default [
 						children: [
 							{
 								path: "/customers/customer_list",
-								name: "Customer List",
+								name: "Customers List",
 								component: () => import("@/views/main/customers/CustomerList.vue")
 							},
 							{
 								path: "/customers/transactions",
-								name: "Transactions",
+								name: "Customers Transactions",
 								component: () => import("@/views/main/customers/Transactions.vue")
 							},
 						]
@@ -159,7 +164,7 @@ export default [
 							},
 							{
 								path: "/settings/business_details",
-								name: "Business Details",
+								name: "Business Details Settings",
 								component: () => import("@/views/settings/BusinessDetails.vue")
 
 							},

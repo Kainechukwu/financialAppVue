@@ -1,5 +1,5 @@
 <template>
-	<div class="main-page pb-8 px-12">
+	<div class="main-page pb-8 px-12 h-full">
 		<div class="w-full mx-auto">
 			<div class="flex flex-col pt-10">
 				<div class="w-full greeting mb-3">
