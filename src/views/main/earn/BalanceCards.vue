@@ -11,20 +11,20 @@
 				</div>
 				<div class="relative flex items-center justify-between w-full">
 					<div class="flex">
-						<div @click="goToDeposit" class="br-3 h-6 bg-white mr-3 px-3.5">
+						<div @click="goToDeposit" class="cursor-pointer br-3 h-6 bg-white mr-3 px-3.5">
 							<span class="fw-400 fs-10"> Add Funds </span>
 						</div>
 						<div
 							@click="goToWithdraw"
 							style="border: 1px solid #ffffff"
-							class="br-3 h-6 px-3.5 bg-transparent"
+							class="cursor-pointer br-3 h-6 px-3.5 bg-transparent"
 						>
 							<span class="fw-400 fs-10 text-white"> Withdraw </span>
 						</div>
 					</div>
 					<div
 						style="background-color: rgba(255, 255, 255, 0.38); height: 1.688rem"
-						class="flex items-center br-24 px-4"
+						class="cursor-pointer flex items-center br-24 px-4"
 					>
 						<svg
 							width="8"
@@ -57,7 +57,7 @@
 				</div>
 				<div class="relative flex items-center justify-between w-full">
 					<div class="flex">
-						<div class="br-3 h-6 bg-white px-3.5">
+						<div class="cursor-pointer br-3 h-6 bg-white px-3.5">
 							<span class="fw-400 fs-10"> Withdraw</span>
 						</div>
 					</div>
