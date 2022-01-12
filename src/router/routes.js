@@ -38,6 +38,13 @@ export default [
 		component: () => import("@/views/otp/VerificationCode.vue")
 	},
 	{
+		path: "/api/v1/account/confirm-email",
+		name: "Confirm Email",
+		redirect: "/login",
+		component: () => import("@/views/redirect/Redirect.vue"),
+
+	},
+	{
 		path: "/business_details",
 		name: "Business Details",
 		component: () => import("@/views/businessDetails/BusinessDetails.vue")
@@ -60,11 +67,11 @@ export default [
 						name: "Overview",
 						component: () => import("@/views/main/overview/Overview.vue")
 					},
-					{
-						path: "/pending_tasks",
-						name: "Pending Tasks",
-						component: () => import("@/views/main/PendingTasks.vue")
-					},
+					// {
+					// 	path: "/pending_tasks",
+					// 	name: "Pending Tasks",
+					// 	component: () => import("@/views/main/PendingTasks.vue")
+					// },
 					{
 						path: "/earn",
 						name: "Earn",

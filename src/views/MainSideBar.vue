@@ -52,7 +52,7 @@
 
 <script>
 import { useRoute } from "vue-router";
-import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
+// import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
 import DashBoardSvg from "@/components/svg/DashboardSvg.vue";
 import SettingsSvg from "@/components/svg/SettingsSvg";
 import TransactionsSvg from "@/components/svg/TransactionsSvg.vue";
@@ -65,7 +65,7 @@ import AuditLogsSvg from "@/components/svg/AuditLogsSvg.vue";
 export default {
 	name: "MainSideBar",
 	components: {
-		CheckedSvgOutlined,
+		// CheckedSvgOutlined,
 		DashBoardSvg,
 		SettingsSvg,
 		TransactionsSvg,
@@ -77,12 +77,12 @@ export default {
 	setup() {
 		const route = useRoute();
 		const navigation = [
-			{
-				name: "Pending Tasks",
-				href: "/pending_tasks",
-				icon: CheckedSvgOutlined,
-				routeName: "Pending Tasks",
-			},
+			// {
+			// 	name: "Pending Tasks",
+			// 	href: "/pending_tasks",
+			// 	icon: CheckedSvgOutlined,
+			// 	routeName: "Pending Tasks",
+			// },
 			{ name: "Dashboard", href: "/overview", icon: DashBoardSvg, routeName: "Overview" },
 			// {
 			// 	name: "Transactions",

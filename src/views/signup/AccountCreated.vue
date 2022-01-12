@@ -4,7 +4,7 @@
 		<div
 			class="min-h-full register-page flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
 		>
-			<div class="max-w-md p-6 sm:px-12 py-12 bg-white br-10">
+			<div class="max-w-md p-6 sm:px-12 py-12 bg-white br-10 shadow-md">
 				<div class="flex flex-col items-center">
 					<div class="mb-5">
 						<AccountCreatedSvg />
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
+import { computed } from "vue";
 import AccountCreatedSvg from "@/components/svg/AccountCreatedSvg.vue";
 import SignupService from "@/services/signup/SignupService.js";
 import { Log } from "@/components/util";
@@ -51,18 +53,25 @@ export default {
 	components: {
 		AccountCreatedSvg,
 	},
-	props: {
-		userEmail: String,
-	},
-	setup(props) {
+
+	setup() {
+		// onMounted(() => {
+
+		// 	const email = store.state.signupEmail;
+		// 	Log.info("email" + email);
+		// });
+		const store = useStore();
 		const router = useRouter();
+		const email = computed(() => store.state.signupEmail);
 		const goToLogin = () => {
 			router.push("/login");
 		};
+
 		const resendEmail = () => {
-			Log.info("email" + props.userEmail);
+			Log.info("email resend" + email.value);
 			SignupService.resendVerificationEmail(
-				props.userEmail,
+				// email.value,
+				"bismarckkaine@gmail.com",
 				(response) => {
 					Log.info("resendVerificationResponse" + JSON.stringify(response));
 				},

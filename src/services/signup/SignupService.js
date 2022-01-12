@@ -10,6 +10,6 @@ export default class SignupService {
 	}
 
 	static resendVerificationEmail(userEmail, successHandler, errorHandler) {
-		Web.post(Constants.API_BASE + "/Account/resend-verification-mail?email=" + userEmail, successHandler, errorHandler);
+		Web.post(Constants.API_BASE + "/Account/resend-verification-email?email=" + userEmail, successHandler, errorHandler);
 	}
 }

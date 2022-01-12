@@ -76,6 +76,8 @@
 
 					<div class="">
 						<button
+							:class="[signupUser.loading ? 'opacity-25' : 'opacity-100']"
+							:disabled="signupUser.loading"
 							@click.prevent="handleSignup"
 							type="submit"
 							class="bluebtn h-50px relative w-full py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
@@ -105,10 +107,11 @@
 
 <script>
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 // import vClickOutside from "v-click-outside";
 import { reactive, toRefs } from "vue";
-import ApiResource from "@/components/core/ApiResource";
+// import ApiResource from "@/components/core/ApiResource";
 import SignupService from "@/services/signup/SignupService.js";
 import { Log } from "@/components/util";
 // import AccountCreated from "./AccountCreated.vue"
@@ -126,8 +129,11 @@ export default {
 	// 	clickOutside: vClickOutside.directive,
 	// },
 	setup() {
+		const store = useStore();
 		const router = useRouter();
-		const signupUser = ApiResource.create();
+		const signupUser = reactive({
+			loading: false,
+		});
 
 		const user = reactive({
 			userEmail: "",
@@ -152,9 +158,8 @@ export default {
 		// };
 
 		const handleSignup = () => {
-			// router.push("/login");
-
 			signupUser.loading = true;
+
 			Log.info("user:" + JSON.stringify(user));
 			// Log.info("signupUser:" + JSON.stringify(signupUser));
 
@@ -167,12 +172,9 @@ export default {
 				},
 				(response) => {
 					Log.info("response:" + JSON.stringify(response));
+					store.commit("setSignupEmail", user.userEmail);
 					signupUser.loading = false;
-					router.push("/login");
-					// if (String(response.status).charAt(0) === "2") {
-					//   user.accountCreated = true;
-					//   Log.info("accountCreated" + JSON.stringify(user.accountCreated));
-					// }
+					router.push("/account_created");
 				},
 				(error) => {
 					signupUser.loading = false;
@@ -190,6 +192,7 @@ export default {
 			handleSignup,
 			goToLogin,
 			signupUser,
+
 			// logit,
 			// setUserType,
 		};
