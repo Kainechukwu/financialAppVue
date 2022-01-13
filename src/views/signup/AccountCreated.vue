@@ -70,8 +70,9 @@ export default {
 		const resendEmail = () => {
 			Log.info("email resend" + email.value);
 			SignupService.resendVerificationEmail(
-				// email.value,
-				"bismarckkaine@gmail.com",
+				email.value,
+				// "bismarckkaine@gmail.com",
+				// "kaine.bismarck@suprbiz.io",
 				(response) => {
 					Log.info("resendVerificationResponse" + JSON.stringify(response));
 				},

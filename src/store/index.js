@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import authToken from "./modules/authToken";
 
 export default createStore({
   state: {
@@ -24,5 +25,6 @@ export default createStore({
   actions: {
   },
   modules: {
+    authToken
   }
 })

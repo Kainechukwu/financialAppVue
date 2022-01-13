@@ -3,7 +3,7 @@
 		<div class="w-full mx-auto">
 			<div class="flex flex-col pt-10">
 				<div class="w-full greeting">
-					<h1 class="inter fw-600 fs-24 blacktext mb-2.5">Hello Adeleke!</h1>
+					<h1 class="inter fw-600 fs-24 blacktext mb-2.5">Hello {{ username }}!</h1>
 					<p class="inter fw-400 fs-14 tx-666666">Welcome to your dashboard</p>
 				</div>
 				<div class="grid grid-cols-5">
@@ -18,6 +18,7 @@
 <script>
 import OverviewOps from "./Overview-Ops";
 import TransactionHistory from "./TransactionHistory.vue";
+import { useStore } from "vuex";
 export default {
 	name: "Overview",
 	components: {
@@ -25,7 +26,11 @@ export default {
 		TransactionHistory,
 	},
 	setup() {
-		return {};
+		const store = useStore();
+		const username = store.getters["authToken/firstName"];
+		return {
+			username,
+		};
 	},
 };
 </script>
