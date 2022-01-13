@@ -6,12 +6,18 @@ export default class UserActions {
 		successHandler,
 		errorHandler
 	) {
-		Web.get(
+		Web.post(
 			Constants.API_BASE + "/Account/forgot-password?email=" + userEmail,
 
 			successHandler,
 			errorHandler
 		)
+	}
+
+
+
+	static merchantUpdateProfile(userDetails, successHandler, errorhandler) {
+		Web.post(Constants.API_BASE + "/Merchant/update", userDetails, successHandler, errorhandler)
 	}
 
 	static updateProfile(userDetails, successHandler, errorhandler) {

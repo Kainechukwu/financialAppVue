@@ -91,7 +91,7 @@ import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import ApiResource from "@/components/core/ApiResource";
-// import LoginService from "@/services/login/LoginService.js";
+import LoginService from "@/services/login/LoginService.js";
 import { Log } from "@/components/util";
 
 export default {
@@ -110,22 +110,30 @@ export default {
 		});
 
 		const handleLogin = () => {
-			router.push("/overview");
 			loginUser.loading = true;
+			Log.info(loginUser.loading);
 			Log.info("user:" + JSON.stringify(user));
-			// LoginService.loginUser(
-			//   {
-			//     email: user.userEmail,
-			//     password: user.userPassword,
-			//   },
-			//   (response) => {
-			//     Log.info("response:" + JSON.stringify(response));
-			//     //   router.push("/overview")
-			//   },
-			//   (error) => {
-			//     Log.error("error:" + JSON.stringify(error));
-			//   }
-			// );
+			LoginService.loginUser(
+				{
+					email: user.userEmail,
+					password: user.userPassword,
+				},
+				(response) => {
+					Log.info("login response:" + JSON.stringify(response));
+
+					loginUser.loading = false;
+
+					Log.info("loginLoading" + String(loginUser.loading));
+
+					LoginService.handleSuccessfulLogin(response);
+					router.push("/overview");
+				},
+				(error) => {
+					Log.error("login error:" + JSON.stringify(error));
+					loginUser.loading = false;
+					Log.info("loginLoading " + String(loginUser.loading));
+				}
+			);
 		};
 
 		const goToSignUp = () => {

@@ -40,8 +40,8 @@ export default [
 	{
 		path: "/api/v1/account/confirm-email",
 		name: "Confirm Email",
-		redirect: "/login",
-		component: () => import("@/views/redirect/Redirect.vue"),
+
+		component: () => import("@/views/redirect/ConfirmEmailRedirect.vue"),
 
 	},
 	{
