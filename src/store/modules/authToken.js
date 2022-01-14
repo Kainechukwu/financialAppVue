@@ -2,7 +2,7 @@
 const state = {
 	// username: '',
 	isVerified: false,
-	authToken: null,
+	apiToken: null,
 	userId: "",
 	email: "",
 	roles: [],
@@ -28,8 +28,8 @@ const getters = {
 		return state.isVerified
 	},
 
-	authToken(state) {
-		return state.authToken
+	apiToken(state) {
+		return state.apiToken
 	},
 
 	userId(state) {
@@ -58,9 +58,9 @@ const mutations = {
 		state.lastName = lastName;
 	},
 
-	authToken(state, token) {
+	apiToken(state, token) {
 
-		state.authToken = token;
+		state.apiToken = token;
 	},
 
 	isVerified(state, isVerified) {

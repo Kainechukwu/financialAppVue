@@ -55,7 +55,7 @@ export default class LoginService {
 		const data = response.data.data;
 		Log.info("below is data")
 		Log.info(data);
-		store.commit("authToken/authToken", data.jwToken);
+		store.commit("authToken/apiToken", data.jwToken);
 		store.commit("authToken/isVerified", data.isVerified);
 		store.commit("authToken/userId", data.id);
 		store.commit("authToken/email", data.email);
@@ -65,5 +65,15 @@ export default class LoginService {
 
 
 
+	}
+
+	static handleLogout() {
+		store.commit("authToken/apiToken", null);
+		store.commit("authToken/isVerified", false);
+		store.commit("authToken/userId", "");
+		store.commit("authToken/email", "");
+		store.commit("authToken/roles", []);
+		store.commit("authToken/firstName", "");
+		store.commit("authToken/lastName", "");
 	}
 }

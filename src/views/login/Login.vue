@@ -90,7 +90,7 @@
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
-import ApiResource from "@/components/core/ApiResource";
+// import ApiResource from "@/components/core/ApiResource";
 import LoginService from "@/services/login/LoginService.js";
 import { Log } from "@/components/util";
 
@@ -102,7 +102,9 @@ export default {
 	setup() {
 		const router = useRouter();
 
-		const loginUser = ApiResource.create();
+		const loginUser = reactive({
+			loading: false,
+		});
 
 		const user = reactive({
 			userEmail: "",

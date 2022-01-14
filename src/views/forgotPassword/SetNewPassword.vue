@@ -32,6 +32,21 @@
 								/>
 							</div>
 
+							<div class="mb-4">
+								<label for="Confirm Password" class="fs-14 tx-666666 fw-600"
+									>Confirm Password</label
+								>
+								<input
+									id="Confirm Password"
+									name="Confirm Password"
+									type="password"
+									v-model="confirmPassword"
+									autocomplete="off"
+									required=""
+									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								/>
+							</div>
+
 							<div v-for="instruction in instructions" :key="instruction" class="flex flex-col">
 								<div class="flex py-0.5">
 									<div class="flex items-center mr-2">
@@ -73,9 +88,11 @@
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
+
 import SmallCheckedSvg from "@/components/svg/SmallCheckedSvg.vue";
 // import ApiResource from "@/components/core/ApiResource";
-// import LoginService from "@/services/login/LoginService.js";
+import UserActions from "@/services/userActions/userActions.js";
 import { Log } from "@/components/util";
 
 export default {
@@ -85,8 +102,12 @@ export default {
 		SmallCheckedSvg,
 	},
 	setup() {
+		const route = useRoute();
+
 		const router = useRouter();
 		const newPassword = ref("");
+		const confirmPassword = ref("");
+
 		const instructions = [
 			"At least 8 characters",
 			"Minimum one lower case",
@@ -94,6 +115,24 @@ export default {
 			"One number or special character",
 		];
 		const setNewPassword = () => {
+			if (newPassword.value === confirmPassword.value) {
+				UserActions.resetPassword(
+					{
+						email: route.query.email,
+						token: route.query.token,
+						password: newPassword.value,
+						confirmPassword: confirmPassword.value,
+					},
+					(response) => {
+						Log.info("resetResponse" + JSON.stringify(response));
+
+						router.push("/login");
+					},
+					(error) => {
+						Log.error("resetError" + JSON.stringify(error));
+					}
+				);
+			}
 			Log.info(newPassword.value);
 		};
 
@@ -106,6 +145,7 @@ export default {
 			setNewPassword,
 			goToLogin,
 			instructions,
+			confirmPassword,
 		};
 	},
 };
