@@ -7,7 +7,8 @@ export default createStore({
     addPlanModal: false,
     thisPlanModal: false,
     addProductModal: false,
-    otpPhoneNumberModal: { number: "", open: false },
+    otpPhoneNumberModal: false,
+    phoneNo: "",
     signupEmail: "",
     sidebarMenu: false,
   },
@@ -26,6 +27,9 @@ export default createStore({
     },
     setOtpPhoneNumberModal(state, payload) {
       state.otpPhoneNumberModal = payload;
+    },
+    setPhoneNo(state, payload) {
+      state.phoneNo = payload;
     },
     setSidebarMenu(state, payload) {
       state.sidebarMenu = payload;

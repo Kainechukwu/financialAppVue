@@ -164,7 +164,8 @@ export default {
 				(response) => {
 					Log.info("profileUpdate response" + String(response));
 					profileUpdate.loading = false;
-					store.commit("setOtpPhoneNumberModal", { number: userDetails.phoneNumber, open: true });
+					store.commit("setOtpPhoneNumberModal", true);
+					store.commit("setPhoneNo", userDetails.phoneNumber);
 
 					Log.info("profileUpdate" + String(profileUpdate.loading));
 				},

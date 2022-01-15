@@ -148,9 +148,8 @@
 <script>
 import { useStore } from "vuex";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { reactive, toRefs } from "vue";
-import { onMounted } from "vue";
 import { Log } from "@/components/util";
 import UserActions from "@/services/userActions/userActions.js";
 
@@ -162,6 +161,7 @@ export default {
 	setup() {
 		const store = useStore();
 		onMounted(() => {
+			console.log("phoneNo:", phoneNo);
 			// document.getElementById("code1").focus();
 		});
 		const codes = reactive({
@@ -173,7 +173,8 @@ export default {
 			code6: "",
 		});
 
-		const phoneNo = computed(() => store.state.otpPhoneNumberModal.number);
+		const phoneNo = store.state.phoneNo;
+		const isModalOpen = computed(() => store.state.otpPhoneNumberModal);
 
 		function clickEvent(e, next) {
 			// console.log(String(curr) + " " + String(next));
@@ -192,7 +193,7 @@ export default {
 
 		const submitCode = () => {
 			const userDetails = {
-				phoneNo: phoneNo,
+				phoneNumber: phoneNo,
 				code: prepareDetails(),
 			};
 			Log.info(userDetails);
@@ -209,7 +210,6 @@ export default {
 				}
 			);
 		};
-		const isModalOpen = computed(() => store.state.otpPhoneNumberModal);
 		const close = () => {
 			store.commit("setOtpPhoneNumberModal", false);
 		};

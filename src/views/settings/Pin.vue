@@ -1,7 +1,7 @@
 /*eslint quote-props: ["error", "consistent-as-needed"]*/
 <template>
 	<div class="w-full px-10 pb-8">
-		<CreatePin v-if="hasPIN" />
+		<CreatePin v-if="!hasPIN" />
 		<div v-else class="grid grid-cols-5 mt-12">
 			<div class="col-span-2">
 				<div class="flex flex-col mr-12">
@@ -25,7 +25,7 @@
 							<input
 								id="Current Pin"
 								name="Current Pin"
-								type="text"
+								type="number"
 								v-model="currentPin"
 								autocomplete="off"
 								required=""
@@ -102,7 +102,11 @@ export default {
 			pinUpdate.loading = true;
 			Log.info("userDetails: " + JSON.stringify(userDetails));
 			userActions.changePIN(
-				userDetails,
+				{
+					currentPin: String(userDetails.currentPin),
+					newPin: String(userDetails.newPin),
+					confirmNewPin: String(userDetails.confirmNewPin),
+				},
 				(response) => {
 					pinUpdate.loading = false;
 					Log.info("response:" + JSON.stringify(response));

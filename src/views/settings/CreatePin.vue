@@ -9,7 +9,7 @@
 					id="Create Pin"
 					name="Create Pin"
 					v-model="pin"
-					type="text"
+					type="number"
 					autocomplete="off"
 					required=""
 					class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -20,7 +20,7 @@
 				<input
 					id="Confirm Pin"
 					name="Confirm Pin"
-					type="text"
+					type="number"
 					v-model="confirmPin"
 					autocomplete="off"
 					required=""
@@ -61,7 +61,10 @@ export default {
 			Log.info("userDetails: " + JSON.stringify(userDetails));
 			if (userDetails.pin === userDetails.confirmPin && userDetails.pin.length === 6) {
 				userActions.createPIN(
-					userDetails,
+					{
+						pin: String(userDetails.pin),
+						confirmPin: String(userDetails.confirmPin),
+					},
 					(response) => {
 						createPin.loading = false;
 						Log.info("response:" + JSON.stringify(response));
