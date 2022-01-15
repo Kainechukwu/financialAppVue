@@ -106,7 +106,7 @@ import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { ref, watch, reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 
 import SmallCheckedSvg from "@/components/svg/SmallCheckedSvg.vue";
 // import ApiResource from "@/components/core/ApiResource";
@@ -138,22 +138,22 @@ export default {
 			"One number or special character",
 		];
 
-		function hasLowerCase(str) {
-			return /[a-z]/.test(str);
-		}
+		// function hasLowerCase(str) {
+		// 	return /[a-z]/.test(str);
+		// }
 
-		function hasUpperCase(str) {
-			return /[A-Z]/.test(str);
-		}
+		// function hasUpperCase(str) {
+		// 	return /[A-Z]/.test(str);
+		// }
 
-		function hasSpecialCharacter(str) {
-			//eslint-disable-next-line
-			return /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(str);
-		}
+		// function hasSpecialCharacter(str) {
+		// 	//eslint-disable-next-line
+		// 	return /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(str);
+		// }
 
-		function hasNumber(str) {
-			return /\d/.test(str);
-		}
+		// function hasNumber(str) {
+		// 	return /\d/.test(str);
+		// }
 
 		const setNewPassword = () => {
 			if (newPassword.password === confirmPassword.value) {
@@ -192,19 +192,19 @@ export default {
 				Log.info(newValue.isEnough);
 			}
 
-			if (hasLowerCase(newValue.password)) {
+			if (Util.hasLowerCase(newValue.password)) {
 				newPassword.hasLowerCase = true;
 			} else {
 				newPassword.hasLowerCase = false;
 			}
 
-			if (hasUpperCase(newValue.password)) {
+			if (Util.hasUpperCase(newValue.password)) {
 				newPassword.hasUpperCase = true;
 			} else {
 				newPassword.hasUpperCase = false;
 			}
 
-			if (hasSpecialCharacter(newValue.password) || hasNumber(newValue.password)) {
+			if (Util.hasSpecialCharacter(newValue.password) || Util.hasNumber(newValue.password)) {
 				newPassword.hasSpecialCharOrNum = true;
 			} else {
 				newPassword.hasSpecialCharOrNum = false;

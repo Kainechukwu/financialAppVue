@@ -48,6 +48,8 @@ export default class LoginService {
 		)
 	}
 
+
+
 	static handleSuccessfulLogin(response) {
 		// const store = useStore();
 
@@ -62,18 +64,14 @@ export default class LoginService {
 		store.commit("authToken/roles", data.roles);
 		store.commit("authToken/firstName", data.firstName);
 		store.commit("authToken/lastName", data.lastName);
+		store.commit("authToken/hasPin", data.hasPin);
 
 
 
 	}
 
 	static handleLogout() {
-		store.commit("authToken/apiToken", null);
-		store.commit("authToken/isVerified", false);
-		store.commit("authToken/userId", "");
-		store.commit("authToken/email", "");
-		store.commit("authToken/roles", []);
-		store.commit("authToken/firstName", "");
-		store.commit("authToken/lastName", "");
+		localStorage.clear();
+
 	}
 }

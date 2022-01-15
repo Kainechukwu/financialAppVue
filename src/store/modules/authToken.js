@@ -8,6 +8,7 @@ const state = {
 	roles: [],
 	firstName: "",
 	lastName: "",
+	hasPin: false,
 	// authorizations: [],
 };
 
@@ -17,31 +18,35 @@ const getters = {
 	// 	return state.username;
 	// },
 	firstName(state) {
-		return state.firstName
+		return state.firstName;
 	},
 
 	lastName(state) {
-		return state.lastName
+		return state.lastName;
 	},
 
 	isVerified(state) {
-		return state.isVerified
+		return state.isVerified;
 	},
 
 	apiToken(state) {
-		return state.apiToken
+		return state.apiToken;
 	},
 
 	userId(state) {
-		return state.userId
+		return state.userId;
 	},
 
 	email(state) {
-		return state.email
+		return state.email;
 	},
 
 	roles(state) {
-		return state.roles
+		return state.roles;
+	},
+
+	hasPin(state) {
+		return state.hasPin;
 	}
 
 
@@ -79,6 +84,10 @@ const mutations = {
 
 	roles(state, roles) {
 		state.roles = roles;
+	},
+
+	hasPin(state, hasPin) {
+		state.hasPin = hasPin;
 	}
 
 };

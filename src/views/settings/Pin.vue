@@ -76,6 +76,7 @@
 
 <script>
 import { reactive, toRefs } from "vue";
+import { useStore } from "vuex";
 import CreatePin from "./CreatePin.vue";
 import ApiResource from "@/components/core/ApiResource";
 import { Log } from "@/components/util";
@@ -86,13 +87,14 @@ export default {
 		CreatePin,
 	},
 	setup() {
+		const store = useStore();
 		const userDetails = reactive({
 			currentPin: "",
 			newPin: "",
 			confirmNewPin: "",
 		});
 
-		const hasPIN = false;
+		const hasPIN = store.getters["authToken/hasPin"];
 
 		const pinUpdate = ApiResource.create();
 
