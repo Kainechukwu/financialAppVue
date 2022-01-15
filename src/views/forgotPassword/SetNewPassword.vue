@@ -25,7 +25,22 @@
 									id="New Password"
 									name="New Password"
 									type="password"
-									v-model="newPassword"
+									v-model="password"
+									autocomplete="off"
+									required=""
+									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								/>
+							</div>
+
+							<div class="mb-4">
+								<label for="Confirm Password" class="fs-14 tx-666666 fw-600"
+									>Confirm Password</label
+								>
+								<input
+									id="Confirm Password"
+									name="Confirm Password"
+									type="password"
+									v-model="confirmPassword"
 									autocomplete="off"
 									required=""
 									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -35,7 +50,24 @@
 							<div v-for="instruction in instructions" :key="instruction" class="flex flex-col">
 								<div class="flex py-0.5">
 									<div class="flex items-center mr-2">
-										<SmallCheckedSvg />
+										<SmallCheckedSvg
+											v-if="instruction === instructions[0]"
+											:booleanState="isEnough"
+										/>
+										<SmallCheckedSvg
+											v-else-if="instruction === instructions[1]"
+											:booleanState="hasLowerCase"
+										/>
+										<SmallCheckedSvg
+											v-else-if="instruction === instructions[2]"
+											:booleanState="hasUpperCase"
+										/>
+										<SmallCheckedSvg
+											v-else-if="instruction === instructions[3]"
+											:booleanState="hasSpecialCharOrNum"
+										/>
+
+										<SmallCheckedSvg v-else />
 									</div>
 									<span class="fw-400 fs-12 tx-666666">{{ instruction }}</span>
 								</div>
@@ -71,12 +103,14 @@
 
 <script>
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
-import { ref } from "vue";
+import { ref, watch, reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
+import { Log, Util } from "@/components/util";
+
 import SmallCheckedSvg from "@/components/svg/SmallCheckedSvg.vue";
 // import ApiResource from "@/components/core/ApiResource";
-// import LoginService from "@/services/login/LoginService.js";
-import { Log } from "@/components/util";
+import UserActions from "@/services/userActions/userActions.js";
 
 export default {
 	name: "SetNewPassword",
@@ -85,27 +119,105 @@ export default {
 		SmallCheckedSvg,
 	},
 	setup() {
+		const route = useRoute();
+
 		const router = useRouter();
-		const newPassword = ref("");
+		const newPassword = reactive({
+			password: "",
+			isEnough: false,
+			hasLowerCase: false,
+			hasUpperCase: false,
+			hasSpecialCharOrNum: false,
+		});
+		const confirmPassword = ref("");
+
 		const instructions = [
 			"At least 8 characters",
 			"Minimum one lower case",
 			"Minimum one upper case",
 			"One number or special character",
 		];
+
+		// function hasLowerCase(str) {
+		// 	return /[a-z]/.test(str);
+		// }
+
+		// function hasUpperCase(str) {
+		// 	return /[A-Z]/.test(str);
+		// }
+
+		// function hasSpecialCharacter(str) {
+		// 	//eslint-disable-next-line
+		// 	return /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(str);
+		// }
+
+		// function hasNumber(str) {
+		// 	return /\d/.test(str);
+		// }
+
 		const setNewPassword = () => {
-			Log.info(newPassword.value);
+			if (newPassword.password === confirmPassword.value) {
+				UserActions.resetPassword(
+					{
+						email: route.query.email,
+						token: route.query.token,
+						password: newPassword.password,
+						confirmPassword: confirmPassword.value,
+					},
+					(response) => {
+						Log.info("resetResponse" + JSON.stringify(response));
+
+						router.push("/login");
+					},
+					(error) => {
+						Log.error("resetError" + JSON.stringify(error));
+					}
+				);
+			}
+			Log.info(newPassword.password);
 		};
 
 		const goToLogin = () => {
 			router.push("/login");
 		};
 
+		watch(newPassword, (newValue) => {
+			Log.info(newValue);
+			if (newValue.password.length < 8) {
+				Log.info(newValue.password);
+				newValue.isEnough = false;
+				Log.info(newValue.isEnough);
+			} else {
+				newValue.isEnough = true;
+				Log.info(newValue.isEnough);
+			}
+
+			if (Util.hasLowerCase(newValue.password)) {
+				newPassword.hasLowerCase = true;
+			} else {
+				newPassword.hasLowerCase = false;
+			}
+
+			if (Util.hasUpperCase(newValue.password)) {
+				newPassword.hasUpperCase = true;
+			} else {
+				newPassword.hasUpperCase = false;
+			}
+
+			if (Util.hasSpecialCharacter(newValue.password) || Util.hasNumber(newValue.password)) {
+				newPassword.hasSpecialCharOrNum = true;
+			} else {
+				newPassword.hasSpecialCharOrNum = false;
+			}
+		});
+
 		return {
-			newPassword,
 			setNewPassword,
 			goToLogin,
 			instructions,
+			confirmPassword,
+
+			...toRefs(newPassword),
 		};
 	},
 };

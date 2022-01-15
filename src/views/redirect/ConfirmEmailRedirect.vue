@@ -31,8 +31,6 @@ export default {
 		};
 
 		onMounted(() => {
-			// const params = route.params;
-			// console(params);
 			confirm();
 		});
 	},

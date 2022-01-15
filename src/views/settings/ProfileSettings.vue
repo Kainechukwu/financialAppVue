@@ -1,3 +1,5 @@
+/*eslint quote-props: ["error", "consistent-as-needed"]*/
+
 <template>
 	<div class="w-full px-10 pb-8">
 		<div class="grid grid-cols-5 mt-12">
@@ -102,21 +104,28 @@
 				</div>
 			</div>
 		</div>
+		<otp-phone-number />
 	</div>
 </template>
 
 <script>
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { Log } from "@/components/util";
 import ApiResource from "@/components/core/ApiResource";
-
-// import UserActions from "@/services/userActions/userActions.js";
+import OtpPhoneNumber from "@/views/modals/OtpPhoneNumber.vue";
+import UserActions from "@/services/userActions/userActions.js";
 import { reactive, toRefs } from "vue";
+
+/*eslint quote-props: ["error", "consistent"]*/
 
 export default {
 	name: "ProfileSettings",
+	components: {
+		OtpPhoneNumber,
+	},
 	setup() {
+		onMounted(() => {});
 		const store = useStore();
 		const profileUpdate = ApiResource.create();
 
@@ -131,33 +140,41 @@ export default {
 			// accountCreated: false,
 		});
 
+		const sliceNumber = (num) => {
+			const number = num;
+			return "0" + String(number);
+		};
+
 		const updateProfile = () => {
 			profileUpdate.loading = true;
-			// moment(userProfile.dob, inputFormat).format(outputFormat);
 			const userDetails = {
 				merchantId: store.getters["authToken/userId"],
 				firstName: userProfile.firstName,
 				lastName: userProfile.lastName,
+				// dob: new Date(userProfile.dob),
 				dob: userProfile.dob,
-				phoneNumber: userProfile.phoneNo,
+				phoneNumber: sliceNumber(userProfile.phoneNo),
 			};
 
 			Log.info(userDetails);
 
-			// UserActions.merchantUpdateProfile(
-			// 	userDetails,
+			UserActions.merchantUpdateProfile(
+				userDetails,
 
-			// 	(response) => {
-			// 		Log.info("profileUpdate response" + String(response));
-			// 		profileUpdate.loading = false;
-			// 		Log.info("profileUpdate" + String(profileUpdate.loading));
-			// 	},
-			// 	(error) => {
-			// 		Log.error("profileUpdate response" + String(error));
-			// 		profileUpdate.loading = false;
-			// 		Log.error("profileUpdate" + String(profileUpdate.loading));
-			// 	}
-			// );
+				(response) => {
+					Log.info("profileUpdate response" + String(response));
+					profileUpdate.loading = false;
+					store.commit("setOtpPhoneNumberModal", true);
+					store.commit("setPhoneNo", userDetails.phoneNumber);
+
+					Log.info("profileUpdate" + String(profileUpdate.loading));
+				},
+				(error) => {
+					Log.error("profileUpdate response" + String(error));
+					profileUpdate.loading = false;
+					Log.error("profileUpdate" + String(profileUpdate.loading));
+				}
+			);
 		};
 		return {
 			...toRefs(userProfile),

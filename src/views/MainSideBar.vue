@@ -1,10 +1,10 @@
 <template>
 	<div class="vertical-menu h-full w-64 fixed py-5 px-6">
 		<div class="full flex flex-col">
-			<div class="br-5 bg-white flex flex-col px-5 py-4">
-				<div class="flex justify-between">
+			<div class="br-5 bg-white flex flex-col px-5 py-4 relative">
+				<div class="flex justify-between relative">
 					<span class="mb-1 fw-500 fs-16 blacktext">Bonfree Systems</span>
-					<div class="flex items-center justify-center">
+					<div @click="toggle" class="flex items-center justify-center">
 						<svg
 							width="10"
 							height="6"
@@ -25,7 +25,18 @@
 				<div>
 					<span class="tx-666666 fw-400 fs-14">Kaine Bismarck</span>
 				</div>
+				<div
+					style="margin-top: 60px"
+					class="absolute blacktext fw-400 fs-14 inset-x-0 bg-white rounded-b-md left-0 w-full border-t border-gray-100 flex flex-col"
+					v-if="show.state"
+				>
+					<div class="px-5 py-3 cursor-pointer hover:bg-gray-50">Profile Settings</div>
+					<div @click="logout" class="px-5 py-3 cursor-pointer hover:bg-gray-50 rounded-b-md">
+						Logout
+					</div>
+				</div>
 			</div>
+
 			<div class="mt-12 flex flex-col">
 				<router-link
 					:to="item.href"
@@ -52,6 +63,9 @@
 
 <script>
 import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
+import { reactive } from "vue";
+// import {useStore} from "vuex";
 // import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
 import DashBoardSvg from "@/components/svg/DashboardSvg.vue";
 import SettingsSvg from "@/components/svg/SettingsSvg";
@@ -60,6 +74,7 @@ import PayoutsSvg from "@/components/svg/PayoutsSvg.vue";
 import CustomersSvg from "@/components/svg/CustomersSvg.vue";
 // import PlansSvg from "@/components/svg/PlansSvg.vue";
 import ConfigurationsSvg from "@/components/svg/ConfigurationsSvg";
+import LoginService from "@/services/login/LoginService.js";
 // import MerchantsSvg from "@/components/svg/MerchantsSvg.vue";
 import AuditLogsSvg from "@/components/svg/AuditLogsSvg.vue";
 export default {
@@ -76,6 +91,21 @@ export default {
 	},
 	setup() {
 		const route = useRoute();
+		const router = useRouter();
+		// const store = useRoute();
+		const show = reactive({
+			state: false,
+		});
+
+		const toggle = () => {
+			show.state = !show.state;
+		};
+
+		const logout = () => {
+			LoginService.handleLogout();
+			router.push("/login");
+		};
+
 		const navigation = [
 			// {
 			// 	name: "Pending Tasks",
@@ -128,7 +158,13 @@ export default {
 				routeName: "AuditLogs",
 			},
 		];
-		return { navigation, route };
+		return {
+			navigation,
+			route,
+			show,
+			toggle,
+			logout,
+		};
 	},
 };
 </script>

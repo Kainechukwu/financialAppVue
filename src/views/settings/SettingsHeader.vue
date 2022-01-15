@@ -21,10 +21,16 @@
 		<!-- ------------------------- -->
 		<div class="h-16 ml-2 flex flex-col justify-between mr-10">
 			<div class="h-2"></div>
-			<div class="fw-600 fs-14" :class="{ 'nav-link-color': currentPage === 'Business Details' }">
+			<div
+				class="fw-600 fs-14"
+				:class="{ 'nav-link-color': currentPage === 'Business Details Settings' }"
+			>
 				<router-link to="/settings/business_details">Business Details</router-link>
 			</div>
-			<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'Business Details' }"></div>
+			<div
+				class="h-02rem"
+				:class="{ 'nav-link-bg': currentPage === 'Business Details Settings' }"
+			></div>
 		</div>
 		<!-- ------------------------- -->
 		<div class="h-16 ml-2 flex flex-col justify-between mr-10">

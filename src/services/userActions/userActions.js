@@ -14,10 +14,18 @@ export default class UserActions {
 		)
 	}
 
+	static resetPassword(userDetails, successHandler, errorhandler) {
 
+		Web.post(Constants.API_BASE + "/Account/reset-password", userDetails, successHandler, errorhandler)
+
+	}
 
 	static merchantUpdateProfile(userDetails, successHandler, errorhandler) {
 		Web.post(Constants.API_BASE + "/Merchant/update", userDetails, successHandler, errorhandler)
+	}
+
+	static confirmPhoneNumber(userDetails, successHandler, errorhandler) {
+		Web.post(Constants.API_BASE + "/Account/confirm-phone-number", userDetails, successHandler, errorhandler)
 	}
 
 	static updateProfile(userDetails, successHandler, errorhandler) {

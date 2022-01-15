@@ -48,6 +48,8 @@ export default class LoginService {
 		)
 	}
 
+
+
 	static handleSuccessfulLogin(response) {
 		// const store = useStore();
 
@@ -55,15 +57,21 @@ export default class LoginService {
 		const data = response.data.data;
 		Log.info("below is data")
 		Log.info(data);
-		store.commit("authToken/authToken", data.jwToken);
+		store.commit("authToken/apiToken", data.jwToken);
 		store.commit("authToken/isVerified", data.isVerified);
 		store.commit("authToken/userId", data.id);
 		store.commit("authToken/email", data.email);
 		store.commit("authToken/roles", data.roles);
 		store.commit("authToken/firstName", data.firstName);
 		store.commit("authToken/lastName", data.lastName);
+		store.commit("authToken/hasPin", data.hasPin);
 
 
+
+	}
+
+	static handleLogout() {
+		localStorage.clear();
 
 	}
 }

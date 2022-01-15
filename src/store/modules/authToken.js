@@ -2,12 +2,13 @@
 const state = {
 	// username: '',
 	isVerified: false,
-	authToken: null,
+	apiToken: null,
 	userId: "",
 	email: "",
 	roles: [],
 	firstName: "",
 	lastName: "",
+	hasPin: false,
 	// authorizations: [],
 };
 
@@ -17,31 +18,35 @@ const getters = {
 	// 	return state.username;
 	// },
 	firstName(state) {
-		return state.firstName
+		return state.firstName;
 	},
 
 	lastName(state) {
-		return state.lastName
+		return state.lastName;
 	},
 
 	isVerified(state) {
-		return state.isVerified
+		return state.isVerified;
 	},
 
-	authToken(state) {
-		return state.authToken
+	apiToken(state) {
+		return state.apiToken;
 	},
 
 	userId(state) {
-		return state.userId
+		return state.userId;
 	},
 
 	email(state) {
-		return state.email
+		return state.email;
 	},
 
 	roles(state) {
-		return state.roles
+		return state.roles;
+	},
+
+	hasPin(state) {
+		return state.hasPin;
 	}
 
 
@@ -58,9 +63,9 @@ const mutations = {
 		state.lastName = lastName;
 	},
 
-	authToken(state, token) {
+	apiToken(state, token) {
 
-		state.authToken = token;
+		state.apiToken = token;
 	},
 
 	isVerified(state, isVerified) {
@@ -79,6 +84,10 @@ const mutations = {
 
 	roles(state, roles) {
 		state.roles = roles;
+	},
+
+	hasPin(state, hasPin) {
+		state.hasPin = hasPin;
 	}
 
 };

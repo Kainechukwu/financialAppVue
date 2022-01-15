@@ -40,15 +40,22 @@ export default [
 	{
 		path: "/api/v1/account/confirm-email",
 		name: "Confirm Email",
-
 		component: () => import("@/views/redirect/ConfirmEmailRedirect.vue"),
 
 	},
 	{
-		path: "/business_details",
-		name: "Business Details",
-		component: () => import("@/views/businessDetails/BusinessDetails.vue")
+		path: "/api/v1/account/reset-password",
+		name: "Reset Password",
+		redirect: "/set_new_password",
+		component: () => import("@/views/redirect/ConfirmEmailRedirect.vue"),
+
 	},
+
+	// {
+	// 	path: "/business_details",
+	// 	name: "Business Details",
+	// 	component: () => import("@/views/businessDetails/BusinessDetails.vue")
+	// },
 
 	{
 		path: "/dashboard",

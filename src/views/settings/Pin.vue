@@ -1,6 +1,8 @@
+/*eslint quote-props: ["error", "consistent-as-needed"]*/
 <template>
 	<div class="w-full px-10 pb-8">
-		<div class="grid grid-cols-5 mt-12">
+		<CreatePin v-if="!hasPIN" />
+		<div v-else class="grid grid-cols-5 mt-12">
 			<div class="col-span-2">
 				<div class="flex flex-col mr-12">
 					<h1 class="blacktext fw-500 fs-18 inter mb-8">Authorization PIN</h1>
@@ -23,8 +25,8 @@
 							<input
 								id="Current Pin"
 								name="Current Pin"
-								type="text"
-								v-model="pin"
+								type="number"
+								v-model="currentPin"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -74,17 +76,25 @@
 
 <script>
 import { reactive, toRefs } from "vue";
+import { useStore } from "vuex";
+import CreatePin from "./CreatePin.vue";
 import ApiResource from "@/components/core/ApiResource";
 import { Log } from "@/components/util";
 import userActions from "@/services/userActions/userActions";
 export default {
 	name: "PIN",
+	components: {
+		CreatePin,
+	},
 	setup() {
+		const store = useStore();
 		const userDetails = reactive({
 			currentPin: "",
 			newPin: "",
 			confirmNewPin: "",
 		});
+
+		const hasPIN = store.getters["authToken/hasPin"];
 
 		const pinUpdate = ApiResource.create();
 
@@ -92,7 +102,11 @@ export default {
 			pinUpdate.loading = true;
 			Log.info("userDetails: " + JSON.stringify(userDetails));
 			userActions.changePIN(
-				userDetails,
+				{
+					currentPin: String(userDetails.currentPin),
+					newPin: String(userDetails.newPin),
+					confirmNewPin: String(userDetails.confirmNewPin),
+				},
 				(response) => {
 					pinUpdate.loading = false;
 					Log.info("response:" + JSON.stringify(response));
@@ -107,6 +121,7 @@ export default {
 		return {
 			...toRefs(userDetails),
 			updatePIN,
+			hasPIN,
 		};
 	},
 };
