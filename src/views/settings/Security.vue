@@ -21,6 +21,7 @@
 								id="Current Password"
 								name="Current Password"
 								type="password"
+								v-model="currentPassword"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -34,6 +35,7 @@
 								id="New Password"
 								name="New Password"
 								type="password"
+								v-model="newPassword"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -48,6 +50,7 @@
 								id="Confirm New Password"
 								name="Confirm New Password"
 								type="password"
+								v-model="confirmNewPassword"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -55,6 +58,7 @@
 						</div>
 						<div class="flex justify-end">
 							<div
+								@click="changePassword"
 								class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 							>
 								<span class="text-white">Change Password</span>
@@ -68,11 +72,36 @@
 </template>
 
 <script>
+import { reactive, toRefs } from "vue";
+import { Log } from "@/components/util";
+import { useStore } from "vuex";
+import UserActions from "@/services/userActions/userActions.js";
 export default {
 	name: "Change Password Settings",
-	components: {},
+	// components: {},
 	setup() {
-		return {};
+		const store = useStore();
+		const passwords = reactive({
+			userId: store.getters["authToken/userId"],
+			currentPassword: "",
+			newPassword: "",
+			confirmNewPassword: "",
+		});
+
+		const changePassword = () => {
+			UserActions.changePassword(passwords),
+				(response) => {
+					Log.info(response);
+				},
+				(error) => {
+					Log.error(error);
+				};
+		};
+
+		return {
+			...toRefs(passwords),
+			changePassword,
+		};
 	},
 };
 </script>

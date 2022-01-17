@@ -36,10 +36,9 @@
 									v-model="country"
 									class="border border-gray-200 mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								>
-									<option selected="" class="hidden">[[countries[0].name}}</option>
+									<!-- <option selected="" class="hidden">Germany</option> -->
 									<option v-for="country in countries" :key="country.id">{{ country.name }}</option>
 								</select>
-
 								<div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
 									<svg
 										width="12"
@@ -63,15 +62,16 @@
 						<div class="mb-6 col-span-1">
 							<label for="State" class="fs-14 tx-666666 fw-600">State</label>
 							<div class="relative">
-								<input
+								<select
 									id="State"
 									name="State"
-									type="text"
-									autocomplete="off"
+									v-model="state"
 									required=""
 									placeholder="Texas"
-									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-								/>
+									class="border border-gray-200 mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								>
+									<option v-for="state in states" :key="state.id">{{ state.name }}</option>
+								</select>
 
 								<div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
 									<svg
@@ -100,15 +100,17 @@
 						<div class="mb-6 col-span-1">
 							<label for="Industry" class="fs-14 tx-666666 fw-600">Industry</label>
 							<div class="relative">
-								<input
+								<select
 									id="Industry"
 									name="Industry"
-									type="text"
-									autocomplete="off"
-									required=""
-									placeholder="Information Technology"
-									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-								/>
+									v-model="industry"
+									required="true"
+									class="border border-gray-200 mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								>
+									<option v-for="industry in industries" :key="industry.id">
+										{{ industry.name }}
+									</option>
+								</select>
 
 								<div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
 									<svg
@@ -213,7 +215,7 @@
 </template>
 
 <script>
-import { toRefs, reactive, onMounted, ref } from "vue";
+import { toRefs, reactive, onMounted, ref, watch } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Log } from "@/components/util";
 import { useStore } from "vuex";
@@ -224,42 +226,125 @@ export default {
 			UserActions.getCountries(
 				(response) => {
 					countries.value = response.data.data;
+					Log.info(countries.value);
+					country.value = countries.value[0].name;
+					getStates();
 				},
 				(error) => {
 					Log.error(error);
 				}
 			);
 		});
+
 		const store = useStore();
 		const countries = ref([]);
 		const country = ref("");
+		const state = ref("");
+		const states = ref([]);
+		const industries = [
+			{
+				id: "1",
+				name: "Industrial Technology",
+			},
+			{
+				id: "2",
+				name: "Agriculture",
+			},
+			{
+				id: "3",
+				name: "Banking",
+			},
+		];
+		const industry = ref(industries[0].name);
 		const businessDetails = reactive({
-			ownerId: store.getters["authToken/userId"],
 			companyName: "",
 			countryId: 0,
 			stateId: 0,
-			industry: "",
+			// industry: "",
 			numberOfStaff: "",
 			websiteUrl: "",
 			about: "",
 		});
 
 		const getCountryId = (country) => {
-			let id = countries.value.find(() => country).id;
+			const id = countries.value.find((obj) => obj.name === country).id;
+
 			return id;
 		};
 
-		const saveDetails = () => {
-			const id = getCountryId(country.value);
-			Log.info("id" + id);
-			Log.info(businessDetails);
+		const getStateId = (state) => {
+			const id = states.value.find((obj) => obj.name === state).id;
+
+			return id;
 		};
+
+		const getStates = () => {
+			const stateId = getCountryId(country.value);
+			Log.info(stateId);
+			UserActions.getStates(
+				stateId,
+				(response) => {
+					states.value = response.data.data;
+					state.value = states.value[0].name;
+					Log.info(response);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
+		const prepareBusinessDetails = () => {
+			const id = getCountryId(country.value);
+			const stateId = getStateId(state.value);
+
+			const obj = {
+				ownerId: store.getters["authToken/userId"],
+				companyName: businessDetails.companyName,
+				countryId: id,
+				stateId: stateId,
+				industry: industry.value,
+				numberOfStaff: businessDetails.numberOfStaff,
+				websiteUrl: "http://" + businessDetails.websiteUrl,
+				about: businessDetails.about,
+			};
+			return obj;
+		};
+
+		const saveDetails = () => {
+			// const id = getCountryId(country.value);
+			// Log.info("id" + id);
+			// Log.info(country.value);
+			Log.info(prepareBusinessDetails());
+			UserActions.setBusinessProfile(
+				prepareBusinessDetails(),
+				(response) => {
+					Log.info(response);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
+		watch(country, (newValue, oldValue) => {
+			if (newValue !== oldValue && oldValue !== "") {
+				Log.info("changed");
+				Log.info(newValue);
+				// Log.info();
+				getStates();
+			}
+		});
 
 		return {
 			...toRefs(businessDetails),
 			countries,
 			country,
+			states,
+			state,
 			saveDetails,
+			industries,
+			industry,
 		};
 	},
 };

@@ -14,6 +14,20 @@ export default class UserActions {
 		)
 	}
 
+	static setBusinessProfile(businessDetails, successHandler, errorHandler) {
+
+		Web.post(
+			Constants.API_BASE + "/Kyc/business-profiles",
+			businessDetails,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static getStates(stateId, successHandler, errorHandler) {
+		Web.get(Constants.API_BASE + "/Kyc/countries/" + stateId + "/states", successHandler, errorHandler)
+	}
+
 	static getCountries(successHandler, errorHandler) {
 		Web.get(Constants.API_BASE + "/Kyc/countries", successHandler, errorHandler)
 	}
@@ -26,6 +40,11 @@ export default class UserActions {
 
 	static merchantUpdateProfile(userDetails, successHandler, errorhandler) {
 		Web.post(Constants.API_BASE + "/Merchant/update", userDetails, successHandler, errorhandler)
+	}
+
+	static changePassword(userDetails, successHandler, errorHandler) {
+		Web.post(Constants.API_BASE + "/Account/change-password", userDetails, successHandler, errorHandler);
+
 	}
 
 	static confirmPhoneNumber(userDetails, successHandler, errorhandler) {
