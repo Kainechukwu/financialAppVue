@@ -29,15 +29,16 @@
 								>Country of Incorporation</label
 							>
 							<div class="relative">
-								<input
+								<select
 									id="Country of Incorporation"
 									name="Country of Incorporation"
-									type="text"
-									autocomplete="off"
 									required=""
-									placeholder="United States of America"
-									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-								/>
+									v-model="country"
+									class="border border-gray-200 mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								>
+									<option selected="" class="hidden">[[countries[0].name}}</option>
+									<option v-for="country in countries" :key="country.id">{{ country.name }}</option>
+								</select>
 
 								<div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
 									<svg
@@ -199,6 +200,7 @@
 
 					<div class="flex justify-end">
 						<div
+							@click="saveDetails"
 							class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 						>
 							<span class="text-white">Save</span>
@@ -221,8 +223,7 @@ export default {
 		onMounted(() => {
 			UserActions.getCountries(
 				(response) => {
-					countries.value = response.data.data.map((res) => res.name);
-					Log.info(response.data.data);
+					countries.value = response.data.data;
 				},
 				(error) => {
 					Log.error(error);
@@ -231,6 +232,7 @@ export default {
 		});
 		const store = useStore();
 		const countries = ref([]);
+		const country = ref("");
 		const businessDetails = reactive({
 			ownerId: store.getters["authToken/userId"],
 			companyName: "",
@@ -241,9 +243,23 @@ export default {
 			websiteUrl: "",
 			about: "",
 		});
+
+		const getCountryId = (country) => {
+			let id = countries.value.find(() => country).id;
+			return id;
+		};
+
+		const saveDetails = () => {
+			const id = getCountryId(country.value);
+			Log.info("id" + id);
+			Log.info(businessDetails);
+		};
+
 		return {
 			...toRefs(businessDetails),
 			countries,
+			country,
+			saveDetails,
 		};
 	},
 };
