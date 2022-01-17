@@ -14,6 +14,7 @@
 							id="Company Name"
 							name="Company Name"
 							type="text"
+							v-model="companyName"
 							autocomplete="off"
 							required=""
 							placeholder="The Walt Disney Company"
@@ -136,6 +137,7 @@
 									type="text"
 									autocomplete="off"
 									required=""
+									v-model="numberOfStaff"
 									placeholder="1-50"
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
@@ -169,6 +171,7 @@
 							type="text"
 							autocomplete="off"
 							required=""
+							v-model="websiteUrl"
 							placeholder="http://"
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						/>
@@ -184,6 +187,7 @@
 							rows="5"
 							name="Company description"
 							type="text"
+							v-model="about"
 							autocomplete="off"
 							required=""
 							placeholder=""
@@ -207,10 +211,40 @@
 </template>
 
 <script>
+import { toRefs, reactive, onMounted, ref } from "vue";
+import UserActions from "@/services/userActions/userActions.js";
+import { Log } from "@/components/util";
+import { useStore } from "vuex";
 export default {
 	name: "BusinessDetails",
 	setup() {
-		return {};
+		onMounted(() => {
+			UserActions.getCountries(
+				(response) => {
+					countries.value = response.data.data.map((res) => res.name);
+					Log.info(response.data.data);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		});
+		const store = useStore();
+		const countries = ref([]);
+		const businessDetails = reactive({
+			ownerId: store.getters["authToken/userId"],
+			companyName: "",
+			countryId: 0,
+			stateId: 0,
+			industry: "",
+			numberOfStaff: "",
+			websiteUrl: "",
+			about: "",
+		});
+		return {
+			...toRefs(businessDetails),
+			countries,
+		};
 	},
 };
 </script>

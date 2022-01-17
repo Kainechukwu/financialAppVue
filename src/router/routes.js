@@ -5,47 +5,74 @@ export default [
 		path: '/',
 		redirect: "/signup",
 		name: 'Home',
+		meta: {
+			skipAuth: true,
+		},
 		component: Home
 	},
 	{
 		path: "/signup",
 		name: "Signup",
+		meta: {
+			skipAuth: true,
+		},
 		component: () => import("@/views/signup/Signup.vue")
 	},
 	{
 		path: "/account_created",
 		name: "Account Created",
+		meta: {
+			skipAuth: true,
+		},
 		component: () => import("@/views/signup/AccountCreated.vue")
 	},
 	{
 		path: "/login",
 		name: "Login",
+		meta: {
+			skipAuth: true,
+		},
 		component: () => import("@/views/login/Login.vue")
 	},
 	{
 		path: "/reset_password",
 		name: "ResetPassword",
+		meta: {
+			skipAuth: true,
+		},
 		component: () => import("@/views/forgotPassword/ResetPassword.vue")
 	},
 	{
 		path: "/set_new_password",
 		name: "SetNewPassword",
+		meta: {
+			skipAuth: true,
+		},
 		component: () => import("@/views/forgotPassword/SetNewPassword.vue")
 	},
 	{
 		path: "/verification_code",
 		name: "Verification Code",
+		meta: {
+			skipAuth: true,
+		},
 		component: () => import("@/views/otp/VerificationCode.vue")
 	},
 	{
 		path: "/api/v1/account/confirm-email",
 		name: "Confirm Email",
+		meta: {
+			skipAuth: true,
+		},
 		component: () => import("@/views/redirect/ConfirmEmailRedirect.vue"),
 
 	},
 	{
 		path: "/api/v1/account/reset-password",
 		name: "Reset Password",
+		meta: {
+			skipAuth: true,
+		},
 		redirect: "/set_new_password",
 		component: () => import("@/views/redirect/ConfirmEmailRedirect.vue"),
 

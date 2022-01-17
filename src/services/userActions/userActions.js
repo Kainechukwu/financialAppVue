@@ -14,6 +14,10 @@ export default class UserActions {
 		)
 	}
 
+	static getCountries(successHandler, errorHandler) {
+		Web.get(Constants.API_BASE + "/Kyc/countries", successHandler, errorHandler)
+	}
+
 	static resetPassword(userDetails, successHandler, errorhandler) {
 
 		Web.post(Constants.API_BASE + "/Account/reset-password", userDetails, successHandler, errorhandler)

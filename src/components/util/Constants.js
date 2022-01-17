@@ -9,3 +9,4 @@ export default class Constants {
 		"/set_new_password",
 	];
 }
+

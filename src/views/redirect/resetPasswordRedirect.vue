@@ -14,7 +14,7 @@ export default {
 		const route = useRoute();
 		// const router = useRouter();
 		const confirm = () => {
-			console.log(route.query);
+			// console.log(route.query);
 		};
 
 		onMounted(() => {
