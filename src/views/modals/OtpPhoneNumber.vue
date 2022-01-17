@@ -161,7 +161,7 @@ export default {
 	setup() {
 		const store = useStore();
 		onMounted(() => {
-			console.log("phoneNo:", phoneNo);
+			Log.info("phoneNo:", phoneNo);
 			// document.getElementById("code1").focus();
 		});
 		const codes = reactive({
@@ -177,7 +177,7 @@ export default {
 		const isModalOpen = computed(() => store.state.otpPhoneNumberModal);
 
 		function clickEvent(e, next) {
-			// console.log(String(curr) + " " + String(next));
+			// Log.info(String(curr) + " " + String(next));
 
 			const curr = document.getElementById(e);
 			if (curr.value.length > 0) {

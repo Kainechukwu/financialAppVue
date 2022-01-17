@@ -153,7 +153,7 @@ export default {
 		});
 
 		function clickEvent(e, next) {
-			// console.log(String(curr) + " " + String(next));
+			// Log.info(String(curr) + " " + String(next));
 
 			const curr = document.getElementById(e);
 			if (curr.value.length > 0) {

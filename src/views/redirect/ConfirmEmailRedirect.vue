@@ -27,7 +27,7 @@ export default {
 					Log.error("confirmationError" + JSON.stringify(error));
 				}
 			);
-			console.log(route.query);
+			Log.info(route.query);
 		};
 
 		onMounted(() => {

@@ -9,6 +9,8 @@ const state = {
 	firstName: "",
 	lastName: "",
 	hasPin: false,
+	entryUrl: "",
+	loggedIn: false,
 	// authorizations: [],
 };
 
@@ -40,6 +42,9 @@ const getters = {
 	email(state) {
 		return state.email;
 	},
+	loggedIn(state) {
+		return state.loggedIn;
+	},
 
 	roles(state) {
 		return state.roles;
@@ -47,7 +52,10 @@ const getters = {
 
 	hasPin(state) {
 		return state.hasPin;
-	}
+	},
+	entryUrl(state) {
+		return state.entryUrl;
+	},
 
 
 };
@@ -64,13 +72,16 @@ const mutations = {
 	},
 
 	apiToken(state, token) {
-
+		state.loggedIn = true;
 		state.apiToken = token;
 	},
 
 	isVerified(state, isVerified) {
 		state.isVerified = isVerified
 	},
+	// loggedIn(state, loggedIn) {
+	// 	state.loggedIn = loggedIn
+	// },
 
 
 
@@ -88,6 +99,9 @@ const mutations = {
 
 	hasPin(state, hasPin) {
 		state.hasPin = hasPin;
+	},
+	entryUrl(state, entryUrl) {
+		state.entryUrl = entryUrl;
 	}
 
 };

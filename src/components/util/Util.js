@@ -15,4 +15,8 @@ export default class Util {
 	static hasNumber(str) {
 		return /\d/.test(str);
 	}
+
+	static isValidString(str, empty = false) {
+		return (typeof str === 'string') && ((!empty) ? (!!str && !!str.length) : true);
+	}
 }
