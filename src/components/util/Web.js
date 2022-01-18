@@ -45,6 +45,10 @@ export default class Web {
 			.catch(errorCallback);
 	}
 
+	static navigate(url) {
+		window.location.href = url;
+	}
+
 	static post(url, data, successCallback, errorCallback) {
 		Web.postAbsolute(Web.BASE_URL + url, data, successCallback, errorCallback);
 	}
