@@ -128,7 +128,7 @@ export default {
 					Log.info("loginLoading" + String(loginUser.loading));
 
 					LoginService.handleSuccessfulLogin(response);
-					router.push("/overview");
+					router.push("/earn");
 				},
 				(error) => {
 					Log.error("login error:" + JSON.stringify(error));

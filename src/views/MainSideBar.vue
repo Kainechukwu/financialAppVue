@@ -67,7 +67,7 @@ import { useRouter } from "vue-router";
 import { reactive } from "vue";
 // import {useStore} from "vuex";
 import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
-import DashBoardSvg from "@/components/svg/DashboardSvg.vue";
+// import DashBoardSvg from "@/components/svg/DashboardSvg.vue";
 import SettingsSvg from "@/components/svg/SettingsSvg";
 import TransactionsSvg from "@/components/svg/TransactionsSvg.vue";
 import PayoutsSvg from "@/components/svg/PayoutsSvg.vue";
@@ -81,7 +81,7 @@ export default {
 	name: "MainSideBar",
 	components: {
 		CheckedSvgOutlined,
-		DashBoardSvg,
+		// DashBoardSvg,
 		SettingsSvg,
 		TransactionsSvg,
 		CustomersSvg,
@@ -113,7 +113,7 @@ export default {
 				icon: CheckedSvgOutlined,
 				routeName: "Pending Tasks",
 			},
-			{ name: "Dashboard", href: "/overview", icon: DashBoardSvg, routeName: "Overview" },
+			// { name: "Dashboard", href: "/overview", icon: DashBoardSvg, routeName: "Overview" },
 			// {
 			// 	name: "Transactions",
 			// 	href: "/transactions",
