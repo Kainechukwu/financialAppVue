@@ -5,148 +5,61 @@
 				<h1 class="fw-600 fs-24 blacktext">Pending Tasks</h1>
 				<span class="tx-999999 fw-400 fs-14">You have 3 pending actions to complete</span>
 			</div>
-			<div class="bg-white br-5 p-4">
-				<div class="flex justify-between items-center py-3">
-					<div class="flex items-center">
-						<svg
-							class="mr-3"
-							width="40"
-							height="40"
-							viewBox="0 0 40 40"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<circle cx="20" cy="20" r="20" fill="#E0FBF2" />
-							<path
-								opacity="0.4"
-								d="M29.0037 18.5417V28.125C29.0037 29.1606 28.1642 30 27.1287 30H13.375C12.3395 30 11.5 29.1606 11.5 28.125V18.5433C11.7009 18.6203 11.9079 18.6884 12.1352 18.719C12.2905 18.7393 12.4489 18.75 12.6074 18.75C13.1051 18.75 13.5734 18.6411 13.9963 18.4534V25H26.5V18.4539C26.9225 18.6413 27.3894 18.75 27.8848 18.75C28.0466 18.75 28.2018 18.7393 28.3571 18.719C28.5884 18.6884 28.7996 18.6202 29.0037 18.5417Z"
-								fill="#14805F"
-							/>
-							<path
-								d="M28.3571 18.719C28.2018 18.7393 28.0466 18.75 27.8848 18.75C26.8671 18.75 25.9625 18.3055 25.3383 17.6184C24.7173 18.3055 23.8138 18.75 22.7917 18.75C21.7739 18.75 20.8671 18.3055 20.2461 17.6184C19.6252 18.3055 18.7205 18.75 17.6996 18.75C16.6818 18.75 15.7751 18.3055 15.1541 17.6184C14.533 18.3055 13.6285 18.75 12.6074 18.75C12.449 18.75 12.2905 18.7393 12.1352 18.719C9.97461 18.4284 8.95035 15.8843 10.1061 14.055L12.3455 10.5129C12.545 10.1945 12.9007 10 13.2803 10H27.2186C27.598 10 27.9539 10.1945 28.1533 10.5129L30.3926 14.055C31.5516 15.8875 30.5241 18.4316 28.3571 18.719Z"
-								fill="#14805F"
-							/>
-						</svg>
-
-						<span class="blacktext fw-400 fs-16">Activate your business</span>
+			<div class="br-10 bg-white mb-4">
+				<div class="flex flex-col">
+					<div class="py-4 px-6 border-b-2 border-gray-200">
+						<span class="inter fs-12 blacktext">Pending Actions</span>
 					</div>
-					<svg
-						width="25"
-						height="25"
-						viewBox="0 0 25 25"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M24.6094 12.5C24.6094 19.1878 19.1878 24.6094 12.5 24.6094C5.81216 24.6094 0.390625 19.1878 0.390625 12.5C0.390625 5.81216 5.81216 0.390625 12.5 0.390625C19.1878 0.390625 24.6094 5.81216 24.6094 12.5ZM11.0993 18.9118L20.0837 9.92744C20.3888 9.62236 20.3888 9.12769 20.0837 8.82261L18.9789 7.71777C18.6738 7.41265 18.1791 7.41265 17.874 7.71777L10.5469 15.0448L7.12603 11.624C6.82095 11.3189 6.32627 11.3189 6.02114 11.624L4.91631 12.7288C4.61123 13.0339 4.61123 13.5286 4.91631 13.8336L9.99443 18.9118C10.2996 19.2169 10.7942 19.2169 11.0993 18.9118Z"
-							fill="#1ED69E"
-						/>
-					</svg>
-				</div>
-				<!-- ------------------ -->
-				<div class="flex justify-between items-center py-3">
-					<div class="flex items-center">
-						<svg
-							class="mr-3"
-							width="40"
-							height="40"
-							viewBox="0 0 40 40"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<circle cx="20" cy="20" r="20" fill="#D2E4F9" />
-							<path
-								d="M15.0001 11.6666L12.5001 15V26.6666C12.5001 27.1087 12.6757 27.5326 12.9882 27.8451C13.3008 28.1577 13.7247 28.3333 14.1667 28.3333H25.8334C26.2754 28.3333 26.6993 28.1577 27.0119 27.8451C27.3245 27.5326 27.5001 27.1087 27.5001 26.6666V15L25.0001 11.6666H15.0001Z"
-								stroke="#2B7EE4"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path
-								d="M12.5001 15H27.5001"
-								stroke="#2B7EE4"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path
-								d="M23.3334 18.3334C23.3334 19.2174 22.9822 20.0653 22.357 20.6904C21.7319 21.3155 20.8841 21.6667 20 21.6667C19.116 21.6667 18.2681 21.3155 17.643 20.6904C17.0179 20.0653 16.6667 19.2174 16.6667 18.3334"
-								stroke="#2B7EE4"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-						</svg>
-
-						<span class="blacktext fw-400 fs-16">Create your first product</span>
+					<div @click="goToProfileSettings" class="cursor-pointer flex px-6 py-4 justify-between">
+						<div class="flex">
+							<CompleteProfileDetailsSvg />
+							<p class="ml-4 my-auto inter fs-14 fw-400">Complete profile details</p>
+						</div>
+						<CheckedSvg />
 					</div>
-					<svg
-						width="25"
-						height="25"
-						viewBox="0 0 25 25"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M24.6094 12.5C24.6094 19.1878 19.1878 24.6094 12.5 24.6094C5.81216 24.6094 0.390625 19.1878 0.390625 12.5C0.390625 5.81216 5.81216 0.390625 12.5 0.390625C19.1878 0.390625 24.6094 5.81216 24.6094 12.5ZM11.0993 18.9118L20.0837 9.92744C20.3888 9.62236 20.3888 9.12769 20.0837 8.82261L18.9789 7.71777C18.6738 7.41265 18.1791 7.41265 17.874 7.71777L10.5469 15.0448L7.12603 11.624C6.82095 11.3189 6.32627 11.3189 6.02114 11.624L4.91631 12.7288C4.61123 13.0339 4.61123 13.5286 4.91631 13.8336L9.99443 18.9118C10.2996 19.2169 10.7942 19.2169 11.0993 18.9118Z"
-							fill="black"
-							fill-opacity="0.1"
-						/>
-					</svg>
-				</div>
-				<!-- ------------------ -->
-				<div class="flex justify-between items-center py-3">
-					<div class="flex items-center">
-						<svg
-							class="mr-3"
-							width="40"
-							height="40"
-							viewBox="0 0 40 40"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<circle cx="20" cy="20" r="20" fill="#FBECD0" />
-							<path
-								d="M13.3333 26.25C13.3333 25.6974 13.5528 25.1675 13.9435 24.7768C14.3342 24.3861 14.8641 24.1666 15.4167 24.1666H26.6667"
-								stroke="#EFA92B"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path
-								d="M15.4167 11.6666H26.6667V28.3333H15.4167C14.8641 28.3333 14.3342 28.1138 13.9435 27.7231C13.5528 27.3324 13.3333 26.8025 13.3333 26.25V13.75C13.3333 13.1974 13.5528 12.6675 13.9435 12.2768C14.3342 11.8861 14.8641 11.6666 15.4167 11.6666V11.6666Z"
-								stroke="#EFA92B"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-						</svg>
-
-						<span class="blacktext fw-400 fs-16">View our API documentation</span>
+					<div class="cursor-pointer flex px-6 py-4 justify-between">
+						<div class="flex">
+							<VerifyContactSvg />
+							<p class="ml-4 my-auto inter fs-14 fw-400">Verify Phone Number</p>
+						</div>
+						<CheckedSvg />
 					</div>
-					<svg
-						width="25"
-						height="25"
-						viewBox="0 0 25 25"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M24.6094 12.5C24.6094 19.1878 19.1878 24.6094 12.5 24.6094C5.81216 24.6094 0.390625 19.1878 0.390625 12.5C0.390625 5.81216 5.81216 0.390625 12.5 0.390625C19.1878 0.390625 24.6094 5.81216 24.6094 12.5ZM11.0993 18.9118L20.0837 9.92744C20.3888 9.62236 20.3888 9.12769 20.0837 8.82261L18.9789 7.71777C18.6738 7.41265 18.1791 7.41265 17.874 7.71777L10.5469 15.0448L7.12603 11.624C6.82095 11.3189 6.32627 11.3189 6.02114 11.624L4.91631 12.7288C4.61123 13.0339 4.61123 13.5286 4.91631 13.8336L9.99443 18.9118C10.2996 19.2169 10.7942 19.2169 11.0993 18.9118Z"
-							fill="black"
-							fill-opacity="0.1"
-						/>
-					</svg>
+					<div class="cursor-pointer flex px-6 py-4 justify-between">
+						<div class="flex">
+							<KycSvg />
+							<p class="ml-4 my-auto inter fs-14 fw-400">KYC: Upload ID, Take selfie</p>
+						</div>
+						<CheckedSvg />
+					</div>
+					<div class="cursor-pointer flex px-6 py-4 justify-between">
+						<div class="flex">
+							<SetPinSvg />
+							<p class="ml-4 my-auto inter fs-14 fw-400">Set authenticaton PIN</p>
+						</div>
+						<CheckedSvg />
+					</div>
 				</div>
-				<!-- ------------------ -->
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import CompleteProfileDetailsSvg from "@/components/svg/CompleteProfileDetailsSvg.vue";
+import VerifyContactSvg from "@/components/svg/VerifyContactSvg.vue";
+import SetPinSvg from "@/components/svg/SetPinSvg.vue";
+import CheckedSvg from "@/components/svg/CheckedSvg.vue";
+import KycSvg from "@/components/svg/KycSvg.vue";
+
 export default {
 	name: "Pending Tasks",
+	components: {
+		CompleteProfileDetailsSvg,
+		CheckedSvg,
+		KycSvg,
+		SetPinSvg,
+		VerifyContactSvg,
+	},
 	setup() {
 		return {};
 	},

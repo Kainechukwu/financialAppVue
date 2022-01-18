@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import pageRoutes from "./routes.js"
+import guard from "./util/guard";
 
 
 
@@ -35,5 +36,5 @@ const router = createRouter({
     // return { x: 0, y: 0 }
   }
 })
-
+router.beforeEach(guard);
 export default router

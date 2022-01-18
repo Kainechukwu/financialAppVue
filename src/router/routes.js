@@ -101,11 +101,11 @@ export default [
 						name: "Overview",
 						component: () => import("@/views/main/overview/Overview.vue")
 					},
-					// {
-					// 	path: "/pending_tasks",
-					// 	name: "Pending Tasks",
-					// 	component: () => import("@/views/main/PendingTasks.vue")
-					// },
+					{
+						path: "/pending_tasks",
+						name: "Pending Tasks",
+						component: () => import("@/views/main/PendingTasks.vue")
+					},
 					{
 						path: "/earn",
 						name: "Earn",
