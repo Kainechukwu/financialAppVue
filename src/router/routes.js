@@ -93,14 +93,14 @@ export default [
 			{
 				path: "/main",
 				name: "Main",
-				redirect: "/overview",
+				redirect: "/earn",
 				component: () => import("@/views/main/Main.vue"),
 				children: [
-					{
-						path: "/overview",
-						name: "Overview",
-						component: () => import("@/views/main/overview/Overview.vue")
-					},
+					// {
+					// 	path: "/overview",
+					// 	name: "Overview",
+					// 	component: () => import("@/views/main/overview/Overview.vue")
+					// },
 					{
 						path: "/pending_tasks",
 						name: "Pending Tasks",
