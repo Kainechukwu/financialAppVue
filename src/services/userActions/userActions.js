@@ -24,6 +24,26 @@ export default class UserActions {
 		)
 	}
 
+
+	static compliancePersonalUpload(details, successHandler, errorHandler) {
+		Web.post(
+			Constants.API_BASE + "/Kyc/compliances/personal/upload",
+			details,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static businessVerification(details, successHandler, errorHandler) {
+
+		Web.post(
+			Constants.API_BASE + "/Kyc/compliances/business/create",
+			details,
+			successHandler,
+			errorHandler
+		)
+	}
+
 	static getStates(stateId, successHandler, errorHandler) {
 		Web.get(Constants.API_BASE + "/Kyc/countries/" + stateId + "/states", successHandler, errorHandler)
 	}

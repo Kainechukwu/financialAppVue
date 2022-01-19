@@ -7,7 +7,7 @@
 			>
 				<div class="mb-3.5">
 					<h1 class="text-white inter fw-400 fs-12 mb-2">Principal Balance</h1>
-					<p class="inter text-white fs-18 fw-600">5,750,20 UST</p>
+					<p class="inter text-white fs-18 fw-600">{{ principalBalance }} UST</p>
 				</div>
 				<div class="relative flex items-center justify-between w-full">
 					<div class="flex">
@@ -52,8 +52,8 @@
 				class="br-10 flex flex-col items-start px-6 py-8 totalAssets"
 			>
 				<div class="mb-3.5">
-					<h1 class="text-white inter fw-400 fs-12 mb-2">Principal Balance</h1>
-					<p class="inter text-white fs-18 fw-600">5,750,20 UST</p>
+					<h1 class="text-white inter fw-400 fs-12 mb-2">Interest Balance</h1>
+					<p class="inter text-white fs-18 fw-600">{{ interestBalance }} UST</p>
 				</div>
 				<div class="relative flex items-center justify-between w-full">
 					<div class="flex">
@@ -68,11 +68,34 @@
 </template>
 
 <script>
+import UserInfo from "@/services/userInfo/userInfo.js";
+import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { onMounted, ref } from "vue";
+import { Log } from "@/components/util";
+
 export default {
 	name: "BalanceCards",
 	setup() {
+		onMounted(() => {
+			UserInfo.accountBalance(
+				customerId,
+				(response) => {
+					Log.info(response);
+					const balance = response.data.data;
+					principalBalance.value = balance.principalBalance;
+					interestBalance.value = balance.interestBalance;
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		});
 		const router = useRouter();
+		const store = useStore();
+		const customerId = store.getters["authToken/userId"];
+		const principalBalance = ref(0);
+		const interestBalance = ref(0);
 		const goToDeposit = () => {
 			router.push("/deposit");
 		};
@@ -84,6 +107,8 @@ export default {
 		return {
 			goToDeposit,
 			goToWithdraw,
+			principalBalance,
+			interestBalance,
 		};
 	},
 };

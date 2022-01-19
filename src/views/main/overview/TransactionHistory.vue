@@ -21,8 +21,12 @@
 </template>
 
 <script>
+import UserInfo from "@/services/userInfo/userInfo.js";
 import AccountFundingListItem from "./AccountFundingListItem";
 import WithdrawalListItem from "./WithdrawalListItem";
+import { useStore } from "vuex";
+import { onMounted, ref } from "vue";
+import { Log } from "@/components/util";
 export default {
 	name: "TransactionHistory",
 	components: {
@@ -30,6 +34,23 @@ export default {
 		WithdrawalListItem,
 	},
 	setup() {
+		onMounted(() => {
+			UserInfo.transactionHistory(
+				customerId,
+				(response) => {
+					Log.info(response);
+					const historyData = response.data.data;
+					history.value = historyData;
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		});
+
+		const store = useStore();
+		const customerId = store.getters["authToken/userId"];
+		const history = ref([]);
 		return {};
 	},
 };

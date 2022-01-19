@@ -115,7 +115,7 @@
 
 							<div class="mb-8">
 								<label for="Upload ID" class="fs-14 fw-400 tx-666666">Upload ID</label>
-								<div class="relative">
+								<div @click="chooseFiles" class="relative">
 									<input
 										readonly
 										id="upload id"
@@ -124,7 +124,7 @@
 										autocomplete="off"
 										required=""
 										placeholder="No document uploaded"
-										class="bg-gray-100 mt-1.5 br-5 h-14 appearance-none relative block w-full pr-3 pl-11 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+										class="bg-gray-100 mt-1.5 br-5 h-14 appearance-none relative block w-full pr-3 pl-11 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 cursor-pointer sm:text-sm"
 									/>
 									<div class="absolute mx-3 inset-y-0 h-full flex items-center">
 										<svg
@@ -150,6 +150,19 @@
 											/>
 										</svg>
 									</div>
+									<input
+										required
+										autocomplete="off"
+										multiple
+										ref="uploadDoc"
+										type="file"
+										id="upload id1"
+										name="upload id1"
+										accept=".png, .jpg, .pdf, .gif"
+										placeholder="upload file"
+										class="hidden"
+										@change="onFileSelected"
+									/>
 								</div>
 							</div>
 							<!-- ----------  -->
@@ -175,9 +188,9 @@
 <script>
 // import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
 import { toRefs, reactive, ref } from "vue";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
-// import UserActions from "@/services/userActions/userActions.js";
+import UserActions from "@/services/userActions/userActions.js";
 import BusinessVerification from "./BusinessVerification.vue";
 import {
 	Listbox,
@@ -216,36 +229,59 @@ export default {
 
 		const selectedIdTypeList = ["Passport", "DriversLicence", "IdentityCard"];
 		const selectedIdType = ref(selectedIdTypeList[0]);
+		const showFilesToSelect = ref({});
 
 		const kycDetails = reactive({
 			idType: "",
 			idNumber: "",
-			fileUpload: "",
+			selectedFile: "",
+			selectedFileBase64: "",
 		});
 
 		const prepareKycDetails = () => {
 			Log.info(selectedIdType.value);
 			const obj = {
-				fileName: "string",
+				fileName: kycDetails.selectedFile.name,
 				type: selectedIdTypeList.indexOf(selectedIdType.value) + 1,
-				base64: "string",
+				base64: kycDetails.selectedFileBase64,
 				idNumber: kycDetails.idNumber,
 				ownerId: store.getters["authToken/userId"],
 			};
 			return obj;
 		};
 
+		const onFileSelected = (e) => {
+			const files = e.target.files[0];
+			kycDetails.selectedFile = files;
+			Log.info(e.target.files);
+			Log.info(kycDetails.selectedFile);
+
+			Util.toBase64(files)
+				.then((res) => {
+					Log.info(res);
+					kycDetails.selectedFileBase64 = res.split(",")[1];
+				})
+				.catch((err) => {
+					Log.info(err);
+				});
+		};
+
+		const chooseFiles = () => {
+			showFilesToSelect.value = document.getElementById("upload id1");
+			showFilesToSelect.value.click();
+		};
+
 		const saveKycDetails = () => {
 			Log.info(prepareKycDetails());
-			// UserActions.setBusinessProfile(
-			// 	prepareKycDetails(),
-			// 	(response) => {
-			// 		Log.info(response);
-			// 	},
-			// 	(error) => {
-			// 		Log.error(error);
-			// 	}
-			// );
+			UserActions.compliancePersonalUpload(
+				prepareKycDetails(),
+				(response) => {
+					Log.info(response);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
 		};
 
 		return {
@@ -253,6 +289,8 @@ export default {
 			saveKycDetails,
 			selectedIdTypeList,
 			selectedIdType,
+			chooseFiles,
+			onFileSelected,
 		};
 	},
 };
