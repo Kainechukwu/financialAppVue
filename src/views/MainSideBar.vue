@@ -108,10 +108,10 @@ export default {
 
 		const navigation = [
 			{
-				name: "Pending Tasks",
-				href: "/pending_tasks",
+				name: "Get Started",
+				href: "/get_started",
 				icon: CheckedSvgOutlined,
-				routeName: "Pending Tasks",
+				routeName: "Get Started",
 			},
 			// { name: "Dashboard", href: "/overview", icon: DashBoardSvg, routeName: "Overview" },
 			// {

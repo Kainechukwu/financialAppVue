@@ -26,9 +26,19 @@
 					<div class="grid grid-cols-2 gap-4">
 						<div class="mb-6 col-span-1">
 							<div class="relative">
+								<!-- <select
+									id="Country of Incorporation"
+									name="Country of Incorporation"
+									required=""
+									v-model="country"
+									class="border border-gray-200 mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								>
+									<option selected="" class="hidden">[[countries[0].name}}</option>
+									<option v-for="country in countries" :key="country.id">{{ country.name }}</option>
+								</select> -->
 								<Listbox as="div" v-model="selected">
-									<ListboxLabel class="block fs-14 tx-666666 fw-600">
-										Country of Incorporation
+									<ListboxLabel class="block text-sm font-medium text-gray-700">
+										Assigned to
 									</ListboxLabel>
 									<div class="mt-1 relative">
 										<ListboxButton
@@ -75,7 +85,7 @@
 												>
 													<li
 														:class="[
-															active ? 'blacktext bg-gray-100' : 'blacktext',
+															active ? 'text-white bg-gray-300' : 'text-gray-900',
 															'cursor-default select-none relative py-2 pl-3 pr-9',
 														]"
 													>
@@ -106,18 +116,17 @@
 						</div>
 
 						<div class="mb-6 col-span-1">
-							<!-- <label for="State" class="fs-14 tx-666666 fw-600">State</label> -->
+							<label for="State" class="fs-14 tx-666666 fw-600">State</label>
 							<div class="relative">
-								<!-- <select
+								<input
 									id="State"
 									name="State"
-									v-model="state"
+									type="text"
+									autocomplete="off"
 									required=""
 									placeholder="Texas"
-									class="border border-gray-200 mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-								>
-									<option v-for="state in states" :key="state.id">{{ state.name }}</option>
-								</select>
+									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								/>
 
 								<div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
 									<svg
@@ -135,81 +144,7 @@
 											stroke-linejoin="round"
 										/>
 									</svg>
-								</div> -->
-								<Listbox as="div" v-model="selectedState">
-									<ListboxLabel class="block fs-14 tx-666666 fw-600"> State </ListboxLabel>
-									<div class="mt-1 relative">
-										<ListboxButton
-											class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 sm:text-sm"
-										>
-											<span class="block truncate">{{ selectedState.name }}</span>
-											<span
-												class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
-											>
-												<div class="h-5 w-5 text-gray-400">
-													<svg
-														width="12"
-														height="6"
-														viewBox="0 0 12 6"
-														fill="none"
-														xmlns="http://www.w3.org/2000/svg"
-													>
-														<path
-															d="M1 1L5.73 5.2L10.46 1"
-															stroke="#BFBFBF"
-															stroke-width="1.5"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-													</svg>
-												</div>
-											</span>
-										</ListboxButton>
-
-										<transition
-											leave-active-class="transition ease-in duration-100"
-											leave-from-class="opacity-100"
-											leave-to-class="opacity-0"
-										>
-											<ListboxOptions
-												class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-											>
-												<ListboxOption
-													as="template"
-													v-for="state in states"
-													:key="state.id"
-													:value="state"
-													v-slot="{ active, selectedState }"
-												>
-													<li
-														:class="[
-															active ? 'blacktext bg-gray-100' : 'blacktext',
-															'cursor-default select-none relative py-2 pl-3 pr-9',
-														]"
-													>
-														<span
-															:class="[
-																selectedState ? 'font-semibold' : 'font-normal',
-																'block truncate',
-															]"
-														>
-															{{ state.name }}
-														</span>
-
-														<span
-															v-if="selectedState"
-															:class="[
-																active ? 'text-white' : 'text-indigo-600',
-																'absolute inset-y-0 right-0 flex items-center pr-4',
-															]"
-														>
-														</span>
-													</li>
-												</ListboxOption>
-											</ListboxOptions>
-										</transition>
-									</div>
-								</Listbox>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -218,9 +153,9 @@
 
 					<div class="grid grid-cols-2 gap-4">
 						<div class="mb-6 col-span-1">
-							<!-- <label for="Industry" class="fs-14 tx-666666 fw-600">Industry</label> -->
+							<label for="Industry" class="fs-14 tx-666666 fw-600">Industry</label>
 							<div class="relative">
-								<!-- <input
+								<input
 									id="Industry"
 									name="Industry"
 									type="text"
@@ -246,81 +181,7 @@
 											stroke-linejoin="round"
 										/>
 									</svg>
-								</div> -->
-								<Listbox as="div" v-model="selectedIndustry">
-									<ListboxLabel class="block fs-14 tx-666666 fw-600"> Industry </ListboxLabel>
-									<div class="mt-1 relative">
-										<ListboxButton
-											class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 sm:text-sm"
-										>
-											<span class="block truncate">{{ selectedIndustry.name }}</span>
-											<span
-												class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
-											>
-												<div class="h-5 w-5 text-gray-400">
-													<svg
-														width="12"
-														height="6"
-														viewBox="0 0 12 6"
-														fill="none"
-														xmlns="http://www.w3.org/2000/svg"
-													>
-														<path
-															d="M1 1L5.73 5.2L10.46 1"
-															stroke="#BFBFBF"
-															stroke-width="1.5"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-													</svg>
-												</div>
-											</span>
-										</ListboxButton>
-
-										<transition
-											leave-active-class="transition ease-in duration-100"
-											leave-from-class="opacity-100"
-											leave-to-class="opacity-0"
-										>
-											<ListboxOptions
-												class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-											>
-												<ListboxOption
-													as="template"
-													v-for="industry in industries"
-													:key="industry.id"
-													:value="industry"
-													v-slot="{ active, selectedIndustry }"
-												>
-													<li
-														:class="[
-															active ? 'blacktext bg-gray-100' : 'blacktext',
-															'cursor-default select-none relative py-2 pl-3 pr-9',
-														]"
-													>
-														<span
-															:class="[
-																selectedIndustry ? 'font-semibold' : 'font-normal',
-																'block truncate',
-															]"
-														>
-															{{ industry.name }}
-														</span>
-
-														<span
-															v-if="selectedIndustry"
-															:class="[
-																active ? 'text-white' : 'text-indigo-600',
-																'absolute inset-y-0 right-0 flex items-center pr-4',
-															]"
-														>
-														</span>
-													</li>
-												</ListboxOption>
-											</ListboxOptions>
-										</transition>
-									</div>
-								</Listbox>
+								</div>
 							</div>
 						</div>
 						<div class="mb-6 col-span-1">
@@ -407,7 +268,7 @@
 </template>
 
 <script>
-import { toRefs, reactive, onMounted, ref, watch } from "vue";
+import { toRefs, reactive, onMounted, ref } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Log } from "@/components/util";
 import { useStore } from "vuex";
@@ -418,6 +279,7 @@ import {
 	ListboxOption,
 	ListboxOptions,
 } from "@headlessui/vue";
+// import { CheckIcon, SelectorIcon } from "@heroicons/vue/solid";
 export default {
 	name: "BusinessDetails",
 	components: {
@@ -435,9 +297,8 @@ export default {
 				(response) => {
 					countries.value = response.data.data;
 					selected.value = countries.value[0];
-					// Log.info(countries.value);
 
-					getStates();
+					Log.info(selected.value.name);
 				},
 				(error) => {
 					Log.error(error);
@@ -447,115 +308,35 @@ export default {
 
 		const store = useStore();
 		const countries = ref([]);
-		const selected = ref({});
-		const selectedState = ref({});
-
-		// const state = ref("");
-		const states = ref([]);
-		const industries = [
-			{
-				id: "1",
-				name: "Industrial Technology",
-			},
-			{
-				id: "2",
-				name: "Agriculture",
-			},
-			{
-				id: "3",
-				name: "Banking",
-			},
-		];
-		const selectedIndustry = ref(industries[0]);
+		const selected = ref([]);
+		const country = ref("");
 		const businessDetails = reactive({
+			ownerId: store.getters["authToken/userId"],
 			companyName: "",
 			countryId: 0,
 			stateId: 0,
-			// industry: "",
+			industry: "",
 			numberOfStaff: "",
 			websiteUrl: "",
 			about: "",
 		});
 
 		const getCountryId = (country) => {
-			const id = countries.value.find((obj) => obj.name === country).id;
-
+			let id = countries.value.find(() => country).id;
 			return id;
-		};
-
-		const getStateId = (state) => {
-			const id = states.value.find((obj) => obj.name === state).id;
-
-			return id;
-		};
-
-		const getStates = () => {
-			const stateId = getCountryId(selected.value.name);
-			Log.info("stateId:" + String(stateId));
-			UserActions.getStates(
-				stateId,
-				(response) => {
-					states.value = response.data.data;
-					selectedState.value = states.value[0];
-					Log.info(response);
-				},
-				(error) => {
-					Log.error(error);
-				}
-			);
-		};
-
-		const prepareBusinessDetails = () => {
-			const id = getCountryId(selected.value.name);
-			const stateId = getStateId(selectedState.value.name);
-
-			const obj = {
-				ownerId: store.getters["authToken/userId"],
-				companyName: businessDetails.companyName,
-				countryId: id,
-				stateId: stateId,
-				industry: selectedIndustry.value.name,
-				numberOfStaff: businessDetails.numberOfStaff,
-				websiteUrl: "http://" + businessDetails.websiteUrl,
-				about: businessDetails.about,
-			};
-			return obj;
 		};
 
 		const saveDetails = () => {
-			// const id = getCountryId(country.value);
-			// Log.info("id" + id);
-			// Log.info(country.value);
-			Log.info(prepareBusinessDetails());
-			// UserActions.setBusinessProfile(
-			// 	prepareBusinessDetails(),
-			// 	(response) => {
-			// 		Log.info(response);
-			// 	},
-			// 	(error) => {
-			// 		Log.error(error);
-			// 	}
-			// );
+			const id = getCountryId(country.value);
+			Log.info("id" + id);
+			Log.info(businessDetails);
 		};
-
-		watch(selected, (newValue, oldValue) => {
-			if (newValue !== oldValue && oldValue !== {}) {
-				Log.info("changed");
-				Log.info(newValue);
-				// Log.info();
-				getStates();
-			}
-		});
 
 		return {
 			...toRefs(businessDetails),
 			countries,
-			// country,
-			states,
-			selectedState,
+			country,
 			saveDetails,
-			industries,
-			selectedIndustry,
 			selected,
 		};
 	},

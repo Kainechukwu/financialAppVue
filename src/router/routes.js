@@ -102,8 +102,8 @@ export default [
 					// 	component: () => import("@/views/main/overview/Overview.vue")
 					// },
 					{
-						path: "/pending_tasks",
-						name: "Pending Tasks",
+						path: "/get_started",
+						name: "Get Started",
 						component: () => import("@/views/main/PendingTasks.vue")
 					},
 					{
