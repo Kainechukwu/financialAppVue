@@ -106,36 +106,7 @@
 						</div>
 
 						<div class="mb-6 col-span-1">
-							<!-- <label for="State" class="fs-14 tx-666666 fw-600">State</label> -->
 							<div class="relative">
-								<!-- <select
-									id="State"
-									name="State"
-									v-model="state"
-									required=""
-									placeholder="Texas"
-									class="border border-gray-200 mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-								>
-									<option v-for="state in states" :key="state.id">{{ state.name }}</option>
-								</select>
-
-								<div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
-									<svg
-										width="12"
-										height="6"
-										viewBox="0 0 12 6"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											d="M1 1L5.73 5.2L10.46 1"
-											stroke="#BFBFBF"
-											stroke-width="1.5"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										/>
-									</svg>
-								</div> -->
 								<Listbox as="div" v-model="selectedState">
 									<ListboxLabel class="block fs-14 tx-666666 fw-600"> State </ListboxLabel>
 									<div class="mt-1 relative">
@@ -218,35 +189,7 @@
 
 					<div class="grid grid-cols-2 gap-4">
 						<div class="mb-6 col-span-1">
-							<!-- <label for="Industry" class="fs-14 tx-666666 fw-600">Industry</label> -->
 							<div class="relative">
-								<!-- <input
-									id="Industry"
-									name="Industry"
-									type="text"
-									autocomplete="off"
-									required=""
-									placeholder="Information Technology"
-									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-								/>
-
-								<div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
-									<svg
-										width="12"
-										height="6"
-										viewBox="0 0 12 6"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											d="M1 1L5.73 5.2L10.46 1"
-											stroke="#BFBFBF"
-											stroke-width="1.5"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										/>
-									</svg>
-								</div> -->
 								<Listbox as="div" v-model="selectedIndustry">
 									<ListboxLabel class="block fs-14 tx-666666 fw-600"> Industry </ListboxLabel>
 									<div class="mt-1 relative">
@@ -523,19 +466,16 @@ export default {
 		};
 
 		const saveDetails = () => {
-			// const id = getCountryId(country.value);
-			// Log.info("id" + id);
-			// Log.info(country.value);
 			Log.info(prepareBusinessDetails());
-			// UserActions.setBusinessProfile(
-			// 	prepareBusinessDetails(),
-			// 	(response) => {
-			// 		Log.info(response);
-			// 	},
-			// 	(error) => {
-			// 		Log.error(error);
-			// 	}
-			// );
+			UserActions.setBusinessProfile(
+				prepareBusinessDetails(),
+				(response) => {
+					Log.info(response);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
 		};
 
 		watch(selected, (newValue, oldValue) => {
