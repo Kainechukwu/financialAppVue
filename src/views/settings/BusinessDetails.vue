@@ -337,7 +337,7 @@
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
 
-								<div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
+								<!-- <div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
 									<svg
 										width="12"
 										height="6"
@@ -353,7 +353,7 @@
 											stroke-linejoin="round"
 										/>
 									</svg>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>

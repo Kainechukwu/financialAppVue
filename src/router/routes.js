@@ -224,11 +224,11 @@ export default [
 								name: "Compliance Settings",
 								component: () => import("@/views/settings/Compliance.vue")
 							},
-							{
-								path: "/settings/roles",
-								name: "Roles Settings",
-								component: () => import("@/views/settings/RolesSettings.vue")
-							},
+							// {
+							// 	path: "/settings/roles",
+							// 	name: "Roles Settings",
+							// 	component: () => import("@/views/settings/RolesSettings.vue")
+							// },
 							{
 								path: "/settings/pin",
 								name: "PIN",
