@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import TransactionHistory from "../overview/TransactionHistory.vue";
+import TransactionHistory from "./TransactionHistory.vue";
 import InterestEarnedPlate from "./InterestEarnedPlate.vue";
 import StartSavingSvg from "@/components/svg/StartSavingSvg.vue";
 export default {

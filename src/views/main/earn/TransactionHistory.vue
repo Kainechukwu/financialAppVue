@@ -6,12 +6,18 @@
 
 				<span class="inter fs-12 tx-666666 fw-500">view more</span>
 			</div>
-			<AccountFundingListItem />
-			<WithdrawalListItem />
-			<AccountFundingListItem />
-			<AccountFundingListItem />
-			<AccountFundingListItem />
-			<AccountFundingListItem />
+			<div v-if="history.length === 0" class="flex flex-col p-20 items-center justify-center">
+				<TransactionHistoryEmptySvg />
+				<span style="color: #999999" class="fw-400 fs-18 pt-5">Nothing to see here</span>
+			</div>
+			<div v-else class="w-full flex flex-col">
+				<AccountFundingListItem />
+				<WithdrawalListItem />
+				<AccountFundingListItem />
+				<AccountFundingListItem />
+				<AccountFundingListItem />
+				<AccountFundingListItem />
+			</div>
 			<!-- <AccountFundingListItem />
       <AccountFundingListItem />
       <AccountFundingListItem /> -->
@@ -26,12 +32,14 @@ import AccountFundingListItem from "./AccountFundingListItem";
 import WithdrawalListItem from "./WithdrawalListItem";
 import { useStore } from "vuex";
 import { onMounted, ref } from "vue";
+import TransactionHistoryEmptySvg from "@/components/svg/TransactionHistoryEmptySvg.vue";
 import { Log } from "@/components/util";
 export default {
 	name: "TransactionHistory",
 	components: {
 		AccountFundingListItem,
 		WithdrawalListItem,
+		TransactionHistoryEmptySvg,
 	},
 	setup() {
 		onMounted(() => {
@@ -51,7 +59,9 @@ export default {
 		const store = useStore();
 		const customerId = store.getters["authToken/userId"];
 		const history = ref([]);
-		return {};
+		return {
+			history,
+		};
 	},
 };
 </script>
