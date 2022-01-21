@@ -12,13 +12,13 @@
 					<h2 class="mb-0 fs-24 fw-600 font-extrabold blacktext">Create an account</h2>
 				</div>
 
-				<form class="mt-8" action="#" method="POST">
+				<Form @submit="handleSignup" :validation-schema="schema" v-slot="{ errors }">
 					<!-- <input type="hidden" name="remember" value="true" /> -->
 					<div class="">
 						<div class="grid grid-cols-2 sm:gap-4">
 							<div class="mb-6 col-span-2 sm:col-span-1">
 								<label for="First Name" class="fs-14 tx-666666 fw-600">First Name</label>
-								<input
+								<!-- <input
 									id="First Name"
 									name="First name"
 									type="text"
@@ -26,11 +26,18 @@
 									autocomplete="off"
 									required=""
 									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								/> -->
+								<Field
+									name="firstName"
+									type="text"
+									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									:class="{ 'is-invalid': errors.firstName }"
 								/>
+								<div class="invalid-feedback text-red-500">{{ errors.firstName }}</div>
 							</div>
 							<div class="mb-6 col-span-2 sm:col-span-1">
 								<label for="Last Name" class="fs-14 tx-666666 fw-600">Last Name</label>
-								<input
+								<!-- <input
 									id="Last Name"
 									name="Last name"
 									type="text"
@@ -38,7 +45,14 @@
 									autocomplete="off"
 									required=""
 									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								/> -->
+								<Field
+									name="lastName"
+									type="text"
+									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									:class="{ 'is-invalid': errors.lastName }"
 								/>
+								<div class="invalid-feedback text-red-500">{{ errors.lastName }}</div>
 							</div>
 						</div>
 						<!-- --------------- -->
@@ -46,15 +60,23 @@
 						<!-- ---------------- -->
 						<div class="mb-6">
 							<label for="email-address" class="fs-14 tx-666666 fw-600">Email address</label>
-							<input
+							<!-- <input
 								id="email-address"
 								name="email"
 								type="email"
+								@change="showEmailError = true"
 								v-model="userEmail"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+							/> -->
+							<Field
+								name="email"
+								type="text"
+								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								:class="{ 'is-invalid': errors.email }"
 							/>
+							<div class="invalid-feedback text-red-500">{{ errors.email }}</div>
 						</div>
 
 						<!-- ------------ -->
@@ -62,7 +84,7 @@
 						<!-- ------------- -->
 						<div class="mb-8">
 							<label for="password" class="fs-14 tx-666666 fw-600">Password</label>
-							<input
+							<!-- <input
 								id="password"
 								name="password"
 								type="password"
@@ -70,7 +92,14 @@
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+							/> -->
+							<Field
+								name="password"
+								type="password"
+								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								:class="{ 'is-invalid': errors.password }"
 							/>
+							<div class="invalid-feedback text-red-500">{{ errors.password }}</div>
 						</div>
 					</div>
 
@@ -78,7 +107,6 @@
 						<button
 							:class="[signupUser.loading ? 'opacity-25' : 'opacity-100']"
 							:disabled="signupUser.loading"
-							@click.prevent="handleSignup"
 							type="submit"
 							class="bluebtn h-50px relative w-full py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
 						>
@@ -90,7 +118,7 @@
 							</div>
 						</button>
 					</div>
-				</form>
+				</Form>
 				<div class="text-center tx-666666 fs-14 fw-400 mt-10 w-11/12 mx-auto">
 					<span> By clicking "Create Account", you agree to bonfree’s terms of acceptable use</span>
 				</div>
@@ -108,25 +136,20 @@
 <script>
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-
+import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
 import { reactive, toRefs } from "vue";
-// import ApiResource from "@/components/core/ApiResource";
 import SignupService from "@/services/signup/SignupService.js";
 import { Log } from "@/components/util";
-// import AccountCreated from "./AccountCreated.vue"
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
-// import PersonalAccountSvg from "@/components/svg/PersonalAccountSvg.vue"
 export default {
 	name: "Signup",
 	components: {
 		SuprBizLogo,
-		// AccountCreated,
-		// BuildingSvg,
-		// PersonalAccountSvg,
+		Form,
+		Field,
 	},
-	// directives: {
-	// 	clickOutside: vClickOutside.directive,
-	// },
+
 	setup() {
 		const store = useStore();
 		const router = useRouter();
@@ -139,35 +162,39 @@ export default {
 			userPassword: "",
 			firstName: "",
 			lastName: "",
+			emailError: "",
+			passwordError: "",
+			showEmailError: false,
+			showPasswordError: false,
 
 			// userType: "Corporate",
 			// accountCreated: false,
 		});
 
-		// const setUserType = (type) => {
-		//   user.userType = type
-		// }
-
+		const schema = Yup.object().shape({
+			firstName: Yup.string().required("First Name is required"),
+			lastName: Yup.string().required("Last name is required"),
+			email: Yup.string().required("Email is required").email("Email is invalid"),
+			password: Yup.string()
+				.min(6, "Password must be at least 6 characters")
+				.required("Password is required"),
+		});
 		const goToLogin = () => {
 			router.push("/login");
 		};
 
-		// const logit = () => {
-		// 	console.log("hello");
-		// };
-
-		const handleSignup = () => {
+		const handleSignup = (values) => {
 			signupUser.loading = true;
 
-			Log.info("user:" + JSON.stringify(user));
+			Log.info("values:" + JSON.stringify(values));
 			// Log.info("signupUser:" + JSON.stringify(signupUser));
 
 			SignupService.signupUser(
 				{
-					firstName: user.firstName,
-					lastName: user.lastName,
-					email: user.userEmail,
-					password: user.userPassword,
+					firstName: values.firstName,
+					lastName: values.lastName,
+					email: values.email,
+					password: values.password,
 				},
 				(response) => {
 					Log.info("response:" + JSON.stringify(response));
@@ -182,18 +209,12 @@ export default {
 			);
 		};
 
-		// const router = useRouter()
-		// const goToSignup = () => {
-		//
-		// }
 		return {
 			...toRefs(user),
 			handleSignup,
 			goToLogin,
 			signupUser,
-
-			// logit,
-			// setUserType,
+			schema,
 		};
 	},
 };
