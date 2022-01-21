@@ -38,30 +38,16 @@
 </template>
 
 <script>
-import { computed, ref, onMounted } from "vue";
-import UserActions from "@/services/userActions/userActions.js";
 import { useRoute } from "vue-router";
-import { useStore } from "vuex";
-import { Log } from "@/components/util";
+import { computed, ref } from "vue";
 
 export default {
 	name: "Customers",
 	setup() {
-		onMounted(() => {
-			UserActions.getCustomers(
-				merchantId,
-				(response) => {
-					Log.info(response);
-				},
-				(error) => {
-					Log.info(error);
-				}
-			);
-		});
 		const route = ref(useRoute());
-		const store = useStore();
-		const merchantId = store.getters["authToken/userId"];
+
 		const currentPage = computed(() => route.value.name);
+
 		return {
 			currentPage,
 		};

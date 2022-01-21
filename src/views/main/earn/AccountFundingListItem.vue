@@ -7,10 +7,25 @@
 				<span class="th-green inter fw-700 fs-12">N{{ transaction.amount }}</span>
 			</div>
 			<div class="flex justify-between">
-				<span class="inter fw-400 fs-10 th-dateColor"
-					>{{ transaction.transactionDate }}{{ d }}</span
+				<div class="flex justify-center items-center">
+					<span class="inter fw-400 fs-10 th-dateColor">{{ transaction.transactionDate }}</span>
+				</div>
+				<div
+					v-if="transaction.transactionStatus === 'Successful'"
+					class="flex justify-center items-center h-7 text-white px-2"
+					style="border-radius: 100px; background-color: #18ae81"
 				>
-				<span class="inter fw-400 fs-10 th-dateColor">Ref: 5iq10he7fg </span>
+					{{ transaction.transactionStatus }}
+				</div>
+				<div
+					v-else-if="transaction.transactionStatus === 'failed'"
+					class="flex justify-center items-center h-8 bg-failed"
+					style="border-radius: 100px"
+				>
+					{{ transaction.transactionStatus }}
+				</div>
+
+				<!-- <span class="inter fw-400 fs-10 th-dateColor">Ref: 5iq10he7fg </span> -->
 			</div>
 			<div class="flex"></div>
 		</div>
@@ -18,7 +33,9 @@
 </template>
 
 <script>
-// import moment from "moment";
+// import { onMounted, ref } from "vue";
+// import { Log } from "@/components/util";
+// var moment = require("moment");
 import AccountFundingListItemSvg from "@/components/svg/AccountFundingListItemSvg.vue";
 export default {
 	name: "AccountFundingListItem",
@@ -29,6 +46,13 @@ export default {
 		AccountFundingListItemSvg,
 	},
 	setup() {
+		// onMounted(() => {
+		// 	moment(d.value).format("MMMM DD YYYY");
+
+		// 	Log.info("date: " + d.value);
+		// });
+
+		// const d = ref("2022-01-21T08:23:47.576");
 		return {};
 	},
 };

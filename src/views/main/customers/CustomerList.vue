@@ -37,7 +37,54 @@
 				<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div class="overflow-hidden border-b border-gray-100 sm:rounded-lg">
-							<div class="px-4 bg-white py-2">
+							<div
+								v-if="customers.length === 0"
+								class="py-56 w-full bg-white flex flex-col items-center justify-center"
+							>
+								<div>
+									<svg
+										width="109"
+										height="109"
+										viewBox="0 0 109 109"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M77.2082 95.375V86.2917C77.2082 81.4736 75.2942 76.8528 71.8873 73.4459C68.4804 70.039 63.8596 68.125 59.0415 68.125H22.7082C17.8901 68.125 13.2693 70.039 9.8624 73.4459C6.45549 76.8528 4.5415 81.4736 4.5415 86.2917V95.375"
+											stroke="#999999"
+											stroke-width="8"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+										<path
+											d="M40.8752 49.9583C50.9083 49.9583 59.0418 41.8248 59.0418 31.7917C59.0418 21.7585 50.9083 13.625 40.8752 13.625C30.842 13.625 22.7085 21.7585 22.7085 31.7917C22.7085 41.8248 30.842 49.9583 40.8752 49.9583Z"
+											stroke="#999999"
+											stroke-width="8"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+										<path
+											d="M104.458 95.3749V86.2916C104.455 82.2664 103.116 78.3563 100.649 75.175C98.1834 71.9938 94.7306 69.7216 90.8333 68.7153"
+											stroke="#999999"
+											stroke-width="8"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+										<path
+											d="M72.6667 14.2153C76.5745 15.2159 80.038 17.4885 82.5114 20.675C84.9848 23.8615 86.3274 27.7805 86.3274 31.8143C86.3274 35.8481 84.9848 39.7671 82.5114 42.9536C80.038 46.1401 76.5745 48.4127 72.6667 49.4133"
+											stroke="#999999"
+											stroke-width="8"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</div>
+								<span style="color: #999999" class="mt-6 fs-16 fw-400"
+									>No customers have been added</span
+								>
+							</div>
+
+							<div v-else class="px-4 bg-white py-2">
 								<table class="min-w-full divide-y divide-gray-100">
 									<thead class="bg-white">
 										<tr>
@@ -82,21 +129,21 @@
 									</thead>
 
 									<tbody class="bg-white divide-y divide-gray-100">
-										<tr class="" v-for="(person, index) in people" :key="index">
+										<tr class="" v-for="customer in customers" :key="customer.customerId">
 											<td class="pr-6 pl-4 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.custId }}
+												{{ customer.customerId }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.custName }}
+												{{ customer.customerName }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.merchId }}
+												{{ customer.merchantId }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.emailAddress }}
+												{{ customer.emailAddress }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.accountNo }}
+												{{ customer.accountNumber }}
 											</td>
 											<td style="color: #1860b9" class="px-6 py-4 whitespace-nowrap fs-14 fw-500">
 												view
@@ -116,34 +163,31 @@
 </template>
 
 <script>
+import UserActions from "@/services/userActions/userActions.js";
+import { useStore } from "vuex";
+import { ref, onMounted } from "vue";
+import { Log } from "@/components/util";
+
 export default {
 	name: "Customer List",
 	setup() {
-		const people = [
-			{
-				custId: "1",
-				custName: "Jane Cooper",
-				merchId: "1432",
-				emailAddress: "user@gmail.com",
-				accountNo: "Credit",
-			},
-			{
-				custId: "2",
-				custName: "Jane Cooper",
-				merchId: "1432",
-				emailAddress: "user@gmail.com",
-				accountNo: "Credit",
-			},
-			{
-				custId: "3",
-				custName: "Jane Cooper",
-				merchId: "1432",
-				emailAddress: "user@gmail.com",
-				accountNo: "Credit",
-			},
-			// More people...
-		];
-		return { people };
+		onMounted(() => {
+			UserActions.getCustomers(
+				merchantId,
+				(response) => {
+					Log.info(response);
+					customers.value = response.data.data;
+				},
+				(error) => {
+					Log.info(error);
+				}
+			);
+		});
+		const store = useStore();
+		const merchantId = store.getters["authToken/userId"];
+		const customers = ref([]);
+
+		return { customers };
 	},
 };
 </script>

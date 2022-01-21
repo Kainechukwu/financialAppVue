@@ -198,6 +198,15 @@ input[type="number"] {
   display: block;
 }
 
+.bg-success {
+  background-color: #d2f9ed;
+  color: #18ae81;
+}
+.bg-failed {
+  background-color: #ffe8e5;
+  color: #ff4d4f;
+}
+
 .mb-5 {
   margin-bottom: 5px;
 }
