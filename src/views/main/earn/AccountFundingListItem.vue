@@ -7,7 +7,9 @@
 				<span class="th-green inter fw-700 fs-12">N{{ transaction.amount }}</span>
 			</div>
 			<div class="flex justify-between">
-				<span class="inter fw-400 fs-10 th-dateColor">Nov 20, 2021</span>
+				<span class="inter fw-400 fs-10 th-dateColor"
+					>{{ transaction.transactionDate }}{{ d }}</span
+				>
 				<span class="inter fw-400 fs-10 th-dateColor">Ref: 5iq10he7fg </span>
 			</div>
 			<div class="flex"></div>
@@ -16,6 +18,7 @@
 </template>
 
 <script>
+// import moment from "moment";
 import AccountFundingListItemSvg from "@/components/svg/AccountFundingListItemSvg.vue";
 export default {
 	name: "AccountFundingListItem",

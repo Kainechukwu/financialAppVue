@@ -19,9 +19,7 @@
 					<WithdrawalListItem v-else :transaction="transaction" />
 				</div>
 			</div>
-			<!-- <AccountFundingListItem />
-      <AccountFundingListItem />
-      <AccountFundingListItem /> -->
+
 			<div class="flex px-6 py-4 justify-between"></div>
 		</div>
 	</div>
