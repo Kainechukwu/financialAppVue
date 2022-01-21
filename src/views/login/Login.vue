@@ -13,14 +13,21 @@
 					<h2 class="mb-0 fs-24 fw-600 font-extrabold blacktext">Welcome Back</h2>
 				</div>
 
-				<form class="mt-8" action="#" method="POST">
+				<Form @submit="handleLogin" :validation-schema="schema" v-slot="{ errors }">
 					<!-- <input type="hidden" name="remember" value="true" /> -->
 					<div class="">
 						<!-- --------------- -->
 
 						<div class="mb-6">
 							<label for="email-address" class="fs-14 tx-666666 fw-600">Email address</label>
-							<input
+							<Field
+								name="email"
+								type="text"
+								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								:class="{ 'is-invalid': errors.email }"
+							/>
+							<div class="invalid-feedback text-red-500">{{ errors.email }}</div>
+							<!-- <input
 								id="email-address"
 								name="email"
 								type="email"
@@ -28,14 +35,21 @@
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-							/>
+							/> -->
 						</div>
 
 						<!-- ------------ -->
 
 						<div class="mb-4">
 							<label for="password" class="fs-14 tx-666666 fw-600">Password</label>
-							<input
+							<Field
+								name="password"
+								type="password"
+								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								:class="{ 'is-invalid': errors.password }"
+							/>
+							<div class="invalid-feedback text-red-500">{{ errors.password }}</div>
+							<!-- <input
 								id="password"
 								name="password"
 								type="password"
@@ -43,7 +57,7 @@
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-							/>
+							/> -->
 						</div>
 					</div>
 
@@ -53,7 +67,6 @@
 
 					<div class="">
 						<button
-							@click.prevent="handleLogin"
 							type="submit"
 							class="bluebtn h-50px relative w-full py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
 						>
@@ -67,7 +80,7 @@
 							</div>
 						</button>
 					</div>
-				</form>
+				</Form>
 				<!-- </div> -->
 				<!-- <div class="text-center tx-666666 fs-14 fw-400 mt-10">
           <span>
@@ -90,7 +103,8 @@
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
-// import ApiResource from "@/components/core/ApiResource";
+import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
 import LoginService from "@/services/login/LoginService.js";
 import { Log } from "@/components/util";
 
@@ -98,6 +112,8 @@ export default {
 	name: "Login",
 	components: {
 		SuprBizLogo,
+		Form,
+		Field,
 	},
 	setup() {
 		const router = useRouter();
@@ -111,14 +127,19 @@ export default {
 			userPassword: "",
 		});
 
-		const handleLogin = () => {
+		const schema = Yup.object().shape({
+			email: Yup.string().required("Email is required").email("Email is invalid"),
+			password: Yup.string().required("Password is required"),
+		});
+
+		const handleLogin = (values) => {
 			loginUser.loading = true;
 			Log.info(loginUser.loading);
 			Log.info("user:" + JSON.stringify(user));
 			LoginService.loginUser(
 				{
-					email: user.userEmail,
-					password: user.userPassword,
+					email: values.email,
+					password: values.password,
 				},
 				(response) => {
 					Log.info("login response:" + JSON.stringify(response));
@@ -150,6 +171,7 @@ export default {
 			...toRefs(user),
 			handleLogin,
 			goToSignUp,
+			schema,
 			goToPasswordReset,
 			loginUser,
 		};
