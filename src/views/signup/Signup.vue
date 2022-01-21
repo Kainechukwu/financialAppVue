@@ -50,11 +50,13 @@
 								id="email-address"
 								name="email"
 								type="email"
+								@change="showEmailError = true"
 								v-model="userEmail"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							/>
+							<span v-if="showEmailError" class="text-red-500 spartan">{{ emailError }}</span>
 						</div>
 
 						<!-- ------------ -->
@@ -71,6 +73,7 @@
 								required=""
 								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							/>
+							<span class="text-red-500 spartan">{{ passwordError }}</span>
 						</div>
 					</div>
 
@@ -109,10 +112,10 @@
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, watch } from "vue";
 // import ApiResource from "@/components/core/ApiResource";
 import SignupService from "@/services/signup/SignupService.js";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 // import AccountCreated from "./AccountCreated.vue"
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 // import PersonalAccountSvg from "@/components/svg/PersonalAccountSvg.vue"
@@ -139,6 +142,10 @@ export default {
 			userPassword: "",
 			firstName: "",
 			lastName: "",
+			emailError: "",
+			passwordError: "",
+			showEmailError: false,
+			showPasswordError: false,
 
 			// userType: "Corporate",
 			// accountCreated: false,
@@ -154,6 +161,22 @@ export default {
 
 		// const logit = () => {
 		// 	console.log("hello");
+		// };
+
+		// const validate = () => {
+		// 	const email = user.userEmail;
+		// 	const password = user.userPassword;
+		// 	if (email.length === 0) {
+		// 		user.emailError = "A valid Email is required";
+		// 	}
+
+		// 	if (password.length === 0) {
+		// 		user.passwordError = "A valid Password is required";
+		// 	}
+		// 	if (password.length > 0 && password.length < 8) {
+		// 		user.passwordError = "Password must be atleast 8 characters";
+		// 	}
+		// 	handleSignup();
 		// };
 
 		const handleSignup = () => {
@@ -181,6 +204,27 @@ export default {
 				}
 			);
 		};
+
+		watch(user, (newValue) => {
+			Log.info(newValue.userEmail);
+			if (newValue.userEmail.length === 0) {
+				newValue.emailError = "A valid Email is required";
+			} else {
+				newValue.emailError = "";
+			}
+
+			if (newValue.userPassword.length === 0) {
+				user.passwordError = "Password field is required";
+			} else {
+				newValue.passwordError = "";
+			}
+
+			if (!Util.hasUpperCase(newValue.userPassword)) {
+				user.passwordError = "Password must have uppercase";
+			} else {
+				newValue.passwordError = "";
+			}
+		});
 
 		// const router = useRouter()
 		// const goToSignup = () => {
