@@ -10,13 +10,14 @@
 				<TransactionHistoryEmptySvg />
 				<span style="color: #999999" class="fw-400 fs-18 pt-5">Nothing to see here</span>
 			</div>
-			<div v-else class="w-full flex flex-col">
-				<AccountFundingListItem />
-				<WithdrawalListItem />
-				<AccountFundingListItem />
-				<AccountFundingListItem />
-				<AccountFundingListItem />
-				<AccountFundingListItem />
+			<div v-else class="w-full">
+				<div v-for="transaction in history" :key="transaction.id" class="flex flex-col">
+					<AccountFundingListItem
+						v-if="transaction.transactionType === 'Credit'"
+						:transaction="transaction"
+					/>
+					<WithdrawalListItem v-else :transaction="transaction" />
+				</div>
 			</div>
 			<!-- <AccountFundingListItem />
       <AccountFundingListItem />
@@ -46,12 +47,14 @@ export default {
 			UserInfo.transactionHistory(
 				customerId,
 				(response) => {
-					Log.info(response);
+					Log.info(response.data.data);
 					const historyData = response.data.data;
 					history.value = historyData;
+					historyLoading.value = false;
 				},
 				(error) => {
 					Log.error(error);
+					historyLoading.value = false;
 				}
 			);
 		});
@@ -59,8 +62,10 @@ export default {
 		const store = useStore();
 		const customerId = store.getters["authToken/userId"];
 		const history = ref([]);
+		const historyLoading = ref(true);
 		return {
 			history,
+			historyLoading,
 		};
 	},
 };

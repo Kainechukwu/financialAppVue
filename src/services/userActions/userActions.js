@@ -52,6 +52,11 @@ export default class UserActions {
 		Web.get(Constants.API_BASE + "/Kyc/countries", successHandler, errorHandler)
 	}
 
+	static getCustomers(merchantId, successHandler, errorHandler) {
+		Web.get(Constants.API_BASE + `/Customers/${merchantId}/all-customers`, successHandler, errorHandler)
+
+	}
+
 	static resetPassword(userDetails, successHandler, errorhandler) {
 
 		Web.post(Constants.API_BASE + "/Account/reset-password", userDetails, successHandler, errorhandler)
