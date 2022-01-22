@@ -39,7 +39,7 @@
 				/>
 			</div>
 			<div class="flex items-center">
-				<div @click="toggle" class="mr-3 flex items-center space-x-3 justify-center">
+				<!-- <div @click="toggle" class="mr-3 flex items-center space-x-3 justify-center">
 					<span
 						role="checkbox"
 						tabindex="0"
@@ -57,12 +57,15 @@
 				</div>
 				<div class="greenButton mr-4 w-11 py-px br-6 flex justify-center h-6 items-center">
 					<span class="fw-500 fs-10 text-white">Live</span>
-				</div>
-				<img
+				</div> -->
+				<!-- <img
 					class="inline-block h-12 w-12 rounded-full"
 					src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
 					alt=""
-				/>
+				/> -->
+				<div class="bg-gray-100 flex items-center justify-center h-12 w-12 rounded-full">
+					<h1 class="fw-600">{{ fInitial }}{{ lInitial }}</h1>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -70,14 +73,20 @@
 
 <script>
 import { ref } from "vue";
+import { useStore } from "vuex";
 export default {
 	name: "Header",
 	setup() {
+		const store = useStore();
+		const fName = store.getters["authToken/firstName"];
+		const lName = store.getters["authToken/lastName"];
+		const fInitial = fName.slice(0, 1).toUpperCase();
+		const lInitial = lName.slice(0, 1).toUpperCase();
 		const enabled = ref(false);
 		const toggle = () => {
 			enabled.value = !enabled.value;
 		};
-		return { enabled, toggle };
+		return { enabled, toggle, fInitial, lInitial };
 	},
 };
 </script>

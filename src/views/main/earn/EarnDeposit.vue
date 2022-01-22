@@ -190,6 +190,14 @@
 				</div>
 			</div>
 
+			<div class="flex flex-col mb-10">
+				<span class="fs-14 fw-700 blacktext mb-2">Instructions</span>
+				<span class="fs-14 fw-400 blacktext">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus diam mi adipiscing nisl
+					velit. Id at enim sed cursus morbi aliquet eu blandit. A et cras molestie pellentesque.
+				</span>
+			</div>
+
 			<div
 				@click="goToNext"
 				style="background-color: #2b7ee4"
