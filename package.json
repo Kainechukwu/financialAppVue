@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -14,13 +14,16 @@
     "core-js": "^3.6.5",
     "counterup2": "^2.0.2",
     "jquery": "^3.6.0",
+    "moment": "^2.29.1",
     "v-click-outside": "^3.1.2",
+    "vee-validate": "^4.5.7",
     "vue": "^3.0.0",
     "vue-chartkick": "^1.1.0",
     "vue-click-outside": "^1.1.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persistedstate": "^4.1.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

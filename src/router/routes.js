@@ -102,8 +102,8 @@ export default [
 					// 	component: () => import("@/views/main/overview/Overview.vue")
 					// },
 					{
-						path: "/pending_tasks",
-						name: "Pending Tasks",
+						path: "/get_started",
+						name: "Get Started",
 						component: () => import("@/views/main/PendingTasks.vue")
 					},
 					{
@@ -224,11 +224,11 @@ export default [
 								name: "Compliance Settings",
 								component: () => import("@/views/settings/Compliance.vue")
 							},
-							{
-								path: "/settings/roles",
-								name: "Roles Settings",
-								component: () => import("@/views/settings/RolesSettings.vue")
-							},
+							// {
+							// 	path: "/settings/roles",
+							// 	name: "Roles Settings",
+							// 	component: () => import("@/views/settings/RolesSettings.vue")
+							// },
 							{
 								path: "/settings/pin",
 								name: "PIN",

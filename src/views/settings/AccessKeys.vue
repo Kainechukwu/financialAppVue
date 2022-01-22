@@ -96,7 +96,7 @@
 				</div>
 
 				<!-- ------------- -->
-				<div class="">
+				<!-- <div class="">
 					<label for="acceskey3" class="fs-14 fw-400 tx-666666">Test Encryption Key</label>
 					<div class="relative">
 						<input
@@ -140,11 +140,12 @@
 							</svg>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<!-- ---------- -->
 			</div>
 			<div class="flex justify-start">
 				<div
+					@click="generateKeys"
 					class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 				>
 					<span class="text-white">Generate New Secret Keys</span>
@@ -155,13 +156,19 @@
 </template>
 
 <script>
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, onMounted } from "vue";
+import UserInfo from "@/services/userInfo/userInfo.js";
+// import { useStore } from "vuex";
+import { Log } from "@/components/util";
 export default {
 	name: "Access Key Settings",
 	setup() {
+		onMounted(() => {
+			generateKeys();
+		});
 		const accessKeys = reactive({
-			key1: "pk_test_95b86d223d20f45408dffd247ce22803b1b9dcb3",
-			key2: "FLWSECK-40a5caaf054df7397794e89e20b5cefe-X",
+			key1: "",
+			key2: "",
 			key3: "40a5caaf054d552c3e8387a9",
 		});
 		const copyToClipboard = (id) => {
@@ -169,9 +176,24 @@ export default {
 			textBox.select();
 			document.execCommand("copy");
 		};
+
+		const generateKeys = () => {
+			UserInfo.getClientKeys(
+				(response) => {
+					Log.info(response);
+					const data = response.data.data;
+					accessKeys.key1 = data.liveKey;
+					accessKeys.key2 = data.testKey;
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
 		return {
 			...toRefs(accessKeys),
 			copyToClipboard,
+			generateKeys,
 		};
 	},
 };

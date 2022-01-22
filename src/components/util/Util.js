@@ -19,4 +19,18 @@ export default class Util {
 	static isValidString(str, empty = false) {
 		return (typeof str === 'string') && ((!empty) ? (!!str && !!str.length) : true);
 	}
+
+	static toBase64 = (file) =>
+		new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = () => resolve(reader.result);
+			reader.onerror = (error) => reject(error);
+		});
+
+	// static getId = (obj) => {
+	// 	const id = array.value.find((obj) => obj.name === string).id;
+
+	// 	return id;
+	// };
 }

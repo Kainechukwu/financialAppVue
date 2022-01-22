@@ -196,15 +196,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bg-success {
-	background-color: #d2f9ed;
-	color: #18ae81;
-}
-.bg-failed {
-	background-color: #ffe8e5;
-	color: #ff4d4f;
-}
-
 .select {
 	-moz-appearance: none; /* Firefox */
 	-webkit-appearance: none; /* Safari and Chrome */

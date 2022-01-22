@@ -71,10 +71,17 @@
 		<!-- ------------------------- -->
 		<div class="h-16 ml-2 flex flex-col justify-between mr-10">
 			<div class="h-2"></div>
-			<div class="fw-600 fs-14" :class="{ 'nav-link-color': currentPage === 'Roles Settings' }">
-				<router-link to="/settings/roles">Roles</router-link>
+			<div class="fw-600 fs-14 text-gray-200">
+				<span>Roles</span>
 			</div>
 			<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'Roles Settings' }"></div>
+			<!-- <div
+				class="fw-600 fs-14 "
+				:class="{ 'nav-link-color': currentPage === 'Roles Settings' }"
+			>
+				<router-link to="/settings/roles">Roles</router-link>
+			</div>
+			<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'Roles Settings' }"></div> -->
 		</div>
 		<!-- ------------------------- -->
 		<div class="h-16 ml-2 flex flex-col justify-between mr-10">

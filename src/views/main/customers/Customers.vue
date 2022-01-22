@@ -38,13 +38,16 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
+import { computed, ref } from "vue";
+
 export default {
 	name: "Customers",
 	setup() {
 		const route = ref(useRoute());
+
 		const currentPage = computed(() => route.value.name);
+
 		return {
 			currentPage,
 		};

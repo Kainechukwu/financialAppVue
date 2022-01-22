@@ -14,22 +14,20 @@
 						<p class="tx-666666 fw-400 fs-14">Enter the email associated with your account .</p>
 					</div>
 
-					<form class="mt-8" action="#" method="POST">
+					<Form @submit="sendInstructions" :validation-schema="schema" v-slot="{ errors }">
 						<!-- <input type="hidden" name="remember" value="true" /> -->
 						<div class="">
 							<!-- --------------- -->
 
 							<div class="mb-6">
 								<label for="email-address" class="fs-14 tx-666666 fw-600">Email address</label>
-								<input
-									id="email-address"
+								<Field
 									name="email"
-									type="email"
-									v-model="userEmail"
-									autocomplete="off"
-									required=""
+									type="text"
 									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									:class="{ 'is-invalid': errors.email }"
 								/>
+								<div class="invalid-feedback text-red-500">{{ errors.email }}</div>
 							</div>
 
 							<!-- ------------ -->
@@ -39,7 +37,6 @@
 							<button
 								:class="[sentEmail.loading ? 'opacity-25' : 'opacity-100']"
 								:disabled="sentEmail.loading"
-								@click.prevent="sendInstructions"
 								type="submit"
 								class="bluebtn h-50px relative w-full py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
 							>
@@ -51,7 +48,7 @@
 								</div>
 							</button>
 						</div>
-					</form>
+					</Form>
 				</div>
 				<!-- <div class="text-center tx-666666 fs-14 fw-400 mt-10">
           <span>
@@ -71,7 +68,8 @@
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
-// import ApiResource from "@/components/core/ApiResource";
+import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
 import userActions from "@/services/userActions/userActions.js";
 import { Log } from "@/components/util";
 
@@ -79,6 +77,8 @@ export default {
 	name: "ResetPassword",
 	components: {
 		SuprBizLogo,
+		Form,
+		Field,
 	},
 	setup() {
 		const router = useRouter();
@@ -90,13 +90,19 @@ export default {
 		const userEmail = ref("");
 		// const isEmailSent = ref(false);
 
-		const sendInstructions = () => {
+		const schema = Yup.object().shape({
+			email: Yup.string().required("Email is required").email("Email is invalid"),
+		});
+
+		const sendInstructions = (values) => {
 			sentEmail.loading = true;
 			// Log.info(sentEmail.loading.value);
-			Log.info("userEmail" + userEmail.value);
+			Log.info("userEmail" + values.email);
 
 			userActions.forgotPasswordApi(
-				userEmail.value,
+				{
+					email: values.email,
+				},
 				(response) => {
 					sentEmail.loading = false;
 					// isEmailSent.value = true;
@@ -124,6 +130,7 @@ export default {
 			sendInstructions,
 			goToLogin,
 			sentEmail,
+			schema,
 			// setNewPassword,
 		};
 	},

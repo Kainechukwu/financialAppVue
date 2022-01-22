@@ -45,6 +45,7 @@
 									required=""
 									class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								/>
+								<span class="text-red-500">{{ confirmErr }}</span>
 							</div>
 
 							<div v-for="instruction in instructions" :key="instruction" class="flex flex-col">
@@ -107,7 +108,8 @@ import { ref, watch, reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { Log, Util } from "@/components/util";
-
+// import { Form, Field } from "vee-validate";
+// import * as Yup from "yup";
 import SmallCheckedSvg from "@/components/svg/SmallCheckedSvg.vue";
 // import ApiResource from "@/components/core/ApiResource";
 import UserActions from "@/services/userActions/userActions.js";
@@ -130,6 +132,8 @@ export default {
 			hasSpecialCharOrNum: false,
 		});
 		const confirmPassword = ref("");
+		const confirmErr = ref("");
+		// const validArr = ref([]);
 
 		const instructions = [
 			"At least 8 characters",
@@ -137,23 +141,6 @@ export default {
 			"Minimum one upper case",
 			"One number or special character",
 		];
-
-		// function hasLowerCase(str) {
-		// 	return /[a-z]/.test(str);
-		// }
-
-		// function hasUpperCase(str) {
-		// 	return /[A-Z]/.test(str);
-		// }
-
-		// function hasSpecialCharacter(str) {
-		// 	//eslint-disable-next-line
-		// 	return /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(str);
-		// }
-
-		// function hasNumber(str) {
-		// 	return /\d/.test(str);
-		// }
 
 		const setNewPassword = () => {
 			if (newPassword.password === confirmPassword.value) {
@@ -180,6 +167,24 @@ export default {
 		const goToLogin = () => {
 			router.push("/login");
 		};
+
+		// const showConfirmError = () => {
+		// 	if (newPassword.password === confirmPassword.value) {
+		// 		confirmErr.value = "";
+		// 	} else {
+		// 		confirmErr.value = "passwords don't match";
+		// 	}
+		// }
+
+		watch(confirmPassword, (newValue) => {
+			if (newPassword.password === newValue) {
+				confirmErr.value = "";
+				Log.info(newValue);
+			} else {
+				Log.info(newValue);
+				confirmErr.value = "passwords don't match";
+			}
+		});
 
 		watch(newPassword, (newValue) => {
 			Log.info(newValue);
@@ -217,6 +222,7 @@ export default {
 			instructions,
 			confirmPassword,
 
+			confirmErr,
 			...toRefs(newPassword),
 		};
 	},

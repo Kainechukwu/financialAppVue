@@ -3,15 +3,79 @@
 		<div class="flex flex-col px-4">
 			<span class="fw-400 fs-14 tx-666666 mb-3">How much would you like to deposit</span>
 			<div class="flex br-5 h-12">
-				<select
-					id="currency"
-					name="currency"
-					class="text-gray-400 bg-gray-100 w-20 px-3 py-2 focus:outline-none sm:text-sm rounded-l-md"
-				>
-					<!-- <option selected="" class="hidden">Select</option> -->
-					<option>USD</option>
-					<option>NGN</option>
-				</select>
+				<Listbox as="div" v-model="selectedCurrency">
+					<div class="h-full relative">
+						<ListboxButton
+							class="text-gray-400 h-full bg-gray-100 w-20 pr-2 pl-1 py-2 focus:outline-none sm:text-sm rounded-l-md"
+						>
+							<span class="block truncate">{{ selectedCurrency }}</span>
+							<span
+								class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
+							>
+								<div class="h-5 my-auto flex items-center justify-center text-gray-400">
+									<svg
+										width="12"
+										height="6"
+										viewBox="0 0 12 6"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M1 1L5.73 5.2L10.46 1"
+											stroke="#BFBFBF"
+											stroke-width="1.5"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</div>
+							</span>
+						</ListboxButton>
+
+						<transition
+							leave-active-class="transition ease-in duration-100"
+							leave-from-class="opacity-100"
+							leave-to-class="opacity-0"
+						>
+							<ListboxOptions
+								class="absolute z-10 w-full bg-white shadow-lg max-h-60 rounded-b-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+							>
+								<ListboxOption
+									as="template"
+									v-for="currency in currencies"
+									:key="currency"
+									:value="currency"
+									v-slot="{ active, selectedCurrency }"
+								>
+									<li
+										:class="[
+											active ? 'blacktext bg-gray-100' : 'blacktext',
+											'cursor-default select-none relative py-2 pl-3 pr-9',
+										]"
+									>
+										<span
+											:class="[
+												selectedCurrency ? 'font-semibold' : 'font-normal',
+												'block truncate',
+											]"
+										>
+											{{ currency }}
+										</span>
+
+										<span
+											v-if="selectedCurrency"
+											:class="[
+												active ? 'text-white' : 'text-indigo-600',
+												'absolute inset-y-0 right-0 flex items-center pr-4',
+											]"
+										>
+										</span>
+									</li>
+								</ListboxOption>
+							</ListboxOptions>
+						</transition>
+					</div>
+				</Listbox>
 				<input
 					class="pl-3 w-full rounded-r-md border border-gray-100 text-gray-900 focus:outline-none sm:text-sm"
 					type="text"
@@ -139,18 +203,35 @@
 
 <script>
 import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 export default {
 	name: "Earn Deposit 1",
+	components: {
+		Listbox,
+		ListboxButton,
+		ListboxOption,
+		ListboxOptions,
+	},
 	setup() {
 		const router = useRouter();
 		const goToNext = () => {
 			router.push("/earn/fund_account");
 		};
+		const currencies = ["USD", "EURO"];
+		const selectedCurrency = ref(currencies[0]);
 		return {
 			goToNext,
+			currencies,
+			selectedCurrency,
 		};
 	},
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+// button > span {
+// 	background-color: yellow;
+// 	margin-top
+// }
+</style>
