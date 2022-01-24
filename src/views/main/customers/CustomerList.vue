@@ -27,6 +27,76 @@
 					<option>3</option>
 				</select>
 				<!-- </div> -->
+				<!-- <div class="relative">
+					<Listbox as="div" v-model="selected">
+					
+						<div class="mt-1 relative">
+							<ListboxButton
+								class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 sm:text-sm"
+							>
+								<span class="block truncate">{{ selected }}</span>
+								<span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+									<div class="h-5 w-5 text-gray-400">
+										<svg
+											width="12"
+											height="6"
+											viewBox="0 0 12 6"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M1 1L5.73 5.2L10.46 1"
+												stroke="#BFBFBF"
+												stroke-width="1.5"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+									</div>
+								</span>
+							</ListboxButton>
+
+							<transition
+								leave-active-class="transition ease-in duration-100"
+								leave-from-class="opacity-100"
+								leave-to-class="opacity-0"
+							>
+								<ListboxOptions
+									class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+								>
+									<ListboxOption
+										as="template"
+										v-for="item in items"
+										:key="item"
+										:value="item"
+										v-slot="{ active, selected }"
+									>
+									
+										<li
+											:class="[
+												active ? 'blacktext bg-gray-100' : 'blacktext',
+												'cursor-default select-none relative py-2 pl-3 pr-9',
+											]"
+										>
+											<span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
+												{{ item }}
+											</span>
+
+											<span
+												v-if="selected"
+												:class="[
+													active ? 'text-white' : 'text-indigo-600',
+													'absolute inset-y-0 right-0 flex items-center pr-4',
+												]"
+											>
+											</span>
+										</li>
+									</ListboxOption>
+								</ListboxOptions>
+							</transition>
+						</div>
+					</Listbox>
+				</div> -->
 			</div>
 		</div>
 
@@ -145,8 +215,13 @@
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 												{{ customer.accountNumber }}
 											</td>
-											<td style="color: #1860b9" class="px-6 py-4 whitespace-nowrap fs-14 fw-500">
-												view
+											<td
+												style="color: #1860b9"
+												class="px-6 py-4 cursor-pointer whitespace-nowrap fs-14 fw-500"
+											>
+												<router-link :to="`/customers/transactions/${customer.merchantId}`"
+													>view</router-link
+												>
 											</td>
 										</tr>
 									</tbody>
@@ -165,11 +240,27 @@
 <script>
 import UserActions from "@/services/userActions/userActions.js";
 import { useStore } from "vuex";
+// import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import { Log } from "@/components/util";
+// import {
+// 	Listbox,
+// 	ListboxButton,
+// 	// ListboxLabel,
+// 	ListboxOption,
+// 	ListboxOptions,
+// } from "@headlessui/vue";
 
 export default {
 	name: "Customer List",
+	components: {
+		// Listbox,
+		// ListboxButton,
+		// ListboxOption,
+		// ListboxOptions,
+		// CheckIcon,
+		// SelectorIcon,
+	},
 	setup() {
 		onMounted(() => {
 			UserActions.getCustomers(
@@ -184,10 +275,21 @@ export default {
 			);
 		});
 		const store = useStore();
+		// const router = useRouter();
 		const merchantId = store.getters["authToken/userId"];
 		const customers = ref([]);
+		// const goToUserTransactions = (merchantId) => {
+		// 	router.push(`/customers/transactions/${merchantId}`);
+		// };
+		// const items = ["1", "2", "3", "4"];
+		// const selected = ref(items.value[0]);
 
-		return { customers };
+		return {
+			customers,
+			// goToUserTransactions,
+			// items,
+			// selected
+		};
 	},
 };
 </script>

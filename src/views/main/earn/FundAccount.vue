@@ -4,12 +4,12 @@
 			<div class="grid grid-cols-2 mb-3">
 				<div class="flex flex-col">
 					<span class="fw-400 fs-12 tx-666666">Account Holder:</span>
-					<span class="fw-600 fs-12 blacktext">Bonfree LLC</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.holderName }}</span>
 				</div>
 
 				<div class="flex flex-col">
 					<span class="fw-400 fs-12 tx-666666">Account Number:</span>
-					<span class="fw-600 fs-12 blacktext">0123456789</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.accountNumber }}</span>
 				</div>
 			</div>
 
@@ -17,12 +17,12 @@
 			<div class="grid grid-cols-2 mb-3">
 				<div class="flex flex-col">
 					<span class="fw-400 fs-12 tx-666666">Bank Name:</span>
-					<span class="fw-600 fs-12 blacktext">Community Fedral Savings Bank</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.bankName }}</span>
 				</div>
 
 				<div class="flex flex-col">
 					<span class="fw-400 fs-12 tx-666666">Routing No:</span>
-					<span class="fw-600 fs-12 blacktext">026073150</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.routingNumber }}</span>
 				</div>
 			</div>
 
@@ -30,7 +30,7 @@
 			<div class="grid grid-cols-2 mb-3">
 				<div class="flex flex-col">
 					<span class="fw-400 fs-12 tx-666666">Bank Address:</span>
-					<span class="fw-600 fs-12 blacktext">810 Seventh Avenue, New York, NY 10019, US</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.bankAddress }}</span>
 				</div>
 
 				<div class="flex flex-col">
@@ -123,7 +123,10 @@
 <script>
 // import { Field, Form, ErrorMessage } from "vee-validate";
 // import * as yup from "yup";
-import { ref } from "vue";
+import UserActions from "@/services/userActions/userActions.js";
+import { ref, onMounted } from "vue";
+import { Log } from "@/components/util";
+
 export default {
 	name: "Fund Account",
 	components: {
@@ -131,8 +134,21 @@ export default {
 		// Form,
 		// ErrorMessage,
 	},
+
 	setup() {
+		onMounted(() => {
+			UserActions.getBankDetails(
+				(response) => {
+					Log.info(response.data.data);
+					bankDetails.value = response.data.data;
+				},
+				(error) => {
+					Log.info(error);
+				}
+			);
+		});
 		const isMoneySent = ref(false);
+		const bankDetails = ref({});
 
 		const sendMoney = () => {
 			isMoneySent.value = true;
@@ -145,6 +161,7 @@ export default {
 		return {
 			sendMoney,
 			isMoneySent,
+			bankDetails,
 		};
 	},
 };

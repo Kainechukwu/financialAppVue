@@ -1,6 +1,24 @@
 import { Web, Constants } from "@/components/util"
 
 export default class UserActions {
+
+	static getBankDetails(successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + '/Transactions/bornfree-bank-data', successHandler, errorHandler)
+
+	}
+	static getCustomerTransactions(merchantId, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Transactions/merchant-customer-transactions/${merchantId}`, successHandler, errorHandler)
+
+	}
+
+	static getAllRates(successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + "/Rates/all", successHandler, errorHandler)
+
+	}
+
 	static forgotPasswordApi(
 		userEmail,
 		successHandler,
