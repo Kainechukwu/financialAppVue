@@ -42,7 +42,7 @@
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Beneficiary Name:</span>
-						<span class="fw-600 fs-12 blacktext">Bonfree LLC</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.holderName }}</span>
 					</div>
 
 					<div class="flex flex-col">
@@ -93,7 +93,7 @@
 				<!-- --------------- -->
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col col-span-1">
-						<span class="fw-400 fs-12 tx-666666">You receive:</span>
+						<span class="fw-400 fs-12 tx-666666">You will receive:</span>
 						<span class="fw-600 fs-12 blacktext">99.00 USDT</span>
 					</div>
 					<!-- 
@@ -126,6 +126,9 @@
 <script>
 import { useRouter } from "vue-router";
 import CancelSvg from "./CancelSvg.vue";
+import UserActions from "@/services/userActions/userActions.js";
+import { ref, onMounted } from "vue";
+import { Log } from "@/components/util";
 
 export default {
 	name: "Confirm Withdrawal",
@@ -133,12 +136,25 @@ export default {
 		CancelSvg,
 	},
 	setup() {
+		onMounted(() => {
+			UserActions.getBankDetails(
+				(response) => {
+					Log.info(response.data.data);
+					bankDetails.value = response.data.data;
+				},
+				(error) => {
+					Log.info(error);
+				}
+			);
+		});
 		const router = useRouter();
+		const bankDetails = ref({});
 		const goBack = () => {
 			router.push("/bank_details");
 		};
 		return {
 			goBack,
+			bankDetails,
 		};
 	},
 };

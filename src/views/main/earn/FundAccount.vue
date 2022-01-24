@@ -42,7 +42,7 @@
 			<!-- --------------- -->
 			<div class="grid grid-cols-2 mb-3">
 				<div class="flex flex-col">
-					<span class="fw-400 fs-12 tx-666666">Amount Sent:</span>
+					<span class="fw-400 fs-12 tx-666666">You will pay:</span>
 					<span class="fw-600 fs-12 blacktext">$1000.00</span>
 				</div>
 
@@ -55,7 +55,7 @@
 			<!-- --------------- -->
 			<div class="grid grid-cols-2 mb-3">
 				<div class="flex flex-col col-span-1">
-					<span class="fw-400 fs-12 tx-666666">Amount Received:</span>
+					<span class="fw-400 fs-12 tx-666666">You will receive:</span>
 					<span class="fw-600 fs-12 blacktext">995 USDT</span>
 				</div>
 				<!-- 
