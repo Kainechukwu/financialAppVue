@@ -53,12 +53,12 @@
 					</div>
 					<!-- ---------- -->
 					<div class="">
-						<label for="Beneficiary Account" class="fs-14 tx-666666 fw-600"
-							>Beneficiary Account</label
+						<label for="Beneficiary Account Number" class="fs-14 tx-666666 fw-600"
+							>Beneficiary Account Number</label
 						>
 						<input
-							id="Beneficiary Account"
-							name="Beneficiary Account"
+							id="Beneficiary Account Number"
+							name="Beneficiary Account Number"
 							type="text"
 							autocomplete="off"
 							required=""
@@ -80,10 +80,12 @@
 					</div>
 					<!-- ---------- -->
 					<div class="">
-						<label for="SWIFT/BIC Code" class="fs-14 tx-666666 fw-600">SWIFT/BIC Code</label>
+						<label for="ABA Routing Number" class="fs-14 tx-666666 fw-600"
+							>ABA Routing Number</label
+						>
 						<input
-							id="SWIFT/BIC Code"
-							name="SWIFT/BIC Code"
+							id="ABA Routing Number"
+							name="ABA Routing Number"
 							type="text"
 							autocomplete="off"
 							required=""
@@ -91,11 +93,53 @@
 						/>
 					</div>
 				</div>
+				<div class="grid grid-cols-2 gap-5 mb-8">
+					<div class="col-span-2">
+						<label for="Bank Address" class="fs-14 tx-666666 fw-600">Bank Address</label>
+						<input
+							id="Bank Address"
+							name="Bank Address"
+							type="text"
+							autocomplete="off"
+							required=""
+							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						/>
+					</div>
+				</div>
+
+				<div
+					style="background-color: #d2f9ed"
+					class="br-5 grid grid-cols-2 mb-3 px-3 py-4 flex flex-col mt-3"
+				>
+					<div class="col-span-2">
+						<h2 class="blacktext fw-500 fs-14">Instructions</h2>
+						<ul class="list-disc mx-4 fs-12 fw-400">
+							<li>
+								If your withdrawal is returned by the receiving bank, the fund will take longer to
+								be credited back to your Bornfree account. Transaction fee will be charged and
+								deducted from the credited amount.
+							</li>
+							<li>
+								The arrival of your withdrawal depends on the region of your receiving bank.
+								Usually, it takes 2 to 4 business days.
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-span-2 flex">
+					<input type="checkbox" class="mt-1.5 mr-3" />
+					<span class="fs-12 fw-400">
+						By proceeding, you agree that you understood the above instructions, and you are aware
+						that if a transaction is made without following these instructions, it is not a valid
+						transaction.
+					</span>
+				</div>
 			</div>
 			<div
 				@click="goNext"
 				style="background-color: #2b7ee4"
-				class="mx-auto flex items-center justify-center h-12 w-52 br-5"
+				class="mt-4 mx-auto flex items-center justify-center h-12 w-52 br-5"
 			>
 				<span class="fw-500 fs-16 text-white"> Continue</span>
 			</div>

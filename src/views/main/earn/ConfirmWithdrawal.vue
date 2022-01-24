@@ -41,12 +41,12 @@
 			<div style="background-color: #f2f6ff" class="p-4 flex flex-col br-5 mb-6">
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col">
-						<span class="fw-400 fs-12 tx-666666">Account Name:</span>
+						<span class="fw-400 fs-12 tx-666666">Beneficiary Name:</span>
 						<span class="fw-600 fs-12 blacktext">Bonfree LLC</span>
 					</div>
 
 					<div class="flex flex-col">
-						<span class="fw-400 fs-12 tx-666666">Account No:</span>
+						<span class="fw-400 fs-12 tx-666666">Account Number:</span>
 						<span class="fw-600 fs-12 blacktext">0123456789</span>
 					</div>
 				</div>
@@ -59,22 +59,49 @@
 					</div>
 
 					<div class="flex flex-col">
-						<span class="fw-400 fs-12 tx-666666">Reference:</span>
+						<span class="fw-400 fs-12 tx-666666">ABA Routing Number:</span>
 						<span class="fw-600 fs-12 blacktext">1234567890</span>
+					</div>
+				</div>
+
+				<!-- --------------------- -->
+				<div class="grid grid-cols-2 mb-3">
+					<div class="flex flex-col">
+						<span class="fw-400 fs-12 tx-666666">Transaction Reference:</span>
+						<span class="fw-600 fs-12 blacktext">026073150</span>
+					</div>
+
+					<div class="flex flex-col">
+						<span class="fw-400 fs-12 tx-666666">Bank Address:</span>
+						<span class="fw-600 fs-12 blacktext">810 Seventh Avenue, New York, NY 10019, US</span>
 					</div>
 				</div>
 
 				<!-- --------------- -->
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col">
+						<span class="fw-400 fs-12 tx-666666">Amount Withdrawn:</span>
+						<span class="fw-600 fs-12 blacktext">USDT 89.10</span>
+					</div>
+					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Transaction Fee:</span>
 						<span class="fw-600 fs-12 blacktext">$5.00</span>
 					</div>
+				</div>
 
-					<div class="flex flex-col">
+				<!-- -------------- -->
+				<!-- --------------- -->
+				<div class="grid grid-cols-2 mb-3">
+					<div class="flex flex-col col-span-1">
 						<span class="fw-400 fs-12 tx-666666">You receive:</span>
-						<span class="fw-600 fs-12 blacktext">USDT 89.10</span>
+						<span class="fw-600 fs-12 blacktext">99.00 USDT</span>
 					</div>
+					<!-- 
+				<div class="flex flex-col">
+					
+					<span class="fw-400 fs-12 tx-666666">Transaction Fee:</span>
+					<span class="fw-600 fs-12 blacktext">$5.00</span>
+				</div> -->
 				</div>
 
 				<!-- --------------- -->
