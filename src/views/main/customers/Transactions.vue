@@ -37,7 +37,16 @@
 				<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div class="overflow-hidden border-b border-gray-100 sm:rounded-lg">
-							<div class="px-4 bg-white py-2">
+							<div
+								v-if="transactions.length === 0"
+								class="py-56 w-full bg-white flex flex-col items-center justify-center"
+							>
+								<div>
+									<TransactionHistoryEmptySvg />
+								</div>
+								<span style="color: #999999" class="mt-6 fs-16 fw-400">Nothing to see</span>
+							</div>
+							<div v-else class="px-4 bg-white py-2">
 								<table class="min-w-full divide-y divide-gray-100">
 									<thead class="bg-white">
 										<tr>
@@ -130,9 +139,37 @@
 </template>
 
 <script>
+import UserActions from "@/services/userActions/userActions.js";
+import { onMounted, ref } from "vue";
+import { Log } from "@/components/util";
+import { useRoute } from "vue-router";
+import TransactionHistoryEmptySvg from "@/components/svg/TransactionHistoryEmptySvg.vue";
+
 export default {
 	name: "Transactions",
+	components: {
+		TransactionHistoryEmptySvg,
+	},
 	setup() {
+		onMounted(() => {
+			Log.info("merchantId:" + merchantId.value);
+			UserActions.getCustomerTransactions(
+				merchantId.value,
+				(response) => {
+					Log.info(response);
+					transactions.value = response.data.data;
+
+					Log.info("query done");
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		});
+
+		const route = useRoute();
+		const merchantId = ref(route.params.merchantId);
+		const transactions = ref([]);
 		const people = [
 			{
 				id: "1",
@@ -190,7 +227,7 @@ export default {
 			},
 			// More people...
 		];
-		return { people };
+		return { people, transactions };
 	},
 };
 </script>

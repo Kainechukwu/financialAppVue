@@ -2,7 +2,7 @@
 	<div class="main-page p-8 h-full">
 		<div class="flex flex-col justify-start">
 			<div class="mb-6">
-				<h1 class="fw-600 fs-24 blacktext mb-4">Transactions</h1>
+				<h1 class="fw-600 fs-24 blacktext mb-4">Transactions ohh</h1>
 				<div class="flex">
 					<input
 						style="border: none"
@@ -130,9 +130,29 @@
 </template>
 
 <script>
+import { onMounted, ref } from "vue";
+import { Log } from "@/components/util";
+// import UserActions from "@/services/userActions/userActions.js";
+import { useRoute } from "vue-router";
 export default {
 	name: "Transactions",
 	setup() {
+		onMounted(() => {
+			Log.info("merchantId:" + merchantId);
+			// UserActions.getCustomerTransactions(
+			// 	merchantId,
+			// 	(response) => {
+			// 		Log.info(response);
+			// 		Log.info("query done");
+			// 	},
+			// 	(error) => {
+			// 		Log.error(error);
+			// 	}
+			// );
+		});
+
+		const route = useRoute();
+		const merchantId = ref(route.params);
 		const people = [
 			{
 				id: "1",

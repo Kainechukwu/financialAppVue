@@ -183,6 +183,13 @@ export default {
 			router.push("/login");
 		};
 
+		// const checkPassword = (e) => {
+		// 	const password = e.target.value;
+		// 	if(!Util.hasNumber(password) || !Util.hasLowerCase(password) || !Util.hasUpperCase(password) || !Util.hasSpecialCharacter(password)){
+		// 		user.passwordError = "Field must have at least one uppercase, lowercase, number and special character"
+		// 	}
+		// }
+
 		const handleSignup = (values) => {
 			signupUser.loading = true;
 
@@ -208,6 +215,10 @@ export default {
 				}
 			);
 		};
+
+		// watch(user.password, (newValue) => {
+		// 	user.password
+		// });
 
 		return {
 			...toRefs(user),

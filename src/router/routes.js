@@ -185,7 +185,7 @@ export default [
 								component: () => import("@/views/main/customers/CustomerList.vue")
 							},
 							{
-								path: "/customers/transactions",
+								path: "/customers/transactions/:merchantId",
 								name: "Customers Transactions",
 								component: () => import("@/views/main/customers/Transactions.vue")
 							},

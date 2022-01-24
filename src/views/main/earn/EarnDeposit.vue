@@ -8,7 +8,7 @@
 						<ListboxButton
 							class="text-gray-400 h-full bg-gray-100 w-20 pr-2 pl-1 py-2 focus:outline-none sm:text-sm rounded-l-md"
 						>
-							<span class="block truncate">{{ selectedCurrency }}</span>
+							<span class="block truncate">{{ selectedCurrency.currency }}</span>
 							<span
 								class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
 							>
@@ -43,8 +43,8 @@
 								<ListboxOption
 									as="template"
 									v-for="currency in currencies"
-									:key="currency"
-									:value="currency"
+									:key="currency.id"
+									:value="currency.currency"
 									v-slot="{ active, selectedCurrency }"
 								>
 									<li
@@ -59,7 +59,7 @@
 												'block truncate',
 											]"
 										>
-											{{ currency }}
+											{{ currency.currency }}
 										</span>
 
 										<span
@@ -78,12 +78,13 @@
 				</Listbox>
 				<input
 					class="pl-3 w-full rounded-r-md border border-gray-100 text-gray-900 focus:outline-none sm:text-sm"
-					type="text"
+					type="number"
+					v-model="depositAmount"
 					placeholder="1000.00"
 				/>
 			</div>
 			<span class="fs-12 fw-400 tx-666666 mt-3"
-				>You will receive <span class="fs-12 fw-600 blacktext">999 UST</span></span
+				>You will receive <span class="fs-12 fw-600 blacktext">{{ rate }} UST</span></span
 			>
 
 			<span class="mt-6 mb-4">Payment Method</span>
@@ -190,6 +191,14 @@
 				</div>
 			</div>
 
+			<div class="flex flex-col mb-10">
+				<span class="fs-14 fw-700 blacktext mb-2">Instructions</span>
+				<span class="fs-14 fw-400 blacktext">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus diam mi adipiscing nisl
+					velit. Id at enim sed cursus morbi aliquet eu blandit. A et cras molestie pellentesque.
+				</span>
+			</div>
+
 			<div
 				@click="goToNext"
 				style="background-color: #2b7ee4"
@@ -203,7 +212,9 @@
 
 <script>
 import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { ref, onMounted, computed } from "vue";
+import { Log } from "@/components/util";
+import UserActions from "@/services/userActions/userActions.js";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 export default {
 	name: "Earn Deposit 1",
@@ -214,16 +225,42 @@ export default {
 		ListboxOptions,
 	},
 	setup() {
+		onMounted(() => {
+			UserActions.getAllRates(
+				(response) => {
+					Log.info(response.data.data);
+					currencies.value = response.data.data;
+					Log.info(selectedCurrency.value);
+					rate.value = computed(() => selectedCurrency.value.buyingRate * depositAmount.value);
+				},
+				(error) => {
+					Log.info(error);
+				}
+			);
+		});
 		const router = useRouter();
+		const depositAmount = ref(0);
+		const rate = ref(0);
 		const goToNext = () => {
 			router.push("/earn/fund_account");
 		};
-		const currencies = ["USD", "EURO"];
-		const selectedCurrency = ref(currencies[0]);
+		// const currencies = ["USD", "EURO"];
+		const currencies = ref([
+			{
+				buyingRate: 170,
+				currency: "USD",
+				id: "4d5b7298-3ba9-4eeb-b162-3f19b334fdec",
+				sellingRate: 200,
+			},
+		]);
+		const selectedCurrency = ref(currencies.value[0]);
+
 		return {
 			goToNext,
 			currencies,
 			selectedCurrency,
+			depositAmount,
+			rate,
 		};
 	},
 };
