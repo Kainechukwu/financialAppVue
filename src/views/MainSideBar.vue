@@ -1,5 +1,5 @@
 <template>
-	<div class="vertical-menu h-full w-64 fixed py-5 px-6">
+	<div class="vertical-menu h-full w-64 fixed py-5 px-6 overflow-y-scroll">
 		<div class="full flex flex-col">
 			<div class="br-5 bg-white flex flex-col px-5 py-4 relative">
 				<div class="flex justify-between relative">

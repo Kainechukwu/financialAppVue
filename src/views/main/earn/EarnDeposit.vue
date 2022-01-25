@@ -231,7 +231,10 @@ export default {
 					Log.info(response.data.data);
 					currencies.value = response.data.data;
 					Log.info(selectedCurrency.value);
-					rate.value = computed(() => selectedCurrency.value.buyingRate * depositAmount.value);
+					Log.info("DA:" + String(depositAmount.value));
+					Log.info("BR:" + String(selectedCurrency.value.sellingRate));
+					rate.value = computed(() => depositAmount.value / selectedCurrency.value.buyingRate);
+					Log.info(rate);
 				},
 				(error) => {
 					Log.info(error);

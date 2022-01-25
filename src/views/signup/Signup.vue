@@ -95,17 +95,19 @@
 							/> -->
 							<Field
 								name="password"
+								@change="passwordError = ''"
 								type="password"
 								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								:class="{ 'is-invalid': errors.password }"
 							/>
 							<div class="invalid-feedback text-red-500">{{ errors.password }}</div>
+							<!-- <div class="invalid-feedback text-red-500">{{ passwordError }}</div> -->
 						</div>
 					</div>
 
 					<div class="">
+						<!-- :class="[signupUser.loading ? 'opacity-25' : 'opacity-100']" -->
 						<button
-							:class="[signupUser.loading ? 'opacity-25' : 'opacity-100']"
 							:disabled="signupUser.loading"
 							type="submit"
 							class="bluebtn h-50px relative w-full py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
@@ -135,12 +137,13 @@
 
 <script>
 import { useRouter } from "vue-router";
+// import {watch} from "vue";
 import { useStore } from "vuex";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import { reactive, toRefs } from "vue";
 import SignupService from "@/services/signup/SignupService.js";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 export default {
 	name: "Signup",
@@ -176,7 +179,7 @@ export default {
 			lastName: Yup.string().required("Last name is required"),
 			email: Yup.string().required("Email is required").email("Email is invalid"),
 			password: Yup.string()
-				.min(6, "Password must be at least 6 characters")
+				.min(8, "Password must be at least 8 characters")
 				.required("Password is required"),
 		});
 		const goToLogin = () => {
@@ -191,29 +194,43 @@ export default {
 		// }
 
 		const handleSignup = (values) => {
-			signupUser.loading = true;
-
 			Log.info("values:" + JSON.stringify(values));
 			// Log.info("signupUser:" + JSON.stringify(signupUser));
-
-			SignupService.signupUser(
-				{
-					firstName: values.firstName,
-					lastName: values.lastName,
-					email: values.email,
-					password: values.password,
-				},
-				(response) => {
-					Log.info("response:" + JSON.stringify(response));
-					store.commit("setSignupEmail", user.userEmail);
-					signupUser.loading = false;
-					router.push("/account_created");
-				},
-				(error) => {
-					signupUser.loading = false;
-					Log.error("error:" + JSON.stringify(error));
-				}
-			);
+			if (
+				!Util.hasLowerCase(values.password) ||
+				!Util.hasUpperCase(values.password) ||
+				!Util.hasSpecialCharacter(values.password) ||
+				!Util.hasNumber(values.password)
+			) {
+				user.passwordError =
+					"Field must have at least one uppercase, lowercase, number and special character";
+				Util.handleGlobalAlert(true, "failed", user.passwordError);
+			} else if (
+				Util.hasLowerCase(values.password) ||
+				Util.hasUpperCase(values.password) ||
+				Util.hasSpecialCharacter(values.password) ||
+				Util.hasNumber(values.password)
+			) {
+				signupUser.loading = true;
+				SignupService.signupUser(
+					{
+						firstName: values.firstName,
+						lastName: values.lastName,
+						email: values.email,
+						password: values.password,
+					},
+					(response) => {
+						Log.info("response:" + JSON.stringify(response));
+						store.commit("setSignupEmail", user.userEmail);
+						signupUser.loading = false;
+						router.push("/account_created");
+					},
+					(error) => {
+						signupUser.loading = false;
+						Log.error("error:" + JSON.stringify(error));
+					}
+				);
+			}
 		};
 
 		// watch(user.password, (newValue) => {

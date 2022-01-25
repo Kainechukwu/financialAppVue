@@ -1,3 +1,5 @@
+import store from "@/store/index";
+
 export default class Util {
 	static hasLowerCase(str) {
 		return /[a-z]/.test(str);
@@ -27,6 +29,11 @@ export default class Util {
 			reader.onload = () => resolve(reader.result);
 			reader.onerror = (error) => reject(error);
 		});
+
+	static handleGlobalAlert = (show, type, text) => {
+
+		store.commit("setGlobalAlert", { show, type, text });
+	}
 
 	// static getId = (obj) => {
 	// 	const id = array.value.find((obj) => obj.name === string).id;

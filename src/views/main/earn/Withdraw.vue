@@ -212,7 +212,7 @@ export default {
 					Log.info(response.data.data);
 					currencies.value = response.data.data;
 					Log.info(selectedCurrency.value);
-					rate.value = computed(() => selectedCurrency.value.sellingRate * withdrawalAmount.value);
+					rate.value = computed(() => selectedCurrency.value.buyingRate * withdrawalAmount.value);
 					Log.info("rate" + String(rate.value));
 				},
 				(error) => {

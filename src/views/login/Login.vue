@@ -106,7 +106,7 @@ import { useRouter } from "vue-router";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import LoginService from "@/services/login/LoginService.js";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 
 export default {
 	name: "Login",
@@ -150,6 +150,7 @@ export default {
 
 					LoginService.handleSuccessfulLogin(response);
 					router.push("/earn");
+					Util.handleGlobalAlert(true, "success", "Welcome");
 				},
 				(error) => {
 					Log.error("login error:" + JSON.stringify(error));
