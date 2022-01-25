@@ -37,73 +37,83 @@
 			</div>
 		</div>
 		<!-- --------------------- -->
-		<div class="mt-6">
+		<Form @submit="goNext" :validation-schema="schema" v-slot="{ errors }" class="mt-6">
 			<div class="px-4 flex flex-col">
 				<div class="grid grid-cols-2 gap-5 mb-8">
 					<div class="">
 						<label for="Beneficiary Name" class="fs-14 tx-666666 fw-600">Beneficiary Name</label>
-						<input
+						<Field
 							id="Beneficiary Name"
-							name="Beneficiary Name"
+							name="BeneficiaryName"
 							type="text"
 							autocomplete="off"
 							required=""
+							:class="{ 'is-invalid': errors.BeneficiaryName }"
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						/>
+						<div class="invalid-feedback text-red-500">{{ errors.BeneficiaryName }}</div>
 					</div>
 					<!-- ---------- -->
 					<div class="">
 						<label for="Beneficiary Account Number" class="fs-14 tx-666666 fw-600"
 							>Beneficiary Account Number</label
 						>
-						<input
+						<Field
 							id="Beneficiary Account Number"
-							name="Beneficiary Account Number"
+							name="BeneficiaryAccountNumber"
 							type="text"
 							autocomplete="off"
 							required=""
+							:class="{ 'is-invalid': errors.BeneficiaryAccountNumber }"
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						/>
+						<div class="invalid-feedback text-red-500">{{ errors.BeneficiaryAccountNumber }}</div>
 					</div>
 				</div>
 				<div class="grid grid-cols-2 gap-5 mb-8">
 					<div class="">
 						<label for="Bank Name" class="fs-14 tx-666666 fw-600">Bank Name</label>
-						<input
+						<Field
 							id="Bank Name"
-							name="Bank Name"
+							name="BankName"
 							type="text"
 							autocomplete="off"
 							required=""
+							:class="{ 'is-invalid': errors.BankName }"
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						/>
+						<div class="invalid-feedback text-red-500">{{ errors.BankName }}</div>
 					</div>
 					<!-- ---------- -->
 					<div class="">
 						<label for="ABA Routing Number" class="fs-14 tx-666666 fw-600"
 							>ABA Routing Number</label
 						>
-						<input
+						<Field
 							id="ABA Routing Number"
-							name="ABA Routing Number"
+							name="ABARoutingNumber"
 							type="text"
 							autocomplete="off"
 							required=""
+							:class="{ 'is-invalid': errors.ABARoutingNumber }"
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						/>
+						<div class="invalid-feedback text-red-500">{{ errors.ABARoutingNumber }}</div>
 					</div>
 				</div>
 				<div class="grid grid-cols-2 gap-5 mb-8">
 					<div class="col-span-2">
 						<label for="Bank Address" class="fs-14 tx-666666 fw-600">Bank Address</label>
-						<input
+						<Field
 							id="Bank Address"
-							name="Bank Address"
+							name="BankAddress"
 							type="text"
 							autocomplete="off"
 							required=""
+							:class="{ 'is-invalid': errors.BankAddress }"
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						/>
+						<div class="invalid-feedback text-red-500">{{ errors.BankAddress }}</div>
 					</div>
 				</div>
 
@@ -128,7 +138,7 @@
 				</div>
 
 				<div class="col-span-2 flex">
-					<input type="checkbox" class="mt-1.5 mr-3" />
+					<input type="checkbox" v-model="agree" value="true" class="mt-1.5 mr-3" />
 					<span class="fs-12 fw-400">
 						By proceeding, you agree that you understood the above instructions, and you are aware
 						that if a transaction is made without following these instructions, it is not a valid
@@ -136,14 +146,14 @@
 					</span>
 				</div>
 			</div>
-			<div
-				@click="goNext"
+			<button
+				type="submit"
 				style="background-color: #2b7ee4"
 				class="mt-4 mx-auto flex items-center justify-center h-12 w-52 br-5"
 			>
 				<span class="fw-500 fs-16 text-white"> Continue</span>
-			</div>
-		</div>
+			</button>
+		</Form>
 		<!-- ------------------ -->
 	</div>
 </template>
@@ -151,11 +161,18 @@
 <script>
 import { useRouter } from "vue-router";
 import CancelSvg from "./CancelSvg.vue";
+import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
+import { ref } from "vue";
+import { Log, Util } from "@/components/util";
+import { useStore } from "vuex";
 
 export default {
 	name: "Bank Details",
 	components: {
 		CancelSvg,
+		Form,
+		Field,
 	},
 	setup() {
 		const router = useRouter();
@@ -163,13 +180,36 @@ export default {
 			router.push("/withdraw");
 		};
 
-		const goNext = () => {
-			router.push("/confirm_withdrawal");
+		const agree = ref(false);
+		const store = useStore();
+		const schema = Yup.object().shape({
+			BeneficiaryName: Yup.string().required("Beneficiary Name is required"),
+			BeneficiaryAccountNumber: Yup.string().required("Beneficiary Account Number is required"),
+			BankName: Yup.string().required("Bank Name is required"),
+			BankAddress: Yup.string().required("Bank Address is required"),
+			ABARoutingNumber: Yup.string().required("ABA Routing Number is required"),
+		});
+
+		const goNext = (values) => {
+			Log.info(values);
+			Log.info(agree.value);
+			if (agree.value === false) {
+				Util.handleGlobalAlert(true, "failed", "You must agree to Terms and Conditions");
+			} else {
+				store.commit("bankDetails/bankAddress", values.BankAddress);
+				store.commit("bankDetails/abaRoutingNumber", values.ABARoutingNumber);
+				store.commit("bankDetails/bankName", values.BankName);
+				store.commit("bankDetails/beneficiaryAccountNumber", values.BeneficiaryAccountNumber);
+				store.commit("bankDetails/beneficiaryName", values.BeneficiaryName);
+				router.push("/confirm_withdrawal");
+			}
 		};
 
 		return {
 			goNext,
 			goBack,
+			schema,
+			agree,
 		};
 	},
 };

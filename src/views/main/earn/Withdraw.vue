@@ -191,10 +191,11 @@
 <script>
 import { useRouter } from "vue-router";
 import CancelSvg from "./CancelSvg.vue";
-import { Log } from "@/components/util";
-import { ref, onMounted, computed } from "vue";
+import { Log, Util } from "@/components/util";
+import { ref, onMounted, computed, watch } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
+import { useStore } from "vuex";
 
 export default {
 	name: "Withdraw",
@@ -211,7 +212,7 @@ export default {
 				(response) => {
 					Log.info(response.data.data);
 					currencies.value = response.data.data;
-					Log.info(selectedCurrency.value);
+					Log.info(selectedCurrency.value.buyingRate);
 					rate.value = computed(() => selectedCurrency.value.buyingRate * withdrawalAmount.value);
 					Log.info("rate" + String(rate.value));
 				},
@@ -223,9 +224,15 @@ export default {
 		const router = useRouter();
 		const withdrawalAmount = ref(0);
 		const rate = ref(0);
-
+		const store = useStore();
 		const goToBankDetails = () => {
-			router.push("/bank_details");
+			if (withdrawalAmount.value < 1) {
+				Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
+			} else {
+				store.commit("bankDetails/amount", withdrawalAmount.value);
+				Log.info(store.getters["bankDetails/amount"]);
+				router.push("/bank_details");
+			}
 		};
 		const currencies = ref([
 			{
@@ -236,6 +243,11 @@ export default {
 			},
 		]);
 		const selectedCurrency = ref(currencies.value[0]);
+
+		watch(selectedCurrency, (newValue) => {
+			Log.info(newValue);
+		});
+
 		return {
 			goToBankDetails,
 			currencies,

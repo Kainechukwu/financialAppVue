@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import authToken from "./modules/authToken";
+import bankDetails from "./modules/bankDetails";
 import createPersistedState from "vuex-persistedstate";
 
 let timer;
@@ -53,7 +54,8 @@ export default createStore({
   actions: {
   },
   modules: {
-    authToken
+    authToken,
+    bankDetails
   },
   plugins: [createPersistedState()],
 

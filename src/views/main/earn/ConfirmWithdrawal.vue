@@ -42,12 +42,12 @@
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Beneficiary Name:</span>
-						<span class="fw-600 fs-12 blacktext">{{ bankDetails.holderName }}</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.beneficiaryName }}</span>
 					</div>
 
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Account Number:</span>
-						<span class="fw-600 fs-12 blacktext">0123456789</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.beneficiaryAccountNumber }}</span>
 					</div>
 				</div>
 
@@ -55,12 +55,12 @@
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Bank Name:</span>
-						<span class="fw-600 fs-12 blacktext">Bank of America</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.bankName }}</span>
 					</div>
 
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">ABA Routing Number:</span>
-						<span class="fw-600 fs-12 blacktext">1234567890</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.abaRoutingNumber }}</span>
 					</div>
 				</div>
 
@@ -73,7 +73,7 @@
 
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Bank Address:</span>
-						<span class="fw-600 fs-12 blacktext">810 Seventh Avenue, New York, NY 10019, US</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.bankAddress }}</span>
 					</div>
 				</div>
 
@@ -81,7 +81,7 @@
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Amount Withdrawn:</span>
-						<span class="fw-600 fs-12 blacktext">USDT 89.10</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.amount }}</span>
 					</div>
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Transaction Fee:</span>
@@ -126,9 +126,10 @@
 <script>
 import { useRouter } from "vue-router";
 import CancelSvg from "./CancelSvg.vue";
-import UserActions from "@/services/userActions/userActions.js";
-import { ref, onMounted } from "vue";
+// import UserActions from "@/services/userActions/userActions.js";
+import { onMounted } from "vue";
 import { Log } from "@/components/util";
+import { useStore } from "vuex";
 
 export default {
 	name: "Confirm Withdrawal",
@@ -137,18 +138,27 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			UserActions.getBankDetails(
-				(response) => {
-					Log.info(response.data.data);
-					bankDetails.value = response.data.data;
-				},
-				(error) => {
-					Log.info(error);
-				}
-			);
+			Log.info(bankDetails);
+			// UserActions.getBankDetails(
+			// 	(response) => {
+			// 		Log.info(response.data.data);
+			// 		bankDetails.value = response.data.data;
+			// 	},
+			// 	(error) => {
+			// 		Log.info(error);
+			// 	}
+			// );
 		});
+		const store = useStore();
 		const router = useRouter();
-		const bankDetails = ref({});
+		const bankDetails = {
+			amount: store.getters["bankDetails/amount"],
+			bankAddress: store.getters["bankDetails/bankAddress"],
+			abaRoutingNumber: store.getters["bankDetails/abaRoutingNumber"],
+			bankName: store.getters["bankDetails/bankName"],
+			beneficiaryName: store.getters["bankDetails/beneficiaryName"],
+			beneficiaryAccountNumber: store.getters["bankDetails/beneficiaryAccountNumber"],
+		};
 		const goBack = () => {
 			router.push("/bank_details");
 		};

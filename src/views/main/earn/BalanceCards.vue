@@ -57,7 +57,7 @@
 				</div>
 				<div class="relative flex items-center justify-between w-full">
 					<div class="flex">
-						<div class="cursor-pointer br-3 h-6 bg-white px-3.5">
+						<div @click="goToWithdraw2" class="cursor-pointer br-3 h-6 bg-white px-3.5">
 							<span class="fw-400 fs-10"> Withdraw</span>
 						</div>
 					</div>
@@ -101,12 +101,19 @@ export default {
 		};
 
 		const goToWithdraw = () => {
+			store.commit("bankDetails/balance", principalBalance.value);
+			router.push("/withdraw");
+		};
+
+		const goToWithdraw2 = () => {
+			store.commit("bankDetails/balance", interestBalance.value);
 			router.push("/withdraw");
 		};
 
 		return {
 			goToDeposit,
 			goToWithdraw,
+			goToWithdraw2,
 			principalBalance,
 			interestBalance,
 		};
