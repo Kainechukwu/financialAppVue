@@ -57,7 +57,7 @@
 										as="template"
 										v-for="currency in currencies"
 										:key="currency.id"
-										:value="currency.currency"
+										:value="currency"
 										v-slot="{ active, selectedCurrency }"
 									>
 										<li
@@ -97,7 +97,7 @@
 					/>
 				</div>
 				<span class="fs-12 fw-400 tx-666666 mt-3"
-					>Available Balance: <span class="fs-12 fw-600 blacktext">${{ rate }}</span></span
+					>You will receive: <span class="fs-12 fw-600 blacktext">${{ rate }}</span></span
 				>
 
 				<span class="mt-6 mb-4">Payment Method</span>
@@ -193,7 +193,7 @@ import { useRouter } from "vue-router";
 import CancelSvg from "./CancelSvg.vue";
 import { Log, Util } from "@/components/util";
 import { ref, onMounted, computed, watch } from "vue";
-import UserActions from "@/services/userActions/userActions.js";
+// import UserActions from "@/services/userActions/userActions.js";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 import { useStore } from "vuex";
 
@@ -208,28 +208,35 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			UserActions.getAllRates(
-				(response) => {
-					Log.info(response.data.data);
-					currencies.value = response.data.data;
-					Log.info(selectedCurrency.value.buyingRate);
-					rate.value = computed(() => selectedCurrency.value.buyingRate * withdrawalAmount.value);
-					Log.info("rate" + String(rate.value));
-				},
-				(error) => {
-					Log.info(error);
-				}
-			);
+			// UserActions.getAllRates(
+			// 	(response) => {
+			// 		Log.info(response.data.data);
+			// 		currencies.value = response.data.data;
+			// 		Log.info(selectedCurrency.value.buyingRate);
+			// 		rate.value = computed(() => selectedCurrency.value.buyingRate * withdrawalAmount.value);
+			// 		Log.info("rate" + String(rate.value));
+			// 		store.commit("bankDetails/rateId", selectedCurrency.value.id);
+			// 	},
+			// 	(error) => {
+			// 		Log.info(error);
+			// 	}
+			// );
 		});
 		const router = useRouter();
 		const withdrawalAmount = ref(0);
-		const rate = ref(0);
+		const rate = computed(() => selectedCurrency.value.sellingRate * withdrawalAmount.value);
 		const store = useStore();
 		const goToBankDetails = () => {
 			if (withdrawalAmount.value < 1) {
 				Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
 			} else {
+				Log.info("rate: below");
+				Log.info(selectedCurrency.value.sellingRate * withdrawalAmount.value);
 				store.commit("bankDetails/amount", withdrawalAmount.value);
+				store.commit(
+					"bankDetails/amountToReceive",
+					selectedCurrency.value.sellingRate * withdrawalAmount.value
+				);
 				Log.info(store.getters["bankDetails/amount"]);
 				router.push("/bank_details");
 			}
@@ -237,7 +244,7 @@ export default {
 		const currencies = ref([
 			{
 				buyingRate: 170,
-				currency: "USD",
+				currency: "UST",
 				id: "4d5b7298-3ba9-4eeb-b162-3f19b334fdec",
 				sellingRate: 200,
 			},

@@ -1,6 +1,16 @@
 import { Web, Constants } from "@/components/util"
 
 export default class UserActions {
+	static transactionWithdrawal(successHandler, errorHandler) {
+
+		Web.post(
+			Constants.API_BASE + "/Transactions/withdraw",
+
+			successHandler,
+			errorHandler
+		)
+
+	}
 
 	static getBankDetails(successHandler, errorHandler) {
 

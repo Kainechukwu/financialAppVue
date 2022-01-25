@@ -14,7 +14,8 @@ const state = {
 	bankName: "",
 	abaRoutingNumber: "",
 	bankAddress: "",
-	balance: ""
+	balance: "",
+	amountToReceive: 0
 	// }
 	// }
 
@@ -26,8 +27,12 @@ const getters = {
 	// details(state) {
 	// 	return state.details
 	// }
+
 	pin(state) {
 		return state.pin
+	},
+	amountToReceive(state) {
+		return state.amountToReceive
 	},
 	balance(state) {
 		return state.balance
@@ -59,8 +64,12 @@ const getters = {
 
 const mutations = {
 
+
 	pin(state, pin) {
 		state.pin = pin;
+	},
+	amountToReceive(state, amountToReceive) {
+		state.amountToReceive = amountToReceive;
 	},
 	balance(state, balance) {
 		state.balance = balance;

@@ -14,6 +14,8 @@ export default createStore({
     signupEmail: "",
     sidebarMenu: false,
     globaAlert: { show: false, text: "", type: "" },
+    bankDetailsPinModal: false,
+    transactionSuccessfulModal: false
 
   },
   mutations: {
@@ -50,6 +52,12 @@ export default createStore({
         alert.click();
       }, 5000)
     },
+    setBankDetailsPinModal(state, payload) {
+      state.bankDetailsPinModal = payload;
+    },
+    setTransactionSuccessfulModal(state, payload) {
+      state.transactionSuccessfulModal = payload;
+    }
   },
   actions: {
   },
