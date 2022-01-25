@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import authToken from "./modules/authToken";
 import createPersistedState from "vuex-persistedstate";
 
+let timer;
 export default createStore({
   state: {
     addPlanModal: false,
@@ -11,6 +12,8 @@ export default createStore({
     phoneNo: "",
     signupEmail: "",
     sidebarMenu: false,
+    globaAlert: { show: false, text: "", type: "" },
+
   },
   mutations: {
     setAddPlanModal(state, payload) {
@@ -33,7 +36,19 @@ export default createStore({
     },
     setSidebarMenu(state, payload) {
       state.sidebarMenu = payload;
-    }
+    },
+    setGlobalAlert(state, payload) {
+      // Clear previous timer
+      clearTimeout(timer);
+      // update alert state
+      state.globaAlert = payload;
+      // set new timer
+      timer = setTimeout(() => {
+        const alert = document.getElementById("globalAlert");
+        state.globaAlert = { show: false, text: "", type: "" }
+        alert.click();
+      }, 5000)
+    },
   },
   actions: {
   },
