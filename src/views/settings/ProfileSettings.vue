@@ -170,7 +170,7 @@ export default {
 			firstName: Yup.string().required("First Name is required"),
 			lastName: Yup.string().required("Last name is required"),
 			email: Yup.string().required("Email is required").email("Email is invalid"),
-			dob: Yup.string().required("Date of birth is required"),
+			dob: Yup.date().required("Date of birth is required"),
 			phoneNo: Yup.string().required("Phone number is required"),
 		});
 
