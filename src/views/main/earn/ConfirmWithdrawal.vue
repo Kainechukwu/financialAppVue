@@ -38,16 +38,17 @@
 		</div>
 		<!-- --------------------- -->
 		<div class="p-5 flex flex-col">
+			<span class="tx-666666 fw-400 fs-14 mb-2"> You are about to withdraw </span>
 			<div style="background-color: #f2f6ff" class="p-4 flex flex-col br-5 mb-6">
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Beneficiary Name:</span>
-						<span class="fw-600 fs-12 blacktext">{{ bankDetails.holderName }}</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.beneficiaryName }}</span>
 					</div>
 
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Account Number:</span>
-						<span class="fw-600 fs-12 blacktext">0123456789</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.beneficiaryAccountNumber }}</span>
 					</div>
 				</div>
 
@@ -55,33 +56,33 @@
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Bank Name:</span>
-						<span class="fw-600 fs-12 blacktext">Bank of America</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.bankName }}</span>
 					</div>
 
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">ABA Routing Number:</span>
-						<span class="fw-600 fs-12 blacktext">1234567890</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.abaRoutingNumber }}</span>
 					</div>
 				</div>
 
 				<!-- --------------------- -->
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col">
-						<span class="fw-400 fs-12 tx-666666">Transaction Reference:</span>
-						<span class="fw-600 fs-12 blacktext">026073150</span>
+						<span class="fw-400 fs-12 tx-666666">Amount Withdrawn:</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.amount }}</span>
 					</div>
 
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Bank Address:</span>
-						<span class="fw-600 fs-12 blacktext">810 Seventh Avenue, New York, NY 10019, US</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.bankAddress }}</span>
 					</div>
 				</div>
 
 				<!-- --------------- -->
 				<div class="grid grid-cols-2 mb-3">
-					<div class="flex flex-col">
-						<span class="fw-400 fs-12 tx-666666">Amount Withdrawn:</span>
-						<span class="fw-600 fs-12 blacktext">USDT 89.10</span>
+					<div class="flex flex-col col-span-1">
+						<span class="fw-400 fs-12 tx-666666">You will receive:</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountToReceive }} USDT</span>
 					</div>
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Transaction Fee:</span>
@@ -91,18 +92,18 @@
 
 				<!-- -------------- -->
 				<!-- --------------- -->
-				<div class="grid grid-cols-2 mb-3">
-					<div class="flex flex-col col-span-1">
+				<!-- <div class="grid grid-cols-2 mb-3"> -->
+				<!-- <div class="flex flex-col col-span-1">
 						<span class="fw-400 fs-12 tx-666666">You will receive:</span>
 						<span class="fw-600 fs-12 blacktext">99.00 USDT</span>
-					</div>
-					<!-- 
+					</div> -->
+				<!-- 
 				<div class="flex flex-col">
 					
 					<span class="fw-400 fs-12 tx-666666">Transaction Fee:</span>
 					<span class="fw-600 fs-12 blacktext">$5.00</span>
 				</div> -->
-				</div>
+				<!-- </div> -->
 
 				<!-- --------------- -->
 			</div>
@@ -112,7 +113,7 @@
 						<span class="blacktext fs-16 fw-500">Cancel</span>
 					</div>
 				</div>
-				<div style="background: #2b7ee4" class="br-5">
+				<div @click="confirmWithdrawal" style="background: #2b7ee4" class="br-5">
 					<div class="flex justify-center items-center h-12">
 						<span class="fw-500 fs-16 text-white">Confirm</span>
 					</div>
@@ -126,9 +127,10 @@
 <script>
 import { useRouter } from "vue-router";
 import CancelSvg from "./CancelSvg.vue";
-import UserActions from "@/services/userActions/userActions.js";
-import { ref, onMounted } from "vue";
+// import UserActions from "@/services/userActions/userActions.js";
+import { onMounted } from "vue";
 import { Log } from "@/components/util";
+import { useStore } from "vuex";
 
 export default {
 	name: "Confirm Withdrawal",
@@ -137,24 +139,39 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			UserActions.getBankDetails(
-				(response) => {
-					Log.info(response.data.data);
-					bankDetails.value = response.data.data;
-				},
-				(error) => {
-					Log.info(error);
-				}
-			);
+			Log.info(bankDetails);
+			// UserActions.getBankDetails(
+			// 	(response) => {
+			// 		Log.info(response.data.data);
+			// 		bankDetails.value = response.data.data;
+			// 	},
+			// 	(error) => {
+			// 		Log.info(error);
+			// 	}
+			// );
 		});
+		const store = useStore();
 		const router = useRouter();
-		const bankDetails = ref({});
+		const bankDetails = {
+			amountToReceive: store.getters["bankDetails/amountToReceive"],
+			amount: store.getters["bankDetails/amount"],
+			bankAddress: store.getters["bankDetails/bankAddress"],
+			abaRoutingNumber: store.getters["bankDetails/abaRoutingNumber"],
+			bankName: store.getters["bankDetails/bankName"],
+			beneficiaryName: store.getters["bankDetails/beneficiaryName"],
+			beneficiaryAccountNumber: store.getters["bankDetails/beneficiaryAccountNumber"],
+		};
+
+		const confirmWithdrawal = () => {
+			store.commit("setBankDetailsPinModal", true);
+		};
 		const goBack = () => {
 			router.push("/bank_details");
 		};
 		return {
 			goBack,
 			bankDetails,
+			confirmWithdrawal,
 		};
 	},
 };

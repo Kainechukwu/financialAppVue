@@ -1,5 +1,7 @@
 import { createStore } from 'vuex'
 import authToken from "./modules/authToken";
+import bankDetails from "./modules/bankDetails";
+import deposit from "./modules/deposit";
 import createPersistedState from "vuex-persistedstate";
 
 let timer;
@@ -13,6 +15,8 @@ export default createStore({
     signupEmail: "",
     sidebarMenu: false,
     globaAlert: { show: false, text: "", type: "" },
+    bankDetailsPinModal: false,
+    transactionSuccessfulModal: false
 
   },
   mutations: {
@@ -49,11 +53,19 @@ export default createStore({
         alert.click();
       }, 5000)
     },
+    setBankDetailsPinModal(state, payload) {
+      state.bankDetailsPinModal = payload;
+    },
+    setTransactionSuccessfulModal(state, payload) {
+      state.transactionSuccessfulModal = payload;
+    }
   },
   actions: {
   },
   modules: {
-    authToken
+    authToken,
+    bankDetails,
+    deposit
   },
   plugins: [createPersistedState()],
 

@@ -2,6 +2,27 @@ import { Web, Constants } from "@/components/util"
 
 export default class UserActions {
 
+
+	static transactionDeposit(details, successHandler, errorHandler) {
+		Web.post(
+			Constants.API_BASE + "/Transactions/manual-deposit",
+			details,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static transactionWithdrawal(bankDetails, successHandler, errorHandler) {
+
+		Web.post(
+			Constants.API_BASE + "/Transactions/withdraw",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+
+	}
+
 	static getBankDetails(successHandler, errorHandler) {
 
 		Web.get(Constants.API_BASE + '/Transactions/bornfree-bank-data', successHandler, errorHandler)
