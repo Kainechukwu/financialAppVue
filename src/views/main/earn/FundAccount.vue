@@ -35,7 +35,7 @@
 
 				<div class="flex flex-col">
 					<span class="fw-400 fs-12 tx-666666">Transaction Reference:</span>
-					<span class="fw-600 fs-12 blacktext">026073150</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.transactionsReference }}</span>
 				</div>
 			</div>
 
@@ -43,12 +43,12 @@
 			<div class="grid grid-cols-2 mb-3">
 				<div class="flex flex-col">
 					<span class="fw-400 fs-12 tx-666666">You will pay:</span>
-					<span class="fw-600 fs-12 blacktext">$1000.00</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountToSend }}</span>
 				</div>
 
 				<div class="flex flex-col">
 					<span class="fw-400 fs-12 tx-666666">Transaction Fee:</span>
-					<span class="fw-600 fs-12 blacktext">$5.00</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.transactionFee }}</span>
 				</div>
 			</div>
 
@@ -56,7 +56,7 @@
 			<div class="grid grid-cols-2 mb-3">
 				<div class="flex flex-col col-span-1">
 					<span class="fw-400 fs-12 tx-666666">You will receive:</span>
-					<span class="fw-600 fs-12 blacktext">995 USDT</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountRecieved }}USDT</span>
 				</div>
 				<!-- 
 				<div class="flex flex-col">
@@ -94,7 +94,7 @@
 			</div>
 
 			<div v-if="!isMoneySent" class="col-span-2 flex">
-				<input type="checkbox" class="mt-1.5 mr-3" />
+				<input type="checkbox" v-model="agree" value="true" class="mt-1.5 mr-3" />
 				<span class="fs-12 fw-400">
 					By proceeding, you agree that you understood the above instructions, and you are aware
 					that if a transaction is made without following these instructions, it is not a valid
@@ -123,9 +123,10 @@
 <script>
 // import { Field, Form, ErrorMessage } from "vee-validate";
 // import * as yup from "yup";
-import UserActions from "@/services/userActions/userActions.js";
-import { ref, onMounted } from "vue";
-import { Log } from "@/components/util";
+// import UserActions from "@/services/userActions/userActions.js";
+import { ref } from "vue";
+// import { Log } from "@/components/util";
+import { useStore } from "vuex";
 
 export default {
 	name: "Fund Account",
@@ -136,19 +137,24 @@ export default {
 	},
 
 	setup() {
-		onMounted(() => {
-			UserActions.getBankDetails(
-				(response) => {
-					Log.info(response.data.data);
-					bankDetails.value = response.data.data;
-				},
-				(error) => {
-					Log.info(error);
-				}
-			);
-		});
+		// onMounted(() => {
+
+		// });
+		const store = useStore();
 		const isMoneySent = ref(false);
-		const bankDetails = ref({});
+		const agree = ref(false);
+		const bankDetails = {
+			amountToSend: store.getters["deposit/amountToSend"],
+			amountRecieved: store.getters["deposit/amountRecieved"],
+			holderName: store.getters["deposit/holderName"],
+			bankAddress: store.getters["deposit/bankAddress"],
+			accountNumber: store.getters["deposit/accountNumber"],
+			bankName: store.getters["deposit/bankName"],
+			routingNumber: store.getters["deposit/routingNumber"],
+			transactionFee: store.getters["deposit/transactionFee"],
+			transactionRefCode: store.getters["deposit/transactionRefCode"],
+			transactionsReference: store.getters["deposit/transactionsReference"],
+		};
 
 		const sendMoney = () => {
 			isMoneySent.value = true;
@@ -162,6 +168,7 @@ export default {
 			sendMoney,
 			isMoneySent,
 			bankDetails,
+			agree,
 		};
 	},
 };

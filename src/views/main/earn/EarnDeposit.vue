@@ -44,7 +44,7 @@
 									as="template"
 									v-for="currency in currencies"
 									:key="currency.id"
-									:value="currency.currency"
+									:value="currency"
 									v-slot="{ active, selectedCurrency }"
 								>
 									<li
@@ -191,16 +191,16 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col mb-10">
+			<!-- <div class="flex flex-col mb-10">
 				<span class="fs-14 fw-700 blacktext mb-2">Instructions</span>
 				<span class="fs-14 fw-400 blacktext">
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus diam mi adipiscing nisl
 					velit. Id at enim sed cursus morbi aliquet eu blandit. A et cras molestie pellentesque.
 				</span>
-			</div>
+			</div> -->
 
 			<div
-				@click="goToNext"
+				@click="sendAmount"
 				style="background-color: #2b7ee4"
 				class="mx-auto flex items-center justify-center h-12 w-52 br-5"
 			>
@@ -212,9 +212,10 @@
 
 <script>
 import { useRouter } from "vue-router";
-import { ref, onMounted, computed } from "vue";
-import { Log } from "@/components/util";
 import UserActions from "@/services/userActions/userActions.js";
+import { ref, onMounted, computed, watch } from "vue";
+import { Log, Util } from "@/components/util";
+import { useStore } from "vuex";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 export default {
 	name: "Earn Deposit 1",
@@ -235,6 +236,7 @@ export default {
 					Log.info("BR:" + String(selectedCurrency.value.sellingRate));
 					rate.value = computed(() => depositAmount.value / selectedCurrency.value.buyingRate);
 					Log.info(rate);
+					rateId.value = selectedCurrency.value.id;
 				},
 				(error) => {
 					Log.info(error);
@@ -242,11 +244,13 @@ export default {
 			);
 		});
 		const router = useRouter();
+		const store = useStore();
 		const depositAmount = ref(0);
 		const rate = ref(0);
-		const goToNext = () => {
-			router.push("/earn/fund_account");
-		};
+		const rateId = ref("");
+		// const goToNext = () => {
+		// 	router.push("/earn/fund_account");
+		// };
 		// const currencies = ["USD", "EURO"];
 		const currencies = ref([
 			{
@@ -258,12 +262,50 @@ export default {
 		]);
 		const selectedCurrency = ref(currencies.value[0]);
 
+		const sendAmount = () => {
+			if (depositAmount.value < 1) {
+				Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
+			} else {
+				UserActions.transactionDeposit(
+					{
+						rateId: rateId.value,
+						userId: store.getters["authToken/userId"],
+						amount: depositAmount.value,
+					},
+					(response) => {
+						const data = response.data.data;
+						Log.info(data);
+						store.commit("deposit/amountToSend", data.amountToSend);
+						store.commit("deposit/amountRecieved", data.amountRecieved);
+						store.commit("deposit/holderName", data.bankDetails.holderName);
+						store.commit("deposit/bankAddress", data.bankDetails.bankAddress);
+						store.commit("deposit/accountNumber", data.bankDetails.accountNumber);
+						store.commit("deposit/bankName", data.bankDetails.bankName);
+						store.commit("deposit/routingNumber", data.bankDetails.routingNumber);
+						store.commit("deposit/transactionFee", data.transactionFee);
+						store.commit("deposit/transactionRefCode", data.transactionRefCode);
+						store.commit("deposit/transactionsReference", data.transactionsReference);
+
+						router.push("/earn/fund_account");
+					},
+					(error) => {
+						Log.error(error);
+					}
+				);
+			}
+		};
+
+		watch(selectedCurrency, (newValue) => {
+			rateId.value = newValue.id;
+			Log.info(rateId.value);
+		});
+
 		return {
-			goToNext,
 			currencies,
 			selectedCurrency,
 			depositAmount,
 			rate,
+			sendAmount,
 		};
 	},
 };
