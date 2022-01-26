@@ -15,7 +15,9 @@ const state = {
 	abaRoutingNumber: "",
 	bankAddress: "",
 	balance: "",
-	amountToReceive: 0
+	amountToReceive: 0,
+	withdrawalFee: 0,
+	depositFee: 0
 	// }
 	// }
 
@@ -27,6 +29,13 @@ const getters = {
 	// details(state) {
 	// 	return state.details
 	// }
+	depositFee(state) {
+		return state.depositFee
+	},
+
+	withdrawalFee(state) {
+		return state.withdrawalFee
+	},
 
 	pin(state) {
 		return state.pin
@@ -63,8 +72,12 @@ const getters = {
 
 
 const mutations = {
-
-
+	depositFee(state, depositFee) {
+		state.depositFee = depositFee;
+	},
+	withdrawalFee(state, withdrawalFee) {
+		state.withdrawalFee = withdrawalFee;
+	},
 	pin(state, pin) {
 		state.pin = pin;
 	},

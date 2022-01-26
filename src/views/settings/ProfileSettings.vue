@@ -9,99 +9,117 @@
 				</div>
 			</div>
 			<div class="col-span-3">
-				<div class="flex flex-col w-9/12">
-					<div class="flex flex-col">
-						<div class="grid grid-cols-2 gap-4">
-							<div class="mb-8">
-								<label for="First Name" class="fs-14 fw-400 tx-666666">First Name</label>
-								<input
-									id="First Name"
-									name="FirstName"
-									v-model="firstName"
-									type="text"
-									autocomplete="off"
-									required=""
-									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-								/>
-							</div>
-
-							<div class="mb-8">
-								<label for="Last Name" class="fs-14 fw-400 tx-666666">Last Name</label>
-								<input
-									id="Last Name"
-									name="LastName"
-									v-model="lastName"
-									type="text"
-									autocomplete="off"
-									required=""
-									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-								/>
-							</div>
-						</div>
-
-						<div class="grid grid-cols-2 gap-4">
-							<!-- -------------- -->
-							<div class="mb-8">
-								<label for="Email Address" class="fs-14 fw-400 tx-666666">Email Address</label>
-								<input
-									id="Email Address"
-									name="Email Address"
-									v-model="email"
-									type="email"
-									autocomplete="off"
-									required=""
-									placeholder="john.doe@gmail.com"
-									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-								/>
-							</div>
-
-							<div>
-								<label for="Phone No" class="fs-14 tx-666666 fw-600">Phone No</label>
-								<div class="relative">
-									<input
-										id="Phone No"
-										name="PhoneNo"
-										type="number"
-										v-model="phoneNo"
+				<Form @submit="updateProfile" :validation-schema="schema" v-slot="{ errors }">
+					<div class="flex flex-col w-9/12">
+						<div class="flex flex-col">
+							<div class="grid grid-cols-2 gap-4">
+								<div class="mb-8">
+									<label for="First Name" class="fs-14 fw-400 tx-666666">First Name</label>
+									<Field
+										id="First Name"
+										name="firstName"
+										v-model="firstName"
+										type="text"
 										autocomplete="off"
 										required=""
-										class="mt-1.5 br-5 h-12 appearance-none relative block w-full pl-12 pr-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+										:class="{ 'is-invalid': errors.firstName }"
 									/>
+									<div class="invalid-feedback text-red-500">{{ errors.firstName }}</div>
+								</div>
 
-									<div
-										class="z-20 w-8 absolute left-0 inset-y-0 blacktext h-5 flex items-center my-auto ml-2"
-									>
-										+234
+								<div class="mb-8">
+									<label for="Last Name" class="fs-14 fw-400 tx-666666">Last Name</label>
+									<Field
+										id="Last Name"
+										name="lastName"
+										v-model="lastName"
+										type="text"
+										autocomplete="off"
+										required=""
+										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+										:class="{ 'is-invalid': errors.lastName }"
+									/>
+									<div class="invalid-feedback text-red-500">{{ errors.lastName }}</div>
+								</div>
+							</div>
+
+							<div class="grid grid-cols-2 gap-4">
+								<!-- -------------- -->
+								<div class="mb-8">
+									<label for="Email Address" class="fs-14 fw-400 tx-666666">Email Address</label>
+									<Field
+										id="Email Address"
+										name="email"
+										v-model="email"
+										type="email"
+										autocomplete="off"
+										required=""
+										placeholder="john.doe@gmail.com"
+										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+										:class="{ 'is-invalid': errors.email }"
+									/>
+									<div class="invalid-feedback text-red-500">{{ errors.email }}</div>
+								</div>
+
+								<div>
+									<label for="Phone No" class="fs-14 tx-666666 fw-600">Phone No</label>
+									<div class="relative">
+										<Field
+											id="Phone No"
+											name="phoneNo"
+											type="number"
+											v-model="phoneNo"
+											autocomplete="off"
+											required=""
+											class="mt-1.5 br-5 h-12 appearance-none relative block w-full pl-12 pr-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+											:class="{ 'is-invalid': errors.phoneNo }"
+										/>
+										<div class="invalid-feedback text-red-500">{{ errors.phoneNo }}</div>
+										<div
+											:class="{ numHolder: errors.phoneNo }"
+											class="z-20 w-8 absolute left-0 inset-y-0 top-0 blacktext h-5 flex items-center my-auto ml-2"
+										>
+											+234
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 
-						<div class="mb-8">
-							<label for="Date of Birth" class="fs-14 fw-400 tx-666666">Date of Birth</label>
-							<input
-								id="Date of Birth"
-								name="Date of Birth"
-								type="Date"
-								autocomplete="off"
-								v-model="dob"
-								required=""
-								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-							/>
-						</div>
+							<div class="mb-8">
+								<label for="Date of Birth" class="fs-14 fw-400 tx-666666">Date of Birth</label>
+								<Field
+									id="Date of Birth"
+									name="dob"
+									type="Date"
+									autocomplete="off"
+									v-model="dob"
+									required=""
+									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									:class="{ 'is-invalid': errors.dob }"
+								/>
+								<div class="invalid-feedback text-red-500">{{ errors.dob }}</div>
+							</div>
 
-						<!-- ----------  -->
+							<!-- ----------  -->
 
-						<div class="flex justify-end">
-							<div
-								@click="updateProfile"
-								class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
-							>
-								<span class="text-white">Submit</span>
+							<div class="flex justify-end">
+								<button
+									:disabled="submitLoading"
+									type="submit"
+									class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
+								>
+									<div class="flex items-center justify-center">
+										<span class="text-white">Submit</span>
+										<div v-if="submitLoading" class="h-4 w-4 ml-4 rounded-md block">
+											<div class="roundLoader opacity-50 mx-auto"></div>
+										</div>
+									</div>
+								</button>
 							</div>
 						</div>
 					</div>
-				</div>
+				</Form>
 			</div>
 		</div>
 		<otp-phone-number />
@@ -111,13 +129,13 @@
 <script>
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
-import { Log } from "@/components/util";
-// import { Form, Field } from "vee-validate";
+import { Log, Util } from "@/components/util";
+import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import ApiResource from "@/components/core/ApiResource";
 import OtpPhoneNumber from "@/views/modals/OtpPhoneNumber.vue";
 import UserActions from "@/services/userActions/userActions.js";
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, ref } from "vue";
 
 /*eslint quote-props: ["error", "consistent"]*/
 
@@ -125,13 +143,14 @@ export default {
 	name: "ProfileSettings",
 	components: {
 		OtpPhoneNumber,
-		// Form,
-		// Field,
+		Form,
+		Field,
 	},
 	setup() {
 		onMounted(() => {});
 		const store = useStore();
 		const profileUpdate = ApiResource.create();
+		const submitLoading = ref(false);
 
 		const userProfile = reactive({
 			email: store.getters["authToken/email"],
@@ -148,24 +167,25 @@ export default {
 			firstName: Yup.string().required("First Name is required"),
 			lastName: Yup.string().required("Last name is required"),
 			email: Yup.string().required("Email is required").email("Email is invalid"),
-			dob: Yup.string().required("Password is required"),
-			phoneNo: Yup.string().required("Password is required"),
+			dob: Yup.string().required("Date of birth is required"),
+			phoneNo: Yup.string().required("Phone number is required"),
 		});
 
-		const sliceNumber = (num) => {
-			const number = num;
-			return "0" + String(number);
-		};
+		// const sliceNumber = (num) => {
+		// 	const number = num;
+		// 	return "0" + String(number);
+		// };
 
-		const updateProfile = () => {
+		const updateProfile = (values) => {
+			submitLoading.value = true;
 			profileUpdate.loading = true;
 			const userDetails = {
 				merchantId: store.getters["authToken/userId"],
-				firstName: userProfile.firstName,
-				lastName: userProfile.lastName,
-				// dob: new Date(userProfile.dob),
-				dob: userProfile.dob,
-				phoneNumber: sliceNumber(userProfile.phoneNo),
+				firstName: values.firstName,
+				lastName: values.lastName,
+				// dob: new Date(values.dob),
+				dob: values.dob,
+				phoneNumber: values.phoneNo,
 			};
 
 			Log.info(userDetails);
@@ -174,16 +194,19 @@ export default {
 				userDetails,
 
 				(response) => {
+					submitLoading.value = false;
 					Log.info("profileUpdate response" + String(response));
 					profileUpdate.loading = false;
 					store.commit("setOtpPhoneNumberModal", true);
 					store.commit("setPhoneNo", userDetails.phoneNumber);
-
+					Util.handleGlobalAlert(true, "success", response.data.message);
 					Log.info("profileUpdate" + String(profileUpdate.loading));
 				},
 				(error) => {
+					submitLoading.value = false;
 					Log.error("profileUpdate response" + String(error));
 					profileUpdate.loading = false;
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					Log.error("profileUpdate" + String(profileUpdate.loading));
 				}
 			);
@@ -192,9 +215,14 @@ export default {
 			...toRefs(userProfile),
 			updateProfile,
 			schema,
+			submitLoading,
 		};
 	},
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.numHolder {
+	top: -20px;
+}
+</style>

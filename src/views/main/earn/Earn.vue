@@ -19,6 +19,10 @@
 
 <script>
 import BalanceCards from "./BalanceCards.vue";
+import { onMounted } from "vue";
+import UserActions from "@/services/userActions/userActions.js";
+import { Log } from "@/components/util";
+import { useStore } from "vuex";
 
 export default {
 	name: "Earn",
@@ -30,6 +34,21 @@ export default {
 	},
 
 	setup() {
+		onMounted(() => {
+			UserActions.getCharges(
+				(response) => {
+					Log.info(response);
+					const charges = response.data.data;
+
+					store.commit();
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		});
+
+		const store = useStore();
 		return {};
 	},
 };

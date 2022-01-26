@@ -42,7 +42,6 @@ export default class LoginService {
 		Web.get(
 			// Account/confirm-email?userId=www&code=wwwww
 			Constants.API_BASE + "/Account/confirm-email?userId=" + userId + "&code=" + code,
-
 			successHandler,
 			errorHandler
 		)
