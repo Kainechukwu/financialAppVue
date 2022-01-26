@@ -125,6 +125,7 @@
 									</div>
 
 									<!-- ------------ -->
+									<span class="text-red-500">{{ errorMessage }}</span>
 								</div>
 
 								<div class="mt-8">
@@ -132,7 +133,12 @@
 										@click="submitCode"
 										class="cursor-pointer mx-auto greenButton fs-14 fw-500 w-8/12 h-14 br-5 flex items-center justify-center"
 									>
-										<span class="text-white">Submit</span>
+										<div class="flex items-center justify-center">
+											<span class="text-white">Submit</span>
+											<div v-if="submitLoading" class="h-4 w-4 ml-4 rounded-md block">
+												<div class="roundLoader opacity-50 mx-auto"></div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</form>
@@ -148,8 +154,8 @@
 <script>
 import { useStore } from "vuex";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
-import { computed, onMounted } from "vue";
-import { reactive, toRefs } from "vue";
+import { computed, onMounted, watch } from "vue";
+import { reactive, toRefs, ref } from "vue";
 import { Log, Util } from "@/components/util";
 import UserActions from "@/services/userActions/userActions.js";
 
@@ -173,8 +179,11 @@ export default {
 			code6: "",
 		});
 
+		const submitLoading = ref(false);
+
 		const phoneNo = store.state.phoneNo;
 		const isModalOpen = computed(() => store.state.otpPhoneNumberModal);
+		const errorMessage = ref("");
 
 		function clickEvent(e, next) {
 			// Log.info(String(curr) + " " + String(next));
@@ -192,29 +201,44 @@ export default {
 		};
 
 		const submitCode = () => {
-			const userDetails = {
-				phoneNumber: phoneNo,
-				code: prepareDetails(),
-			};
-			Log.info(userDetails);
-			UserActions.confirmPhoneNumber(
-				userDetails,
+			if (prepareDetails().length < 6) {
+				errorMessage.value = "All fields must be filled";
+			} else {
+				submitLoading.value = true;
+				const userDetails = {
+					phoneNumber: phoneNo,
+					code: prepareDetails(),
+				};
+				Log.info(userDetails);
+				UserActions.confirmPhoneNumber(
+					userDetails,
 
-				(response) => {
-					Log.info("otp response" + String(response));
-					store.commit("setOtpPhoneNumberModal", false);
-					Util.handleGlobalAlert(true, "success", response.data.message);
-				},
-				(error) => {
-					Log.error("otp response" + String(error));
-					store.commit("setOtpPhoneNumberModal", false);
-					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-				}
-			);
+					(response) => {
+						submitLoading.value = false;
+						Log.info("otp response" + String(response));
+						store.commit("setOtpPhoneNumberModal", false);
+						Util.handleGlobalAlert(true, "success", response.data.message);
+					},
+					(error) => {
+						submitLoading.value = false;
+						Log.error("otp response" + String(error));
+						store.commit("setOtpPhoneNumberModal", false);
+						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					}
+				);
+			}
 		};
 		const close = () => {
 			store.commit("setOtpPhoneNumberModal", false);
 		};
+
+		watch(codes, (newValue) => {
+			let inputCodes = prepareDetails();
+			if (inputCodes.length === 6) {
+				errorMessage.value = "";
+			}
+			Log.info(newValue);
+		});
 
 		return {
 			close,
@@ -222,6 +246,8 @@ export default {
 			submitCode,
 			...toRefs(codes),
 			clickEvent,
+			errorMessage,
+			submitLoading,
 		};
 	},
 };
