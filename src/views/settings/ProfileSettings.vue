@@ -112,6 +112,8 @@
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
 import { Log } from "@/components/util";
+// import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
 import ApiResource from "@/components/core/ApiResource";
 import OtpPhoneNumber from "@/views/modals/OtpPhoneNumber.vue";
 import UserActions from "@/services/userActions/userActions.js";
@@ -123,6 +125,8 @@ export default {
 	name: "ProfileSettings",
 	components: {
 		OtpPhoneNumber,
+		// Form,
+		// Field,
 	},
 	setup() {
 		onMounted(() => {});
@@ -138,6 +142,14 @@ export default {
 
 			// userType: "Corporate",
 			// accountCreated: false,
+		});
+
+		const schema = Yup.object().shape({
+			firstName: Yup.string().required("First Name is required"),
+			lastName: Yup.string().required("Last name is required"),
+			email: Yup.string().required("Email is required").email("Email is invalid"),
+			dob: Yup.string().required("Password is required"),
+			phoneNo: Yup.string().required("Password is required"),
 		});
 
 		const sliceNumber = (num) => {
@@ -179,6 +191,7 @@ export default {
 		return {
 			...toRefs(userProfile),
 			updateProfile,
+			schema,
 		};
 	},
 };

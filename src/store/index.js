@@ -50,7 +50,9 @@ export default createStore({
       timer = setTimeout(() => {
         const alert = document.getElementById("globalAlert");
         state.globaAlert = { show: false, text: "", type: "" }
-        alert.click();
+        if (payload.show === true) {
+          alert.click();
+        }
       }, 5000)
     },
     setBankDetailsPinModal(state, payload) {

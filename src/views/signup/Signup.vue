@@ -206,9 +206,9 @@ export default {
 					"Field must have at least one uppercase, lowercase, number and special character";
 				Util.handleGlobalAlert(true, "failed", user.passwordError);
 			} else if (
-				Util.hasLowerCase(values.password) ||
-				Util.hasUpperCase(values.password) ||
-				Util.hasSpecialCharacter(values.password) ||
+				Util.hasLowerCase(values.password) &&
+				Util.hasUpperCase(values.password) &&
+				Util.hasSpecialCharacter(values.password) &&
 				Util.hasNumber(values.password)
 			) {
 				signupUser.loading = true;
@@ -220,14 +220,17 @@ export default {
 						password: values.password,
 					},
 					(response) => {
-						Log.info("response:" + JSON.stringify(response));
+						Log.info("response:" + JSON.stringify(response.response));
 						store.commit("setSignupEmail", user.userEmail);
 						signupUser.loading = false;
+						Util.handleGlobalAlert(true, "success", response.data.message);
 						router.push("/account_created");
 					},
 					(error) => {
 						signupUser.loading = false;
-						Log.error("error:" + JSON.stringify(error));
+						Log.error("error:" + JSON.stringify(error.response.data.Message));
+
+						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					}
 				);
 			}

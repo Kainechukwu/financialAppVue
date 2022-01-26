@@ -2,6 +2,16 @@ import { Web, Constants } from "@/components/util"
 
 export default class UserActions {
 
+	static confirmDeposit(credentials, successHandler, errorHandler) {
+		Web.post(
+			Constants.API_BASE + "/Transactions/confirm-deposit",
+			credentials,
+			successHandler,
+			errorHandler
+		)
+
+	}
+
 
 	static transactionDeposit(details, successHandler, errorHandler) {
 		Web.post(
@@ -46,8 +56,7 @@ export default class UserActions {
 		errorHandler
 	) {
 		Web.post(
-			Constants.API_BASE + "/Account/forgot-password?email=" + userEmail,
-
+			Constants.API_BASE + "/Account/forgot-password?email=" + userEmail, "",
 			successHandler,
 			errorHandler
 		)
@@ -103,7 +112,7 @@ export default class UserActions {
 	}
 
 	static merchantUpdateProfile(userDetails, successHandler, errorhandler) {
-		Web.post(Constants.API_BASE + "/Merchant/update", userDetails, successHandler, errorhandler)
+		Web.put(Constants.API_BASE + "/Merchant/update", userDetails, successHandler, errorhandler)
 	}
 
 	static changePassword(userDetails, successHandler, errorHandler) {

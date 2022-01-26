@@ -145,11 +145,11 @@
 
 <script>
 import { useStore } from "vuex";
+import UserActions from "@/services/userActions/userActions.js";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
 import { computed, onMounted } from "vue";
 import { reactive, toRefs } from "vue";
-import { Log } from "@/components/util";
-import UserActions from "@/services/userActions/userActions.js";
+import { Log, Util } from "@/components/util";
 
 export default {
 	name: "BankDetailsPin",
@@ -203,6 +203,15 @@ export default {
 			return obj;
 		};
 
+		const resetInput = () => {
+			codes.code1 = "";
+			codes.code2 = "";
+			codes.code3 = "";
+			codes.code4 = "";
+			codes.code5 = "";
+			codes.code6 = "";
+		};
+
 		const submitCode = () => {
 			Log.info(prepareDetails());
 
@@ -212,11 +221,14 @@ export default {
 				(response) => {
 					Log.info("transaction withjdrawal response" + String(response));
 					store.commit("setBankDetailsPinModal", false);
+					resetInput();
 					store.commit("setTransactionSuccessfulModal", true);
 				},
 				(error) => {
 					Log.error("transaction withdrawal response" + String(error));
+					resetInput();
 					store.commit("setBankDetailsPinModal", false);
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
 		};

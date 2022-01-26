@@ -1,5 +1,5 @@
 <template>
-	<div class="vertical-menu h-full w-64 fixed py-5 px-6 overflow-y-scroll">
+	<div class="vertical-menu h-full w-64 fixed py-5 px-6 overflow-y-auto">
 		<div class="full flex flex-col">
 			<div class="br-5 bg-white flex flex-col px-5 py-4 relative">
 				<div class="flex justify-between relative">
@@ -23,7 +23,7 @@
 					</div>
 				</div>
 				<div>
-					<span class="tx-666666 fw-400 fs-14">Kaine Bismarck</span>
+					<span class="tx-666666 fw-400 fs-14">{{ firstName }} {{ lastName }}</span>
 				</div>
 				<div
 					style="margin-top: 60px"
@@ -71,11 +71,12 @@ import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
 import SettingsSvg from "@/components/svg/SettingsSvg";
 import TransactionsSvg from "@/components/svg/TransactionsSvg.vue";
 import PayoutsSvg from "@/components/svg/PayoutsSvg.vue";
-import CustomersSvg from "@/components/svg/CustomersSvg.vue";
+// import CustomersSvg from "@/components/svg/CustomersSvg.vue";
 // import PlansSvg from "@/components/svg/PlansSvg.vue";
 import ConfigurationsSvg from "@/components/svg/ConfigurationsSvg";
 import LoginService from "@/services/login/LoginService.js";
 // import MerchantsSvg from "@/components/svg/MerchantsSvg.vue";
+import { useStore } from "vuex";
 import AuditLogsSvg from "@/components/svg/AuditLogsSvg.vue";
 export default {
 	name: "MainSideBar",
@@ -84,7 +85,7 @@ export default {
 		// DashBoardSvg,
 		SettingsSvg,
 		TransactionsSvg,
-		CustomersSvg,
+		// CustomersSvg,
 		ConfigurationsSvg,
 		// MerchantsSvg,
 		AuditLogsSvg,
@@ -92,6 +93,7 @@ export default {
 	setup() {
 		const route = useRoute();
 		const router = useRouter();
+		const store = useStore();
 		// const store = useRoute();
 		const show = reactive({
 			state: false,
@@ -105,6 +107,8 @@ export default {
 			LoginService.handleLogout();
 			router.push("/login");
 		};
+		const firstName = store.getters["authToken/firstName"];
+		const lastName = store.getters["authToken/lastName"];
 
 		const navigation = [
 			{
@@ -132,12 +136,12 @@ export default {
 			// 	icon: MerchantsSvg,
 			// 	routeName: "Merchants",
 			// },
-			{
-				name: "Customers",
-				href: "/customers",
-				icon: CustomersSvg,
-				routeName: "Customers",
-			},
+			// {
+			// 	name: "Customers",
+			// 	href: "/customers",
+			// 	icon: CustomersSvg,
+			// 	routeName: "Customers",
+			// },
 			// {
 			// 	name: "Plans",
 			// 	href: "/plans",
@@ -164,6 +168,8 @@ export default {
 			show,
 			toggle,
 			logout,
+			firstName,
+			lastName,
 		};
 	},
 };

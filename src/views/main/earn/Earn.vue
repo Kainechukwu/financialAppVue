@@ -1,7 +1,7 @@
 <template>
-	<div class="main-page pb-8 px-12 h-full">
-		<div class="w-full mx-auto">
-			<div class="flex flex-col pt-10">
+	<div class="main-page pb-8 px-12">
+		<div class="w-full mx-auto mb-64">
+			<div class="flex flex-col py-10">
 				<div class="w-full greeting mb-3">
 					<h1 class="inter fw-600 fs-24 blacktext mb-2.5">Earn</h1>
 					<p class="inter fw-400 fs-14 tx-666666">Track your investment performance</p>

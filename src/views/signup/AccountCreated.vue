@@ -45,7 +45,7 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 import AccountCreatedSvg from "@/components/svg/AccountCreatedSvg.vue";
 import SignupService from "@/services/signup/SignupService.js";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 import { useRouter } from "vue-router";
 
 export default {
@@ -70,14 +70,16 @@ export default {
 		const resendEmail = () => {
 			Log.info("email resend" + email.value);
 			SignupService.resendVerificationEmail(
-				email.value,
-				// "bismarckkaine@gmail.com",
+				// email.value,
+				"bismarckkaine@gmail.com",
 				// "kaine.bismarck@suprbiz.io",
 				(response) => {
 					Log.info("resendVerificationResponse" + JSON.stringify(response));
+					Util.handleGlobalAlert(true, "success", response.data.message);
 				},
 				(error) => {
 					Log.error("resendVerificationError" + JSON.stringify(error));
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
 		};

@@ -35,7 +35,7 @@
 
 				<div class="flex flex-col">
 					<span class="fw-400 fs-12 tx-666666">Transaction Reference:</span>
-					<span class="fw-600 fs-12 blacktext">{{ bankDetails.transactionsReference }}</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.transactionRefCode }}</span>
 				</div>
 			</div>
 
@@ -123,10 +123,11 @@
 <script>
 // import { Field, Form, ErrorMessage } from "vee-validate";
 // import * as yup from "yup";
-// import UserActions from "@/services/userActions/userActions.js";
+import UserActions from "@/services/userActions/userActions.js";
 import { ref } from "vue";
-// import { Log } from "@/components/util";
+import { Util, Log } from "@/components/util";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
 	name: "Fund Account",
@@ -141,6 +142,7 @@ export default {
 
 		// });
 		const store = useStore();
+		const router = useRouter();
 		const isMoneySent = ref(false);
 		const agree = ref(false);
 		const bankDetails = {
@@ -157,7 +159,28 @@ export default {
 		};
 
 		const sendMoney = () => {
-			isMoneySent.value = true;
+			if (agree.value === false) {
+				Util.handleGlobalAlert(true, "failed", "You must agree to Terms and Conditions");
+			} else {
+				UserActions.confirmDeposit(
+					{
+						transactionReference: bankDetails.transactionsReference,
+						confirmationNumber: bankDetails.transactionRefCode,
+						userId: store.getters["authToken/userId"],
+					},
+					(response) => {
+						Log.info(response);
+						isMoneySent.value = true;
+						router.push("/earn/overview");
+						Util.handleGlobalAlert(true, "success", response.data.message);
+					},
+					(error) => {
+						Log.error(error);
+						router.push("/earn/overview");
+						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					}
+				);
+			}
 		};
 
 		// const schema = Yup.object().shape({

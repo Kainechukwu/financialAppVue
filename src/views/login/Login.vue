@@ -142,19 +142,18 @@ export default {
 					password: values.password,
 				},
 				(response) => {
-					Log.info("login response:" + JSON.stringify(response));
+					Log.info("login response:" + JSON.stringify(response.data));
 
 					loginUser.loading = false;
 
-					Log.info("loginLoading" + String(loginUser.loading));
-
 					LoginService.handleSuccessfulLogin(response);
 					router.push("/earn");
-					Util.handleGlobalAlert(true, "success", "Welcome");
+					Util.handleGlobalAlert(true, "success", response.data.message);
 				},
 				(error) => {
 					Log.error("login error:" + JSON.stringify(error));
 					loginUser.loading = false;
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					Log.info("loginLoading " + String(loginUser.loading));
 				}
 			);

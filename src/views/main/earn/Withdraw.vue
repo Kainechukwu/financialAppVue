@@ -167,18 +167,18 @@
 					<!-- ------------ -->
 				</div>
 
-				<div class="flex flex-col mb-10">
+				<!-- <div class="flex flex-col mb-10">
 					<span class="fs-14 fw-700 blacktext mb-2">Instructions</span>
 					<span class="fs-14 fw-400 blacktext">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus diam mi adipiscing nisl
 						velit. Id at enim sed cursus morbi aliquet eu blandit. A et cras molestie pellentesque.
 					</span>
-				</div>
+				</div> -->
 
 				<div
 					@click="goToBankDetails"
 					style="background-color: #2b7ee4"
-					class="mx-auto flex items-center justify-center h-12 w-52 br-5"
+					class="mx-auto cursor-pointer flex items-center justify-center h-12 w-52 br-5"
 				>
 					<span class="fw-500 fs-16 text-white"> Continue</span>
 				</div>
