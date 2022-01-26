@@ -154,7 +154,10 @@ export default {
 
 		const userProfile = reactive({
 			email: store.getters["authToken/email"],
-			dob: "",
+			dob: store.getters["authToken/dob"],
+			// .length > 0
+			// 	? computed(() => store.getters["authToken/dob"])
+			// 	: "",
 			firstName: computed(() => store.getters["authToken/firstName"]),
 			lastName: store.getters["authToken/lastName"],
 			phoneNo: "",

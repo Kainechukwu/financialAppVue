@@ -11,6 +11,10 @@ const state = {
 	hasPin: false,
 	entryUrl: "",
 	loggedIn: false,
+	dob: "",
+	companyName: "",
+	phoneNumber: ""
+
 	// authorizations: [],
 };
 
@@ -19,6 +23,15 @@ const getters = {
 	// username(state) {
 	// 	return state.username;
 	// },
+	dob(state) {
+		return state.dob;
+	},
+	companyName(state) {
+		return state.companyName;
+	},
+	phoneNumber(state) {
+		return state.phoneNumber;
+	},
 	firstName(state) {
 		return state.firstName;
 	},
@@ -62,6 +75,15 @@ const getters = {
 
 
 const mutations = {
+	dob(state, dob) {
+		state.dob = dob;
+	},
+	companyName(state, companyName) {
+		state.companyName = companyName;
+	},
+	phoneNumber(state, phoneNumber) {
+		state.phoneNumber = phoneNumber;
+	},
 
 	firstName(state, firstName) {
 		state.firstName = firstName;

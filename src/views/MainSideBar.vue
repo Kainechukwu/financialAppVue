@@ -3,7 +3,7 @@
 		<div class="full flex flex-col">
 			<div class="br-5 bg-white flex flex-col px-5 py-4 relative">
 				<div class="flex justify-between relative">
-					<span class="mb-1 fw-500 fs-16 blacktext">Bonfree Systems</span>
+					<span class="mb-1 fw-500 fs-16 blacktext">{{ companyName }}</span>
 					<div @click="toggle" class="flex items-center justify-center">
 						<svg
 							width="10"
@@ -99,6 +99,11 @@ export default {
 			state: false,
 		});
 
+		const companyName =
+			store.getters["authToken/companyName"].length > 0
+				? store.getters["authToken/companyName"]
+				: "";
+
 		const toggle = () => {
 			show.state = !show.state;
 		};
@@ -170,6 +175,7 @@ export default {
 			logout,
 			firstName,
 			lastName,
+			companyName,
 		};
 	},
 };

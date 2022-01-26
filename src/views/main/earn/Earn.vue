@@ -40,7 +40,10 @@ export default {
 					Log.info(response);
 					const charges = response.data.data;
 
-					store.commit();
+					store.commit("bankDetails/withdrawalFee", charges.withdrawalFee);
+					Log.info(charges.withdrawalFee);
+					store.commit("bankDetails/depositFee", charges.depositFee);
+					Log.info(charges.depositFee);
 				},
 				(error) => {
 					Log.error(error);

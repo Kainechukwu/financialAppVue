@@ -17,21 +17,21 @@
 						</div>
 						<CheckedSvg />
 					</div>
-					<div class="cursor-pointer flex px-6 py-4 justify-between">
+					<div @click="goToProfileSettings" class="cursor-pointer flex px-6 py-4 justify-between">
 						<div class="flex">
 							<VerifyContactSvg />
 							<p class="ml-4 my-auto inter fs-14 fw-400">Verify Phone Number</p>
 						</div>
 						<CheckedSvg />
 					</div>
-					<div class="cursor-pointer flex px-6 py-4 justify-between">
+					<div @click="goToCompliance" class="cursor-pointer flex px-6 py-4 justify-between">
 						<div class="flex">
 							<KycSvg />
 							<p class="ml-4 my-auto inter fs-14 fw-400">KYC: Upload ID, Take selfie</p>
 						</div>
 						<CheckedSvg />
 					</div>
-					<div class="cursor-pointer flex px-6 py-4 justify-between">
+					<div @click="goToPinSettings" class="cursor-pointer flex px-6 py-4 justify-between">
 						<div class="flex">
 							<SetPinSvg />
 							<p class="ml-4 my-auto inter fs-14 fw-400">Set authenticaton PIN</p>
@@ -50,6 +50,7 @@ import VerifyContactSvg from "@/components/svg/VerifyContactSvg.vue";
 import SetPinSvg from "@/components/svg/SetPinSvg.vue";
 import CheckedSvg from "@/components/svg/CheckedSvg.vue";
 import KycSvg from "@/components/svg/KycSvg.vue";
+import { useRouter } from "vue-router";
 
 export default {
 	name: "Pending Tasks",
@@ -61,7 +62,21 @@ export default {
 		VerifyContactSvg,
 	},
 	setup() {
-		return {};
+		const router = useRouter();
+		const goToProfileSettings = () => {
+			router.push("/settings/profile");
+		};
+		const goToPinSettings = () => {
+			router.push("/settings/pin");
+		};
+		const goToCompliance = () => {
+			router.push("/settings/compliance");
+		};
+		return {
+			goToProfileSettings,
+			goToPinSettings,
+			goToCompliance,
+		};
 	},
 };
 </script>
