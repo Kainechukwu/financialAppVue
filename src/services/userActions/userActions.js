@@ -117,7 +117,7 @@ export default class UserActions {
 	}
 
 	static merchantUpdateProfile(userDetails, successHandler, errorhandler) {
-		Web.put(Constants.API_BASE + "/Merchant/update", userDetails, successHandler, errorhandler)
+		Web.post(Constants.API_BASE + "/Merchant/update", userDetails, successHandler, errorhandler)
 	}
 
 	static changePassword(userDetails, successHandler, errorHandler) {

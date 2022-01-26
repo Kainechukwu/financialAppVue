@@ -56,7 +56,7 @@
 			<div class="grid grid-cols-2 mb-3">
 				<div class="flex flex-col col-span-1">
 					<span class="fw-400 fs-12 tx-666666">You will receive:</span>
-					<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountRecieved }}USDT</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountRecieved }}UST</span>
 				</div>
 				<!-- 
 				<div class="flex flex-col">

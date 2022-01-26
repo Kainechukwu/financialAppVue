@@ -51,6 +51,18 @@ export default class LoginService {
 
 	static handleSuccessfulLogin(response) {
 		// const store = useStore();
+		// companyName: "disney"
+		// dob: "27/12/1994"
+		// email: "kaine.bismarck@suprbiz.io"
+		// firstName: "kainechukwu"
+		// hasPin: true
+		// id: "dce38ac5-4b38-467b-addf-cfad2ba9c223"
+		// isVerified: true
+		// jwToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJrYWluZS5iaXNtYXJja0BzdXByYml6LmlvIiwianRpIjoiY2IwYmRlMTAtNjdhMi00OTk2LWFmNmItNjFjNzU0MjcyZjFjIiwiZW1haWwiOiJrYWluZS5iaXNtYXJja0BzdXByYml6LmlvIiwidWlkIjoiZGNlMzhhYzUtNGIzOC00NjdiLWFkZGYtY2ZhZDJiYTljMjIzIiwiaXAiOiIxNzIuMzEuMzQuMTg4Iiwicm9sZXMiOiJNZXJjaGFudCIsImV4cCI6MTY0MzI1Nzk4OCwiaXNzIjoiQ29yZUlkZW50aXR5IiwiYXVkIjoiQ29yZUlkZW50aXR5VXNlciJ9.cUMzcituwx1HsEvNNtbjljq4ol0K7jknYcFMl3yQIzg"
+		// lastName: "Bismarck"
+		// phoneNumber: null
+		// roles: ["Merchant"]
+		// userName: "kainechukwu Bismarck"
 
 
 		const data = response.data.data;
@@ -64,6 +76,9 @@ export default class LoginService {
 		store.commit("authToken/firstName", data.firstName);
 		store.commit("authToken/lastName", data.lastName);
 		store.commit("authToken/hasPin", data.hasPin);
+		store.commit("authToken/dob", data.dob);
+		store.commit("authToken/phoneNumber", data.phoneNumber);
+		store.commit("authToken/companyName", data.companyName);
 
 
 

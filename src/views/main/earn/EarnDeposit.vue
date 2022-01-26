@@ -146,7 +146,7 @@
 									/>
 								</svg>
 							</div>
-							<span class="fw-400 fs-10 tx-666666">Charges: $5</span>
+							<span class="fw-400 fs-10 tx-666666">Charges: ${{ charges }}</span>
 						</div>
 					</div>
 				</div>
@@ -248,6 +248,7 @@ export default {
 		const depositAmount = ref(0);
 		const rate = ref(0);
 		const rateId = ref("");
+		const charges = store.getters["bankDetails/depositFee"];
 		// const goToNext = () => {
 		// 	router.push("/earn/fund_account");
 		// };
@@ -290,6 +291,7 @@ export default {
 					},
 					(error) => {
 						Log.error(error);
+						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					}
 				);
 			}
@@ -309,6 +311,7 @@ export default {
 			depositAmount,
 			rate,
 			sendAmount,
+			charges,
 		};
 	},
 };
