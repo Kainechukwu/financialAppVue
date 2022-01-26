@@ -11,7 +11,7 @@
 				<div class="">
 					<div class="flex flex-col justify-center items-center">
 						<h2 class="mb-2 fs-24 fw-600 font-extrabold blacktext">Reset Password</h2>
-						<p class="tx-666666 fw-400 fs-14">Enter the email associated with your account .</p>
+						<p class="tx-666666 fw-400 fs-14">Enter the email associated with your account.</p>
 					</div>
 
 					<Form @submit="sendInstructions" :validation-schema="schema" v-slot="{ errors }">
@@ -35,14 +35,14 @@
 
 						<div class="">
 							<button
-								:class="[sentEmail.loading ? 'opacity-25' : 'opacity-100']"
-								:disabled="sentEmail.loading"
+								:class="[sentEmailLoading ? 'opacity-25' : 'opacity-100']"
+								:disabled="sentEmailLoading"
 								type="submit"
 								class="bluebtn h-50px relative w-full py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
 							>
 								<div class="flex items-center justify-center">
 									<span class="fs-14 items-center text-white fw-400 my-auto"> Reset Password </span>
-									<div v-if="sentEmail.loading" class="h-4 w-4 ml-4 rounded-md block">
+									<div v-if="sentEmailLoading" class="h-4 w-4 ml-4 rounded-md block">
 										<div class="roundLoader opacity-50 mx-auto"></div>
 									</div>
 								</div>
@@ -66,12 +66,12 @@
 
 <script>
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
-import userActions from "@/services/userActions/userActions.js";
-import { Log } from "@/components/util";
+import UserActions from "@/services/userActions/userActions.js";
+import { Log, Util } from "@/components/util";
 
 export default {
 	name: "ResetPassword",
@@ -83,11 +83,9 @@ export default {
 	setup() {
 		const router = useRouter();
 
-		const sentEmail = reactive({
-			loading: false,
-		});
+		const sentEmailLoading = ref(false);
 
-		const userEmail = ref("");
+		// const userEmail = ref("");
 		// const isEmailSent = ref(false);
 
 		const schema = Yup.object().shape({
@@ -95,24 +93,26 @@ export default {
 		});
 
 		const sendInstructions = (values) => {
-			sentEmail.loading = true;
-			// Log.info(sentEmail.loading.value);
-			Log.info("userEmail" + values.email);
+			sentEmailLoading.value = true;
+			Log.info("sentEmailLoading: " + sentEmailLoading.value);
+			Log.info("userEmail: " + values.email);
 
-			userActions.forgotPasswordApi(
-				{
-					email: values.email,
-				},
+			UserActions.forgotPasswordApi(
+				values.email,
+
 				(response) => {
-					sentEmail.loading = false;
+					sentEmailLoading.value = false;
+					Util.handleGlobalAlert(true, "success", response.data.message);
 					// isEmailSent.value = true;
 					Log.info("response: " + JSON.stringify(response));
-					Log.info("sentEmailLoading?" + String(sentEmail.loading));
+					Log.info("sentEmailLoading.value?" + String(sentEmailLoading.value));
 				},
 				(error) => {
-					sentEmail.loading = false;
-					Log.info("sentEmailLoading?" + String(sentEmail.loading));
-					Log.error("error: " + JSON.stringify(error));
+					Log.info("errors");
+					sentEmailLoading.value = false;
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					Log.info("sentEmailLoading?" + String(sentEmailLoading.value));
+					Log.error("error: " + JSON.stringify(error.response.data.Message));
 				}
 			);
 		};
@@ -126,10 +126,10 @@ export default {
 		// };
 
 		return {
-			userEmail,
+			// userEmail,
 			sendInstructions,
 			goToLogin,
-			sentEmail,
+			sentEmailLoading,
 			schema,
 			// setNewPassword,
 		};

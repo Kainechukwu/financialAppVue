@@ -122,6 +122,7 @@ export default {
 	},
 	setup() {
 		const route = useRoute();
+		// const
 
 		const router = useRouter();
 		const newPassword = reactive({
@@ -143,23 +144,45 @@ export default {
 		];
 
 		const setNewPassword = () => {
-			if (newPassword.password === confirmPassword.value) {
-				UserActions.resetPassword(
-					{
-						email: route.query.email,
-						token: route.query.token,
-						password: newPassword.password,
-						confirmPassword: confirmPassword.value,
-					},
-					(response) => {
-						Log.info("resetResponse" + JSON.stringify(response));
-
-						router.push("/login");
-					},
-					(error) => {
-						Log.error("resetError" + JSON.stringify(error));
-					}
+			if (
+				!Util.hasLowerCase(newPassword.password) ||
+				!Util.hasUpperCase(newPassword.password) ||
+				!Util.hasSpecialCharacter(newPassword.password) ||
+				!Util.hasNumber(newPassword.password)
+			) {
+				Util.handleGlobalAlert(
+					true,
+					"failed",
+					"Field must have at least one uppercase, lowercase, number and special character"
 				);
+			} else {
+				if (newPassword.password !== confirmPassword.value) {
+					Util.handleGlobalAlert(true, "failed", "Passwords dont match");
+				} else if (
+					Util.hasLowerCase(newPassword.password) &&
+					Util.hasUpperCase(newPassword.password) &&
+					Util.hasSpecialCharacter(newPassword.password) &&
+					Util.hasNumber(newPassword.password) &&
+					newPassword.password === confirmPassword.value
+				) {
+					UserActions.resetPassword(
+						{
+							email: route.query.email,
+							token: route.query.token,
+							password: newPassword.password,
+							confirmPassword: confirmPassword.value,
+						},
+						(response) => {
+							Log.info("resetResponse" + JSON.stringify(response));
+							Util.handleGlobalAlert(true, "success", response.data.message);
+							router.push("/login");
+						},
+						(error) => {
+							Log.error("resetError" + JSON.stringify(error));
+							Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+						}
+					);
+				}
 			}
 			Log.info(newPassword.password);
 		};

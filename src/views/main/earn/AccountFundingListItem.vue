@@ -4,7 +4,7 @@
 		<div class="flex flex-col w-full pl-6 pr-4">
 			<div class="flex justify-between">
 				<h1 class="inter fw-600 fs-14 thTypeListColor">Account Funding</h1>
-				<span class="th-green inter fw-700 fs-12">N{{ transaction.amount }}</span>
+				<span class="th-green inter fw-700 fs-12">{{ transaction.amount }}</span>
 			</div>
 			<div class="flex justify-between">
 				<div class="flex justify-center items-center">

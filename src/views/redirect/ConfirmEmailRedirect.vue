@@ -6,7 +6,7 @@
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 import LoginService from "@/services/login/LoginService.js";
 
 export default {
@@ -20,10 +20,13 @@ export default {
 				route.query.code,
 				(response) => {
 					Log.info("confirmationResponse" + JSON.stringify(response));
+					Util.handleGlobalAlert(true, "success", response.data.message);
 
 					router.push("/login");
 				},
 				(error) => {
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+
 					Log.error("confirmationError" + JSON.stringify(error));
 				}
 			);

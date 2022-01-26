@@ -173,24 +173,24 @@ export default [
 						name: "Merchants",
 						component: () => import("@/views/main/Merchants.vue")
 					},
-					{
-						path: "/customers",
-						redirect: "/customers/customer_list",
-						name: "Customers",
-						component: () => import("@/views/main/customers/Customers.vue"),
-						children: [
-							{
-								path: "/customers/customer_list",
-								name: "Customers List",
-								component: () => import("@/views/main/customers/CustomerList.vue")
-							},
-							{
-								path: "/customers/transactions/:merchantId",
-								name: "Customers Transactions",
-								component: () => import("@/views/main/customers/Transactions.vue")
-							},
-						]
-					},
+					// {
+					// 	path: "/customers",
+					// 	redirect: "/customers/customer_list",
+					// 	name: "Customers",
+					// 	component: () => import("@/views/main/customers/Customers.vue"),
+					// 	children: [
+					// 		{
+					// 			path: "/customers/customer_list",
+					// 			name: "Customers List",
+					// 			component: () => import("@/views/main/customers/CustomerList.vue")
+					// 		},
+					// 		{
+					// 			path: "/customers/transactions/:merchantId",
+					// 			name: "Customers Transactions",
+					// 			component: () => import("@/views/main/customers/Transactions.vue")
+					// 		},
+					// 	]
+					// },
 					{
 						path: "/settings",
 						redirect: "/settings/profile",

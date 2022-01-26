@@ -69,7 +69,7 @@
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Amount Withdrawn:</span>
-						<span class="fw-600 fs-12 blacktext">{{ bankDetails.amount }}</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.amount }} UST</span>
 					</div>
 
 					<div class="flex flex-col">
@@ -82,7 +82,7 @@
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col col-span-1">
 						<span class="fw-400 fs-12 tx-666666">You will receive:</span>
-						<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountToReceive }} USDT</span>
+						<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountToReceive }} USD</span>
 					</div>
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Transaction Fee:</span>

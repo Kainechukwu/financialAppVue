@@ -10,7 +10,7 @@
 				<TransactionHistoryEmptySvg />
 				<span style="color: #999999" class="fw-400 fs-18 pt-5">Nothing to see here</span>
 			</div>
-			<div v-else class="w-full">
+			<div v-else style="max-height: 30rem" class="w-full overflow-y-auto">
 				<div v-for="transaction in history" :key="transaction.id" class="flex flex-col">
 					<AccountFundingListItem
 						v-if="transaction.transactionType === 'Credit'"

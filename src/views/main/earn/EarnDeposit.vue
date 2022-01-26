@@ -297,7 +297,10 @@ export default {
 
 		watch(selectedCurrency, (newValue) => {
 			rateId.value = newValue.id;
+			rate.value = computed(() => depositAmount.value / newValue.buyingRate);
+
 			Log.info(rateId.value);
+			Log.info(rate.value);
 		});
 
 		return {

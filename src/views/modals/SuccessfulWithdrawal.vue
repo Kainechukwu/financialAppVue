@@ -72,6 +72,7 @@
 import { useStore } from "vuex";
 // import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
 	name: "SuccessfulWithdrawalModal",
@@ -80,7 +81,7 @@ export default {
 	},
 	setup() {
 		const store = useStore();
-
+		const router = useRouter();
 		const isModalOpen = computed(() => store.state.transactionSuccessfulModal);
 
 		const done = () => {
@@ -88,6 +89,7 @@ export default {
 		};
 		const close = () => {
 			store.commit("setTransactionSuccessfulModal", false);
+			router.push("/earn/overview");
 		};
 
 		return {

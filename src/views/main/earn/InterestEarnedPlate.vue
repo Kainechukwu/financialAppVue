@@ -15,7 +15,7 @@
 			</div>
 		</div>
 		<div class="flex flex-col justify-between mt-4 h-7">
-			<span class="blacktext fw-600 fs-22 counter">216,000 UST</span>
+			<span class="blacktext fw-600 fs-22 counter">0 UST</span>
 			<span class="fw-400 fs-14 tx-666666"
 				>Here is an overview of your earnings from your investments.</span
 			>
