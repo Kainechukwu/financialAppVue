@@ -150,7 +150,7 @@ import { useStore } from "vuex";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
 import { computed, onMounted } from "vue";
 import { reactive, toRefs } from "vue";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 import UserActions from "@/services/userActions/userActions.js";
 
 export default {
@@ -203,10 +203,12 @@ export default {
 				(response) => {
 					Log.info("otp response" + String(response));
 					store.commit("setOtpPhoneNumberModal", false);
+					Util.handleGlobalAlert(true, "success", response.data.message);
 				},
 				(error) => {
 					Log.error("otp response" + String(error));
 					store.commit("setOtpPhoneNumberModal", false);
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
 		};

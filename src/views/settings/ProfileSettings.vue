@@ -202,7 +202,7 @@ export default {
 					profileUpdate.loading = false;
 					store.commit("setOtpPhoneNumberModal", true);
 					store.commit("setPhoneNo", userDetails.phoneNumber);
-					Util.handleGlobalAlert(true, "success", response.data.message);
+					// Util.handleGlobalAlert(true, "success", response.data.message);
 					Log.info("profileUpdate" + String(profileUpdate.loading));
 				},
 				(error) => {
