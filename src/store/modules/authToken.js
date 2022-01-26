@@ -12,7 +12,7 @@ const state = {
 	entryUrl: "",
 	loggedIn: false,
 	dob: "",
-	companyName: "",
+	companyName: "Unverified",
 	phoneNumber: ""
 
 	// authorizations: [],
