@@ -231,6 +231,7 @@ export default {
 				Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
 			} else {
 				Log.info("rate: below");
+				store.commit("bankDetails/rateId", selectedCurrency.value.id);
 				Log.info(selectedCurrency.value.sellingRate * withdrawalAmount.value);
 				store.commit("bankDetails/amount", withdrawalAmount.value);
 				store.commit(
