@@ -79,6 +79,7 @@ export default class LoginService {
 		// store.commit("authToken/dob", data.dob);
 		store.commit("authToken/phoneNumber", data.phoneNumber);
 		store.commit("authToken/companyName", data.companyName);
+		// store.commit("authToken/companyName", null);
 		store.commit("authToken/isProfileUpdated", data.isProfileUpdated);
 		store.commit("authToken/isPhoneNumberVerified", data.isPhoneNumberVerified);
 		store.commit("authToken/isKycDone", data.isKycDone);

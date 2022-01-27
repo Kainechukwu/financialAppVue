@@ -44,6 +44,13 @@ export default class Util {
 		return moment(time, inputFormat).format(outputFormat);
 	}
 
+	static numWithComma(x) {
+		const parts = x.toString().split(".");
+		parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		// console.log(parts.join("."))
+		return Number(parts.join("."));
+	}
+
 	// static getId = (obj) => {
 	// 	const id = array.value.find((obj) => obj.name === string).id;
 

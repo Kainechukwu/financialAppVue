@@ -12,7 +12,7 @@ const state = {
 	entryUrl: "",
 	loggedIn: false,
 	dob: "",
-	companyName: "Unverified",
+	companyName: "",
 	phoneNumber: "",
 	isProfileUpdated: false,
 	isPhoneNumberVerified: false,

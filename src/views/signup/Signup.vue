@@ -137,7 +137,7 @@
 
 <script>
 import { useRouter } from "vue-router";
-// import {watch} from "vue";
+import { onMounted } from "vue";
 import { useStore } from "vuex";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
@@ -154,6 +154,9 @@ export default {
 	},
 
 	setup() {
+		onMounted(() => {
+			console.log("name", store.getters["authToken/companyName"]);
+		});
 		const store = useStore();
 		const router = useRouter();
 		const signupUser = reactive({
