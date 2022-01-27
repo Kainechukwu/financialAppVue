@@ -102,11 +102,13 @@ export default {
 
 		const goToWithdraw = () => {
 			store.commit("bankDetails/balance", principalBalance.value);
+			store.commit("bankDetails/walletId", 1);
 			router.push("/withdraw");
 		};
 
 		const goToWithdraw2 = () => {
 			store.commit("bankDetails/balance", interestBalance.value);
+			store.commit("bankDetails/walletId", 2);
 			router.push("/withdraw");
 		};
 

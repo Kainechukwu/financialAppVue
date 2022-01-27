@@ -123,15 +123,23 @@
 									</div>
 
 									<!-- ------------ -->
+									<span class="text-red-500">{{ errorMessage }}</span>
 								</div>
 
 								<div class="mt-8">
-									<div
+									<button
+										:disabled="submitLoading"
+										type="submit"
 										@click="submitCode"
 										class="cursor-pointer mx-auto greenButton fs-14 fw-500 w-8/12 h-14 br-5 flex items-center justify-center"
 									>
-										<span class="text-white">Authorize Transaction</span>
-									</div>
+										<div class="flex items-center justify-center">
+											<span class="text-white">Authorize Transaction</span>
+											<div v-if="submitLoading" class="h-4 w-4 ml-4 rounded-md block">
+												<div class="roundLoader opacity-50 mx-auto"></div>
+											</div>
+										</div>
+									</button>
 								</div>
 							</form>
 						</div>
@@ -145,10 +153,11 @@
 
 <script>
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 import UserActions from "@/services/userActions/userActions.js";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
-import { computed, onMounted } from "vue";
-import { reactive, toRefs } from "vue";
+import { computed, onMounted, watch } from "vue";
+import { reactive, toRefs, ref } from "vue";
 import { Log, Util } from "@/components/util";
 
 export default {
@@ -169,9 +178,10 @@ export default {
 			code5: "",
 			code6: "",
 		});
-
+		const errorMessage = ref("");
+		const submitLoading = ref(false);
 		const isModalOpen = computed(() => store.state.bankDetailsPinModal);
-
+		const router = useRouter();
 		function clickEvent(e, next) {
 			// Log.info(String(curr) + " " + String(next));
 			Log.info(e);
@@ -181,7 +191,7 @@ export default {
 				document.getElementById(next).focus();
 			}
 		}
-
+		// const getCodes
 		const prepareDetails = () => {
 			const code =
 				codes.code1 + codes.code2 + codes.code3 + codes.code4 + codes.code5 + codes.code6;
@@ -191,6 +201,7 @@ export default {
 				amount: store.getters["bankDetails/amount"],
 				rateId: store.getters["bankDetails/rateId"],
 				userId: store.getters["authToken/userId"],
+				wallet: store.getters["bankDetails/walletId"],
 				bank: {
 					beneficiaryName: store.getters["bankDetails/beneficiaryName"],
 					beneficiaryAccountNumber: store.getters["bankDetails/beneficiaryAccountNumber"],
@@ -213,28 +224,45 @@ export default {
 		};
 
 		const submitCode = () => {
-			Log.info(prepareDetails());
+			Log.info("pin: " + prepareDetails().pin);
 
-			UserActions.transactionWithdrawal(
-				prepareDetails(),
+			if (prepareDetails().pin.length < 6) {
+				errorMessage.value = "All fields must be filled";
+			} else {
+				submitLoading.value = true;
+				UserActions.transactionWithdrawal(
+					prepareDetails(),
 
-				(response) => {
-					Log.info("transaction withjdrawal response" + String(response));
-					store.commit("setBankDetailsPinModal", false);
-					resetInput();
-					store.commit("setTransactionSuccessfulModal", true);
-				},
-				(error) => {
-					Log.error("transaction withdrawal response" + String(error));
-					resetInput();
-					store.commit("setBankDetailsPinModal", false);
-					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-				}
-			);
+					(response) => {
+						submitLoading.value = false;
+						Log.info("transaction withjdrawal response" + String(response));
+						store.commit("setBankDetailsPinModal", false);
+						resetInput();
+
+						store.commit("setTransactionSuccessfulModal", true);
+					},
+					(error) => {
+						submitLoading.value = false;
+						Log.error("transaction withdrawal response" + String(error));
+						resetInput();
+						store.commit("setBankDetailsPinModal", false);
+						router.push("/withdraw");
+						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					}
+				);
+			}
 		};
 		const close = () => {
 			store.commit("setBankDetailsPinModal", false);
 		};
+
+		watch(codes, (newValue) => {
+			let inputCodes = prepareDetails().pin;
+			if (inputCodes.length === 6) {
+				errorMessage.value = "";
+			}
+			Log.info(newValue);
+		});
 
 		return {
 			close,
@@ -242,6 +270,8 @@ export default {
 			submitCode,
 			...toRefs(codes),
 			clickEvent,
+			errorMessage,
+			submitLoading,
 		};
 	},
 };

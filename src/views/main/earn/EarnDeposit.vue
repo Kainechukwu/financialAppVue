@@ -152,7 +152,7 @@
 				</div>
 
 				<!-- ------------ -->
-				<div class="col-span-1">
+				<!-- <div class="col-span-1">
 					<div style="border: 1px solid #dadada" class="flex br-5 p-2.5">
 						<div class="mr-2">
 							<svg
@@ -188,7 +188,7 @@
 							<span class="fw-400 fs-10 tx-666666">1.8% Fee</span>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 
 			<!-- <div class="flex flex-col mb-10">
@@ -234,9 +234,10 @@ export default {
 					Log.info(selectedCurrency.value);
 					Log.info("DA:" + String(depositAmount.value));
 					Log.info("BR:" + String(selectedCurrency.value.sellingRate));
-					rate.value = computed(() => depositAmount.value / selectedCurrency.value.buyingRate);
+					rate.value = computed(() => depositAmount.value / selectedCurrency.value.sellingRate);
 					Log.info(rate);
 					rateId.value = selectedCurrency.value.id;
+					Log.info("rateId:" + rateId.value);
 				},
 				(error) => {
 					Log.info(error);
@@ -264,42 +265,42 @@ export default {
 		const selectedCurrency = ref(currencies.value[0]);
 
 		const sendAmount = () => {
-			if (depositAmount.value < 1) {
-				Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
-			} else {
-				UserActions.transactionDeposit(
-					{
-						rateId: rateId.value,
-						userId: store.getters["authToken/userId"],
-						amount: depositAmount.value,
-					},
-					(response) => {
-						const data = response.data.data;
-						Log.info(data);
-						store.commit("deposit/amountToSend", data.amountToSend);
-						store.commit("deposit/amountRecieved", data.amountRecieved);
-						store.commit("deposit/holderName", data.bankDetails.holderName);
-						store.commit("deposit/bankAddress", data.bankDetails.bankAddress);
-						store.commit("deposit/accountNumber", data.bankDetails.accountNumber);
-						store.commit("deposit/bankName", data.bankDetails.bankName);
-						store.commit("deposit/routingNumber", data.bankDetails.routingNumber);
-						store.commit("deposit/transactionFee", data.transactionFee);
-						store.commit("deposit/transactionRefCode", data.transactionRefCode);
-						store.commit("deposit/transactionsReference", data.transactionsReference);
+			// if (depositAmount.value < 1) {
+			// 	Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
+			// } else {
+			UserActions.transactionDeposit(
+				{
+					rateId: rateId.value,
+					userId: store.getters["authToken/userId"],
+					amount: depositAmount.value,
+				},
+				(response) => {
+					const data = response.data.data;
+					Log.info(data);
+					store.commit("deposit/amountToSend", data.amountToSend);
+					store.commit("deposit/amountRecieved", data.amountRecieved);
+					store.commit("deposit/holderName", data.bankDetails.holderName);
+					store.commit("deposit/bankAddress", data.bankDetails.bankAddress);
+					store.commit("deposit/accountNumber", data.bankDetails.accountNumber);
+					store.commit("deposit/bankName", data.bankDetails.bankName);
+					store.commit("deposit/routingNumber", data.bankDetails.routingNumber);
+					store.commit("deposit/transactionFee", data.transactionFee);
+					store.commit("deposit/transactionRefCode", data.transactionRefCode);
+					store.commit("deposit/transactionsReference", data.transactionsReference);
 
-						router.push("/earn/fund_account");
-					},
-					(error) => {
-						Log.error(error);
-						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-					}
-				);
-			}
+					router.push("/earn/fund_account");
+				},
+				(error) => {
+					Log.error(error);
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+				}
+			);
+			// }
 		};
 
 		watch(selectedCurrency, (newValue) => {
 			rateId.value = newValue.id;
-			rate.value = computed(() => depositAmount.value / newValue.buyingRate);
+			rate.value = computed(() => depositAmount.value / newValue.sellingRate);
 
 			Log.info(rateId.value);
 			Log.info(rate.value);

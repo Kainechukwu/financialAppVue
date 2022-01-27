@@ -129,7 +129,9 @@
 								</div>
 
 								<div class="mt-8">
-									<div
+									<button
+										:disabled="submitLoading"
+										type="submit"
 										@click="submitCode"
 										class="cursor-pointer mx-auto greenButton fs-14 fw-500 w-8/12 h-14 br-5 flex items-center justify-center"
 									>
@@ -139,7 +141,7 @@
 												<div class="roundLoader opacity-50 mx-auto"></div>
 											</div>
 										</div>
-									</div>
+									</button>
 								</div>
 							</form>
 						</div>
@@ -181,7 +183,7 @@ export default {
 
 		const submitLoading = ref(false);
 
-		const phoneNo = store.state.phoneNo;
+		const phoneNo = store.getters["authToken/phoneNumber"];
 		const isModalOpen = computed(() => store.state.otpPhoneNumberModal);
 		const errorMessage = ref("");
 
@@ -198,6 +200,15 @@ export default {
 			const code =
 				codes.code1 + codes.code2 + codes.code3 + codes.code4 + codes.code5 + codes.code6;
 			return code;
+		};
+
+		const resetInput = () => {
+			codes.code1 = "";
+			codes.code2 = "";
+			codes.code3 = "";
+			codes.code4 = "";
+			codes.code5 = "";
+			codes.code6 = "";
 		};
 
 		const submitCode = () => {
@@ -217,12 +228,14 @@ export default {
 						submitLoading.value = false;
 						Log.info("otp response" + String(response));
 						store.commit("setOtpPhoneNumberModal", false);
+						resetInput();
 						Util.handleGlobalAlert(true, "success", response.data.message);
 					},
 					(error) => {
 						submitLoading.value = false;
 						Log.error("otp response" + String(error));
 						store.commit("setOtpPhoneNumberModal", false);
+						resetInput();
 						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					}
 				);

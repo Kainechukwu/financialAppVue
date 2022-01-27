@@ -1,14 +1,10 @@
 
 
 const state = {
-	// username: '',
-	// isVerified: false,
-	// details: {
+
 	pin: "",
 	amount: 0,
 	rateId: "",
-	// userId: "",
-	// bank: {
 	beneficiaryName: "",
 	beneficiaryAccountNumber: "",
 	bankName: "",
@@ -17,9 +13,9 @@ const state = {
 	balance: "",
 	amountToReceive: 0,
 	withdrawalFee: 0,
-	depositFee: 0
-	// }
-	// }
+	depositFee: 0,
+	walletId: 0
+
 
 };
 
@@ -29,6 +25,9 @@ const getters = {
 	// details(state) {
 	// 	return state.details
 	// }
+	walletId(state) {
+		return state.walletId
+	},
 	depositFee(state) {
 		return state.depositFee
 	},
@@ -72,6 +71,9 @@ const getters = {
 
 
 const mutations = {
+	walletId(state, walletId) {
+		state.walletId = walletId;
+	},
 	depositFee(state, depositFee) {
 		state.depositFee = depositFee;
 	},
