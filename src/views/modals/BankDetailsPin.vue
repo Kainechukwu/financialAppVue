@@ -225,11 +225,12 @@ export default {
 
 		const submitCode = () => {
 			Log.info("pin: " + prepareDetails().pin);
+			submitLoading.value = true;
 
 			if (prepareDetails().pin.length < 6) {
+				submitLoading.value = false;
 				errorMessage.value = "All fields must be filled";
 			} else {
-				submitLoading.value = true;
 				UserActions.transactionWithdrawal(
 					prepareDetails(),
 

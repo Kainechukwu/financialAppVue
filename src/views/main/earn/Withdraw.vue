@@ -175,13 +175,19 @@
 					</span>
 				</div> -->
 
-				<div
+				<button
 					@click="goToBankDetails"
+					:disabled="sendAmountLoading"
 					style="background-color: #2b7ee4"
 					class="mx-auto cursor-pointer flex items-center justify-center h-12 w-52 br-5"
 				>
-					<span class="fw-500 fs-16 text-white"> Continue</span>
-				</div>
+					<div class="flex items-center justify-center">
+						<span class="fw-500 fs-16 text-white"> Continue</span>
+						<div v-if="sendAmountLoading" class="h-4 w-4 ml-4 rounded-md block">
+							<div class="roundLoader opacity-50 mx-auto"></div>
+						</div>
+					</div>
+				</button>
 			</div>
 		</div>
 		<!-- ------------------ -->
@@ -224,18 +230,24 @@ export default {
 		});
 		const router = useRouter();
 		const withdrawalAmount = ref(0);
+		const sendAmountLoading = ref(false);
 		const rate = computed(() => selectedCurrency.value.buyingRate * withdrawalAmount.value);
 		const store = useStore();
+
 		const goToBankDetails = () => {
+			sendAmountLoading.value = true;
 			if (withdrawalAmount.value < 1) {
+				sendAmountLoading.value = false;
 				Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
 			} else {
-				Log.info("rate: below");
 				store.commit("bankDetails/rateId", selectedCurrency.value.id);
-				Log.info(selectedCurrency.value.buyingRate * withdrawalAmount.value);
 				store.commit("bankDetails/amount", withdrawalAmount.value);
 				store.commit("bankDetails/amountToReceive", rate);
+
 				Log.info(store.getters["bankDetails/amount"]);
+				Log.info(selectedCurrency.value.buyingRate * withdrawalAmount.value);
+
+				sendAmountLoading.value = false;
 				router.push("/bank_details");
 			}
 		};
@@ -259,6 +271,7 @@ export default {
 			selectedCurrency,
 			withdrawalAmount,
 			rate,
+			sendAmountLoading,
 		};
 	},
 };

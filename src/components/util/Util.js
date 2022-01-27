@@ -1,4 +1,5 @@
 import store from "@/store/index";
+import moment from "moment";
 
 export default class Util {
 	static hasLowerCase(str) {
@@ -33,6 +34,14 @@ export default class Util {
 	static handleGlobalAlert = (show, type, text) => {
 
 		store.commit("setGlobalAlert", { show, type, text });
+	}
+
+	static formatTime(
+		time,
+		inputFormat,
+		outputFormat
+	) {
+		return moment(time, inputFormat).format(outputFormat);
 	}
 
 	// static getId = (obj) => {

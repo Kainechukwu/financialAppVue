@@ -1,6 +1,7 @@
 <template>
 	<div class="mt-6">
-		<div class="flex flex-col px-4">
+		<EarnDepositLoading v-if="requestLoading" />
+		<div v-else class="flex flex-col px-4">
 			<span class="fw-400 fs-14 tx-666666 mb-3">How much would you like to deposit</span>
 			<div class="flex br-5 h-12">
 				<Listbox as="div" v-model="selectedCurrency">
@@ -199,13 +200,20 @@
 				</span>
 			</div> -->
 
-			<div
+			<button
 				@click="sendAmount"
+				:disabled="sendAmountLoading"
+				type="submit"
 				style="background-color: #2b7ee4"
 				class="mx-auto flex items-center justify-center h-12 w-52 br-5"
 			>
-				<span class="fw-500 fs-16 text-white"> Next</span>
-			</div>
+				<div class="flex items-center justify-center">
+					<span class="fw-500 fs-16 text-white"> Next</span>
+					<div v-if="sendAmountLoading" class="h-4 w-4 ml-4 rounded-md block">
+						<div class="roundLoader opacity-50 mx-auto"></div>
+					</div>
+				</div>
+			</button>
 		</div>
 	</div>
 </template>
@@ -216,6 +224,7 @@ import UserActions from "@/services/userActions/userActions.js";
 import { ref, onMounted, computed, watch } from "vue";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
+import EarnDepositLoading from "./earnDepositLoading.vue";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 export default {
 	name: "Earn Deposit 1",
@@ -224,9 +233,11 @@ export default {
 		ListboxButton,
 		ListboxOption,
 		ListboxOptions,
+		EarnDepositLoading,
 	},
 	setup() {
 		onMounted(() => {
+			requestLoading.value = true;
 			UserActions.getAllRates(
 				(response) => {
 					Log.info(response.data.data);
@@ -238,8 +249,10 @@ export default {
 					Log.info(rate);
 					rateId.value = selectedCurrency.value.id;
 					Log.info("rateId:" + rateId.value);
+					requestLoading.value = false;
 				},
 				(error) => {
+					requestLoading.value = false;
 					Log.info(error);
 				}
 			);
@@ -247,6 +260,8 @@ export default {
 		const router = useRouter();
 		const store = useStore();
 		const depositAmount = ref(0);
+		const requestLoading = ref(false);
+		const sendAmountLoading = ref(false);
 		const rate = ref(0);
 		const rateId = ref("");
 		const charges = store.getters["bankDetails/depositFee"];
@@ -265,6 +280,7 @@ export default {
 		const selectedCurrency = ref(currencies.value[0]);
 
 		const sendAmount = () => {
+			sendAmountLoading.value = true;
 			// if (depositAmount.value < 1) {
 			// 	Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
 			// } else {
@@ -287,11 +303,12 @@ export default {
 					store.commit("deposit/transactionFee", data.transactionFee);
 					store.commit("deposit/transactionRefCode", data.transactionRefCode);
 					store.commit("deposit/transactionsReference", data.transactionsReference);
-
+					sendAmountLoading.value = false;
 					router.push("/earn/fund_account");
 				},
 				(error) => {
 					Log.error(error);
+					sendAmountLoading.value = false;
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
@@ -313,6 +330,8 @@ export default {
 			rate,
 			sendAmount,
 			charges,
+			requestLoading,
+			sendAmountLoading,
 		};
 	},
 };
