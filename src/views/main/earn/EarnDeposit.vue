@@ -1,14 +1,16 @@
 <template>
 	<div class="mt-6">
-		<div class="flex flex-col px-4">
+		<EarnDepositLoading v-if="requestLoading" />
+		<div v-else class="flex flex-col px-4">
 			<span class="fw-400 fs-14 tx-666666 mb-3">How much would you like to deposit</span>
 			<div class="flex br-5 h-12">
-				<Listbox as="div" v-model="selectedCurrency">
+				<Listbox as="div" v-model="selected">
+					<!-- <ListboxLabel class="hidden block fs-14 tx-666666 fw-600"> Currencies </ListboxLabel> -->
 					<div class="h-full relative">
 						<ListboxButton
 							class="text-gray-400 h-full bg-gray-100 w-20 pr-2 pl-1 py-2 focus:outline-none sm:text-sm rounded-l-md"
 						>
-							<span class="block truncate">{{ selectedCurrency.currency }}</span>
+							<span class="block truncate">{{ selected.currency }}</span>
 							<span
 								class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
 							>
@@ -45,7 +47,7 @@
 									v-for="currency in currencies"
 									:key="currency.id"
 									:value="currency"
-									v-slot="{ active, selectedCurrency }"
+									v-slot="{ active, selected }"
 								>
 									<li
 										:class="[
@@ -53,17 +55,12 @@
 											'cursor-default select-none relative py-2 pl-3 pr-9',
 										]"
 									>
-										<span
-											:class="[
-												selectedCurrency ? 'font-semibold' : 'font-normal',
-												'block truncate',
-											]"
-										>
+										<span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
 											{{ currency.currency }}
 										</span>
 
 										<span
-											v-if="selectedCurrency"
+											v-if="selected"
 											:class="[
 												active ? 'text-white' : 'text-indigo-600',
 												'absolute inset-y-0 right-0 flex items-center pr-4',
@@ -199,13 +196,20 @@
 				</span>
 			</div> -->
 
-			<div
+			<button
 				@click="sendAmount"
+				:disabled="sendAmountLoading"
+				type="submit"
 				style="background-color: #2b7ee4"
 				class="mx-auto flex items-center justify-center h-12 w-52 br-5"
 			>
-				<span class="fw-500 fs-16 text-white"> Next</span>
-			</div>
+				<div class="flex items-center justify-center">
+					<span class="fw-500 fs-16 text-white"> Next</span>
+					<div v-if="sendAmountLoading" class="h-4 w-4 ml-4 rounded-md block">
+						<div class="roundLoader opacity-50 mx-auto"></div>
+					</div>
+				</div>
+			</button>
 		</div>
 	</div>
 </template>
@@ -216,55 +220,81 @@ import UserActions from "@/services/userActions/userActions.js";
 import { ref, onMounted, computed, watch } from "vue";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
+import EarnDepositLoading from "./earnDepositLoading.vue";
+import {
+	Listbox,
+	ListboxButton,
+	// ListboxLabel,
+	ListboxOption,
+	ListboxOptions,
+} from "@headlessui/vue";
 export default {
 	name: "Earn Deposit 1",
 	components: {
 		Listbox,
 		ListboxButton,
+		// ListboxLabel,
 		ListboxOption,
 		ListboxOptions,
+		EarnDepositLoading,
 	},
 	setup() {
 		onMounted(() => {
-			UserActions.getAllRates(
-				(response) => {
-					Log.info(response.data.data);
-					currencies.value = response.data.data;
-					Log.info(selectedCurrency.value);
-					Log.info("DA:" + String(depositAmount.value));
-					Log.info("BR:" + String(selectedCurrency.value.sellingRate));
-					rate.value = computed(() => depositAmount.value / selectedCurrency.value.sellingRate);
-					Log.info(rate);
-					rateId.value = selectedCurrency.value.id;
-					Log.info("rateId:" + rateId.value);
-				},
-				(error) => {
-					Log.info(error);
-				}
-			);
+			getRates();
 		});
 		const router = useRouter();
 		const store = useStore();
 		const depositAmount = ref(0);
+		const requestLoading = ref(false);
+		const sendAmountLoading = ref(false);
 		const rate = ref(0);
 		const rateId = ref("");
+
+		const currencies = ref([]);
+		const selected = ref({});
 		const charges = store.getters["bankDetails/depositFee"];
 		// const goToNext = () => {
 		// 	router.push("/earn/fund_account");
 		// };
 		// const currencies = ["USD", "EURO"];
-		const currencies = ref([
-			{
-				buyingRate: 170,
-				currency: "USD",
-				id: "4d5b7298-3ba9-4eeb-b162-3f19b334fdec",
-				sellingRate: 200,
-			},
-		]);
-		const selectedCurrency = ref(currencies.value[0]);
+		// const currencies = ref([]);
+		// {
+		// 	buyingRate: 170,
+		// 	currency: "USD",
+		// 	id: "4d5b7298-3ba9-4eeb-b162-3f19b334fdec",
+		// 	sellingRate: 200,
+		// },
+		const getRates = () => {
+			requestLoading.value = true;
+			UserActions.getAllRates(
+				(response) => {
+					currencies.value = response.data.data;
+					selected.value = currencies.value.length > 0 ? currencies.value[0] : {};
+
+					rate.value = computed(() => depositAmount.value / selected.value.sellingRate);
+
+					rateId.value = selected.value.id;
+
+					// Log.info(rate);
+					Log.info("curbelow");
+					Log.info("currency: " + JSON.stringify(currencies.value));
+					// Log.info("rateId:" + rateId.value);
+					// Log.info(selected.value);
+					// Log.info("DA:" + String(depositAmount.value));
+					// Log.info("BR:" + String(selected.value.sellingRate));
+					requestLoading.value = false;
+				},
+				(error) => {
+					requestLoading.value = false;
+					Log.info(error);
+
+					// onMounted();
+				}
+			);
+		};
 
 		const sendAmount = () => {
+			sendAmountLoading.value = true;
 			// if (depositAmount.value < 1) {
 			// 	Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
 			// } else {
@@ -287,18 +317,19 @@ export default {
 					store.commit("deposit/transactionFee", data.transactionFee);
 					store.commit("deposit/transactionRefCode", data.transactionRefCode);
 					store.commit("deposit/transactionsReference", data.transactionsReference);
-
+					sendAmountLoading.value = false;
 					router.push("/earn/fund_account");
 				},
 				(error) => {
 					Log.error(error);
+					sendAmountLoading.value = false;
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
 			// }
 		};
 
-		watch(selectedCurrency, (newValue) => {
+		watch(selected, (newValue) => {
 			rateId.value = newValue.id;
 			rate.value = computed(() => depositAmount.value / newValue.sellingRate);
 
@@ -308,11 +339,13 @@ export default {
 
 		return {
 			currencies,
-			selectedCurrency,
+			selected,
 			depositAmount,
 			rate,
 			sendAmount,
 			charges,
+			requestLoading,
+			sendAmountLoading,
 		};
 	},
 };

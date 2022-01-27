@@ -13,7 +13,10 @@ const state = {
 	loggedIn: false,
 	dob: "",
 	companyName: "Unverified",
-	phoneNumber: ""
+	phoneNumber: "",
+	isProfileUpdated: false,
+	isPhoneNumberVerified: false,
+	isKycDone: false,
 
 	// authorizations: [],
 };
@@ -23,6 +26,15 @@ const getters = {
 	// username(state) {
 	// 	return state.username;
 	// },
+	isProfileUpdated(state) {
+		return state.isProfileUpdated;
+	},
+	isPhoneNumberVerified(state) {
+		return state.isPhoneNumberVerified;
+	},
+	isKycDone(state) {
+		return state.isKycDone;
+	},
 	dob(state) {
 		return state.dob;
 	},
@@ -75,6 +87,15 @@ const getters = {
 
 
 const mutations = {
+	isProfileUpdated(state, isProfileUpdated) {
+		state.isProfileUpdated = isProfileUpdated;
+	},
+	isPhoneNumberVerified(state, isPhoneNumberVerified) {
+		state.isPhoneNumberVerified = isPhoneNumberVerified;
+	},
+	isKycDone(state, isKycDone) {
+		state.isKycDone = isKycDone;
+	},
 	dob(state, dob) {
 		state.dob = dob;
 	},

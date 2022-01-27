@@ -13,7 +13,8 @@
 		</div>
 		<!-- --------------------- -->
 		<div class="mt-6">
-			<div class="flex flex-col px-4">
+			<EarnDepositLoading v-if="requestLoading" />
+			<div v-else class="flex flex-col px-4">
 				<span class="fw-400 fs-14 tx-666666 mb-3">How much would you like to withdraw</span>
 				<div class="flex br-5 h-12">
 					<Listbox as="div" v-model="selectedCurrency">
@@ -21,7 +22,10 @@
 							<ListboxButton
 								class="text-gray-400 h-full bg-gray-100 w-20 pr-2 pl-1 py-2 focus:outline-none sm:text-sm rounded-l-md"
 							>
-								<span class="block truncate">{{ selectedCurrency.currency }}</span>
+								<span class="block truncate">
+									<!-- {{ selectedCurrency.currency }} -->
+									UST
+								</span>
 								<span
 									class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
 								>
@@ -72,7 +76,8 @@
 													'block truncate',
 												]"
 											>
-												{{ currency.currency }}
+												<!-- {{ currency.currency }} -->
+												UST
 											</span>
 
 											<span
@@ -175,13 +180,19 @@
 					</span>
 				</div> -->
 
-				<div
+				<button
 					@click="goToBankDetails"
+					:disabled="sendAmountLoading"
 					style="background-color: #2b7ee4"
 					class="mx-auto cursor-pointer flex items-center justify-center h-12 w-52 br-5"
 				>
-					<span class="fw-500 fs-16 text-white"> Continue</span>
-				</div>
+					<div class="flex items-center justify-center">
+						<span class="fw-500 fs-16 text-white"> Continue</span>
+						<div v-if="sendAmountLoading" class="h-4 w-4 ml-4 rounded-md block">
+							<div class="roundLoader opacity-50 mx-auto"></div>
+						</div>
+					</div>
+				</button>
 			</div>
 		</div>
 		<!-- ------------------ -->
@@ -193,7 +204,8 @@ import { useRouter } from "vue-router";
 import CancelSvg from "./CancelSvg.vue";
 import { Log, Util } from "@/components/util";
 import { ref, onMounted, computed, watch } from "vue";
-// import UserActions from "@/services/userActions/userActions.js";
+import EarnDepositLoading from "./earnDepositLoading.vue";
+import UserActions from "@/services/userActions/userActions.js";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 import { useStore } from "vuex";
 
@@ -205,51 +217,55 @@ export default {
 		ListboxButton,
 		ListboxOption,
 		ListboxOptions,
+		EarnDepositLoading,
 	},
 	setup() {
 		onMounted(() => {
-			// UserActions.getAllRates(
-			// 	(response) => {
-			// 		Log.info(response.data.data);
-			// 		currencies.value = response.data.data;
-			// 		Log.info(selectedCurrency.value.buyingRate);
-			// 		rate.value = computed(() => selectedCurrency.value.buyingRate * withdrawalAmount.value);
-			// 		Log.info("rate" + String(rate.value));
-			// 		store.commit("bankDetails/rateId", selectedCurrency.value.id);
-			// 	},
-			// 	(error) => {
-			// 		Log.info(error);
-			// 	}
-			// );
+			requestLoading.value = true;
+			UserActions.getAllRates(
+				(response) => {
+					currencies.value = response.data.data;
+					selectedCurrency.value = currencies.value.length > 0 ? currencies.value[0] : {};
+
+					rate.value = computed(() => selectedCurrency.value.buyingRate * withdrawalAmount.value);
+
+					store.commit("bankDetails/rateId", selectedCurrency.value.id);
+					requestLoading.value = false;
+				},
+				(error) => {
+					requestLoading.value = false;
+					Log.info(error);
+				}
+			);
 		});
 		const router = useRouter();
 		const withdrawalAmount = ref(0);
-		const rate = computed(() => selectedCurrency.value.buyingRate * withdrawalAmount.value);
+		const sendAmountLoading = ref(false);
+		const rate = ref(0);
 		const store = useStore();
+		const requestLoading = ref(false);
 		const goToBankDetails = () => {
+			sendAmountLoading.value = true;
 			if (withdrawalAmount.value < 1) {
+				sendAmountLoading.value = false;
 				Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
 			} else {
-				Log.info("rate: below");
 				store.commit("bankDetails/rateId", selectedCurrency.value.id);
-				Log.info(selectedCurrency.value.buyingRate * withdrawalAmount.value);
 				store.commit("bankDetails/amount", withdrawalAmount.value);
 				store.commit("bankDetails/amountToReceive", rate);
+
 				Log.info(store.getters["bankDetails/amount"]);
+				Log.info(selectedCurrency.value.buyingRate * withdrawalAmount.value);
+
+				sendAmountLoading.value = false;
 				router.push("/bank_details");
 			}
 		};
-		const currencies = ref([
-			{
-				buyingRate: 170,
-				currency: "UST",
-				id: "4d5b7298-3ba9-4eeb-b162-3f19b334fdec",
-				sellingRate: 200,
-			},
-		]);
-		const selectedCurrency = ref(currencies.value[0]);
+		const currencies = ref([]);
+		const selectedCurrency = ref({});
 
 		watch(selectedCurrency, (newValue) => {
+			// store.commit("bankDetails/rateId", newValue.id);
 			Log.info(newValue);
 		});
 
@@ -259,6 +275,8 @@ export default {
 			selectedCurrency,
 			withdrawalAmount,
 			rate,
+			sendAmountLoading,
+			requestLoading,
 		};
 	},
 };

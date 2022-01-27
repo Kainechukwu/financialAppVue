@@ -113,11 +113,11 @@
 						<span class="blacktext fs-16 fw-500">Cancel</span>
 					</div>
 				</div>
-				<div @click="confirmWithdrawal" style="background: #2b7ee4" class="br-5">
+				<button @click="confirmWithdrawal" style="background: #2b7ee4" class="br-5">
 					<div class="flex justify-center items-center h-12">
 						<span class="fw-500 fs-16 text-white">Confirm</span>
 					</div>
-				</div>
+				</button>
 			</div>
 		</div>
 		<!-- ------------------ -->

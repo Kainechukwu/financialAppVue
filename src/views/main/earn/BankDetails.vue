@@ -148,10 +148,16 @@
 			</div>
 			<button
 				type="submit"
+				:disabled="nextLoading"
 				style="background-color: #2b7ee4"
 				class="mt-4 mx-auto flex items-center justify-center h-12 w-52 br-5"
 			>
-				<span class="fw-500 fs-16 text-white"> Continue</span>
+				<div class="flex items-center justify-center">
+					<span class="fw-500 fs-16 text-white"> Continue</span>
+					<div v-if="nextLoading" class="h-4 w-4 ml-4 rounded-md block">
+						<div class="roundLoader opacity-50 mx-auto"></div>
+					</div>
+				</div>
 			</button>
 		</Form>
 		<!-- ------------------ -->
@@ -181,6 +187,7 @@ export default {
 		};
 
 		const agree = ref(false);
+		const nextLoading = ref(false);
 		const store = useStore();
 		const schema = Yup.object().shape({
 			BeneficiaryName: Yup.string().required("Beneficiary Name is required"),
@@ -193,7 +200,9 @@ export default {
 		const goNext = (values) => {
 			Log.info(values);
 			Log.info(agree.value);
+			nextLoading.value = true;
 			if (agree.value === false) {
+				nextLoading.value = false;
 				Util.handleGlobalAlert(true, "failed", "You must agree to Terms and Conditions");
 			} else {
 				store.commit("bankDetails/bankAddress", values.BankAddress);
@@ -201,6 +210,7 @@ export default {
 				store.commit("bankDetails/bankName", values.BankName);
 				store.commit("bankDetails/beneficiaryAccountNumber", values.BeneficiaryAccountNumber);
 				store.commit("bankDetails/beneficiaryName", values.BeneficiaryName);
+				nextLoading.value = false;
 				router.push("/confirm_withdrawal");
 			}
 		};
@@ -210,6 +220,7 @@ export default {
 			goBack,
 			schema,
 			agree,
+			nextLoading,
 		};
 	},
 };
