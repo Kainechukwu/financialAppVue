@@ -240,30 +240,7 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			requestLoading.value = true;
-			UserActions.getAllRates(
-				(response) => {
-					currencies.value = response.data.data;
-					selected.value = currencies.value.length > 0 ? currencies.value[0] : {};
-
-					rate.value = computed(() => depositAmount.value / selected.value.sellingRate);
-
-					rateId.value = selected.value.id;
-
-					// Log.info(rate);
-					Log.info("curbelow");
-					Log.info("currency: " + JSON.stringify(currencies.value));
-					// Log.info("rateId:" + rateId.value);
-					// Log.info(selected.value);
-					// Log.info("DA:" + String(depositAmount.value));
-					// Log.info("BR:" + String(selected.value.sellingRate));
-					requestLoading.value = false;
-				},
-				(error) => {
-					requestLoading.value = false;
-					Log.info(error);
-				}
-			);
+			getRates();
 		});
 		const router = useRouter();
 		const store = useStore();
@@ -287,6 +264,34 @@ export default {
 		// 	id: "4d5b7298-3ba9-4eeb-b162-3f19b334fdec",
 		// 	sellingRate: 200,
 		// },
+		const getRates = () => {
+			requestLoading.value = true;
+			UserActions.getAllRates(
+				(response) => {
+					currencies.value = response.data.data;
+					selected.value = currencies.value.length > 0 ? currencies.value[0] : {};
+
+					rate.value = computed(() => depositAmount.value / selected.value.sellingRate);
+
+					rateId.value = selected.value.id;
+
+					// Log.info(rate);
+					Log.info("curbelow");
+					Log.info("currency: " + JSON.stringify(currencies.value));
+					// Log.info("rateId:" + rateId.value);
+					// Log.info(selected.value);
+					// Log.info("DA:" + String(depositAmount.value));
+					// Log.info("BR:" + String(selected.value.sellingRate));
+					requestLoading.value = false;
+				},
+				(error) => {
+					requestLoading.value = false;
+					Log.info(error);
+
+					// onMounted();
+				}
+			);
+		};
 
 		const sendAmount = () => {
 			sendAmountLoading.value = true;

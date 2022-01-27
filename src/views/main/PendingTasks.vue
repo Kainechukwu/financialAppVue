@@ -15,7 +15,7 @@
 							<CompleteProfileDetailsSvg />
 							<p class="ml-4 my-auto inter fs-14 fw-400">Complete profile details</p>
 						</div>
-						<CheckedSvg v-if="isProfileUpdated" />
+						<CheckedSvg v-if="!isProfileUpdated" />
 						<GreenCheckedSvg v-else />
 					</div>
 					<div @click="goToProfileSettings" class="cursor-pointer flex px-6 py-4 justify-between">
@@ -23,7 +23,7 @@
 							<VerifyContactSvg />
 							<p class="ml-4 my-auto inter fs-14 fw-400">Verify Phone Number</p>
 						</div>
-						<CheckedSvg v-if="isPhoneNumberVerified" />
+						<CheckedSvg v-if="!isPhoneNumberVerified" />
 						<GreenCheckedSvg v-else />
 					</div>
 					<div @click="goToCompliance" class="cursor-pointer flex px-6 py-4 justify-between">
@@ -31,7 +31,7 @@
 							<KycSvg />
 							<p class="ml-4 my-auto inter fs-14 fw-400">KYC: Upload ID, Take selfie</p>
 						</div>
-						<CheckedSvg v-if="isKycDone" />
+						<CheckedSvg v-if="!isKycDone" />
 						<GreenCheckedSvg v-else />
 					</div>
 					<div @click="goToPinSettings" class="cursor-pointer flex px-6 py-4 justify-between">
@@ -39,7 +39,7 @@
 							<SetPinSvg />
 							<p class="ml-4 my-auto inter fs-14 fw-400">Set authenticaton PIN</p>
 						</div>
-						<CheckedSvg v-if="hasPin" />
+						<CheckedSvg v-if="!hasPin" />
 						<GreenCheckedSvg v-else />
 					</div>
 				</div>
