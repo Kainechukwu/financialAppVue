@@ -127,7 +127,7 @@ import UserActions from "@/services/userActions/userActions.js";
 import { ref } from "vue";
 import { Util, Log } from "@/components/util";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 
 export default {
 	name: "Fund Account",
@@ -142,7 +142,7 @@ export default {
 
 		// });
 		const store = useStore();
-		const router = useRouter();
+		// const router = useRouter();
 		const isMoneySent = ref(false);
 		const agree = ref(false);
 		const bankDetails = {
@@ -171,12 +171,12 @@ export default {
 					(response) => {
 						Log.info(response);
 						isMoneySent.value = true;
-						router.push("/earn/overview");
+						// router.push("/earn/overview");
 						Util.handleGlobalAlert(true, "success", response.data.message);
 					},
 					(error) => {
 						Log.error(error);
-						router.push("/earn/overview");
+						// router.push("/earn/overview");
 						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					}
 				);
