@@ -224,7 +224,7 @@ export default {
 		});
 		const router = useRouter();
 		const withdrawalAmount = ref(0);
-		const rate = computed(() => selectedCurrency.value.sellingRate * withdrawalAmount.value);
+		const rate = computed(() => selectedCurrency.value.buyingRate * withdrawalAmount.value);
 		const store = useStore();
 		const goToBankDetails = () => {
 			if (withdrawalAmount.value < 1) {
@@ -232,12 +232,9 @@ export default {
 			} else {
 				Log.info("rate: below");
 				store.commit("bankDetails/rateId", selectedCurrency.value.id);
-				Log.info(selectedCurrency.value.sellingRate * withdrawalAmount.value);
+				Log.info(selectedCurrency.value.buyingRate * withdrawalAmount.value);
 				store.commit("bankDetails/amount", withdrawalAmount.value);
-				store.commit(
-					"bankDetails/amountToReceive",
-					selectedCurrency.value.sellingRate * withdrawalAmount.value
-				);
+				store.commit("bankDetails/amountToReceive", rate);
 				Log.info(store.getters["bankDetails/amount"]);
 				router.push("/bank_details");
 			}

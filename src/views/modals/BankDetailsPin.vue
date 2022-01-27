@@ -201,7 +201,7 @@ export default {
 				amount: store.getters["bankDetails/amount"],
 				rateId: store.getters["bankDetails/rateId"],
 				userId: store.getters["authToken/userId"],
-				walletId: store.getters["bankDetails/walletId"],
+				wallet: store.getters["bankDetails/walletId"],
 				bank: {
 					beneficiaryName: store.getters["bankDetails/beneficiaryName"],
 					beneficiaryAccountNumber: store.getters["bankDetails/beneficiaryAccountNumber"],
@@ -238,7 +238,7 @@ export default {
 						Log.info("transaction withjdrawal response" + String(response));
 						store.commit("setBankDetailsPinModal", false);
 						resetInput();
-						router.push("/earn/overview");
+
 						store.commit("setTransactionSuccessfulModal", true);
 					},
 					(error) => {

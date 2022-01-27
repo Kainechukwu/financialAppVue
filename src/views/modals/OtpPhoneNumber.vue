@@ -183,7 +183,7 @@ export default {
 
 		const submitLoading = ref(false);
 
-		const phoneNo = store.state.phoneNo;
+		const phoneNo = store.getters["authToken/phoneNumber"];
 		const isModalOpen = computed(() => store.state.otpPhoneNumberModal);
 		const errorMessage = ref("");
 

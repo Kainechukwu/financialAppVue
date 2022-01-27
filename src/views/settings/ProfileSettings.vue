@@ -154,13 +154,13 @@ export default {
 
 		const userProfile = reactive({
 			email: store.getters["authToken/email"],
-			dob: store.getters["authToken/dob"],
+			dob: "",
 			// .length > 0
 			// 	? computed(() => store.getters["authToken/dob"])
 			// 	: "",
 			firstName: computed(() => store.getters["authToken/firstName"]),
 			lastName: store.getters["authToken/lastName"],
-			phoneNo: "",
+			phoneNo: store.getters["authToken/phoneNumber"],
 
 			// userType: "Corporate",
 			// accountCreated: false,
@@ -201,7 +201,10 @@ export default {
 					Log.info("profileUpdate response" + String(response));
 					profileUpdate.loading = false;
 					store.commit("setOtpPhoneNumberModal", true);
-					store.commit("setPhoneNo", userDetails.phoneNumber);
+					store.commit("authToken/phoneNumber", userDetails.phoneNumber);
+					store.commit("authToken/firstName", userDetails.firstName);
+					store.commit("authToken/lastName", userDetails.lastName);
+					store.commit("authToken/email", userDetails.values.email);
 					// Util.handleGlobalAlert(true, "success", response.data.message);
 					Log.info("profileUpdate" + String(profileUpdate.loading));
 				},

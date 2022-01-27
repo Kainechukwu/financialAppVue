@@ -234,7 +234,7 @@ export default {
 					Log.info(selectedCurrency.value);
 					Log.info("DA:" + String(depositAmount.value));
 					Log.info("BR:" + String(selectedCurrency.value.sellingRate));
-					rate.value = computed(() => depositAmount.value / selectedCurrency.value.buyingRate);
+					rate.value = computed(() => depositAmount.value / selectedCurrency.value.sellingRate);
 					Log.info(rate);
 					rateId.value = selectedCurrency.value.id;
 					Log.info("rateId:" + rateId.value);
@@ -300,7 +300,7 @@ export default {
 
 		watch(selectedCurrency, (newValue) => {
 			rateId.value = newValue.id;
-			rate.value = computed(() => depositAmount.value / newValue.buyingRate);
+			rate.value = computed(() => depositAmount.value / newValue.sellingRate);
 
 			Log.info(rateId.value);
 			Log.info(rate.value);
