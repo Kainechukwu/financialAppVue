@@ -10,7 +10,10 @@
 			</div>
 			<div class="flex justify-between">
 				<div class="flex justify-center items-center">
-					<span class="inter fw-400 fs-10 th-dateColor">{{ date }}</span>
+					<span class="fw-400 fs-10 th-dateColor">{{ date }}</span>
+				</div>
+				<div class="flex items-center">
+					<span class="fw-400 fs-12 th-dateColor">{{ transaction.id }}</span>
 				</div>
 				<div
 					v-if="
