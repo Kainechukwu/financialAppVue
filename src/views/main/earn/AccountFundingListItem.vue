@@ -4,9 +4,7 @@
 		<div class="flex flex-col w-full pl-6 pr-4">
 			<div class="flex justify-between">
 				<h1 class="inter fw-600 fs-14 thTypeListColor">Account Funding</h1>
-				<span class="black-text inter fw-700 fs-12"
-					>{{ transaction.amount }} {{ transaction.currency }}</span
-				>
+				<span class="black-text inter fw-700 fs-12">{{ curr }} {{ transaction.currency }}</span>
 			</div>
 			<div class="flex justify-between">
 				<div class="flex justify-center items-center">
@@ -69,7 +67,7 @@
 <script>
 // import { onMounted, ref } from "vue";
 import { Util } from "@/components/util";
-// var moment = require("moment");
+
 import AccountFundingListItemSvg from "@/components/svg/AccountFundingListItemSvg.vue";
 export default {
 	name: "AccountFundingListItem",
@@ -85,14 +83,10 @@ export default {
 			"YYYY-MM-DD HH:mm:ss.SSSS",
 			"MMM DD ddd YYYY hh:mm a"
 		);
-		// onMounted(() => {
-		// 	moment(d.value).format("MMMM DD YYYY");
 
-		// 	Log.info("date: " + d.value);
-		// });
+		const curr = Util.currencyFormatter(props.transaction.amount, "0,0.00000000");
 
-		// const d = ref("2022-01-21T08:23:47.576");
-		return { date };
+		return { date, curr };
 	},
 };
 </script>

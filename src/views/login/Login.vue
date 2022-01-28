@@ -67,6 +67,7 @@
 
 					<div class="">
 						<button
+							:disabled="loginUser.loading"
 							type="submit"
 							class="bluebtn h-50px relative w-full py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
 						>

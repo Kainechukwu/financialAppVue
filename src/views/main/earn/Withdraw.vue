@@ -95,6 +95,7 @@
 						</div>
 					</Listbox>
 					<input
+						autofocus
 						class="pl-3 w-full rounded-r-md border border-gray-100 text-gray-900 focus:outline-none sm:text-sm"
 						type="number"
 						placeholder="1000.00"
@@ -269,7 +270,7 @@ export default {
 		// 	Util.numWithComma(n);
 		// };
 		const router = useRouter();
-		const withdrawalAmount = ref(0);
+		const withdrawalAmount = ref("");
 		const sendAmountLoading = ref(false);
 		const rate = ref(0);
 		// const state =
