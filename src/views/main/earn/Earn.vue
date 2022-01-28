@@ -21,7 +21,7 @@
 import BalanceCards from "./BalanceCards.vue";
 import { onMounted } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 
 export default {
@@ -47,6 +47,7 @@ export default {
 				},
 				(error) => {
 					Log.error(error);
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
 		});

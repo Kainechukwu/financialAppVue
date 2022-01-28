@@ -287,6 +287,7 @@ export default {
 				(error) => {
 					requestLoading.value = false;
 					Log.info(error);
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 
 					// onMounted();
 				}

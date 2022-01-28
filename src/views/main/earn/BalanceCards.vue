@@ -72,7 +72,7 @@ import UserInfo from "@/services/userInfo/userInfo.js";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 
 export default {
 	name: "BalanceCards",
@@ -87,6 +87,7 @@ export default {
 					interestBalance.value = balance.interestBalance;
 				},
 				(error) => {
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					Log.error(error);
 				}
 			);
