@@ -316,6 +316,7 @@ export default {
 				(response) => {
 					const data = response.data.data;
 					Log.info(data);
+					store.commit("deposit/rateId", rateId.value);
 					store.commit("deposit/amountToSend", data.amountToSend);
 					store.commit("deposit/amountRecieved", data.amountRecieved);
 					store.commit("deposit/holderName", data.bankDetails.holderName);
