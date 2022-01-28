@@ -3,8 +3,8 @@ import { Web, Constants } from "@/components/util"
 export default class UserActions {
 
 
-	static getEarnings(successHandler, errorHandler) {
-		Web.get(Constants.API_BASE + '/Wallets/get-earnings', successHandler, errorHandler)
+	static getEarnings(userId, period, successHandler, errorHandler) {
+		Web.get(Constants.API_BASE + '/Wallets/get-earnings?userId=' + userId + "&Period=" + period, successHandler, errorHandler)
 
 	}
 
