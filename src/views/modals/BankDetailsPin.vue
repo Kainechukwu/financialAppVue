@@ -153,7 +153,7 @@
 
 <script>
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 import UserActions from "@/services/userActions/userActions.js";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
 import { computed, onMounted, watch } from "vue";
@@ -181,7 +181,7 @@ export default {
 		const errorMessage = ref("");
 		const submitLoading = ref(false);
 		const isModalOpen = computed(() => store.state.bankDetailsPinModal);
-		const router = useRouter();
+		// const router = useRouter();
 		function clickEvent(e, next) {
 			// Log.info(String(curr) + " " + String(next));
 			Log.info(e);
@@ -246,8 +246,8 @@ export default {
 						submitLoading.value = false;
 						Log.error("transaction withdrawal response" + String(error));
 						resetInput();
-						store.commit("setBankDetailsPinModal", false);
-						router.push("/withdraw");
+						// store.commit("setBankDetailsPinModal", false);
+						// router.push("/withdraw");
 						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					}
 				);
