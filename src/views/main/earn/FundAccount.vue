@@ -189,7 +189,7 @@ export default {
 						sendAmountLoading.value = false;
 						isMoneySent.value = true;
 						// router.push("/earn/overview");
-						Util.handleGlobalAlert(true, "success", response.data.message);
+						// Util.handleGlobalAlert(true, "success", response.data.message);
 					},
 					(error) => {
 						Log.error(error);
