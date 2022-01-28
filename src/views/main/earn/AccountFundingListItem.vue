@@ -80,7 +80,7 @@ export default {
 		const date = Util.formatTime(
 			props.transaction.transactionDate,
 			"YYYY-MM-DD HH:mm:ss.SSSS",
-			"MMM DD YYYY HH:mm:ss"
+			"MMM DD ddd YYYY hh:mm a"
 		);
 		// onMounted(() => {
 		// 	moment(d.value).format("MMMM DD YYYY");

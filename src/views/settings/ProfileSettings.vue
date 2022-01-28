@@ -72,16 +72,18 @@
 											v-model="phoneNo"
 											autocomplete="off"
 											required=""
-											class="mt-1.5 br-5 h-12 appearance-none relative block w-full pl-12 pr-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+											class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 											:class="{ 'is-invalid': errors.phoneNo }"
 										/>
 										<div class="invalid-feedback text-red-500">{{ errors.phoneNo }}</div>
-										<div
+										<!-- pl-12 -->
+										<!-- <div
+										
 											:class="{ numHolder: errors.phoneNo }"
 											class="z-20 w-8 absolute left-0 inset-y-0 top-0 blacktext h-5 flex items-center my-auto ml-2"
 										>
 											+234
-										</div>
+										</div> -->
 									</div>
 								</div>
 							</div>

@@ -51,6 +51,18 @@ export default class Util {
 		return Number(parts.join("."));
 	}
 
+	static currencyFormatter(number, currency) {
+
+
+		const formatted = new Intl.NumberFormat("en-US", {
+			style: "currency",
+			currency: currency,
+			maximumSignificantDigits: 20
+		}).format(number)
+
+		return formatted
+	}
+
 	// static getId = (obj) => {
 	// 	const id = array.value.find((obj) => obj.name === string).id;
 

@@ -102,7 +102,7 @@
 					/>
 				</div>
 				<span class="fs-12 fw-400 tx-666666 mt-3"
-					>You will receive: <span class="fs-12 fw-600 blacktext">${{ rate }}</span></span
+					>You will receive: <span class="fs-12 fw-600 blacktext">{{ rate }}</span></span
 				>
 
 				<span class="mt-6 mb-4">Payment Method</span>
@@ -227,6 +227,13 @@ export default {
 					currencies.value = response.data.data;
 					selectedCurrency.value = currencies.value.length > 0 ? currencies.value[0] : {};
 
+					// rate.value = computed(() => {
+					// 	const num = Util.currencyFormatter(
+					// 		selectedCurrency.value.buyingRate * withdrawalAmount.value,
+					// 		"USD"
+					// 	);
+					// 	return num.slice(1, num.length - 1);
+					// });
 					rate.value = computed(() => selectedCurrency.value.buyingRate * withdrawalAmount.value);
 
 					store.commit("bankDetails/rateId", selectedCurrency.value.id);
@@ -235,16 +242,19 @@ export default {
 				(error) => {
 					requestLoading.value = false;
 					Log.info(error);
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
 		});
 		// const addComma = (n) => {
-		// 	Util.numWithComma(n)
-		// }
+		// 	Util.numWithComma(n);
+		// };
 		const router = useRouter();
 		const withdrawalAmount = ref(0);
 		const sendAmountLoading = ref(false);
 		const rate = ref(0);
+		// const state =
+		// const youReceive = ref(0)rate
 		const store = useStore();
 		const requestLoading = ref(false);
 		const goToBankDetails = () => {
@@ -272,14 +282,21 @@ export default {
 			Log.info(newValue);
 		});
 
+		// watch(rate, (newValue) => {
+		// 	Log.info(newValue);
+		// 	youReceive.value =
+		// });
+
 		return {
 			goToBankDetails,
 			currencies,
 			selectedCurrency,
 			withdrawalAmount,
 			rate,
+			// youReceive,
 			sendAmountLoading,
 			requestLoading,
+			// addComma,
 		};
 	},
 };
