@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, computed } from "vue";
 import { useStore } from "vuex";
 import CreatePin from "./CreatePin.vue";
 import ApiResource from "@/components/core/ApiResource";
@@ -94,7 +94,7 @@ export default {
 			confirmNewPin: "",
 		});
 
-		const hasPIN = store.getters["authToken/hasPin"];
+		const hasPIN = computed(() => store.getters["authToken/hasPin"]);
 
 		const pinUpdate = ApiResource.create();
 

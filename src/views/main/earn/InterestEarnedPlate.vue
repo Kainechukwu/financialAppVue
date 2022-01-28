@@ -50,7 +50,7 @@
 						leave-to-class="opacity-0"
 					>
 						<ListboxOptions
-							class="absolute right-0 z-10 w-28 bg-white shadow-lg max-h-60 rounded-b-md py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+							class="absolute right-0 z-10 w-28 bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
 						>
 							<ListboxOption
 								as="template"
@@ -128,7 +128,7 @@ export default {
 			{ period: "Today", value: 1 },
 			{ period: "Yesterday", value: 2 },
 			{ period: "Last 7 days", value: 3 },
-			{ period: "Last 30", value: 4 },
+			{ period: "Last 30 days", value: 4 },
 		];
 		const selected = ref(periods[0]);
 
