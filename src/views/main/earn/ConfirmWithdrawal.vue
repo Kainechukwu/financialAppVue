@@ -108,7 +108,7 @@
 				<!-- --------------- -->
 			</div>
 			<div class="grid grid-cols-2 gap-4">
-				<div class="br-5">
+				<div @click="goBack" class="cursor-pointer br-5">
 					<div style="border: 1px solid #f1f1f1" class="flex justify-center items-center h-12">
 						<span class="blacktext fs-16 fw-500">Cancel</span>
 					</div>

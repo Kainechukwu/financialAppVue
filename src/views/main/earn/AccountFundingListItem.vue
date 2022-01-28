@@ -12,7 +12,10 @@
 				<div class="flex justify-center items-center">
 					<span class="fw-400 fs-10 th-dateColor">{{ date }}</span>
 				</div>
-				<div class="flex items-center">
+				<div class="flex items-center flex-col">
+					<div class="flex justify-start w-full">
+						<span class="fw-400 fs-12 th-dateColor capitalize">Transaction Id:</span>
+					</div>
 					<span class="fw-400 fs-12 th-dateColor">{{ transaction.id }}</span>
 				</div>
 				<div

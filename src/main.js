@@ -7,6 +7,7 @@ import './tailwind.css'
 import "./assets/css/styles.scss"
 import "./assets/css/base.css"
 import VueChartkick from "vue-chartkick";
+import VueNumerals from 'vue-numerals';
 import "chartkick/chart.js";
 
 // import vClickOutside from './library/v-click-outside'
@@ -18,6 +19,7 @@ import "chartkick/chart.js";
 createApp(App)
 	.use(store)
 	.use(VueChartkick)
+	.use(VueNumerals)
 	.use(router)
 	.mount('#app')
 	// .directive('clickOutside', vClickOutside)

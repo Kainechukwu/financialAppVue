@@ -4,7 +4,7 @@
 			<div class="flex mb-1 justify-between py-4 px-6 border-b-2 border-gray-200">
 				<span class="inter fs-16 fw-600 blacktext">Transaction History</span>
 
-				<span class="inter fs-12 tx-666666 fw-500">view more</span>
+				<!-- <span class="inter fs-12 tx-666666 fw-500">view more</span> -->
 			</div>
 			<div v-if="history.length === 0" class="flex flex-col p-20 items-center justify-center">
 				<TransactionHistoryEmptySvg />

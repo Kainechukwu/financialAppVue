@@ -81,7 +81,8 @@
 				/>
 			</div>
 			<span class="fs-12 fw-400 tx-666666 mt-3"
-				>You will receive <span class="fs-12 fw-600 blacktext">{{ rate }} UST</span></span
+				>You will receive
+				<span class="fs-12 fw-600 blacktext">{{ computeRate(depositAmount) }} UST</span></span
 			>
 
 			<span class="mt-6 mb-4">Payment Method</span>
@@ -217,7 +218,11 @@
 <script>
 import { useRouter } from "vue-router";
 import UserActions from "@/services/userActions/userActions.js";
-import { ref, onMounted, computed, watch } from "vue";
+import {
+	ref,
+	onMounted,
+	//  computed, watch
+} from "vue";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import EarnDepositLoading from "./earnDepositLoading.vue";
@@ -228,6 +233,7 @@ import {
 	ListboxOption,
 	ListboxOptions,
 } from "@headlessui/vue";
+var numeral = require("numeral");
 export default {
 	name: "Earn Deposit 1",
 	components: {
@@ -253,17 +259,7 @@ export default {
 		const currencies = ref([]);
 		const selected = ref({});
 		const charges = store.getters["bankDetails/depositFee"];
-		// const goToNext = () => {
-		// 	router.push("/earn/fund_account");
-		// };
-		// const currencies = ["USD", "EURO"];
-		// const currencies = ref([]);
-		// {
-		// 	buyingRate: 170,
-		// 	currency: "USD",
-		// 	id: "4d5b7298-3ba9-4eeb-b162-3f19b334fdec",
-		// 	sellingRate: 200,
-		// },
+
 		const getRates = () => {
 			requestLoading.value = true;
 			UserActions.getAllRates(
@@ -271,7 +267,7 @@ export default {
 					currencies.value = response.data.data;
 					selected.value = currencies.value.length > 0 ? currencies.value[0] : {};
 
-					rate.value = computed(() => depositAmount.value / selected.value.sellingRate);
+					// rate.value = computed(() => depositAmount.value / selected.value.sellingRate);
 
 					rateId.value = selected.value.id;
 
@@ -293,12 +289,24 @@ export default {
 				}
 			);
 		};
+		const computeRate = (num) => {
+			const val = numeral(num / selected.value.sellingRate).format("0,0.00000000");
+			rate.value = val;
+			Log.info(rate.value);
+			return val;
+		};
 
 		const sendAmount = () => {
 			sendAmountLoading.value = true;
-			// if (depositAmount.value < 1) {
-			// 	Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
-			// } else {
+
+			// userId: store.getters["authToken/userId"],
+
+			// store.commit("deposit/amount", depositAmount.value);
+			// store.commit("deposit/rateId", rateId.value);
+
+			// sendAmountLoading.value = false;
+			// router.push("/earn/fund_account");
+
 			UserActions.transactionDeposit(
 				{
 					rateId: rateId.value,
@@ -330,23 +338,24 @@ export default {
 			// }
 		};
 
-		watch(selected, (newValue) => {
-			rateId.value = newValue.id;
-			rate.value = computed(() => depositAmount.value / newValue.sellingRate);
+		// watch(selected, (newValue) => {
+		// 	rateId.value = newValue.id;
+		// 	rate.value = computed(() => depositAmount.value / newValue.sellingRate);
 
-			Log.info(rateId.value);
-			Log.info(rate.value);
-		});
+		// 	Log.info(rateId.value);
+		// 	Log.info(rate.value);
+		// });
 
 		return {
 			currencies,
 			selected,
 			depositAmount,
-			rate,
+			// rate,
 			sendAmount,
 			charges,
 			requestLoading,
 			sendAmountLoading,
+			computeRate,
 		};
 	},
 };
