@@ -105,15 +105,21 @@
 			<!-- --------------- -->
 		</div>
 		<div class="grid grid-cols-2 gap-4">
-			<div @click="sendMoney" style="background: #2b7ee4" class="br-5">
+			<button v-if="isMoneySent" @click="returnToOverview" style="background: #2b7ee4" class="br-5">
 				<div class="flex cursor-pointer justify-center items-center h-12">
-					<!-- <span v-if="isMoneySent" class="fw-500 fs-16 text-white">I have sent the money</span> -->
-					<span class="fw-500 fs-16 text-white">Proceed</span>
+					<span class="fw-500 fs-16 text-white">I have sent the money</span>
+				</div>
+			</button>
+
+			<button v-else @click="sendMoney" style="background: #2b7ee4" class="br-5">
+				<div class="flex cursor-pointer items-center justify-center h-12">
+					<span class="fw-500 fs-16 text-white my-auto">Proceed</span>
 					<div v-if="sendAmountLoading" class="h-4 w-4 ml-4 rounded-md block">
 						<div class="roundLoader opacity-50 mx-auto"></div>
 					</div>
 				</div>
-			</div>
+			</button>
+
 			<div @click="goToEarn" class="cursor-pointer br-5">
 				<div style="border: 1px solid #f1f1f1" class="flex justify-center items-center h-12">
 					<span class="blacktext fs-16 fw-500">Cancel</span>
@@ -182,7 +188,7 @@ export default {
 						Log.info(response);
 						sendAmountLoading.value = false;
 						isMoneySent.value = true;
-						router.push("/earn/overview");
+						// router.push("/earn/overview");
 						Util.handleGlobalAlert(true, "success", response.data.message);
 					},
 					(error) => {
@@ -199,11 +205,16 @@ export default {
 			router.push("/earn/deposit");
 		};
 
+		const returnToOverview = () => {
+			router.push("/earn/overview");
+		};
+
 		// const schema = Yup.object().shape({
 		// 	checkBoxRules: yup.string().required(),
 		// });
 
 		return {
+			returnToOverview,
 			sendMoney,
 			isMoneySent,
 			bankDetails,

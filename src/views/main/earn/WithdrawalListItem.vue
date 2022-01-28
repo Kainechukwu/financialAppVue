@@ -4,9 +4,7 @@
 		<div class="flex flex-col w-full pl-6 pr-4">
 			<div class="flex justify-between">
 				<h1 class="inter fw-600 fs-14 thTypeListColor">Withdrawal</h1>
-				<span class="th-peach inter fw-700 fs-12"
-					>{{ transaction.amount }} {{ transaction.currency }}</span
-				>
+				<span class="th-peach inter fw-700 fs-12">{{ curr }} {{ transaction.currency }}</span>
 			</div>
 			<div class="flex justify-between">
 				<div class="flex justify-center items-center">
@@ -84,7 +82,9 @@ export default {
 			"YYYY-MM-DD HH:mm:ss.SSSS",
 			"MMM DD ddd YYYY HH:mm a"
 		);
-		return { date };
+		const curr = Util.currencyFormatter(props.transaction.amount, "0,0.00000000");
+
+		return { date, curr };
 	},
 };
 </script>

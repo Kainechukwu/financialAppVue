@@ -74,6 +74,7 @@
 					</div>
 				</Listbox>
 				<input
+					autofocus
 					class="pl-3 w-full rounded-r-md border border-gray-100 text-gray-900 focus:outline-none sm:text-sm"
 					type="number"
 					v-model="depositAmount"
@@ -246,11 +247,13 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
+			// const input = document.getElementById("earnInput");
+			// input.focus();
 			getRates();
 		});
 		const router = useRouter();
 		const store = useStore();
-		const depositAmount = ref(0);
+		const depositAmount = ref("");
 		const requestLoading = ref(false);
 		const sendAmountLoading = ref(false);
 		const rate = ref(0);
