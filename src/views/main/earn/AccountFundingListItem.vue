@@ -12,9 +12,9 @@
 				</div>
 				<div class="flex items-center flex-col">
 					<div class="flex justify-start w-full">
-						<span class="fw-400 fs-12 th-dateColor capitalize">Transaction Id:</span>
+						<span class="fw-400 fs-10 th-dateColor capitalize">Transaction Id:</span>
 					</div>
-					<span class="fw-400 fs-12 th-dateColor">{{ transaction.id }}</span>
+					<span class="fw-400 fs-10 th-dateColor">{{ transaction.id }}</span>
 				</div>
 				<div
 					v-if="
