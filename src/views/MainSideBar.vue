@@ -30,7 +30,9 @@
 					class="absolute blacktext fw-400 fs-14 inset-x-0 bg-white rounded-b-md left-0 w-full border-t border-gray-100 flex flex-col"
 					v-if="show.state"
 				>
-					<div class="px-5 py-3 cursor-pointer hover:bg-gray-50">Profile Settings</div>
+					<div @click="goToProfileSettings" class="px-5 py-3 cursor-pointer hover:bg-gray-50">
+						Profile Settings
+					</div>
 					<div @click="logout" class="px-5 py-3 cursor-pointer hover:bg-gray-50 rounded-b-md">
 						Logout
 					</div>
@@ -108,8 +110,14 @@ export default {
 			show.state = !show.state;
 		};
 
+		const goToProfileSettings = () => {
+			show.state = false;
+			router.push("/settings/profile");
+		};
+
 		const logout = () => {
 			LoginService.handleLogout();
+			show.state = false;
 			router.push("/login");
 		};
 		const firstName = store.getters["authToken/firstName"];
@@ -176,6 +184,7 @@ export default {
 			firstName,
 			lastName,
 			companyName,
+			goToProfileSettings,
 		};
 	},
 };

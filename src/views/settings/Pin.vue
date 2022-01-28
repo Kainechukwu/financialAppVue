@@ -19,55 +19,69 @@
 			</div>
 			<div class="col-span-3">
 				<div class="flex flex-col w-11/12">
-					<div class="flex flex-col">
+					<Form
+						@submit="updatePIN"
+						:validation-schema="schema"
+						v-slot="{ errors }"
+						class="flex flex-col"
+					>
 						<div class="mb-8">
 							<label for="Current Pin" class="inter fs-14 fw-400 tx-666666">Current PIN</label>
-							<input
+							<Field
 								id="Current Pin"
-								name="Current Pin"
+								name="currentPin"
 								type="number"
-								v-model="currentPin"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								:class="{ 'is-invalid': errors.currentPin }"
 							/>
+							<div class="invalid-feedback text-red-500">{{ errors.currentPin }}</div>
 						</div>
 
 						<!-- -------------- -->
 						<div class="mb-8">
 							<label for="New Pin" class="inter fs-14 fw-400 tx-666666">New PIN</label>
-							<input
+							<Field
 								id="New Pin"
-								name="New Pin"
-								v-model="newPin"
+								name="newPin"
 								type="number"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								:class="{ 'is-invalid': errors.newPin }"
 							/>
+							<div class="invalid-feedback text-red-500">{{ errors.newPin }}</div>
 						</div>
 						<!-- -------------- -->
 						<div class="mb-8">
 							<label for="Confirm New Pin" class="inter fs-14 fw-400 tx-666666"
 								>Confirm New PIN</label
 							>
-							<input
+							<Field
 								id="Confirm New Pin"
-								name="Confirm New Pin"
-								v-model="confirmNewPin"
+								name="confirmNewPin"
 								type="number"
 								autocomplete="off"
 								required=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								:class="{ 'is-invalid': errors.confirmNewPin }"
 							/>
+							<div class="invalid-feedback text-red-500">{{ errors.confirmNewPin }}</div>
 						</div>
-						<div
-							@click="updatePIN"
+						<button
+							type="submit"
+							:disabled="pinUpdateLoading"
 							class="cursor-pointer greenButton inter fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 						>
-							<span class="text-white">Update PIN</span>
-						</div>
-					</div>
+							<div class="flex items-center justify-center">
+								<span class="text-white">Update PIN</span>
+								<div v-if="pinUpdateLoading" class="h-4 w-4 ml-4 rounded-md block">
+									<div class="roundLoader opacity-50 mx-auto"></div>
+								</div>
+							</div>
+						</button>
+					</Form>
 				</div>
 			</div>
 		</div>
@@ -75,53 +89,66 @@
 </template>
 
 <script>
-import { reactive, toRefs, computed } from "vue";
+import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import CreatePin from "./CreatePin.vue";
-import ApiResource from "@/components/core/ApiResource";
-import { Log } from "@/components/util";
+// import ApiResource from "@/components/core/ApiResource";
+import { Log, Util } from "@/components/util";
 import userActions from "@/services/userActions/userActions";
+import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
 export default {
 	name: "PIN",
 	components: {
 		CreatePin,
+		Form,
+		Field,
 	},
 	setup() {
 		const store = useStore();
-		const userDetails = reactive({
-			currentPin: "",
-			newPin: "",
-			confirmNewPin: "",
-		});
 
 		const hasPIN = computed(() => store.getters["authToken/hasPin"]);
 
-		const pinUpdate = ApiResource.create();
+		const pinUpdateLoading = ref(false);
 
-		const updatePIN = () => {
-			pinUpdate.loading = true;
-			Log.info("userDetails: " + JSON.stringify(userDetails));
+		const schema = Yup.object().shape({
+			currentPin: Yup.string().required("Current pin field is required"),
+			newPin: Yup.string()
+				.required("New pin field is required")
+				.min(6, "Pin must be at least 6 characters"),
+			confirmNewPin: Yup.string()
+				.required("Confirm pin field is required")
+				.required("Pin confirmation is required")
+				.oneOf([Yup.ref("newPin"), null], "Pins must match"),
+		});
+
+		const updatePIN = (values) => {
+			pinUpdateLoading.value = true;
+			// Log.info("userDetails: " + JSON.stringify(userDetails));
 			userActions.changePIN(
 				{
-					currentPin: String(userDetails.currentPin),
-					newPin: String(userDetails.newPin),
-					confirmNewPin: String(userDetails.confirmNewPin),
+					currentPin: String(values.currentPin),
+					newPin: String(values.newPin),
+					confirmNewPin: String(values.confirmNewPin),
 				},
 				(response) => {
-					pinUpdate.loading = false;
+					pinUpdateLoading.value = false;
 					Log.info("response:" + JSON.stringify(response));
+					Util.handleGlobalAlert(true, "success", response.data.message);
 				},
 				(error) => {
-					pinUpdate.loading = false;
+					pinUpdateLoading.value = false;
 					Log.error("error: " + JSON.stringify(error));
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
 		};
 
 		return {
-			...toRefs(userDetails),
 			updatePIN,
 			hasPIN,
+			pinUpdateLoading,
+			schema,
 		};
 	},
 };

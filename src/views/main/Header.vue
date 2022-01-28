@@ -2,7 +2,7 @@
 	<div class="h-24 header w-full flex items-center px-8">
 		<div class="flex w-full items-center justify-between">
 			<div class="flex">
-				<div class="flex items-center mr-4">
+				<!-- <div class="flex items-center mr-4">
 					<svg
 						width="24"
 						height="24"
@@ -36,7 +36,7 @@
 					required=""
 					placeholder="Search payments, invoices and transactions"
 					class="placeholder-gray-400 h-12 w-80 fw-400 fs-16 appearance-none relative block px-3 py-2 text-gray-900"
-				/>
+				/> -->
 			</div>
 			<div class="flex items-center">
 				<!-- <div @click="toggle" class="mr-3 flex items-center space-x-3 justify-center">
