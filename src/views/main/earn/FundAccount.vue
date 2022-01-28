@@ -107,8 +107,11 @@
 		<div class="grid grid-cols-2 gap-4">
 			<div @click="sendMoney" style="background: #2b7ee4" class="br-5">
 				<div class="flex cursor-pointer justify-center items-center h-12">
-					<span v-if="isMoneySent" class="fw-500 fs-16 text-white">I have sent the money</span>
-					<span v-else class="fw-500 fs-16 text-white">Proceed</span>
+					<!-- <span v-if="isMoneySent" class="fw-500 fs-16 text-white">I have sent the money</span> -->
+					<span class="fw-500 fs-16 text-white">Proceed</span>
+					<div v-if="sendAmountLoading" class="h-4 w-4 ml-4 rounded-md block">
+						<div class="roundLoader opacity-50 mx-auto"></div>
+					</div>
 				</div>
 			</div>
 			<div @click="goToEarn" class="cursor-pointer br-5">
@@ -147,10 +150,11 @@ export default {
 		// const router = useRouter();
 		const router = useRouter();
 		const isMoneySent = ref(false);
+		const sendAmountLoading = ref(false);
 		const agree = ref(false);
 		const bankDetails = {
 			amountToSend: numeral(store.getters["deposit/amountToSend"]).format("0,0.00"),
-			amountRecieved: store.getters["deposit/amountRecieved"],
+			amountRecieved: numeral(store.getters["deposit/amountRecieved"]).format("0,0.00000000"),
 			holderName: store.getters["deposit/holderName"],
 			bankAddress: store.getters["deposit/bankAddress"],
 			accountNumber: store.getters["deposit/accountNumber"],
@@ -162,23 +166,28 @@ export default {
 		};
 
 		const sendMoney = () => {
+			sendAmountLoading.value = true;
 			if (agree.value === false) {
+				sendAmountLoading.value = false;
 				Util.handleGlobalAlert(true, "failed", "You must agree to Terms and Conditions");
 			} else {
 				UserActions.confirmDeposit(
 					{
-						transactionReference: bankDetails.transactionsReference,
-						confirmationNumber: bankDetails.transactionRefCode,
+						amountInUst: store.getters["deposit/amountRecieved"],
+						rateId: store.getters["deposit/rateId"],
+						transactionRefCode: bankDetails.transactionRefCode,
 						userId: store.getters["authToken/userId"],
 					},
 					(response) => {
 						Log.info(response);
+						sendAmountLoading.value = false;
 						isMoneySent.value = true;
-						// router.push("/earn/overview");
+						router.push("/earn/overview");
 						Util.handleGlobalAlert(true, "success", response.data.message);
 					},
 					(error) => {
 						Log.error(error);
+						sendAmountLoading.value = false;
 						// router.push("/earn/overview");
 						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					}

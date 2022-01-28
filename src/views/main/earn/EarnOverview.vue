@@ -8,11 +8,13 @@
 						<StartSavingSvg />
 					</div>
 					<div class="flex flex-col justify-between mt-4 h-7">
+						<!-- [Title] Earn 6% APY
+Your yields are available in your interest balance -->
 						<span class="blacktext fw-700 fs-14"
-							>Start saving, earn <span class="text-blue-400 fw-500">10%</span> interest
+							>Earn <span class="text-blue-400 fw-500"> 6% </span> APY
 						</span>
 						<span class="fw-400 fs-14 tx-666666"
-							>Share your referral code and get money on each account</span
+							>Your yields are available in your interest balance</span
 						>
 						<!-- <slot></slot> -->
 					</div>
