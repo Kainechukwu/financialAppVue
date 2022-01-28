@@ -4,6 +4,8 @@ const state = {
 	// username: '',
 	// isVerified: false,
 	// details: {
+	amount: 0,
+	rateId: "",
 	amountToSend: 0,
 	amountRecieved: 0,
 	holderName: "",
@@ -28,6 +30,12 @@ const getters = {
 	// details(state) {
 	// 	return state.details
 	// }
+	amount(state) {
+		return state.amount
+	},
+	rateId(state) {
+		return state.rateId
+	},
 
 	amountToSend(state) {
 		return state.amountToSend
@@ -65,7 +73,12 @@ const getters = {
 
 const mutations = {
 
-
+	amount(state, amount) {
+		state.amount = amount;
+	},
+	rateId(state, rateId) {
+		state.rateId = rateId;
+	},
 	amountToSend(state, amountToSend) {
 		state.amountToSend = amountToSend;
 	},

@@ -12,6 +12,12 @@
 				<div class="flex justify-center items-center">
 					<span class="inter fw-400 fs-10 th-dateColor">{{ date }}</span>
 				</div>
+				<div class="flex items-center flex-col">
+					<div class="flex justify-start w-full">
+						<span class="fw-400 fs-12 th-dateColor capitalize">Transaction Id:</span>
+					</div>
+					<span class="fw-400 fs-12 th-dateColor">{{ transaction.id }}</span>
+				</div>
 				<div
 					v-if="
 						transaction.transactionStatus === 'Successful' ||
@@ -76,7 +82,7 @@ export default {
 		const date = Util.formatTime(
 			props.transaction.transactionDate,
 			"YYYY-MM-DD HH:mm:ss.SSSS",
-			"MMM DD YYYY HH:mm:ss"
+			"MMM DD ddd YYYY HH:mm a"
 		);
 		return { date };
 	},

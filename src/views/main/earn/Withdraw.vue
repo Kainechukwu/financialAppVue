@@ -102,7 +102,8 @@
 					/>
 				</div>
 				<span class="fs-12 fw-400 tx-666666 mt-3"
-					>You will receive: <span class="fs-12 fw-600 blacktext">{{ rate }}</span></span
+					>You will receive:
+					<span class="fs-12 fw-600 blacktext">${{ computeRate(withdrawalAmount) }}</span></span
 				>
 
 				<span class="mt-6 mb-4">Payment Method</span>
@@ -203,11 +204,19 @@
 import { useRouter } from "vue-router";
 import CancelSvg from "./CancelSvg.vue";
 import { Log, Util } from "@/components/util";
-import { ref, onMounted, computed, watch } from "vue";
+import {
+	ref,
+	onMounted,
+	//  computed,
+	watch,
+} from "vue";
 import EarnDepositLoading from "./earnDepositLoading.vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 import { useStore } from "vuex";
+// import { numeralFormat } from "vue-numerals";
+var numeral = require("numeral");
+// import numeral from "numeral";
 
 export default {
 	name: "Withdraw",
@@ -227,14 +236,24 @@ export default {
 					currencies.value = response.data.data;
 					selectedCurrency.value = currencies.value.length > 0 ? currencies.value[0] : {};
 
-					// rate.value = computed(() => {
-					// 	const num = Util.currencyFormatter(
-					// 		selectedCurrency.value.buyingRate * withdrawalAmount.value,
-					// 		"USD"
-					// 	);
-					// 	return num.slice(1, num.length - 1);
-					// });
-					rate.value = computed(() => selectedCurrency.value.buyingRate * withdrawalAmount.value);
+					// rate.value = computed(
+					// 	() => {
+					// Util.currencyFormatter(
+
+					// return numeralFormat(
+					// 	selectedCurrency.value.buyingRate * withdrawalAmount.value,
+					// 	"0,0[.]00 $"
+					// );
+					// 	let format = numeral(
+					// 		selectedCurrency.value.buyingRate * withdrawalAmount.value
+					// 	).format("0,0.00");
+					// 	Log.info("Format: " + format);
+					// 	return format;
+					// }
+					// 	,
+					// 	"USD"
+					// )
+					// );
 
 					store.commit("bankDetails/rateId", selectedCurrency.value.id);
 					requestLoading.value = false;
@@ -265,7 +284,7 @@ export default {
 			} else {
 				store.commit("bankDetails/rateId", selectedCurrency.value.id);
 				store.commit("bankDetails/amount", withdrawalAmount.value);
-				store.commit("bankDetails/amountToReceive", rate);
+				store.commit("bankDetails/amountToReceive", rate.value);
 
 				Log.info(store.getters["bankDetails/amount"]);
 				Log.info(selectedCurrency.value.buyingRate * withdrawalAmount.value);
@@ -273,6 +292,17 @@ export default {
 				sendAmountLoading.value = false;
 				router.push("/bank_details");
 			}
+		};
+		// const format = numeral(6000).format("0,0.00");
+		// const format = (value) => {
+		// 	let val = numeral(value).format("0,0");
+
+		// 	return val;
+		// };
+		const computeRate = (num) => {
+			const val = numeral(selectedCurrency.value.buyingRate * num).format("0,0.00");
+			rate.value = val;
+			return val;
 		};
 		const currencies = ref([]);
 		const selectedCurrency = ref({});
@@ -296,6 +326,9 @@ export default {
 			// youReceive,
 			sendAmountLoading,
 			requestLoading,
+			// Util.currencyFormatter,
+			// format,
+			computeRate,
 			// addComma,
 		};
 	},

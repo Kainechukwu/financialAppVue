@@ -43,12 +43,12 @@
 			<div class="grid grid-cols-2 mb-3">
 				<div class="flex flex-col">
 					<span class="fw-400 fs-12 tx-666666">You will pay:</span>
-					<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountToSend }}</span>
+					<span class="fw-600 fs-12 blacktext">${{ bankDetails.amountToSend }}</span>
 				</div>
 
 				<div class="flex flex-col">
 					<span class="fw-400 fs-12 tx-666666">Transaction Fee:</span>
-					<span class="fw-600 fs-12 blacktext">{{ bankDetails.transactionFee }}</span>
+					<span class="fw-600 fs-12 blacktext">${{ bankDetails.transactionFee }}</span>
 				</div>
 			</div>
 
@@ -56,7 +56,7 @@
 			<div class="grid grid-cols-2 mb-3">
 				<div class="flex flex-col col-span-1">
 					<span class="fw-400 fs-12 tx-666666">You will receive:</span>
-					<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountRecieved }}UST</span>
+					<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountRecieved }} UST</span>
 				</div>
 				<!-- 
 				<div class="flex flex-col">
@@ -106,12 +106,12 @@
 		</div>
 		<div class="grid grid-cols-2 gap-4">
 			<div @click="sendMoney" style="background: #2b7ee4" class="br-5">
-				<div class="flex justify-center items-center h-12">
+				<div class="flex cursor-pointer justify-center items-center h-12">
 					<span v-if="isMoneySent" class="fw-500 fs-16 text-white">I have sent the money</span>
 					<span v-else class="fw-500 fs-16 text-white">Proceed</span>
 				</div>
 			</div>
-			<div class="br-5">
+			<div @click="goToEarn" class="cursor-pointer br-5">
 				<div style="border: 1px solid #f1f1f1" class="flex justify-center items-center h-12">
 					<span class="blacktext fs-16 fw-500">Cancel</span>
 				</div>
@@ -127,6 +127,8 @@ import UserActions from "@/services/userActions/userActions.js";
 import { ref } from "vue";
 import { Util, Log } from "@/components/util";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+var numeral = require("numeral");
 // import { useRouter } from "vue-router";
 
 export default {
@@ -143,10 +145,11 @@ export default {
 		// });
 		const store = useStore();
 		// const router = useRouter();
+		const router = useRouter();
 		const isMoneySent = ref(false);
 		const agree = ref(false);
 		const bankDetails = {
-			amountToSend: store.getters["deposit/amountToSend"],
+			amountToSend: numeral(store.getters["deposit/amountToSend"]).format("0,0.00"),
 			amountRecieved: store.getters["deposit/amountRecieved"],
 			holderName: store.getters["deposit/holderName"],
 			bankAddress: store.getters["deposit/bankAddress"],
@@ -183,6 +186,10 @@ export default {
 			}
 		};
 
+		const goToEarn = () => {
+			router.push("/earn/deposit");
+		};
+
 		// const schema = Yup.object().shape({
 		// 	checkBoxRules: yup.string().required(),
 		// });
@@ -192,6 +199,7 @@ export default {
 			isMoneySent,
 			bankDetails,
 			agree,
+			goToEarn,
 		};
 	},
 };
