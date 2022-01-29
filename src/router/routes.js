@@ -119,7 +119,7 @@ export default [
 							},
 							{
 								path: "/deposit",
-								name: "Deposit",
+								name: "Earn Deposit",
 								redirect: "/earn/deposit",
 								component: () => import("@/views/main/earn/Deposit.vue"),
 								children: [
@@ -130,24 +130,24 @@ export default [
 									},
 									{
 										path: "/earn/fund_account",
-										name: "fund Account",
+										name: "Earn_fund Account",
 										component: () => import("@/views/main/earn/FundAccount.vue")
 									},
 								]
 							},
 							{
 								path: "/withdraw",
-								name: "Withdraw",
+								name: "Earn_Withdraw",
 								component: () => import("@/views/main/earn/Withdraw.vue")
 							},
 							{
 								path: "/bank_details",
-								name: "Bank Details",
+								name: "Earn_Bank Details",
 								component: () => import("@/views/main/earn/BankDetails.vue")
 							},
 							{
 								path: "/confirm_withdrawal",
-								name: "Confirm Withdrawal",
+								name: "Earn_Confirm Withdrawal",
 								component: () => import("@/views/main/earn/ConfirmWithdrawal.vue")
 							},
 

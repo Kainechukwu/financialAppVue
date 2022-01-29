@@ -63,6 +63,12 @@ export default class LoginService {
 		// phoneNumber: null
 		// roles: ["Merchant"]
 		// userName: "kainechukwu Bismarck"
+		// Util.formatTime(
+		// 	new Date(data.dob),
+		// 	"YYYY-MM-DD HH:mm:ss.SSSS",
+		// 	"DD/MM/YYYY"
+
+		// )
 
 
 		const data = response.data.data;
@@ -76,7 +82,7 @@ export default class LoginService {
 		store.commit("authToken/firstName", data.firstName);
 		store.commit("authToken/lastName", data.lastName);
 		store.commit("authToken/hasPin", data.hasPin);
-		// store.commit("authToken/dob", data.dob);
+		store.commit("authToken/dob", data.dob ? new Date(data.dob) : new Date("01/01/1000"));
 		store.commit("authToken/phoneNumber", data.phoneNumber ? data.phoneNumber : "");
 		store.commit("authToken/companyName", data.companyName ? data.companyName : "Unverified");
 		// store.commit("authToken/companyName", null);

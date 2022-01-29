@@ -66,7 +66,7 @@
 <script>
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 // import {useStore} from "vuex";
 import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
 // import DashBoardSvg from "@/components/svg/DashboardSvg.vue";
@@ -101,7 +101,7 @@ export default {
 			state: false,
 		});
 
-		const companyName = store.getters["authToken/companyName"];
+		const companyName = computed(() => store.getters["authToken/companyName"]);
 
 		const toggle = () => {
 			show.state = !show.state;
