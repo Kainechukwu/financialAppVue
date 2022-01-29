@@ -128,6 +128,7 @@
 									/>
 									<div class="absolute mx-3 inset-y-0 h-full flex items-center">
 										<svg
+											v-if="typeof selectedFile !== 'object'"
 											width="21"
 											height="20"
 											viewBox="0 0 21 20"
@@ -149,6 +150,7 @@
 												stroke-linejoin="round"
 											/>
 										</svg>
+										<GreenCheckedSvg v-else />
 									</div>
 									<input
 										required
@@ -168,12 +170,18 @@
 							<!-- ----------  -->
 
 							<div class="flex justify-end">
-								<div
+								<button
+									:disabled="loading"
 									@click="saveKycDetails"
 									class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 								>
-									<span class="text-white">Save</span>
-								</div>
+									<div class="flex items-center justify-center">
+										<span class="text-white">Save</span>
+										<div v-if="loading" class="h-4 w-4 ml-4 rounded-md block">
+											<div class="roundLoader opacity-50 mx-auto"></div>
+										</div>
+									</div>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -192,6 +200,7 @@ import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import UserActions from "@/services/userActions/userActions.js";
 import BusinessVerification from "./BusinessVerification.vue";
+import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
 import {
 	Listbox,
 	ListboxButton,
@@ -209,6 +218,7 @@ export default {
 		ListboxOption,
 		ListboxOptions,
 		BusinessVerification,
+		GreenCheckedSvg,
 	},
 	setup() {
 		// onMounted(() => {
@@ -230,6 +240,7 @@ export default {
 		const selectedIdTypeList = ["Passport", "DriversLicence", "IdentityCard"];
 		const selectedIdType = ref(selectedIdTypeList[0]);
 		const showFilesToSelect = ref({});
+		const loading = ref(false);
 
 		const kycDetails = reactive({
 			idType: "",
@@ -272,20 +283,26 @@ export default {
 		};
 
 		const saveKycDetails = () => {
+			loading.value = true;
 			Log.info(prepareKycDetails());
 			UserActions.compliancePersonalUpload(
 				prepareKycDetails(),
 				(response) => {
 					Log.info(response);
+					loading.value = false;
+					Util.handleGlobalAlert(true, "success", response.data.message);
 				},
 				(error) => {
 					Log.error(error);
+					loading.value = false;
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
 		};
 
 		return {
 			...toRefs(kycDetails),
+			loading,
 			saveKycDetails,
 			selectedIdTypeList,
 			selectedIdType,

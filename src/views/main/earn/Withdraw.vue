@@ -279,19 +279,24 @@ export default {
 		const requestLoading = ref(false);
 		const goToBankDetails = () => {
 			sendAmountLoading.value = true;
-			if (withdrawalAmount.value < 1) {
-				sendAmountLoading.value = false;
-				Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
+
+			if (store.getters["bankDetails/balance"] < withdrawalAmount.value) {
+				Util.handleGlobalAlert(true, "failed", "Insufficient wallet balance");
 			} else {
-				store.commit("bankDetails/rateId", selectedCurrency.value.id);
-				store.commit("bankDetails/amount", withdrawalAmount.value);
-				store.commit("bankDetails/amountToReceive", rate.value);
+				if (withdrawalAmount.value < 1) {
+					sendAmountLoading.value = false;
+					Util.handleGlobalAlert(true, "failed", "Input amount must be greater than 0");
+				} else {
+					store.commit("bankDetails/rateId", selectedCurrency.value.id);
+					store.commit("bankDetails/amount", withdrawalAmount.value);
+					store.commit("bankDetails/amountToReceive", rate.value);
 
-				Log.info(store.getters["bankDetails/amount"]);
-				Log.info(selectedCurrency.value.buyingRate * withdrawalAmount.value);
+					Log.info(store.getters["bankDetails/amount"]);
+					Log.info(selectedCurrency.value.buyingRate * withdrawalAmount.value);
 
-				sendAmountLoading.value = false;
-				router.push("/bank_details");
+					sendAmountLoading.value = false;
+					router.push("/bank_details");
+				}
 			}
 		};
 		// const format = numeral(6000).format("0,0.00");
