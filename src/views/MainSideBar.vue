@@ -101,10 +101,7 @@ export default {
 			state: false,
 		});
 
-		const companyName =
-			store.getters["authToken/companyName"] === null
-				? "Unverified"
-				: store.getters["authToken/companyName"];
+		const companyName = store.getters["authToken/companyName"];
 
 		const toggle = () => {
 			show.state = !show.state;
