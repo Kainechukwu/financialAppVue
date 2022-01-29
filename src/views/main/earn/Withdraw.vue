@@ -282,6 +282,7 @@ export default {
 
 			if (store.getters["bankDetails/balance"] < withdrawalAmount.value) {
 				Util.handleGlobalAlert(true, "failed", "Insufficient wallet balance");
+				sendAmountLoading.value = false;
 			} else {
 				if (withdrawalAmount.value < 1) {
 					sendAmountLoading.value = false;

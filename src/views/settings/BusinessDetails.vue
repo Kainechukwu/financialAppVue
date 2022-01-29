@@ -7,19 +7,25 @@
 		</div>
 		<div class="col-span-3">
 			<div class="flex flex-col w-10/12">
-				<div class="flex flex-col">
+				<Form
+					@submit="saveDetails"
+					:validation-schema="schema"
+					v-slot="{ errors }"
+					class="flex flex-col"
+				>
 					<div class="mb-8">
 						<label for="Company Name" class="fs-14 fw-400 tx-666666">Company Name</label>
-						<input
+						<Field
 							id="Company Name"
-							name="Company Name"
+							name="companyName"
 							type="text"
-							v-model="companyName"
 							autocomplete="off"
 							required=""
 							placeholder="The Walt Disney Company"
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+							:class="{ 'is-invalid': errors.companyName }"
 						/>
+						<div class="invalid-feedback text-red-500">{{ errors.companyName }}</div>
 					</div>
 
 					<!-- --------------- -->
@@ -269,16 +275,17 @@
 						<div class="mb-6 col-span-1">
 							<label for="Number of Staff" class="fs-14 tx-666666 fw-600">Number of Staff</label>
 							<div class="relative">
-								<input
+								<Field
 									id="Number of Staff"
-									name="Number of Staff"
-									type="text"
+									name="numberOfStaff"
+									type="number"
 									autocomplete="off"
 									required=""
-									v-model="numberOfStaff"
 									placeholder="1-50"
-									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
+									:class="{ 'is-invalid': errors.numberOfStaff }"
 								/>
+								<div class="invalid-feedback text-red-500">{{ errors.numberOfStaff }}</div>
 
 								<!-- <div class="absolute mx-3 inset-y-0 h-full flex items-center right-0">
 									<svg
@@ -303,16 +310,17 @@
 					<!-- ---------------- -->
 					<div class="mb-6">
 						<label for="Website URL" class="fs-14 fw-400 tx-666666">Website URL</label>
-						<input
+						<Field
 							id="Website URL"
-							name="Website URL"
+							name="websiteUrl"
 							type="text"
 							autocomplete="off"
 							required=""
-							v-model="websiteUrl"
 							placeholder="http://"
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+							:class="{ 'is-invalid': errors.websiteUrl }"
 						/>
+						<div class="invalid-feedback text-red-500">{{ errors.websiteUrl }}</div>
 					</div>
 
 					<!-- ---------------- -->
@@ -339,7 +347,6 @@
 						<button
 							type="submit"
 							:disabled="loading"
-							@click="saveDetails"
 							class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 						>
 							<div class="flex items-center justify-center">
@@ -350,7 +357,7 @@
 							</div>
 						</button>
 					</div>
-				</div>
+				</Form>
 			</div>
 		</div>
 	</div>
@@ -361,6 +368,8 @@ import { toRefs, reactive, onMounted, ref, watch } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
+import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
 import {
 	Listbox,
 	ListboxButton,
@@ -376,6 +385,8 @@ export default {
 		ListboxLabel,
 		ListboxOption,
 		ListboxOptions,
+		Form,
+		Field,
 		// CheckIcon,
 		// SelectorIcon,
 	},
@@ -419,12 +430,12 @@ export default {
 		];
 		const selectedIndustry = ref(industries[0]);
 		const businessDetails = reactive({
-			companyName: "",
+			// companyName: "",
 			countryId: 0,
 			stateId: 0,
 			// industry: "",
-			numberOfStaff: "",
-			websiteUrl: "",
+			// numberOfStaff: "",
+			// websiteUrl: "",
 			about: "",
 		});
 
@@ -449,43 +460,52 @@ export default {
 					states.value = response.data.data;
 					selectedState.value = states.value[0];
 					// Log.info(response);
-					Util.handleGlobalAlert(true, "success", response.data.message);
 				},
 				(error) => {
 					Log.error(error);
-					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
 		};
 
-		const prepareBusinessDetails = () => {
+		const schema = Yup.object().shape({
+			numberOfStaff: Yup.number().required("Number of staff field is required"),
+			websiteUrl: Yup.string().required("Website url is required"),
+			companyName: Yup.string().required("Company name is required"),
+		});
+
+		const prepareBusinessDetails = (values) => {
 			const id = getCountryId(selected.value.name);
 			const stateId = getStateId(selectedState.value.name);
 
 			const obj = {
 				ownerId: store.getters["authToken/userId"],
-				companyName: businessDetails.companyName,
+				companyName: values.companyName,
 				countryId: id,
 				stateId: stateId,
 				industry: selectedIndustry.value.name,
-				numberOfStaff: businessDetails.numberOfStaff,
-				websiteUrl: "http://" + businessDetails.websiteUrl,
+				numberOfStaff: values.numberOfStaff,
+				websiteUrl: "http://" + values.websiteUrl,
 				about: businessDetails.about,
 			};
 			return obj;
 		};
 
-		const saveDetails = () => {
+		const saveDetails = (values) => {
 			loading.value = true;
-			Log.info(prepareBusinessDetails());
+			Log.info(prepareBusinessDetails(values));
 			UserActions.setBusinessProfile(
-				prepareBusinessDetails(),
+				prepareBusinessDetails(values),
 				(response) => {
 					loading.value = false;
+					// store.commit("authToken/companyName", values.companyName);
+					Util.handleGlobalAlert(true, "success", response.data.message);
+
 					Log.info(response);
 				},
 				(error) => {
 					loading.value = false;
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+
 					Log.error(error);
 				}
 			);
@@ -503,6 +523,7 @@ export default {
 		return {
 			...toRefs(businessDetails),
 			countries,
+			loading,
 			// country,
 			states,
 			selectedState,
@@ -510,6 +531,7 @@ export default {
 			industries,
 			selectedIndustry,
 			selected,
+			schema,
 		};
 	},
 };
