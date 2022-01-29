@@ -123,7 +123,11 @@
 										type="number"
 										autocomplete="off"
 										required=""
-										placeholder="No document uploaded"
+										:placeholder="
+											typeof selectedFile !== 'object'
+												? 'No document uploaded'
+												: 'Document uploaded'
+										"
 										class="bg-gray-100 mt-1.5 br-5 h-14 appearance-none relative block w-full pr-3 pl-11 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 cursor-pointer sm:text-sm"
 									/>
 									<div class="absolute mx-3 inset-y-0 h-full flex items-center">
