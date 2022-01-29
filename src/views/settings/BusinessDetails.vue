@@ -336,12 +336,19 @@
 					<!-- ----------  -->
 
 					<div class="flex justify-end">
-						<div
+						<button
+							type="submit"
+							:disabled="loading"
 							@click="saveDetails"
 							class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 						>
-							<span class="text-white">Save</span>
-						</div>
+							<div class="flex items-center justify-center">
+								<span class="text-white">Save</span>
+								<div v-if="loading" class="h-4 w-4 ml-4 rounded-md block">
+									<div class="roundLoader opacity-50 mx-auto"></div>
+								</div>
+							</div>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -352,7 +359,7 @@
 <script>
 import { toRefs, reactive, onMounted, ref, watch } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import {
 	Listbox,
@@ -390,6 +397,7 @@ export default {
 
 		const store = useStore();
 		const countries = ref([]);
+		const loading = ref(false);
 		const selected = ref({});
 		const selectedState = ref({});
 
@@ -440,10 +448,12 @@ export default {
 				(response) => {
 					states.value = response.data.data;
 					selectedState.value = states.value[0];
-					Log.info(response);
+					// Log.info(response);
+					Util.handleGlobalAlert(true, "success", response.data.message);
 				},
 				(error) => {
 					Log.error(error);
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
 		};
@@ -466,13 +476,16 @@ export default {
 		};
 
 		const saveDetails = () => {
+			loading.value = true;
 			Log.info(prepareBusinessDetails());
 			UserActions.setBusinessProfile(
 				prepareBusinessDetails(),
 				(response) => {
+					loading.value = false;
 					Log.info(response);
 				},
 				(error) => {
+					loading.value = false;
 					Log.error(error);
 				}
 			);

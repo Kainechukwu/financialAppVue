@@ -158,7 +158,7 @@ import UserActions from "@/services/userActions/userActions.js";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
 import { computed, onMounted, watch } from "vue";
 import { reactive, toRefs, ref } from "vue";
-import { Log, Util } from "@/components/util";
+import { Log } from "@/components/util";
 
 export default {
 	name: "BankDetailsPin",
@@ -275,7 +275,8 @@ export default {
 						resetInput();
 						// store.commit("setBankDetailsPinModal", false);
 						// router.push("/withdraw");
-						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+						errorMessage.value = error.response.data.Message;
+						// Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					}
 				);
 			}
