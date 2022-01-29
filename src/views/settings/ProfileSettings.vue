@@ -93,7 +93,7 @@
 								<Field
 									id="Date of Birth"
 									name="dob"
-									type="Date"
+									type="date"
 									autocomplete="off"
 									v-model="dob"
 									required=""
@@ -156,7 +156,7 @@ export default {
 
 		const userProfile = reactive({
 			email: store.getters["authToken/email"],
-			dob: "",
+			dob: store.getters["authToken/dob"],
 			// .length > 0
 			// 	? computed(() => store.getters["authToken/dob"])
 			// 	: "",

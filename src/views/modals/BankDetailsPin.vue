@@ -178,6 +178,33 @@ export default {
 			code5: "",
 			code6: "",
 		});
+
+		// var input = document.getElementById("myInput");
+
+		// input.onkeydown = function () {
+		// 	var key = event.keyCode || event.charCode;
+
+		// 	if (key == 8 || key == 46) return false;
+		// };
+
+		// const del = (event, prev) => {
+
+		// 	// const curr = document.getElementById(curr);
+		// 	if (event.inputType === "deleteContentBackward" && event.target.value === "") {
+		// 		// Focus on the previous field
+		// 		document.getElementById(prev).focus();
+		// 	}
+		// 	// const input = document.getElementById(curr);
+
+		// 	// input.onkeydown = function (event) {
+		// 	// 	var key = event.keyCode || event.charCode;
+
+		// 	// 	if (key == 8 || key == 46) {
+		// 	// 		input.value = "";
+		// 	// 		document.getElementById(prev).focus();
+		// 	// 	}
+		// 	// };
+		// };
 		const errorMessage = ref("");
 		const submitLoading = ref(false);
 		const isModalOpen = computed(() => store.state.bankDetailsPinModal);
@@ -273,6 +300,7 @@ export default {
 			clickEvent,
 			errorMessage,
 			submitLoading,
+			// del,
 		};
 	},
 };
