@@ -13,7 +13,7 @@
 				<Field
 					id="Create Pin"
 					name="pin"
-					type="number"
+					type="password"
 					autocomplete="off"
 					required=""
 					class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -26,7 +26,7 @@
 				<Field
 					id="Confirm Pin"
 					name="confirmPin"
-					type="number"
+					type="password"
 					autocomplete="off"
 					required=""
 					class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"

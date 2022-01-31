@@ -229,6 +229,7 @@ export default {
 					(response) => {
 						submitLoading.value = false;
 						Log.info("otp response" + String(response));
+
 						store.commit("setOtpPhoneNumberModal", false);
 						resetInput();
 						Util.handleGlobalAlert(true, "success", response.data.message);

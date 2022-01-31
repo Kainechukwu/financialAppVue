@@ -251,7 +251,7 @@ export default {
 		// });
 		const store = useStore();
 
-		const selectedIdTypeList = ["Passport", "DriversLicence", "IdentityCard"];
+		const selectedIdTypeList = ["Passport", "Drivers Licence", "IdentityCard"];
 		const selectedIdType = ref(selectedIdTypeList[0]);
 		const showFilesToSelect = ref({});
 		const loading = ref(false);

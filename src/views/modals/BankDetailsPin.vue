@@ -165,11 +165,17 @@ export default {
 	components: {
 		OtpNumberSvg,
 	},
+	// methods: {
+	// 	forceUpdate() {
+	// 		this.$forceUpdate();
+	// 	},
+	// },
 	setup() {
 		const store = useStore();
 		onMounted(() => {
 			// document.getElementById("code1").focus();
 		});
+
 		const codes = reactive({
 			code1: "",
 			code2: "",

@@ -16,7 +16,8 @@ export default createStore({
     sidebarMenu: false,
     globaAlert: { show: false, text: "", type: "" },
     bankDetailsPinModal: false,
-    transactionSuccessfulModal: false
+    transactionSuccessfulModal: false,
+    reloadMe: false
 
   },
   mutations: {
@@ -60,7 +61,10 @@ export default createStore({
     },
     setTransactionSuccessfulModal(state, payload) {
       state.transactionSuccessfulModal = payload;
-    }
+    },
+    setReloadMe(state, payload) {
+      state.reloadMe = payload;
+    },
   },
   actions: {
   },
