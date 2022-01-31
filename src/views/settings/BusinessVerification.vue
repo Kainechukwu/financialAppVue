@@ -230,11 +230,14 @@
 								type="number"
 								autocomplete="off"
 								required=""
-								placeholder="No document uploaded"
+								:placeholder="
+									typeof selectedFile !== 'object' ? 'No document uploaded' : 'Document uploaded'
+								"
 								class="bg-gray-100 mt-1.5 br-5 h-14 appearance-none relative block w-full pr-3 pl-11 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 cursor-pointer sm:text-sm"
 							/>
 							<div class="absolute mx-3 inset-y-0 h-full flex items-center">
 								<svg
+									v-if="typeof selectedFile !== 'object'"
 									width="21"
 									height="20"
 									viewBox="0 0 21 20"
@@ -256,6 +259,7 @@
 										stroke-linejoin="round"
 									/>
 								</svg>
+								<GreenCheckedSvg v-else />
 							</div>
 							<input
 								required
@@ -276,12 +280,18 @@
 					<!-- ----------  -->
 
 					<div class="flex justify-end">
-						<div
+						<button
+							:disabled="loading"
 							@click="saveVerificationDetails"
 							class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 						>
-							<span class="text-white">Save</span>
-						</div>
+							<div class="flex items-center justify-center">
+								<span class="text-white">Save</span>
+								<div v-if="loading" class="h-4 w-4 ml-4 rounded-md block">
+									<div class="roundLoader opacity-50 mx-auto"></div>
+								</div>
+							</div>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -295,6 +305,9 @@ import { onMounted, ref, reactive, toRefs } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
+
 import {
 	Listbox,
 	ListboxButton,
@@ -312,6 +325,7 @@ export default {
 		ListboxLabel,
 		ListboxOption,
 		ListboxOptions,
+		GreenCheckedSvg,
 	},
 	setup() {
 		onMounted(() => {
@@ -328,6 +342,8 @@ export default {
 		});
 
 		const store = useStore();
+		const router = useRouter();
+		const loading = ref(false);
 		const countries = ref([]);
 		const selected = ref({});
 		const registrationTypes = ref(["LLC", "PLC", "NGO"]);
@@ -383,19 +399,26 @@ export default {
 		};
 
 		const saveVerificationDetails = () => {
+			loading.value = true;
 			Log.info(prepareVerificationDetails());
 			UserActions.businessVerification(
 				prepareVerificationDetails(),
 				(response) => {
+					loading.value = false;
 					Log.info(response);
+					router.push("/settings/security");
+					Util.handleGlobalAlert(true, "success", response.data.message);
 				},
 				(error) => {
+					loading.value = false;
 					Log.error(error);
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
 		};
 
 		return {
+			loading,
 			countries,
 			selected,
 			registrationTypes,

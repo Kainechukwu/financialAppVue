@@ -159,6 +159,7 @@
 import { reactive, toRefs, onMounted } from "vue";
 import UserInfo from "@/services/userInfo/userInfo.js";
 // import { useStore } from "vuex";
+// import { useRouter } from "vue-router";
 import { Log } from "@/components/util";
 export default {
 	name: "Access Key Settings",
@@ -166,6 +167,7 @@ export default {
 		onMounted(() => {
 			generateKeys();
 		});
+
 		const accessKeys = reactive({
 			key1: "",
 			key2: "",

@@ -155,6 +155,7 @@
 
 <script>
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
 import { computed, onMounted, watch } from "vue";
 import { reactive, toRefs, ref } from "vue";
@@ -168,6 +169,7 @@ export default {
 	},
 	setup() {
 		const store = useStore();
+		const router = useRouter();
 		onMounted(() => {
 			Log.info("phoneNo:", phoneNo);
 			// document.getElementById("code1").focus();
@@ -230,6 +232,9 @@ export default {
 						store.commit("setOtpPhoneNumberModal", false);
 						resetInput();
 						Util.handleGlobalAlert(true, "success", response.data.message);
+						if (store.getters["authToken/companyName"] === "Unverified") {
+							router.push("/settings/business_details");
+						}
 					},
 					(error) => {
 						submitLoading.value = false;

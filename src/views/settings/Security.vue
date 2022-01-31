@@ -89,6 +89,7 @@
 import { ref } from "vue";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 import * as Yup from "yup";
 import { Form, Field } from "vee-validate";
 import UserActions from "@/services/userActions/userActions.js";
@@ -100,7 +101,7 @@ export default {
 	},
 	setup() {
 		const store = useStore();
-
+		const router = useRouter();
 		const schema = Yup.object().shape({
 			currentPassword: Yup.string().required("Current password is required"),
 			newPassword: Yup.string()
@@ -131,7 +132,11 @@ export default {
 				(response) => {
 					loading.value = false;
 					Log.info(response);
+
 					Util.handleGlobalAlert(true, "success", response.data.message);
+					if (store.getters["authToken/hasPin"] === false) {
+						router.push("/settings/pin");
+					}
 				},
 				(error) => {
 					Log.error(error);
