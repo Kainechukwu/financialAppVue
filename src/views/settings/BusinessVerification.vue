@@ -7,19 +7,25 @@
 		</div>
 		<div class="col-span-3">
 			<div class="flex flex-col w-10/12">
-				<div class="flex flex-col">
+				<Form
+					@submit="saveVerificationDetails"
+					:validation-schema="schema"
+					v-slot="{ errors }"
+					class="flex flex-col"
+				>
 					<div class="mb-8">
 						<label for="Company Name" class="fs-14 fw-400 tx-666666">Company Name</label>
-						<input
+						<Field
 							id="Company Name"
-							name="Company Name"
+							name="companyName"
 							type="text"
-							v-model="companyName"
 							autocomplete="off"
 							required=""
 							placeholder="The Walt Disney Company"
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+							:class="{ 'is-invalid': errors.companyName }"
 						/>
+						<div class="invalid-feedback text-red-500">{{ errors.companyName }}</div>
 					</div>
 
 					<!-- --------------- -->
@@ -108,16 +114,17 @@
 						<div class="mb-6 col-span-1">
 							<label for="RC Number" class="fs-14 tx-666666 fw-600">RC Number</label>
 							<div class="relative">
-								<input
+								<Field
 									id="RC Number"
-									name="RC Number"
+									name="rcNumber"
 									type="text"
-									v-model="rcNumber"
 									autocomplete="off"
 									required=""
 									placeholder="RC132345"
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									:class="{ 'is-invalid': errors.rcNumber }"
 								/>
+								<div class="invalid-feedback text-red-500">{{ errors.rcNumber }}</div>
 							</div>
 						</div>
 					</div>
@@ -206,16 +213,17 @@
 						<div class="mb-6 col-span-2">
 							<label for="Address" class="fs-14 tx-666666 fw-600">Address</label>
 							<div class="relative">
-								<input
+								<Field
 									id="Address"
-									name="Address"
+									name="address"
 									type="text"
-									v-model="address"
 									autocomplete="off"
 									required=""
 									placeholder="2715 Ash Dr. San Jose, South Dakota 83475"
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+									:class="{ 'is-invalid': errors.address }"
 								/>
+								<div class="invalid-feedback text-red-500">{{ errors.address }}</div>
 							</div>
 						</div>
 					</div>
@@ -230,11 +238,14 @@
 								type="number"
 								autocomplete="off"
 								required=""
-								placeholder="No document uploaded"
+								:placeholder="
+									typeof selectedFile !== 'object' ? 'No document attatched' : 'Document attatched'
+								"
 								class="bg-gray-100 mt-1.5 br-5 h-14 appearance-none relative block w-full pr-3 pl-11 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 cursor-pointer sm:text-sm"
 							/>
 							<div class="absolute mx-3 inset-y-0 h-full flex items-center">
 								<svg
+									v-if="typeof selectedFile !== 'object'"
 									width="21"
 									height="20"
 									viewBox="0 0 21 20"
@@ -256,6 +267,7 @@
 										stroke-linejoin="round"
 									/>
 								</svg>
+								<GreenCheckedSvg v-else />
 							</div>
 							<input
 								required
@@ -271,19 +283,26 @@
 								@change="onFileSelected"
 							/>
 						</div>
+						<div class="invalid-feedback text-red-500">{{ fileAttatchedErr }}</div>
 					</div>
 
 					<!-- ----------  -->
 
 					<div class="flex justify-end">
-						<div
-							@click="saveVerificationDetails"
+						<button
+							:disabled="loading"
+							type="submit"
 							class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 						>
-							<span class="text-white">Save</span>
-						</div>
+							<div class="flex items-center justify-center">
+								<span class="text-white">Save</span>
+								<div v-if="loading" class="h-4 w-4 ml-4 rounded-md block">
+									<div class="roundLoader opacity-50 mx-auto"></div>
+								</div>
+							</div>
+						</button>
 					</div>
-				</div>
+				</Form>
 			</div>
 		</div>
 	</div>
@@ -291,10 +310,14 @@
 
 <script>
 // import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
-import { onMounted, ref, reactive, toRefs } from "vue";
+import { onMounted, ref, reactive, toRefs, watch } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
+import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
 import {
 	Listbox,
 	ListboxButton,
@@ -312,6 +335,9 @@ export default {
 		ListboxLabel,
 		ListboxOption,
 		ListboxOptions,
+		GreenCheckedSvg,
+		Form,
+		Field,
 	},
 	setup() {
 		onMounted(() => {
@@ -328,6 +354,8 @@ export default {
 		});
 
 		const store = useStore();
+		const router = useRouter();
+		const loading = ref(false);
 		const countries = ref([]);
 		const selected = ref({});
 		const registrationTypes = ref(["LLC", "PLC", "NGO"]);
@@ -345,6 +373,7 @@ export default {
 			documentBase64: "",
 			ownerId: store.getters["authToken/userId"],
 		});
+		const fileAttatchedErr = ref("");
 		const showFilesToSelect = ref({});
 
 		const onFileSelected = (e) => {
@@ -368,13 +397,19 @@ export default {
 			showFilesToSelect.value.click();
 		};
 
-		const prepareVerificationDetails = () => {
+		const schema = Yup.object().shape({
+			rcNumber: Yup.string().required("RC Number field is required"),
+			companyName: Yup.string().required("Company name field is required"),
+			address: Yup.string().required("Address field is required"),
+		});
+
+		const prepareVerificationDetails = (values) => {
 			const obj = {
-				companyName: verificationDetails.companyName,
+				companyName: values.companyName,
 				countryId: selected.value.id,
-				rcNumber: verificationDetails.rcNumber,
+				rcNumber: values.rcNumber,
 				registrationType: selectedRegType.value,
-				address: verificationDetails.address,
+				address: values.address,
 				documentName: verificationDetails.selectedFile.name,
 				documentBase64: verificationDetails.documentBase64,
 				ownerId: store.getters["authToken/userId"],
@@ -382,20 +417,38 @@ export default {
 			return obj;
 		};
 
-		const saveVerificationDetails = () => {
-			Log.info(prepareVerificationDetails());
-			UserActions.businessVerification(
-				prepareVerificationDetails(),
-				(response) => {
-					Log.info(response);
-				},
-				(error) => {
-					Log.error(error);
-				}
-			);
+		const saveVerificationDetails = (values) => {
+			loading.value = true;
+			Log.info(prepareVerificationDetails(values));
+			if (typeof verificationDetails.selectedFile !== "object") {
+				loading.value = false;
+				fileAttatchedErr.value = "No file attatched";
+			} else {
+				UserActions.businessVerification(
+					prepareVerificationDetails(values),
+					(response) => {
+						loading.value = false;
+						Log.info(response);
+						router.push("/settings/security");
+						Util.handleGlobalAlert(true, "success", response.data.message);
+					},
+					(error) => {
+						loading.value = false;
+						Log.error(error);
+						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					}
+				);
+			}
 		};
 
+		watch(verificationDetails, (newValue) => {
+			if (typeof newValue.selectedFile === "object") {
+				fileAttatchedErr.value = "";
+			}
+		});
+
 		return {
+			loading,
 			countries,
 			selected,
 			registrationTypes,
@@ -404,6 +457,8 @@ export default {
 			chooseFiles,
 			onFileSelected,
 			saveVerificationDetails,
+			fileAttatchedErr,
+			schema,
 		};
 	},
 };

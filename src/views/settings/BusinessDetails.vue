@@ -370,6 +370,7 @@ import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
+import { useRouter } from "vue-router";
 import {
 	Listbox,
 	ListboxButton,
@@ -407,6 +408,7 @@ export default {
 		});
 
 		const store = useStore();
+		const router = useRouter();
 		const countries = ref([]);
 		const loading = ref(false);
 		const selected = ref({});
@@ -468,7 +470,7 @@ export default {
 		};
 
 		const schema = Yup.object().shape({
-			numberOfStaff: Yup.number().required("Number of staff field is required"),
+			numberOfStaff: Yup.string().required("Number of staff field is required"),
 			websiteUrl: Yup.string().required("Website url is required"),
 			companyName: Yup.string().required("Company name is required"),
 		});
@@ -499,8 +501,10 @@ export default {
 					loading.value = false;
 					// store.commit("authToken/companyName", values.companyName);
 					Util.handleGlobalAlert(true, "success", response.data.message);
-
 					Log.info(response);
+					if (store.getters["authToken/isKycDone"] === false) {
+						router.push("/settings/compliance");
+					}
 				},
 				(error) => {
 					loading.value = false;
