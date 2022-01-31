@@ -88,8 +88,10 @@ export default {
 			close();
 		};
 		const close = () => {
+			store.commit("setReloadMe", true);
 			store.commit("setTransactionSuccessfulModal", false);
 			router.push("/earn/overview");
+			// router.go();
 		};
 
 		return {

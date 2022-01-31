@@ -29,7 +29,9 @@
 					<div @click="goToCompliance" class="cursor-pointer flex px-6 py-4 justify-between">
 						<div class="flex">
 							<KycSvg />
-							<p class="ml-4 my-auto inter fs-14 fw-400">KYC: Upload ID, Take selfie</p>
+							<p class="ml-4 my-auto inter fs-14 fw-400">
+								KYC & KYB: Provide your personal and business details
+							</p>
 						</div>
 						<CheckedSvg v-if="!isKycDone" />
 						<GreenCheckedSvg v-else />

@@ -16,6 +16,7 @@
 								<div class="mb-8">
 									<label for="First Name" class="fs-14 fw-400 tx-666666">First Name</label>
 									<Field
+										:readonly="isProfileUpdated"
 										id="First Name"
 										name="firstName"
 										v-model="firstName"
@@ -31,6 +32,7 @@
 								<div class="mb-8">
 									<label for="Last Name" class="fs-14 fw-400 tx-666666">Last Name</label>
 									<Field
+										:readonly="isProfileUpdated"
 										id="Last Name"
 										name="lastName"
 										v-model="lastName"
@@ -49,6 +51,7 @@
 								<div class="mb-8">
 									<label for="Email Address" class="fs-14 fw-400 tx-666666">Email Address</label>
 									<Field
+										:readonly="isProfileUpdated"
 										id="Email Address"
 										name="email"
 										v-model="email"
@@ -66,6 +69,7 @@
 									<label for="Phone No" class="fs-14 tx-666666 fw-600">Phone No</label>
 									<div class="relative">
 										<Field
+											:readonly="isProfileUpdated"
 											id="Phone No"
 											name="phoneNo"
 											type="number"
@@ -91,23 +95,26 @@
 							<div class="mb-8">
 								<label for="Date of Birth" class="fs-14 fw-400 tx-666666">Date of Birth</label>
 								<Field
+									:readonly="isProfileUpdated"
 									id="Date of Birth"
 									name="dob"
-									type="date"
+									:type="isProfileUpdated ? 'text' : 'date'"
 									autocomplete="off"
 									v-model="dob"
 									required=""
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 									:class="{ 'is-invalid': errors.dob }"
 								/>
-								<div class="invalid-feedback text-red-500">{{ errors.dob }}</div>
+								<div v-if="!isProfileUpdated" class="invalid-feedback text-red-500">
+									{{ errors.dob }}
+								</div>
 							</div>
 
 							<!-- ----------  -->
 
 							<div class="flex justify-end">
 								<button
-									:disabled="submitLoading"
+									:disabled="submitLoading || isProfileUpdated"
 									type="submit"
 									class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 								>
@@ -134,7 +141,7 @@ import { computed, onMounted } from "vue";
 import { Log, Util } from "@/components/util";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
-import ApiResource from "@/components/core/ApiResource";
+// import ApiResource from "@/components/core/ApiResource";
 import OtpPhoneNumber from "@/views/modals/OtpPhoneNumber.vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { reactive, toRefs, ref } from "vue";
@@ -151,9 +158,9 @@ export default {
 	setup() {
 		onMounted(() => {});
 		const store = useStore();
-		const profileUpdate = ApiResource.create();
+		// const profileUpdate = ApiResource.create();
 		const submitLoading = ref(false);
-
+		const isProfileUpdated = computed(() => store.getters["authToken/isProfileUpdated"]);
 		const userProfile = reactive({
 			email: store.getters["authToken/email"],
 			dob: store.getters["authToken/dob"],
@@ -183,7 +190,7 @@ export default {
 
 		const updateProfile = (values) => {
 			submitLoading.value = true;
-			profileUpdate.loading = true;
+
 			const userDetails = {
 				merchantId: store.getters["authToken/userId"],
 				firstName: values.firstName,
@@ -201,21 +208,21 @@ export default {
 				(response) => {
 					submitLoading.value = false;
 					Log.info("profileUpdate response" + String(response));
-					profileUpdate.loading = false;
+					store.commit("authToken/isProfileUpdated", true);
 					store.commit("setOtpPhoneNumberModal", true);
 					store.commit("authToken/phoneNumber", userDetails.phoneNumber);
-					store.commit("authToken/firstName", userDetails.firstName);
-					store.commit("authToken/lastName", userDetails.lastName);
+					// store.commit("authToken/firstName", userDetails.firstName);
+					// store.commit("authToken/lastName", userDetails.lastName);
 					store.commit("authToken/email", userDetails.values.email);
+					store.commit("authToken/dob", userDetails.values.dob);
+
 					// Util.handleGlobalAlert(true, "success", response.data.message);
-					Log.info("profileUpdate" + String(profileUpdate.loading));
 				},
 				(error) => {
 					submitLoading.value = false;
 					Log.error("profileUpdate response" + String(error));
-					profileUpdate.loading = false;
+
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-					Log.error("profileUpdate" + String(profileUpdate.loading));
 				}
 			);
 		};
@@ -224,6 +231,7 @@ export default {
 			updateProfile,
 			schema,
 			submitLoading,
+			isProfileUpdated,
 		};
 	},
 };

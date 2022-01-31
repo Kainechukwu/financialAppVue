@@ -1,10 +1,8 @@
 <template>
 	<div class="flex flex-col">
+		<!-- <img class="h-10 w-10" src="@/assets/bg.png" alt="" /> -->
 		<div class="mb-2.5">
-			<div
-				style="background-color: #ed713c"
-				class="br-10 flex flex-col items-start px-6 py-8 totalAssets"
-			>
+			<div class="principalCard br-10 flex flex-col items-start px-6 py-8 totalAssets">
 				<div class="mb-3.5">
 					<h1 class="text-white inter fw-400 fs-12 mb-2">Principal Balance</h1>
 					<p class="inter text-white fs-18 fw-600">{{ principalBalance }} UST</p>
@@ -47,10 +45,7 @@
 			</div>
 		</div>
 		<div class="">
-			<div
-				style="background-color: #4ce6b7"
-				class="br-10 flex flex-col items-start px-6 py-8 totalAssets"
-			>
+			<div class="interestCard br-10 flex flex-col items-start px-6 py-8 totalAssets">
 				<div class="mb-3.5">
 					<h1 class="text-white inter fw-400 fs-12 mb-2">Interest Balance</h1>
 					<p class="inter text-white fs-18 fw-600">{{ interestBalance }} UST</p>
@@ -71,35 +66,39 @@
 import UserInfo from "@/services/userInfo/userInfo.js";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch, computed } from "vue";
 import { Log, Util } from "@/components/util";
+// import { getCurrentInstance, onUpdated } from "vue";
 
 export default {
 	name: "BalanceCards",
+	// methods: {
+	// 	forceUpdate() {
+	// 		this.$forceUpdate();
+	// 	},
+	// },
 	setup() {
+		// onUpdated(() => {
+		// 	getBalance();
+		// });
 		onMounted(() => {
-			UserInfo.accountBalance(
-				customerId,
-				(response) => {
-					Log.info(response);
-					const balance = response.data.data;
-					principalBalance.value = balance.principalBalance;
-					interestBalance.value = balance.interestBalance;
-				},
-				(error) => {
-					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-					Log.error(error);
-				}
-			);
+			getBalance();
 		});
+
+		// onUpdated(() => {
+		// 	internalInstance.ctx.forceUpdate();
+		// });
+		// const internalInstance = getCurrentInstance();
 		const router = useRouter();
 		const store = useStore();
+
 		const customerId = store.getters["authToken/userId"];
 		const principalBalance = ref(0);
 		const interestBalance = ref(0);
 		const goToDeposit = () => {
 			router.push("/deposit");
 		};
+		const reloadMe = computed(() => store.state.reloadMe);
 
 		const goToWithdraw = () => {
 			store.commit("bankDetails/balance", principalBalance.value);
@@ -113,6 +112,31 @@ export default {
 			router.push("/withdraw");
 		};
 
+		const getBalance = () => {
+			UserInfo.accountBalance(
+				customerId,
+				(response) => {
+					Log.info(response);
+					const balance = response.data.data;
+					principalBalance.value = Util.currencyFormatter(balance.principalBalance, "0,0.00000000");
+					interestBalance.value = Util.currencyFormatter(balance.interestBalance, "0,0.00000000");
+				},
+				(error) => {
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					Log.error(error);
+				}
+			);
+		};
+
+		watch(reloadMe, (newValue) => {
+			if (newValue === true) {
+				Log.info("boolean");
+				Log.info(newValue);
+				getBalance();
+				store.commit("setReloadMe", false);
+			}
+		});
+
 		return {
 			goToDeposit,
 			goToWithdraw,
@@ -124,4 +148,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.principalCard {
+	background-image: url("bg.png");
+}
+
+.interestCard {
+	background-image: url("bg2.png");
+}
+</style>
