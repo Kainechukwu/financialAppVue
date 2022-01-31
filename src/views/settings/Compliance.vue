@@ -9,7 +9,12 @@
 				</div>
 				<div class="col-span-3">
 					<div class="flex flex-col w-9/12">
-						<div class="flex flex-col">
+						<Form
+							@submit="saveKycDetails"
+							:validation-schema="schema"
+							v-slot="{ errors }"
+							class="flex flex-col"
+						>
 							<!-- -------------- -->
 
 							<!-- --------------- -->
@@ -99,16 +104,16 @@
 										>
 									</div>
 									<div>
-										<input
+										<Field
 											id="Identification Number"
-											name="Identification Number"
+											name="idNumber"
 											type="text"
-											v-model="idNumber"
 											autocomplete="off"
 											required=""
-											placeholder="LSDAA0023456"
 											class="relative bottom-0 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+											:class="{ 'is-invalid': errors.idNumber }"
 										/>
+										<div class="invalid-feedback text-red-500">{{ errors.idNumber }}</div>
 									</div>
 								</div>
 							</div>
@@ -125,8 +130,8 @@
 										required=""
 										:placeholder="
 											typeof selectedFile !== 'object'
-												? 'No document uploaded'
-												: 'Document uploaded'
+												? 'No document attatched'
+												: 'Document attatched'
 										"
 										class="bg-gray-100 mt-1.5 br-5 h-14 appearance-none relative block w-full pr-3 pl-11 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 cursor-pointer sm:text-sm"
 									/>
@@ -170,13 +175,14 @@
 										@change="onFileSelected"
 									/>
 								</div>
+								<div class="invalid-feedback text-red-500">{{ fileAttatchedErr }}</div>
 							</div>
 							<!-- ----------  -->
 
 							<div class="flex justify-end">
 								<button
 									:disabled="loading"
-									@click="saveKycDetails"
+									type="submit"
 									class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 								>
 									<div class="flex items-center justify-center">
@@ -187,7 +193,7 @@
 									</div>
 								</button>
 							</div>
-						</div>
+						</Form>
 					</div>
 				</div>
 			</div>
@@ -199,12 +205,14 @@
 
 <script>
 // import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
-import { toRefs, reactive, ref } from "vue";
+import { toRefs, reactive, ref, watch } from "vue";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import UserActions from "@/services/userActions/userActions.js";
 import BusinessVerification from "./BusinessVerification.vue";
 import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
+import { Form, Field } from "vee-validate";
+import * as Yup from "yup";
 import {
 	Listbox,
 	ListboxButton,
@@ -223,6 +231,8 @@ export default {
 		ListboxOptions,
 		BusinessVerification,
 		GreenCheckedSvg,
+		Form,
+		Field,
 	},
 	setup() {
 		// onMounted(() => {
@@ -245,6 +255,7 @@ export default {
 		const selectedIdType = ref(selectedIdTypeList[0]);
 		const showFilesToSelect = ref({});
 		const loading = ref(false);
+		const fileAttatchedErr = ref("");
 
 		const kycDetails = reactive({
 			idType: "",
@@ -253,13 +264,17 @@ export default {
 			selectedFileBase64: "",
 		});
 
-		const prepareKycDetails = () => {
+		const schema = Yup.object().shape({
+			idNumber: Yup.string().required("Id number field is required"),
+		});
+
+		const prepareKycDetails = (values) => {
 			Log.info(selectedIdType.value);
 			const obj = {
 				fileName: kycDetails.selectedFile.name,
 				type: selectedIdTypeList.indexOf(selectedIdType.value) + 1,
 				base64: kycDetails.selectedFileBase64,
-				idNumber: kycDetails.idNumber,
+				idNumber: values.idNumber,
 				ownerId: store.getters["authToken/userId"],
 			};
 			return obj;
@@ -286,23 +301,38 @@ export default {
 			showFilesToSelect.value.click();
 		};
 
-		const saveKycDetails = () => {
+		const saveKycDetails = (values) => {
 			loading.value = true;
-			Log.info(prepareKycDetails());
-			UserActions.compliancePersonalUpload(
-				prepareKycDetails(),
-				(response) => {
-					Log.info(response);
-					loading.value = false;
-					Util.handleGlobalAlert(true, "success", response.data.message);
-				},
-				(error) => {
-					Log.error(error);
-					loading.value = false;
-					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-				}
-			);
+			Log.info(prepareKycDetails(values));
+			if (typeof kycDetails.selectedFile !== "object") {
+				loading.value = false;
+				fileAttatchedErr.value = "No file attatched";
+			} else {
+				UserActions.compliancePersonalUpload(
+					prepareKycDetails(values),
+					(response) => {
+						Log.info(response);
+						loading.value = false;
+						Util.handleGlobalAlert(true, "success", response.data.message);
+					},
+					(error) => {
+						Log.error(error);
+						loading.value = false;
+						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					}
+				);
+			}
 		};
+
+		// const fileAttatchedCheck = () => {
+		// 	return typeof selectedFile !== 'object'
+		// }
+
+		watch(kycDetails, (newValue) => {
+			if (typeof newValue.selectedFile === "object") {
+				fileAttatchedErr.value = "";
+			}
+		});
 
 		return {
 			...toRefs(kycDetails),
@@ -312,6 +342,8 @@ export default {
 			selectedIdType,
 			chooseFiles,
 			onFileSelected,
+			schema,
+			fileAttatchedErr,
 		};
 	},
 };
