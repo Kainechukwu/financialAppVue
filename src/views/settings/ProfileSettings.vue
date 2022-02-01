@@ -203,29 +203,29 @@ export default {
 
 			Log.info(userDetails);
 
-			// UserActions.merchantUpdateProfile(
-			// 	userDetails,
+			UserActions.merchantUpdateProfile(
+				userDetails,
 
-			// 	(response) => {
-			// 		submitLoading.value = false;
-			// 		Log.info("profileUpdate response" + String(response));
+				(response) => {
+					submitLoading.value = false;
+					Log.info("profileUpdate response" + String(response));
 
-			// 		store.commit("setOtpPhoneNumberModal", true);
-			// 		store.commit("authToken/phoneNumber", userDetails.phoneNumber);
-			// 		store.commit("authToken/firstName", userDetails.firstName);
-			// 		store.commit("authToken/lastName", userDetails.lastName);
-			// 		store.commit("authToken/email", userDetails.values.email);
-			// 		store.commit("authToken/dob", userDetails.values.dob);
+					store.commit("setOtpPhoneNumberModal", true);
+					store.commit("authToken/phoneNumber", userDetails.phoneNumber);
+					store.commit("authToken/firstName", userDetails.firstName);
+					store.commit("authToken/lastName", userDetails.lastName);
+					store.commit("authToken/email", userDetails.values.email);
+					store.commit("authToken/dob", userDetails.values.dob);
 
-			// 		// Util.handleGlobalAlert(true, "success", response.data.message);
-			// 	},
-			// 	(error) => {
-			// 		submitLoading.value = false;
-			// 		Log.error("profileUpdate response" + String(error));
+					// Util.handleGlobalAlert(true, "success", response.data.message);
+				},
+				(error) => {
+					submitLoading.value = false;
+					Log.error("profileUpdate response" + String(error));
 
-			// 		Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-			// 	}
-			// );
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+				}
+			);
 		};
 		return {
 			...toRefs(userProfile),
