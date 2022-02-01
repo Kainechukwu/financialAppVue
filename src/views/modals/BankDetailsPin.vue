@@ -292,6 +292,7 @@ export default {
 		};
 		const close = () => {
 			store.commit("setBankDetailsPinModal", false);
+			errorMessage.value = "";
 		};
 
 		watch(codes, (newValue) => {
