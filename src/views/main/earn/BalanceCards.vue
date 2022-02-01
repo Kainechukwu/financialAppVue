@@ -66,7 +66,7 @@
 import UserInfo from "@/services/userInfo/userInfo.js";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { onMounted, ref, watch, computed } from "vue";
+import { onMounted, ref } from "vue";
 import { Log, Util } from "@/components/util";
 // import { getCurrentInstance, onUpdated } from "vue";
 
@@ -82,6 +82,7 @@ export default {
 		// 	getBalance();
 		// });
 		onMounted(() => {
+			// Log.info("rerender:" + JSON.stringify(rerender));
 			getBalance();
 		});
 
@@ -95,10 +96,11 @@ export default {
 		const customerId = store.getters["authToken/userId"];
 		const principalBalance = ref(0);
 		const interestBalance = ref(0);
+		// const rerender = store.state.rerender;
 		const goToDeposit = () => {
 			router.push("/deposit");
 		};
-		const reloadMe = computed(() => store.state.reloadMe);
+		// const reloadMe = ref();
 
 		const goToWithdraw = () => {
 			store.commit("bankDetails/balance", principalBalance.value);
@@ -128,14 +130,14 @@ export default {
 			);
 		};
 
-		watch(reloadMe, (newValue) => {
-			if (newValue === true) {
-				Log.info("boolean");
-				Log.info(newValue);
-				getBalance();
-				store.commit("setReloadMe", false);
-			}
-		});
+		// watch(rerender, (newValue) => {
+		// 	if (newValue === true) {
+		// 		Log.info("boolean");
+		// 		Log.info(newValue);
+		// 		getBalance();
+		// 		// store.commit("setReloadMe", false);
+		// 	}
+		// });
 
 		return {
 			goToDeposit,
