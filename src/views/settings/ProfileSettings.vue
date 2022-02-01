@@ -163,6 +163,7 @@ export default {
 		const isProfileUpdated = computed(() => store.getters["authToken/isProfileUpdated"]);
 		const userProfile = reactive({
 			email: store.getters["authToken/email"],
+			dob: "",
 			// dob: store.getters["authToken/dob"],
 			// .length > 0
 			// 	? computed(() => store.getters["authToken/dob"])
@@ -190,7 +191,7 @@ export default {
 
 		const updateProfile = (values) => {
 			submitLoading.value = true;
-			Util;
+			// Util;
 
 			const userDetails = {
 				merchantId: store.getters["authToken/userId"],

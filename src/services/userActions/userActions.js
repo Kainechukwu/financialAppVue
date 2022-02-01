@@ -148,5 +148,15 @@ export default class UserActions {
 		Web.post(Constants.API_BASE + "/Account/change-pin", userDetails, successHandler, errorHandler)
 	}
 
+	static getComplianceDetails(userId, successHandler, errorHandler) {
+		Web.get(Constants.API_BASE + `/Kyc/compliances/business/${userId}`, successHandler, errorHandler)
+
+	}
+
+	static getPersonalCompliance(userId, successHandler, errorHandler) {
+		Web.get(Constants.API_BASE + `/Kyc/compliances/personal/${userId}/details`, successHandler, errorHandler)
+
+	}
+
 
 }
