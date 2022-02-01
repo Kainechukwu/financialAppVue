@@ -94,7 +94,7 @@
 			</div>
 
 			<div v-if="!isMoneySent" class="col-span-2 flex">
-				<input type="checkbox" v-model="agree" value="true" class="mt-1.5 mr-3" />
+				<input type="checkbox" v-model="agree" value="true" class="h-6 w-6 mr-3 mb-auto" />
 				<span class="fs-12 fw-400">
 					By proceeding, you agree that you understood the above instructions, and you are aware
 					that if a transaction is made without following these instructions, it is not a valid

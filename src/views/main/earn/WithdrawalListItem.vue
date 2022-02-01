@@ -10,11 +10,13 @@
 				<div class="flex justify-center items-center">
 					<span class="inter fw-400 fs-10 th-dateColor">{{ date }}</span>
 				</div>
-				<div class="flex items-center flex-col">
-					<div class="flex justify-start w-full">
-						<span class="fw-400 fs-10 th-dateColor capitalize">Transaction Id:</span>
+				<div class="flex items-center">
+					<div class="flex justify-end w-full">
+						<span class="fw-400 fs-10 th-dateColor capitalize"
+							>Transaction Id: {{ transaction.userTransactionRef }}</span
+						>
 					</div>
-					<span class="fw-400 fs-10 th-dateColor">{{ transaction.id }}</span>
+					<!-- <span class="fw-400 fs-10 th-dateColor">{{ transaction.userTransactionRef }}</span> -->
 				</div>
 				<div
 					v-if="

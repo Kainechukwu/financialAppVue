@@ -229,7 +229,9 @@
 					</div>
 					<!-- ---------------- -->
 					<div class="mb-8">
-						<label for="Upload ID" class="fs-14 fw-400 tx-666666">Upload ID</label>
+						<label for="Upload ID" class="fs-14 fw-400 tx-666666"
+							>Upload Incorporation Document</label
+						>
 						<div @click="chooseFiles" class="relative">
 							<input
 								readonly

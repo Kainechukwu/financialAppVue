@@ -1,10 +1,10 @@
 <template>
 	<div class="vertical-menu h-full w-64 fixed py-5 px-6 overflow-y-auto">
 		<div class="full flex flex-col">
-			<div class="br-5 bg-white flex flex-col px-5 py-4 relative">
+			<div @click="toggle" class="cursor-pointer br-5 bg-white flex flex-col px-5 py-4 relative">
 				<div class="flex justify-between relative">
 					<span class="mb-1 fw-500 fs-16 blacktext capitalize">{{ companyName }}</span>
-					<div @click="toggle" class="flex items-center justify-center">
+					<div class="flex items-center justify-center">
 						<svg
 							width="10"
 							height="6"
