@@ -261,7 +261,7 @@ export default {
 
 		const currencies = ref([]);
 		const selected = ref({});
-		const charges = store.getters["bankDetails/depositFee"];
+		const charges = Util.currencyFormatter(store.getters["bankDetails/depositFee"], "0,0.00");
 
 		const getRates = () => {
 			requestLoading.value = true;

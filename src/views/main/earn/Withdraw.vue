@@ -166,7 +166,7 @@
 										/>
 									</svg>
 								</div>
-								<span class="fw-400 fs-10 tx-666666">Charges: $5</span>
+								<span class="fw-400 fs-10 tx-666666">Charges: ${{ charges }}</span>
 							</div>
 						</div>
 					</div>
@@ -272,15 +272,20 @@ export default {
 		const router = useRouter();
 		const withdrawalAmount = ref("");
 		const sendAmountLoading = ref(false);
+		const amtUsd = ref(0);
 		const rate = ref(0);
 		// const state =
 		// const youReceive = ref(0)rate
 		const store = useStore();
 		const requestLoading = ref(false);
+		const charges = Util.currencyFormatter(store.getters["bankDetails/withdrawalFee"], "0,0.00");
 		const goToBankDetails = () => {
 			sendAmountLoading.value = true;
 
-			if (store.getters["bankDetails/balance"] < withdrawalAmount.value) {
+			if (
+				store.getters["bankDetails/balance"] <
+				amtUsd.value + store.getters["bankDetails/withdrawalFee"]
+			) {
 				Util.handleGlobalAlert(true, "failed", "Insufficient wallet balance");
 				sendAmountLoading.value = false;
 			} else {
@@ -307,8 +312,11 @@ export default {
 		// 	return val;
 		// };
 		const computeRate = (num) => {
-			const val = numeral(selectedCurrency.value.buyingRate * num).format("0,0.00");
+			const amount = selectedCurrency.value.buyingRate * num;
+			const val = numeral(amount).format("0,0.00");
 			rate.value = val;
+			amtUsd.value = amount;
+			Log.info(amtUsd.value);
 			return val;
 		};
 		const currencies = ref([]);
@@ -330,6 +338,7 @@ export default {
 			selectedCurrency,
 			withdrawalAmount,
 			rate,
+			charges,
 			// youReceive,
 			sendAmountLoading,
 			requestLoading,
