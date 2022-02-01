@@ -3,7 +3,7 @@
 		<WithdrawalListItemSvg />
 		<div class="flex flex-col w-full pl-6 pr-4">
 			<div class="flex justify-between">
-				<h1 class="inter fw-600 fs-14 thTypeListColor">Withdrawal</h1>
+				<h1 class="inter fw-600 fs-14 thTypeListColor">{{ transaction.narration }}</h1>
 				<span class="th-peach inter fw-700 fs-12">{{ curr }} {{ transaction.currency }}</span>
 			</div>
 			<div class="flex justify-between">
