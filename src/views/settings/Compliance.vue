@@ -9,7 +9,17 @@
 				</div>
 				<div class="col-span-3">
 					<div class="flex flex-col w-9/12">
+						<StaticCompliance
+							v-if="
+								personalComplianceData &&
+								personalComplianceData.fileName &&
+								personalComplianceData.fileName !== null &&
+								personalComplianceData.fileName.length > 0
+							"
+							:details="personalComplianceData"
+						/>
 						<Form
+							v-else
 							@submit="saveKycDetails"
 							:validation-schema="schema"
 							v-slot="{ errors }"
@@ -198,20 +208,32 @@
 				</div>
 			</div>
 
-			<BusinessVerification />
+			<StaticBusinessVerification
+				v-if="
+					businessVerificationData &&
+					businessVerificationData.companyName &&
+					businessVerificationData.companyName !== null &&
+					businessVerificationData.companyName.length > 0
+				"
+				:details="businessVerificationData"
+			/>
+			<BusinessVerification v-else :details="businessVerificationData" />
 		</div>
 	</div>
 </template>
 
 <script>
 // import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
-import { toRefs, reactive, ref, watch } from "vue";
+import { toRefs, reactive, ref, watch, onMounted } from "vue";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import UserActions from "@/services/userActions/userActions.js";
 import BusinessVerification from "./BusinessVerification.vue";
+import StaticCompliance from "./StaticCompliance.vue";
+import StaticBusinessVerification from "./StaticBusinessVerification.vue";
 import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
 import { Form, Field } from "vee-validate";
+import { useRouter } from "vue-router";
 import * as Yup from "yup";
 import {
 	Listbox,
@@ -230,32 +252,28 @@ export default {
 		ListboxOption,
 		ListboxOptions,
 		BusinessVerification,
+		StaticBusinessVerification,
 		GreenCheckedSvg,
 		Form,
 		Field,
+		StaticCompliance,
 	},
 	setup() {
-		// onMounted(() => {
-		// 	UserActions.getCountries(
-		// 		(response) => {
-		// 			countries.value = response.data.data;
-		// 			selected.value = countries.value[0];
-		// 			// Log.info(countries.value);
+		onMounted(() => {
+			getBusinessVerificationDetails();
+			getPersonalComplianceDetails();
+		});
 
-		// 			// getStates();
-		// 		},
-		// 		(error) => {
-		// 			Log.error(error);
-		// 		}
-		// 	);
-		// });
 		const store = useStore();
-
+		const router = useRouter();
+		const userId = store.getters["authToken/userId"];
 		const selectedIdTypeList = ["Passport", "Drivers Licence", "IdentityCard"];
 		const selectedIdType = ref(selectedIdTypeList[0]);
 		const showFilesToSelect = ref({});
 		const loading = ref(false);
 		const fileAttatchedErr = ref("");
+		const businessVerificationData = ref({});
+		const personalComplianceData = ref({});
 
 		const kycDetails = reactive({
 			idType: "",
@@ -263,6 +281,36 @@ export default {
 			selectedFile: "",
 			selectedFileBase64: "",
 		});
+
+		const getBusinessVerificationDetails = () => {
+			UserActions.getComplianceDetails(
+				userId,
+				(response) => {
+					businessVerificationData.value = response.data.data;
+
+					Log.info("compliance Data: " + JSON.stringify(businessVerificationData.value));
+					Log.info("CompanyName: " + businessVerificationData.value.companyName);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
+		const getPersonalComplianceDetails = () => {
+			UserActions.getPersonalCompliance(
+				userId,
+				(response) => {
+					personalComplianceData.value = response.data.data;
+
+					Log.info("Personal compliance Data: " + JSON.stringify(personalComplianceData.value));
+					Log.info("CompanyName: " + personalComplianceData.value.fileName);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
 
 		const schema = Yup.object().shape({
 			idNumber: Yup.string().required("Id number field is required"),
@@ -319,6 +367,7 @@ export default {
 						Log.error(error);
 						loading.value = false;
 						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+						router.go();
 					}
 				);
 			}
@@ -344,6 +393,8 @@ export default {
 			onFileSelected,
 			schema,
 			fileAttatchedErr,
+			businessVerificationData,
+			personalComplianceData,
 		};
 	},
 };

@@ -14,7 +14,7 @@
 					class="flex flex-col"
 				>
 					<div class="mb-8">
-						<label for="Company Name" class="fs-14 fw-400 tx-666666">Company Name</label>
+						<label for="Company Name" class="fs-14 fw-400 tx-666666">Company Name </label>
 						<Field
 							id="Company Name"
 							name="companyName"
@@ -330,6 +330,9 @@ import {
 
 export default {
 	name: "Business Verification",
+	props: {
+		details: Object,
+	},
 	components: {
 		// CheckedSvgOutlined,
 		Listbox,
