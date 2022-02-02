@@ -17,7 +17,7 @@
 				"
 				:details="profileData"
 			/>
-			<div class="col-span-3">
+			<div v-else class="col-span-3">
 				<Form @submit="updateProfile" :validation-schema="schema" v-slot="{ errors }">
 					<div class="flex flex-col w-9/12">
 						<div class="flex flex-col">
