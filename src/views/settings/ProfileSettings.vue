@@ -17,7 +17,7 @@
 				"
 				:details="profileData"
 			/>
-			<div v-else class="col-span-3">
+			<div class="col-span-3">
 				<Form @submit="updateProfile" :validation-schema="schema" v-slot="{ errors }">
 					<div class="flex flex-col w-9/12">
 						<div class="flex flex-col">
@@ -25,7 +25,7 @@
 								<div class="mb-8">
 									<label for="First Name" class="fs-14 fw-400 tx-666666">First Name</label>
 									<Field
-										:readonly="isProfileUpdated"
+										readonly
 										id="First Name"
 										name="firstName"
 										v-model="firstName"
@@ -41,7 +41,7 @@
 								<div class="mb-8">
 									<label for="Last Name" class="fs-14 fw-400 tx-666666">Last Name</label>
 									<Field
-										:readonly="isProfileUpdated"
+										readonly
 										id="Last Name"
 										name="lastName"
 										v-model="lastName"
@@ -60,7 +60,7 @@
 								<div class="mb-8">
 									<label for="Email Address" class="fs-14 fw-400 tx-666666">Email Address</label>
 									<Field
-										:readonly="isProfileUpdated"
+										readonly
 										id="Email Address"
 										name="email"
 										v-model="email"
@@ -78,7 +78,6 @@
 									<label for="Phone No" class="fs-14 tx-666666 fw-600">Phone No</label>
 									<div class="relative">
 										<Field
-											:readonly="isProfileUpdated"
 											id="Phone No"
 											name="phoneNo"
 											type="number"
@@ -96,7 +95,6 @@
 							<div class="mb-8">
 								<label for="Date of Birth" class="fs-14 fw-400 tx-666666">Date of Birth</label>
 								<Field
-									:readonly="isProfileUpdated"
 									id="Date of Birth"
 									name="dob"
 									:type="isProfileUpdated ? 'text' : 'date'"
@@ -115,7 +113,7 @@
 
 							<div class="flex justify-end">
 								<button
-									:disabled="submitLoading || isProfileUpdated"
+									:disabled="submitLoading"
 									type="submit"
 									class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
 								>
@@ -166,7 +164,7 @@ export default {
 		// const profileUpdate = ApiResource.create();
 		const submitLoading = ref(false);
 		const userId = store.getters["authToken/userId"];
-		const isProfileUpdated = computed(() => store.getters["authToken/isProfileUpdated"]);
+		// const isProfileUpdated = computed(() => store.getters["authToken/isProfileUpdated"]);
 		const profileData = ref({});
 		const userProfile = reactive({
 			email: store.getters["authToken/email"],
@@ -177,7 +175,7 @@ export default {
 			// 	: "",
 			firstName: computed(() => store.getters["authToken/firstName"]),
 			lastName: store.getters["authToken/lastName"],
-			phoneNo: store.getters["authToken/phoneNumber"],
+			phoneNo: "",
 
 			// userType: "Corporate",
 			// accountCreated: false,
@@ -200,7 +198,7 @@ export default {
 			firstName: Yup.string().required("First Name is required"),
 			lastName: Yup.string().required("Last name is required"),
 			email: Yup.string().required("Email is required").email("Email is invalid"),
-			dob: Yup.date().required("Date of birth is required"),
+			dob: Yup.string().required("Date of birth is required"),
 			phoneNo: Yup.string().required("Phone number is required"),
 		});
 
@@ -253,7 +251,7 @@ export default {
 			updateProfile,
 			schema,
 			submitLoading,
-			isProfileUpdated,
+			// isProfileUpdated,
 			profileData,
 		};
 	},
