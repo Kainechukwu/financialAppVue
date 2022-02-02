@@ -163,5 +163,11 @@ export default class UserActions {
 		Web.get(Constants.API_BASE + `/Account/${userId}`, successHandler, errorHandler)
 	}
 
+	static getBusinessDetails(userId, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Kyc/business-profiles-by-ownerId/${userId}`, successHandler, errorHandler)
+
+	}
+
 
 }
