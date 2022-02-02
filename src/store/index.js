@@ -17,10 +17,22 @@ export default createStore({
     globaAlert: { show: false, text: "", type: "" },
     bankDetailsPinModal: false,
     transactionSuccessfulModal: false,
-    rerender: 0
+    rerender: 0,
+    confirmTransaction: false,
+    rejectTransaction: false,
+    transactionDetailsModal: false,
 
   },
   mutations: {
+    setTransactionDetailsModal(state, payload) {
+      state.transactionDetailsModal = payload;
+    },
+    setRejectTransaction(state, payload) {
+      state.rejectTransaction = payload;
+    },
+    setConfirmTransaction(state, payload) {
+      state.confirmTransaction = payload;
+    },
     setAddPlanModal(state, payload) {
       state.addPlanModal = payload;
     },

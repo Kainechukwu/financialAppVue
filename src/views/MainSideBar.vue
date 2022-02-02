@@ -128,12 +128,12 @@ export default {
 				routeName: "Get Started",
 			},
 			// { name: "Dashboard", href: "/overview", icon: DashBoardSvg, routeName: "Overview" },
-			// {
-			// 	name: "Transactions",
-			// 	href: "/transactions",
-			// 	icon: TransactionsSvg,
-			// 	routeName: "Transactions",
-			// },
+			{
+				name: "Transactions",
+				href: "/backOffice/transactions",
+				icon: TransactionsSvg,
+				routeName: "Transactions",
+			},
 			{
 				name: "Earn",
 				href: "/earn",
