@@ -25,11 +25,11 @@
 					<input
 						readonly
 						id="Country of Incorporation"
-						name="countryId"
+						name="country"
 						type="text"
 						autocomplete="off"
 						required=""
-						v-model="countryId"
+						v-model="country"
 						placeholder="1-50"
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
 					/>
@@ -42,11 +42,11 @@
 					<input
 						readonly
 						id="State"
-						name="stateId"
+						name="state"
 						type="text"
 						autocomplete="off"
 						required=""
-						v-model="stateId"
+						v-model="state"
 						placeholder="1-50"
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
 					/>
@@ -152,8 +152,8 @@ export default {
 	setup(props) {
 		const businessDetails = reactive({
 			companyName: props.details.companyName,
-			countryId: props.details.countryId,
-			stateId: props.details.stateId,
+			country: props.details.country,
+			state: props.details.state,
 			industry: props.details.industry,
 			numberOfStaff: props.details.numberOfStaff,
 			websiteUrl: props.details.websiteUrl,

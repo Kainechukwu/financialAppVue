@@ -192,6 +192,26 @@ export default [
 					// 	]
 					// },
 					{
+						path: "/backOffice/transactions",
+						redirect: "/backoffice/transactions/deposit_list",
+						name: "Transactions",
+						component: () => import("@/views/backoffice/transactions.vue"),
+						children: [
+							{
+								path: "/backoffice/transactions/deposit_list",
+								name: 'Transactions Deposit List',
+								component: () => import("@/views/backoffice/DepositList.vue")
+
+							},
+							{
+								path: "/backoffice/transactions/withdrawal_list",
+								name: 'Transactions Withdrawal List',
+								component: () => import("@/views/backoffice/WithdrawalList.vue")
+
+							}
+						]
+					},
+					{
 						path: "/settings",
 						redirect: "/settings/profile",
 						name: "Settings",
