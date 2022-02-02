@@ -7,7 +7,17 @@
 		</div>
 		<div class="col-span-3">
 			<div class="flex flex-col w-10/12">
+				<StaticBusinessDetails
+					v-if="
+						businessDetailsData &&
+						businessDetailsData.companyName &&
+						businessDetailsData.companyName !== null &&
+						businessDetailsData.companyName.length > 0
+					"
+					:details="businessDetailsData"
+				/>
 				<Form
+					v-else
 					@submit="saveDetails"
 					:validation-schema="schema"
 					v-slot="{ errors }"
@@ -366,6 +376,7 @@
 <script>
 import { toRefs, reactive, onMounted, ref, watch } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
+import StaticBusinessDetails from "./StaticBusinessDetails.vue";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import { Form, Field } from "vee-validate";
@@ -388,6 +399,7 @@ export default {
 		ListboxOptions,
 		Form,
 		Field,
+		StaticBusinessDetails,
 		// CheckIcon,
 		// SelectorIcon,
 	},
@@ -405,6 +417,8 @@ export default {
 					Log.error(error);
 				}
 			);
+
+			buisnessDetailsGetter();
 		});
 
 		const store = useStore();
@@ -413,7 +427,8 @@ export default {
 		const loading = ref(false);
 		const selected = ref({});
 		const selectedState = ref({});
-
+		const userId = store.getters["authToken/userId"];
+		const businessDetailsData = ref({});
 		// const state = ref("");
 		const states = ref([]);
 		const industries = [
@@ -430,6 +445,19 @@ export default {
 				name: "Banking",
 			},
 		];
+
+		const buisnessDetailsGetter = () => {
+			UserActions.getBusinessDetails(
+				userId,
+				(response) => {
+					businessDetailsData.value = response.data.data;
+					Log.info(response);
+				},
+				(error) => {
+					Log.info(error);
+				}
+			);
+		};
 		const selectedIndustry = ref(industries[0]);
 		const businessDetails = reactive({
 			// companyName: "",
@@ -536,6 +564,7 @@ export default {
 			selectedIndustry,
 			selected,
 			schema,
+			businessDetailsData,
 		};
 	},
 };
