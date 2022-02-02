@@ -158,5 +158,10 @@ export default class UserActions {
 
 	}
 
+	static getProfileDetails(userId, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Account/${userId}`, successHandler, errorHandler)
+	}
+
 
 }

@@ -8,7 +8,16 @@
 					<h1 class="blacktext fw-500 fs-18 mb-8">Personal Information</h1>
 				</div>
 			</div>
-			<div class="col-span-3">
+			<StaticProfileSettings
+				v-if="
+					profileData &&
+					profileData.phoneNumber &&
+					profileData.phoneNumber !== null &&
+					profileData.phoneNumber.length > 0
+				"
+				:details="profileData"
+			/>
+			<div v-else class="col-span-3">
 				<Form @submit="updateProfile" :validation-schema="schema" v-slot="{ errors }">
 					<div class="flex flex-col w-9/12">
 						<div class="flex flex-col">
@@ -80,14 +89,6 @@
 											:class="{ 'is-invalid': errors.phoneNo }"
 										/>
 										<div class="invalid-feedback text-red-500">{{ errors.phoneNo }}</div>
-										<!-- pl-12 -->
-										<!-- <div
-										
-											:class="{ numHolder: errors.phoneNo }"
-											class="z-20 w-8 absolute left-0 inset-y-0 top-0 blacktext h-5 flex items-center my-auto ml-2"
-										>
-											+234
-										</div> -->
 									</div>
 								</div>
 							</div>
@@ -145,6 +146,7 @@ import * as Yup from "yup";
 import OtpPhoneNumber from "@/views/modals/OtpPhoneNumber.vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { reactive, toRefs, ref } from "vue";
+import StaticProfileSettings from "./StaticProfileSettings.vue";
 
 /*eslint quote-props: ["error", "consistent"]*/
 
@@ -154,13 +156,18 @@ export default {
 		OtpPhoneNumber,
 		Form,
 		Field,
+		StaticProfileSettings,
 	},
 	setup() {
-		onMounted(() => {});
+		onMounted(() => {
+			getProfile();
+		});
 		const store = useStore();
 		// const profileUpdate = ApiResource.create();
 		const submitLoading = ref(false);
+		const userId = store.getters["authToken/userId"];
 		const isProfileUpdated = computed(() => store.getters["authToken/isProfileUpdated"]);
+		const profileData = ref({});
 		const userProfile = reactive({
 			email: store.getters["authToken/email"],
 			dob: "",
@@ -175,6 +182,19 @@ export default {
 			// userType: "Corporate",
 			// accountCreated: false,
 		});
+
+		const getProfile = () => {
+			UserActions.getProfileDetails(
+				userId,
+				(response) => {
+					profileData.value = response.data.data;
+					Log.info(response);
+				},
+				(error) => {
+					Log.info(error);
+				}
+			);
+		};
 
 		const schema = Yup.object().shape({
 			firstName: Yup.string().required("First Name is required"),
@@ -234,6 +254,7 @@ export default {
 			schema,
 			submitLoading,
 			isProfileUpdated,
+			profileData,
 		};
 	},
 };
