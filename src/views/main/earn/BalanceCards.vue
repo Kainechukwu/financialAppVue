@@ -5,7 +5,7 @@
 			<div class="principalCard br-10 flex flex-col items-start px-6 py-8 totalAssets">
 				<div class="mb-3.5">
 					<h1 class="text-white inter fw-400 fs-12 mb-2">Principal Balance</h1>
-					<p class="inter text-white fs-18 fw-600">{{ principalBalance }} UST</p>
+					<p class="inter text-white fs-18 fw-600">${{ principalBalance }}</p>
 				</div>
 				<div class="relative flex items-center justify-between w-full">
 					<div class="flex">
@@ -48,7 +48,7 @@
 			<div class="interestCard br-10 flex flex-col items-start px-6 py-8 totalAssets">
 				<div class="mb-3.5">
 					<h1 class="text-white inter fw-400 fs-12 mb-2">Interest Balance</h1>
-					<p class="inter text-white fs-18 fw-600">{{ interestBalance }} UST</p>
+					<p class="inter text-white fs-18 fw-600">${{ interestBalance }}</p>
 				</div>
 				<div class="relative flex items-center justify-between w-full">
 					<div class="flex">
@@ -67,7 +67,7 @@ import UserInfo from "@/services/userInfo/userInfo.js";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
-import { Log, Util } from "@/components/util";
+import { Log, Util, Constants } from "@/components/util";
 // import { getCurrentInstance, onUpdated } from "vue";
 
 export default {
@@ -120,8 +120,14 @@ export default {
 				(response) => {
 					Log.info(response);
 					const balance = response.data.data;
-					principalBalance.value = Util.currencyFormatter(balance.principalBalance, "0,0.00000000");
-					interestBalance.value = Util.currencyFormatter(balance.interestBalance, "0,0.00000000");
+					principalBalance.value = Util.currencyFormatter(
+						balance.principalBalance,
+						Constants.currencyFormat
+					);
+					interestBalance.value = Util.currencyFormatter(
+						balance.interestBalance,
+						Constants.currencyFormat
+					);
 				},
 				(error) => {
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);

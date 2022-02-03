@@ -69,7 +69,7 @@
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Amount Withdrawn:</span>
-						<span class="fw-600 fs-12 blacktext">{{ bankDetails.amount }} UST</span>
+						<span class="fw-600 fs-12 blacktext">${{ bankDetails.amount }}</span>
 					</div>
 
 					<div class="flex flex-col">
@@ -82,7 +82,7 @@
 				<div class="grid grid-cols-2 mb-3">
 					<div class="flex flex-col col-span-1">
 						<span class="fw-400 fs-12 tx-666666">You will receive:</span>
-						<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountToReceive }} USD</span>
+						<span class="fw-600 fs-12 blacktext">${{ bankDetails.amountToReceive }}</span>
 					</div>
 					<div class="flex flex-col">
 						<span class="fw-400 fs-12 tx-666666">Transaction Fee:</span>
@@ -129,7 +129,7 @@ import { useRouter } from "vue-router";
 import CancelSvg from "./CancelSvg.vue";
 // import UserActions from "@/services/userActions/userActions.js";
 import { onMounted } from "vue";
-import { Log } from "@/components/util";
+import { Log, Util, Constants } from "@/components/util";
 import { useStore } from "vuex";
 
 export default {
@@ -153,8 +153,11 @@ export default {
 		const store = useStore();
 		const router = useRouter();
 		const bankDetails = {
-			amountToReceive: store.getters["bankDetails/amountToReceive"],
-			amount: store.getters["bankDetails/amount"],
+			amountToReceive: Util.currencyFormatter(
+				store.getters["bankDetails/amountToReceive"],
+				Constants.currencyFormat
+			),
+			amount: Util.currencyFormatter(store.getters["bankDetails/amount"], Constants.currencyFormat),
 			bankAddress: store.getters["bankDetails/bankAddress"],
 			abaRoutingNumber: store.getters["bankDetails/abaRoutingNumber"],
 			bankName: store.getters["bankDetails/bankName"],

@@ -83,7 +83,7 @@
 			</div>
 			<span class="fs-12 fw-400 tx-666666 mt-3"
 				>You will receive
-				<span class="fs-12 fw-600 blacktext">{{ computeRate(depositAmount) }} UST</span></span
+				<span class="fs-12 fw-600 blacktext">${{ computeRate(depositAmount) }}</span></span
 			>
 
 			<span class="mt-6 mb-4">Payment Method</span>
@@ -224,7 +224,7 @@ import {
 	onMounted,
 	//  computed, watch
 } from "vue";
-import { Log, Util } from "@/components/util";
+import { Log, Util, Constants } from "@/components/util";
 import { useStore } from "vuex";
 import EarnDepositLoading from "./earnDepositLoading.vue";
 import {
@@ -261,7 +261,10 @@ export default {
 
 		const currencies = ref([]);
 		const selected = ref({});
-		const charges = Util.currencyFormatter(store.getters["bankDetails/depositFee"], "0,0.00");
+		const charges = Util.currencyFormatter(
+			store.getters["bankDetails/depositFee"],
+			Constants.currencyFormat
+		);
 
 		const getRates = () => {
 			requestLoading.value = true;
@@ -293,7 +296,7 @@ export default {
 			);
 		};
 		const computeRate = (num) => {
-			const val = numeral(num / selected.value.sellingRate).format("0,0.00000000");
+			const val = numeral(num / selected.value.sellingRate).format(Constants.currencyFormat);
 			rate.value = val;
 			Log.info(rate.value);
 			return val;

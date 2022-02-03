@@ -85,7 +85,7 @@
 			</Listbox>
 		</div>
 		<div class="flex flex-col justify-between mt-4 h-7">
-			<span class="blacktext fw-600 fs-22 counter">{{ interest }} UST</span>
+			<span class="blacktext fw-600 fs-22 counter">${{ interest }}</span>
 			<span class="fw-400 fs-14 tx-666666"
 				>Here is an overview of your earnings from your investments.</span
 			>
@@ -97,7 +97,7 @@
 <script>
 import counterUp from "counterup2";
 import { onMounted, ref, watch } from "vue";
-import { Log, Util } from "@/components/util";
+import { Log, Util, Constants } from "@/components/util";
 import UserActions from "@/services/userActions/userActions.js";
 import { useStore } from "vuex";
 
@@ -138,7 +138,11 @@ export default {
 				selected.value.value,
 				(response) => {
 					Log.info(response);
-					interest.value = response.data.data.amountEarned;
+
+					interest.value = Util.currencyFormatter(
+						response.data.data.amountEarned,
+						Constants.currencyFormat
+					);
 					// Util.handleGlobalAlert(true, "success", "fetched");
 				},
 				(error) => {
@@ -148,7 +152,7 @@ export default {
 			);
 		};
 
-		const interest = ref(0);
+		const interest = ref("0.00");
 
 		const counter = () => {
 			const items = document.querySelectorAll(".counter");

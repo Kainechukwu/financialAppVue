@@ -204,7 +204,7 @@
 <script>
 import { useRouter } from "vue-router";
 import CancelSvg from "./CancelSvg.vue";
-import { Log, Util } from "@/components/util";
+import { Log, Util, Constants } from "@/components/util";
 import {
 	ref,
 	onMounted,
@@ -247,7 +247,7 @@ export default {
 					// );
 					// 	let format = numeral(
 					// 		selectedCurrency.value.buyingRate * withdrawalAmount.value
-					// 	).format("0,0.00");
+					// 	).format(Constants.currencyFormat);
 					// 	Log.info("Format: " + format);
 					// 	return format;
 					// }
@@ -278,7 +278,10 @@ export default {
 		// const youReceive = ref(0)rate
 		const store = useStore();
 		const requestLoading = ref(false);
-		const charges = Util.currencyFormatter(store.getters["bankDetails/withdrawalFee"], "0,0.00");
+		const charges = Util.currencyFormatter(
+			store.getters["bankDetails/withdrawalFee"],
+			Constants.currencyFormat
+		);
 		const goToBankDetails = () => {
 			sendAmountLoading.value = true;
 
@@ -305,7 +308,7 @@ export default {
 				}
 			}
 		};
-		// const format = numeral(6000).format("0,0.00");
+		// const format = numeral(6000).format(Constants.currencyFormat);
 		// const format = (value) => {
 		// 	let val = numeral(value).format("0,0");
 
@@ -313,7 +316,7 @@ export default {
 		// };
 		const computeRate = (num) => {
 			const amount = selectedCurrency.value.buyingRate * num;
-			const val = numeral(amount).format("0,0.00");
+			const val = numeral(amount).format(Constants.currencyFormat);
 			rate.value = val;
 			amtUsd.value = amount;
 			Log.info(amtUsd.value);

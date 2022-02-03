@@ -4,7 +4,7 @@
 		<div class="flex flex-col w-full pl-6 pr-4">
 			<div class="flex justify-between">
 				<h1 class="inter fw-600 fs-14 thTypeListColor">{{ transaction.narration }}</h1>
-				<span class="th-peach inter fw-700 fs-12">{{ curr }} {{ transaction.currency }}</span>
+				<span class="th-peach inter fw-700 fs-12">{{ transaction.currency }}{{ curr }}</span>
 			</div>
 			<div class="flex justify-between">
 				<div class="flex justify-center items-center">
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { Util } from "@/components/util";
+import { Util, Constants } from "@/components/util";
 
 import WithdrawalListItemSvg from "@/components/svg/WithdrawalListItemSvg.vue";
 export default {
@@ -84,7 +84,7 @@ export default {
 			"YYYY-MM-DD HH:mm:ss.SSSS",
 			"MMM DD ddd YYYY HH:mm a"
 		);
-		const curr = Util.currencyFormatter(props.transaction.amount, "0,0.00000000");
+		const curr = Util.currencyFormatter(props.transaction.amount, Constants.currencyFormat);
 
 		return { date, curr };
 	},
