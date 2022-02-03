@@ -152,7 +152,7 @@ export default {
 			);
 		};
 
-		const interest = ref("0.00");
+		const interest = ref(Util.currencyFormatter(0, Constants.currencyFormat));
 
 		const counter = () => {
 			const items = document.querySelectorAll(".counter");
