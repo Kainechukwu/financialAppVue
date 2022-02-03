@@ -76,7 +76,7 @@ import PayoutsSvg from "@/components/svg/PayoutsSvg.vue";
 // import PlansSvg from "@/components/svg/PlansSvg.vue";
 import ConfigurationsSvg from "@/components/svg/ConfigurationsSvg";
 import LoginService from "@/services/login/LoginService.js";
-// import MerchantsSvg from "@/components/svg/MerchantsSvg.vue";
+import MerchantsSvg from "@/components/svg/MerchantsSvg.vue";
 import { Util, Constants } from "@/components/util";
 import { useStore } from "vuex";
 import AuditLogsSvg from "@/components/svg/AuditLogsSvg.vue";
@@ -89,7 +89,7 @@ export default {
 		TransactionsSvg,
 		// CustomersSvg,
 		ConfigurationsSvg,
-		// MerchantsSvg,
+		MerchantsSvg,
 		AuditLogsSvg,
 	},
 	setup() {
@@ -132,7 +132,13 @@ export default {
 				routeName: "Get Started",
 				visible: Util.checkAuth(Constants.merchantAuth),
 			},
-			// { name: "Dashboard", href: "/overview", icon: DashBoardSvg, routeName: "Overview" },
+			// {
+			// 	name: "Dashboard",
+			// 	href: "/overview",
+			// 	icon: DashBoardSvg,
+			// 	routeName: "Overview",
+			// 	visible: Util.checkAuth(Constants.backOfficeAuth),
+			// },
 			{
 				name: "Transactions",
 				href: "/backOffice/transactions",
@@ -147,12 +153,13 @@ export default {
 				routeName: "Earn",
 				visible: Util.checkAuth(Constants.merchantAuth),
 			},
-			// {
-			// 	name: "Merchants",
-			// 	href: "/merchants",
-			// 	icon: MerchantsSvg,
-			// 	routeName: "Merchants",
-			// },
+			{
+				name: "Merchants",
+				href: "/backOffice/merchants",
+				icon: MerchantsSvg,
+				routeName: "Merchants",
+				visible: Util.checkAuth(Constants.backOfficeAuth),
+			},
 			// {
 			// 	name: "Customers",
 			// 	href: "/customers",

@@ -249,6 +249,35 @@ export default [
 						]
 					},
 					{
+						path: "/backOffice/merchants",
+						redirect: "/backoffice/merchants/verified",
+						name: "Merchants",
+						meta: {
+							auth: Constants.backOfficeAuth,
+						},
+						component: () => import("@/views/backoffice/merchants/merchants.vue"),
+						children: [
+							{
+								path: "/backoffice/merchants/verified",
+								name: 'Verified Merchants',
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
+								component: () => import("@/views/backoffice/merchants/VerifiedCustomers.vue")
+
+							},
+							{
+								path: "/backoffice/merchants/pending",
+								name: 'Pending Merchants',
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
+								component: () => import("@/views/backoffice/merchants/Pending.vue")
+
+							}
+						]
+					},
+					{
 						path: "/settings",
 						redirect: "/settings/profile",
 						name: "Settings",

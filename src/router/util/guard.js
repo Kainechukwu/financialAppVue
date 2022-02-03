@@ -20,6 +20,7 @@ const authRoute = async (to, from, next) => {
 			} else {
 				navigatePath(from)
 			}
+			return;
 		}
 
 		navigatePath(next);
