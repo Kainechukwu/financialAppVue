@@ -8,5 +8,7 @@ export default class Constants {
 		"/reset_password",
 		"/set_new_password",
 	];
+
+	static currencyFormat = "0,0.00"
 }
 

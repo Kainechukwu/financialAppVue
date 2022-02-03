@@ -22,7 +22,7 @@
 								<div class="mb-6">
 									<p class="fs-14 fw-400 tx-666666 text-center">
 										Are you sure you want to reject this transaction. The status will be changed to
-										<span class="fs-14 fw-600">“Failed”</span>
+										<span class="fs-14 fw-600 blacktext">“Failed”</span>
 									</p>
 								</div>
 								<div class="flex justify-end items-center mt-3">

@@ -56,7 +56,7 @@
 			<div class="grid grid-cols-2 mb-3">
 				<div class="flex flex-col col-span-1">
 					<span class="fw-400 fs-12 tx-666666">You will receive:</span>
-					<span class="fw-600 fs-12 blacktext">{{ bankDetails.amountRecieved }} UST</span>
+					<span class="fw-600 fs-12 blacktext">${{ bankDetails.amountRecieved }}</span>
 				</div>
 				<!-- 
 				<div class="flex flex-col">
@@ -134,10 +134,10 @@
 // import * as yup from "yup";
 import UserActions from "@/services/userActions/userActions.js";
 import { ref } from "vue";
-import { Util, Log } from "@/components/util";
+import { Util, Log, Constants } from "@/components/util";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-var numeral = require("numeral");
+// var numeral = require("numeral");
 // import { useRouter } from "vue-router";
 
 export default {
@@ -159,14 +159,23 @@ export default {
 		const sendAmountLoading = ref(false);
 		const agree = ref(false);
 		const bankDetails = {
-			amountToSend: numeral(store.getters["deposit/amountToSend"]).format("0,0.00"),
-			amountRecieved: numeral(store.getters["deposit/amountRecieved"]).format("0,0.00000000"),
+			amountToSend: Util.currencyFormatter(
+				store.getters["deposit/amountToSend"],
+				Constants.currencyFormat
+			),
+			amountRecieved: Util.currencyFormatter(
+				store.getters["deposit/amountRecieved"],
+				Constants.currencyFormat
+			),
 			holderName: store.getters["deposit/holderName"],
 			bankAddress: store.getters["deposit/bankAddress"],
 			accountNumber: store.getters["deposit/accountNumber"],
 			bankName: store.getters["deposit/bankName"],
 			routingNumber: store.getters["deposit/routingNumber"],
-			transactionFee: store.getters["deposit/transactionFee"],
+			transactionFee: Util.currencyFormatter(
+				store.getters["deposit/transactionFee"],
+				Constants.currencyFormat
+			),
 			transactionRefCode: store.getters["deposit/transactionRefCode"],
 			transactionsReference: store.getters["deposit/transactionsReference"],
 		};

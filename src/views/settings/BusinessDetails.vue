@@ -425,6 +425,7 @@ export default {
 		const router = useRouter();
 		const countries = ref([]);
 		const loading = ref(false);
+		// const countriesLoading = ref(false);
 		const selected = ref({});
 		const selectedState = ref({});
 		const userId = store.getters["authToken/userId"];
