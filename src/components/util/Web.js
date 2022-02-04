@@ -20,6 +20,14 @@ axios.interceptors.request.use(req => {
 		req.headers.Authorization = "Bearer " + store.getters['authToken/apiToken'];
 	}
 
+	if (
+		matchingExcludePaths.length === 0
+		&& process.env.VUE_APP_BO_BASE_URL
+		&& req.url?.startsWith(process.env.VUE_APP_BO_BASE_URL)
+	) {
+		req.headers.Authorization = "Bearer " + store.getters['authToken/apiToken'];
+	}
+
 	return req;
 
 }, function (error) {
@@ -32,10 +40,16 @@ axios.interceptors.request.use(req => {
 
 export default class Web {
 	static BASE_URL = process.env.VUE_APP_BASE_URL;
+	static BO_BASE_URL = process.env.VUE_APP_BO_BASE_URL
 
 	static get(url, successCallback, errorCallback) {
 		Web.getAbsolute(Web.BASE_URL + url, successCallback, errorCallback);
 	}
+
+	static getBackOffice(url, successCallback, errorCallback) {
+		Web.getAbsolute(Web.BO_BASE_URL + url, successCallback, errorCallback);
+	}
+
 
 	static getAbsolute(
 		url, successCallback, errorCallback
@@ -51,6 +65,10 @@ export default class Web {
 
 	static post(url, data, successCallback, errorCallback) {
 		Web.postAbsolute(Web.BASE_URL + url, data, successCallback, errorCallback);
+	}
+
+	static postBackOffice(url, data, successCallback, errorCallback) {
+		Web.postAbsolute(Web.BO_BASE_URL + url, data, successCallback, errorCallback);
 	}
 
 	static postAbsolute(

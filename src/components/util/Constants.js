@@ -10,5 +10,9 @@ export default class Constants {
 	];
 
 	static currencyFormat = "0,0.00"
+
+	static backOfficeAuth = ["BornfreeAdmin"]
+
+	static merchantAuth = ["Merchant"]
 }
 

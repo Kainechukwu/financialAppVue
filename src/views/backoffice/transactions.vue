@@ -1,6 +1,6 @@
 <template>
-	<div class="main-page p-8 h-full">
-		<div class="flex flex-col justify-start">
+	<div class="main-page p-8">
+		<div class="flex flex-col justify-start mb-20">
 			<div class="mb-2">
 				<h1 class="fw-600 fs-24 blacktext mb-4">Transactions</h1>
 			</div>

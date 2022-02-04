@@ -1,5 +1,6 @@
 import store from "@/store/index";
 import moment from "moment";
+import Log from "./Log.js";
 var numeral = require("numeral");
 
 export default class Util {
@@ -58,6 +59,17 @@ export default class Util {
 		const formatted = numeral(number).format(format)
 
 		return formatted
+	}
+
+	static checkAuth(arr) {
+		const roles = store.getters["authToken/roles"]
+
+		const bool = roles.some(v => arr.includes(v))
+		Log.info(bool)
+		Log.info(roles)
+
+		return bool
+
 	}
 
 

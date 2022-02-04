@@ -27,6 +27,7 @@
 										id="Plan Name"
 										name="Plan Name"
 										type="text"
+										v-model="transactionRef"
 										autocomplete="off"
 										required=""
 										placeholder=""
@@ -34,11 +35,18 @@
 									/>
 								</div>
 								<div class="flex justify-end items-center mt-3">
-									<div
+									<button
+										@click="approveTransaction"
+										:disabled="loading"
 										class="cursor-pointer greenButton fs-14 fw-500 w-full h-11 br-5 flex items-center justify-center"
 									>
-										<span class="text-white">Confirm</span>
-									</div>
+										<div class="flex items-center justify-center">
+											<span class="text-white">Confirm</span>
+											<div v-if="loading" class="h-4 w-4 ml-4 rounded-md block">
+												<div class="roundLoader opacity-50 mx-auto"></div>
+											</div>
+										</div>
+									</button>
 								</div>
 								<div class="flex justify-end items-center mt-6">
 									<div
@@ -60,23 +68,56 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import ConfirmOrRejectSvg from "@/components/svg/ConfirmOrRejectSvg.vue";
+import BackOfficeActions from "@/services/backOfficeActions/backOfficeActions.js";
+import { Log, Util } from "@/components/util";
 export default {
 	name: "ConfirmTransactionModal",
 	components: {
 		ConfirmOrRejectSvg,
 	},
 	setup() {
+		onMounted(() => {
+			Log.info("vvvs" + confirmNo);
+		});
 		const store = useStore();
 		const isModalOpen = computed(() => store.state.confirmTransaction);
 		const close = () => {
 			store.commit("setConfirmTransaction", false);
 		};
+		const loading = ref(false);
+
+		const approveTransaction = () => {
+			loading.value = true;
+			BackOfficeActions.approveDeposit(
+				{
+					transactionReference: transactionRef.value,
+					confirmationNumber: confirmNo,
+				},
+				(response) => {
+					Log.info(response);
+					loading.value = false;
+					close();
+					Util.handleGlobalAlert(true, "success", response.data.message);
+				},
+				(error) => {
+					Log.error(error);
+					loading.value = false;
+					close();
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+				}
+			);
+		};
+		const transactionRef = ref("");
+		const confirmNo = store.getters["backOffice/confirmNum"];
 		return {
 			isModalOpen,
 			close,
+			transactionRef,
+			approveTransaction,
+			loading,
 		};
 	},
 };

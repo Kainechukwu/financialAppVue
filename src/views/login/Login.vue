@@ -107,7 +107,7 @@ import { useRouter } from "vue-router";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import LoginService from "@/services/login/LoginService.js";
-import { Log, Util } from "@/components/util";
+import { Log, Util, Constants } from "@/components/util";
 
 export default {
 	name: "Login",
@@ -148,7 +148,12 @@ export default {
 					loginUser.loading = false;
 
 					LoginService.handleSuccessfulLogin(response);
-					router.push("/earn");
+
+					if (Util.checkAuth(Constants.backOfficeAuth)) {
+						router.push("/backOffice/transactions");
+					} else if (Util.checkAuth(Constants.merchantAuth)) {
+						router.push("/earn");
+					}
 					Util.handleGlobalAlert(true, "success", response.data.message);
 				},
 				(error) => {

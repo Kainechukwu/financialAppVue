@@ -40,19 +40,18 @@
 			</div>
 
 			<div class="mt-12 flex flex-col">
-				<router-link
-					:to="item.href"
-					v-for="item in navigation"
-					:key="item.name"
-					class="pl-0 p-4 text-black-400 flex"
-				>
-					<component :is="item.icon"></component>
-					<span
-						:class="route.name.includes(item.routeName) ? 'fw-600' : 'fw-400'"
-						class="ml-3 text-white fs-16"
-						>{{ item.name }}</span
-					>
-				</router-link>
+				<div v-for="item in navigation" :key="item.name">
+					<div v-if="item.visible">
+						<router-link :to="item.href" class="pl-0 p-4 text-black-400 flex">
+							<component :is="item.icon"></component>
+							<span
+								:class="route.name.includes(item.routeName) ? 'fw-600' : 'fw-300'"
+								class="ml-3 text-white fs-16"
+								>{{ item.name }}</span
+							>
+						</router-link>
+					</div>
+				</div>
 				<!-- </div> -->
 
 				<!-- ----------- -->
@@ -77,7 +76,8 @@ import PayoutsSvg from "@/components/svg/PayoutsSvg.vue";
 // import PlansSvg from "@/components/svg/PlansSvg.vue";
 import ConfigurationsSvg from "@/components/svg/ConfigurationsSvg";
 import LoginService from "@/services/login/LoginService.js";
-// import MerchantsSvg from "@/components/svg/MerchantsSvg.vue";
+import MerchantsSvg from "@/components/svg/MerchantsSvg.vue";
+import { Util, Constants } from "@/components/util";
 import { useStore } from "vuex";
 import AuditLogsSvg from "@/components/svg/AuditLogsSvg.vue";
 export default {
@@ -89,7 +89,7 @@ export default {
 		TransactionsSvg,
 		// CustomersSvg,
 		ConfigurationsSvg,
-		// MerchantsSvg,
+		MerchantsSvg,
 		AuditLogsSvg,
 	},
 	setup() {
@@ -100,6 +100,10 @@ export default {
 		const show = reactive({
 			state: false,
 		});
+
+		// const authenticateLink = () => {
+
+		// }
 
 		const companyName = computed(() => store.getters["authToken/companyName"]);
 
@@ -126,26 +130,36 @@ export default {
 				href: "/get_started",
 				icon: CheckedSvgOutlined,
 				routeName: "Get Started",
+				visible: Util.checkAuth(Constants.merchantAuth),
 			},
-			// { name: "Dashboard", href: "/overview", icon: DashBoardSvg, routeName: "Overview" },
+			// {
+			// 	name: "Dashboard",
+			// 	href: "/overview",
+			// 	icon: DashBoardSvg,
+			// 	routeName: "Overview",
+			// 	visible: Util.checkAuth(Constants.backOfficeAuth),
+			// },
 			{
 				name: "Transactions",
 				href: "/backOffice/transactions",
 				icon: TransactionsSvg,
 				routeName: "Transactions",
+				visible: Util.checkAuth(Constants.backOfficeAuth),
 			},
 			{
 				name: "Earn",
 				href: "/earn",
 				icon: PayoutsSvg,
 				routeName: "Earn",
+				visible: Util.checkAuth(Constants.merchantAuth),
 			},
-			// {
-			// 	name: "Merchants",
-			// 	href: "/merchants",
-			// 	icon: MerchantsSvg,
-			// 	routeName: "Merchants",
-			// },
+			{
+				name: "Merchants",
+				href: "/backOffice/merchants",
+				icon: MerchantsSvg,
+				routeName: "Merchants",
+				visible: Util.checkAuth(Constants.backOfficeAuth),
+			},
 			// {
 			// 	name: "Customers",
 			// 	href: "/customers",
@@ -158,18 +172,26 @@ export default {
 			// 	icon: PlansSvg,
 			// 	routeName: "Plans",
 			// },
-			{ name: "Settings", href: "/settings", icon: SettingsSvg, routeName: "Settings" },
+			{
+				name: "Settings",
+				href: "/settings",
+				icon: SettingsSvg,
+				routeName: "Settings",
+				visible: Util.checkAuth(Constants.merchantAuth),
+			},
 			{
 				name: "Configurations",
 				href: "/configurations",
 				icon: ConfigurationsSvg,
 				routeName: "Configurations",
+				visible: Util.checkAuth(Constants.backOfficeAuth),
 			},
 			{
 				name: "AuditLogs",
 				href: "/audit_logs",
 				icon: AuditLogsSvg,
 				routeName: "AuditLogs",
+				visible: Util.checkAuth(Constants.merchantAuth) || Util.checkAuth(Constants.backOfficeAuth),
 			},
 		];
 		return {

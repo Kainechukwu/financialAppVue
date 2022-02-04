@@ -48,7 +48,6 @@
 		<div class="flex flex-col">
 			<!-- -------Table-------- -->
 			<div class="flex flex-col">
-				<!-- style="min-width: 100%; max-width: 100%" -->
 				<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div class="overflow-hidden border-b border-gray-100 sm:rounded-lg">
@@ -111,36 +110,37 @@
 									</thead>
 
 									<tbody class="bg-white divide-y divide-gray-100">
-										<tr class="" v-for="transaction in depositTransactions" :key="transaction.id">
+										<tr class="" v-for="(person, index) in people" :key="index">
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ transaction.id }}
+												{{ person.id }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ transaction.customer }}
+												{{ person.customer }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap blacktext fw-600 fs-14">
-												{{ transaction.amount }}
+												{{ person.amount }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ transaction.trnxRef }}
+												{{ person.reference }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ transaction.depRef }}
+												{{ person.type }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ dateFormat(transaction.date) }}
+												{{ person.date }}
 											</td>
 											<td style="color: #18ae81" class="px-6 py-4 whitespace-nowrap fs-12 fw-600">
 												<div
-													:class="displayStyle(transaction.status)"
+													:class="displayStyle(person.status)"
 													class="flex justify-center items-center h-8"
 													style="border-radius: 100px; max-width: 93px"
 												>
-													{{ transaction.status }}
+													{{ person.status }}
 												</div>
 											</td>
 											<td class="px-3 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												<TransactionsListRowMenu @click="commitDetails(transaction.depRef)" />
+												<!-- <TransactionsListRowMenu /> -->
+												menu
 											</td>
 										</tr>
 									</tbody>
@@ -158,80 +158,102 @@
 
 <script>
 // import UserActions from "@/services/userActions/userActions.js";
-import { onMounted, ref, onBeforeUnmount } from "vue";
-import { Log, Util } from "@/components/util";
-// import { useRoute } from "vue-router";
-import { useStore } from "vuex";
-import BackOfficeActions from "@/services/backOfficeActions/backOfficeActions.js";
-
-import TransactionsListRowMenu from "./TransactionsListRowMenu.vue";
-
+import { onMounted, ref } from "vue";
+import { Log } from "@/components/util";
+import { useRoute } from "vue-router";
+// import TransactionsListRowMenu from "./TransactionsListRowMenu.vue";
 // import TransactionHistoryEmptySvg from "@/components/svg/TransactionHistoryEmptySvg.vue";
 
 export default {
-	name: "DepositList",
+	name: "VerifiedCustomers",
 	components: {
 		// TransactionHistoryEmptySvg,
-		TransactionsListRowMenu,
+		// TransactionsListRowMenu,
 	},
 	setup() {
 		onMounted(() => {
-			getDeposits();
-			lazyLoad();
+			Log.info("merchantId:" + merchantId.value);
+			// UserActions.getCustomerTransactions(
+			// 	merchantId.value,
+			// 	(response) => {
+			// 		Log.info(response);
+			// 		transactions.value = response.data.data;
+
+			// 		Log.info("query done");
+			// 	},
+			// 	(error) => {
+			// 		Log.error(error);
+			// 	}
+			// );
 		});
 
-		onBeforeUnmount(() => {
-			window.removeEventListener("scroll", onScroll);
-		});
+		const route = useRoute();
+		const merchantId = ref(route.params.merchantId);
+		const transactions = ref([]);
 
-		// const route = useRoute();
-		const store = useStore();
-
-		// const transactions = ref([]);
-
-		const getDeposits = () => {
-			BackOfficeActions.getBackOfficeDeposits(
-				pageNumber.value,
-				pageSize.value,
-				(response) => {
-					depositTransactions.value = response.data.data;
-					Log.info(response);
-				},
-				(error) => {
-					Log.error(error);
-				}
-			);
-		};
-
-		const lazyLoad = () => {
-			window.addEventListener("scroll", onScroll);
-		};
-
-		const onScroll = () => {
-			pageSize.value += 10;
-		};
-
-		const dateFormat = (date) => {
-			const d = Util.formatTime(date, "YYYY-MM-DD HH:mm:ss.SSSS", "MMM DD ddd YYYY hh:mm a");
-			return d;
-		};
-
-		const pageNumber = ref(1);
-		const pageSize = ref(10);
-
-		const depositTransactions = ref([]);
-
-		const commitDetails = (confirmNum) => {
-			// store.commit("backOffice/transRef", props.transRef);
-			store.commit("backOffice/confirmNum", confirmNum);
-			Log.info("confirmNos committed:" + store.getters["backOffice/confirmNum"]);
-		};
+		const people = [
+			{
+				id: "1",
+				customer: "Jane Cooper",
+				amount: "NGN 12,000.00",
+				reference: "5iq10he7fg",
+				type: "5iq10he7fg",
+				date: "April 28, 2016",
+				status: "Approved",
+			},
+			{
+				id: "2",
+				customer: "Jane Cooper",
+				amount: "NGN 12,000.00",
+				reference: "5iq10he7fg",
+				type: "5iq10he7fg",
+				date: "April 28, 2016",
+				status: "Expired",
+			},
+			{
+				id: "3",
+				customer: "Jane Cooper",
+				amount: "NGN 12,000.00",
+				reference: "5iq10he7fg",
+				type: "5iq10he7fg",
+				date: "April 28, 2016",
+				status: "Created",
+			},
+			{
+				id: "4",
+				customer: "Jane Cooper",
+				amount: "NGN 12,000.00",
+				reference: "5iq10he7fg",
+				type: "5iq10he7fg",
+				date: "April 28, 2016",
+				status: "Pending",
+			},
+			{
+				id: "5",
+				customer: "Jane Cooper",
+				amount: "NGN 12,000.00",
+				reference: "5iq10he7fg",
+				type: "5iq10he7fg",
+				date: "April 28, 2016",
+				status: "Approved",
+			},
+			{
+				id: "6",
+				customer: "Jane Cooper",
+				amount: "NGN 12,000.00",
+				reference: "5iq10he7fg",
+				type: "5iq10he7fg",
+				date: "April 28, 2016",
+				status: "Approved",
+			},
+			// More people...
+		];
 
 		const displayStyle = (status) => {
 			Log.info("Status: " + status);
-			if (status === "Successful") {
+			if (status === "Approved") {
 				return "bg-Approved";
-			} else if (status === "Failed") {
+			} else if (status === "Expired") {
 				return "bg-Expired";
 			} else if (status === "Pending") {
 				return "bg-Pending";
@@ -239,7 +261,7 @@ export default {
 				return "bg-Created";
 			}
 		};
-		return { depositTransactions, displayStyle, commitDetails, dateFormat };
+		return { people, transactions, displayStyle };
 	},
 };
 </script>

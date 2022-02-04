@@ -2,8 +2,9 @@ import store from '@/store';
 import { Log, Web, Util } from '@/components/util';
 
 
-const authRoute = async (to, next) => {
+const authRoute = async (to, from, next) => {
 	Log.info('Auth Logged In: ' + store.getters['authToken/loggedIn']);
+	Log.info('to meta: ' + JSON.stringify(to.meta));
 
 	if (store.getters['authToken/loggedIn']) {
 		// const authenticated = await store.dispatch('authToken/authenticate');
@@ -12,6 +13,16 @@ const authRoute = async (to, next) => {
 		// } else {
 		// 	let userActive = store.getters['authToken/isUserActive'];
 		// 	if (userActive === true) {
+		if (to.meta.auth) {
+			//check if user is authorised to see the page
+			if (Util.checkAuth(to.meta.auth)) {
+				navigatePath(next);
+			} else {
+				navigatePath(from)
+			}
+			return;
+		}
+
 		navigatePath(next);
 		// 	} else if (userActive === false) {
 		// 		Web.navigate('/user_activation');
@@ -45,12 +56,12 @@ const navigatePath = (next) => {
 
 
 export default function (to, from, next) {
-	Log.info(from);
+	// Log.info("from:" + JSON.stringify(from));
 	if (to.matched.some((record) => record.meta.skipAuth)) {
 		next();
 		return;
 	}
 
-	authRoute(to, next);
+	authRoute(to, from, next);
 }
 

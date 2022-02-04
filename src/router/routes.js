@@ -1,4 +1,5 @@
 import Home from '../views/Home.vue'
+import { Constants } from '@/components/util';
 
 export default [
 	{
@@ -104,32 +105,50 @@ export default [
 					{
 						path: "/get_started",
 						name: "Get Started",
+						meta: {
+							auth: Constants.merchantAuth,
+						},
 						component: () => import("@/views/main/PendingTasks.vue")
 					},
 					{
 						path: "/earn",
 						name: "Earn",
 						redirect: "/earn/overview",
+						meta: {
+							auth: Constants.merchantAuth,
+						},
 						component: () => import("@/views/main/earn/Earn.vue"),
 						children: [
 							{
 								path: "/earn/overview",
 								name: "Earn overview",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
 								component: () => import("@/views/main/earn/EarnOverview.vue")
 							},
 							{
 								path: "/deposit",
 								name: "Earn Deposit",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
 								redirect: "/earn/deposit",
 								component: () => import("@/views/main/earn/Deposit.vue"),
 								children: [
 									{
 										path: "/earn/deposit",
+										meta: {
+											auth: Constants.merchantAuth,
+										},
 										name: "Earn Deposit 1",
 										component: () => import("@/views/main/earn/EarnDeposit.vue")
 									},
 									{
 										path: "/earn/fund_account",
+										meta: {
+											auth: Constants.merchantAuth,
+										},
 										name: "Earn_fund Account",
 										component: () => import("@/views/main/earn/FundAccount.vue")
 									},
@@ -138,15 +157,24 @@ export default [
 							{
 								path: "/withdraw",
 								name: "Earn_Withdraw",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
 								component: () => import("@/views/main/earn/Withdraw.vue")
 							},
 							{
 								path: "/bank_details",
 								name: "Earn_Bank Details",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
 								component: () => import("@/views/main/earn/BankDetails.vue")
 							},
 							{
 								path: "/confirm_withdrawal",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
 								name: "Earn_Confirm Withdrawal",
 								component: () => import("@/views/main/earn/ConfirmWithdrawal.vue")
 							},
@@ -195,18 +223,56 @@ export default [
 						path: "/backOffice/transactions",
 						redirect: "/backoffice/transactions/deposit_list",
 						name: "Transactions",
+						meta: {
+							auth: Constants.backOfficeAuth,
+						},
 						component: () => import("@/views/backoffice/transactions.vue"),
 						children: [
 							{
 								path: "/backoffice/transactions/deposit_list",
 								name: 'Transactions Deposit List',
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
 								component: () => import("@/views/backoffice/DepositList.vue")
 
 							},
 							{
 								path: "/backoffice/transactions/withdrawal_list",
 								name: 'Transactions Withdrawal List',
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
 								component: () => import("@/views/backoffice/WithdrawalList.vue")
+
+							}
+						]
+					},
+					{
+						path: "/backOffice/merchants",
+						redirect: "/backoffice/merchants/verified",
+						name: "Merchants",
+						meta: {
+							auth: Constants.backOfficeAuth,
+						},
+						component: () => import("@/views/backoffice/merchants/merchants.vue"),
+						children: [
+							{
+								path: "/backoffice/merchants/verified",
+								name: 'Verified Merchants',
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
+								component: () => import("@/views/backoffice/merchants/VerifiedCustomers.vue")
+
+							},
+							{
+								path: "/backoffice/merchants/pending",
+								name: 'Pending Merchants',
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
+								component: () => import("@/views/backoffice/merchants/Pending.vue")
 
 							}
 						]
@@ -215,33 +281,51 @@ export default [
 						path: "/settings",
 						redirect: "/settings/profile",
 						name: "Settings",
+						meta: {
+							auth: Constants.merchantAuth,
+						},
 						component: () => import("@/views/settings/Settings.vue"),
 						children: [
 							{
 								path: "/settings/profile",
 								name: "ProfileSettings",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
 								component: () => import("@/views/settings/ProfileSettings.vue")
 
 							},
 							{
 								path: "/settings/business_details",
 								name: "Business Details Settings",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
 								component: () => import("@/views/settings/BusinessDetails.vue")
 
 							},
 							{
 								path: "/settings/security",
 								name: "Change Password Settings",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
 								component: () => import("@/views/settings/Security.vue")
 							},
 							{
 								path: "/settings/access_keys",
 								name: "Access Key Settings",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
 								component: () => import("@/views/settings/AccessKeys.vue")
 							},
 							{
 								path: "/settings/compliance",
 								name: "Compliance Settings",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
 								component: () => import("@/views/settings/Compliance.vue")
 							},
 							// {
@@ -252,6 +336,9 @@ export default [
 							{
 								path: "/settings/pin",
 								name: "PIN",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
 								component: () => import("@/views/settings/Pin.vue")
 							}
 						]
@@ -259,22 +346,34 @@ export default [
 					{
 						path: "/configurations",
 						name: "Configurations",
+						meta: {
+							auth: Constants.backOfficeAuth,
+						},
 						redirect: "/configurations/profile"
 						, component: () => import("@/views/main/configurations/Configurations.vue"),
 						children: [
 							{
 								path: "/configurations/profile",
 								name: "Configurations Profile",
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
 								component: () => import("@/views/main/configurations/ConfigProfile.vue")
 							},
 							{
 								path: "/configurations/settings",
 								name: "Configurations Setting",
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
 								component: () => import("@/views/main/configurations/ConfigSettings.vue")
 							},
 							{
 								path: "/configurations/rates",
 								name: "Configurations Rates",
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
 								component: () => import("@/views/main/configurations/ConfigRates.vue")
 							}
 						]
