@@ -96,9 +96,11 @@
 <script>
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import ListMenuSvg from "@/components/svg/ListMenuSvg.vue";
-// import { computed } from "vue";
+import { onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
+// import { Log } from "@/components/util";
+// import BackOfficeActions from "@/services/backOfficeActions/backOfficeActions.js";
 
 // import { DotsVerticalIcon } from "@heroicons/vue/solid";
 
@@ -112,9 +114,13 @@ export default {
 		ListMenuSvg,
 		// DotsVerticalIcon,
 	},
+
 	setup() {
+		onMounted(() => {});
+
 		const store = useStore();
 		const route = useRoute();
+
 		const openConfirmTransactionModal = () => {
 			store.commit("setConfirmTransaction", true);
 		};
@@ -126,6 +132,7 @@ export default {
 		const openRejectTransactionModal = () => {
 			store.commit("setRejectTransaction", true);
 		};
+
 		return {
 			openConfirmTransactionModal,
 			openTransactionDetailsModal,

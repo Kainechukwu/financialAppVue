@@ -105,30 +105,30 @@
 									</thead>
 
 									<tbody class="bg-white divide-y divide-gray-100">
-										<tr class="" v-for="(person, index) in people" :key="index">
+										<tr class="" v-for="transaction in withdrawalTransactions" :key="transaction">
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.id }}
+												{{ transaction.id }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.customer }}
+												{{ transaction.customer }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap blacktext fw-600 fs-14">
-												{{ person.amount }}
+												{{ transaction.amount }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.reference }}
+												{{ transaction.trnxRef }}
 											</td>
 
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.date }}
+												{{ dateFormat(transaction.date) }}
 											</td>
 											<td style="color: #18ae81" class="px-6 py-4 whitespace-nowrap fs-12 fw-600">
 												<div
-													:class="displayStyle(person.status)"
+													:class="displayStyle(transaction.status)"
 													class="flex justify-center items-center h-8"
 													style="border-radius: 100px; max-width: 93px"
 												>
-													{{ person.status }}
+													{{ transaction.status }}
 												</div>
 											</td>
 											<td class="px-3 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
@@ -149,11 +149,13 @@
 </template>
 
 <script>
-import UserActions from "@/services/userActions/userActions.js";
+// import UserActions from "@/services/userActions/userActions.js";
 import { onMounted, ref } from "vue";
-import { Log } from "@/components/util";
-import { useRoute } from "vue-router";
+import { Log, Util } from "@/components/util";
+// import { useRoute } from "vue-router";
 import TransactionsListRowMenu from "./TransactionsListRowMenu.vue";
+import BackOfficeActions from "@/services/backOfficeActions/backOfficeActions.js";
+
 // import TransactionHistoryEmptySvg from "@/components/svg/TransactionHistoryEmptySvg.vue";
 
 export default {
@@ -164,88 +166,38 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			Log.info("merchantId:" + merchantId.value);
-			UserActions.getCustomerTransactions(
-				merchantId.value,
-				(response) => {
-					Log.info(response);
-					transactions.value = response.data.data;
+			getWithdrawals();
+		});
 
-					Log.info("query done");
+		// const route = useRoute();
+
+		const withdrawalTransactions = ref([]);
+		const pageNumber = ref(1);
+		const pageSize = ref(10);
+		const dateFormat = (date) => {
+			const d = Util.formatTime(date, "YYYY-MM-DD HH:mm:ss.SSSS", "MMM DD ddd YYYY hh:mm a");
+			return d;
+		};
+
+		const getWithdrawals = () => {
+			BackOfficeActions.getBackOfficeWithdrawals(
+				pageNumber.value,
+				pageSize.value,
+				(response) => {
+					withdrawalTransactions.value = response.data.data;
+					Log.info(response);
 				},
 				(error) => {
 					Log.error(error);
 				}
 			);
-		});
-
-		const route = useRoute();
-		const merchantId = ref(route.params.merchantId);
-		const transactions = ref([]);
-
-		const people = [
-			{
-				id: "1",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "5iq10he7fg",
-				date: "April 28, 2016",
-				status: "Approved",
-			},
-			{
-				id: "2",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "5iq10he7fg",
-				date: "April 28, 2016",
-				status: "Expired",
-			},
-			{
-				id: "3",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "5iq10he7fg",
-				date: "April 28, 2016",
-				status: "Created",
-			},
-			{
-				id: "4",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "5iq10he7fg",
-				date: "April 28, 2016",
-				status: "Pending",
-			},
-			{
-				id: "5",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "5iq10he7fg",
-				date: "April 28, 2016",
-				status: "Approved",
-			},
-			{
-				id: "6",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "5iq10he7fg",
-				date: "April 28, 2016",
-				status: "Approved",
-			},
-			// More people...
-		];
+		};
 
 		const displayStyle = (status) => {
 			Log.info("Status: " + status);
-			if (status === "Approved") {
+			if (status === "Successful") {
 				return "bg-Approved";
-			} else if (status === "Expired") {
+			} else if (status === "Failed") {
 				return "bg-Expired";
 			} else if (status === "Pending") {
 				return "bg-Pending";
@@ -253,7 +205,7 @@ export default {
 				return "bg-Created";
 			}
 		};
-		return { people, transactions, displayStyle };
+		return { withdrawalTransactions, displayStyle, dateFormat };
 	},
 };
 </script>

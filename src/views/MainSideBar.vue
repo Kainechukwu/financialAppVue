@@ -184,7 +184,7 @@ export default {
 				href: "/configurations",
 				icon: ConfigurationsSvg,
 				routeName: "Configurations",
-				visible: Util.checkAuth(Constants.merchantAuth) || Util.checkAuth(Constants.backOfficeAuth),
+				visible: Util.checkAuth(Constants.backOfficeAuth),
 			},
 			{
 				name: "AuditLogs",

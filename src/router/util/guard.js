@@ -56,7 +56,7 @@ const navigatePath = (next) => {
 
 
 export default function (to, from, next) {
-	Log.info("from:" + JSON.stringify(from));
+	// Log.info("from:" + JSON.stringify(from));
 	if (to.matched.some((record) => record.meta.skipAuth)) {
 		next();
 		return;

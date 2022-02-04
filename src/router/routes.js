@@ -346,22 +346,34 @@ export default [
 					{
 						path: "/configurations",
 						name: "Configurations",
+						meta: {
+							auth: Constants.backOfficeAuth,
+						},
 						redirect: "/configurations/profile"
 						, component: () => import("@/views/main/configurations/Configurations.vue"),
 						children: [
 							{
 								path: "/configurations/profile",
 								name: "Configurations Profile",
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
 								component: () => import("@/views/main/configurations/ConfigProfile.vue")
 							},
 							{
 								path: "/configurations/settings",
 								name: "Configurations Setting",
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
 								component: () => import("@/views/main/configurations/ConfigSettings.vue")
 							},
 							{
 								path: "/configurations/rates",
 								name: "Configurations Rates",
+								meta: {
+									auth: Constants.backOfficeAuth,
+								},
 								component: () => import("@/views/main/configurations/ConfigRates.vue")
 							}
 						]
