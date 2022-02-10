@@ -1,14 +1,32 @@
 <template>
-	<div class="main-page pb-8 px-12">
+	<div class="main-page pb-8 px-8">
 		<div class="w-full mx-auto mb-64">
-			<div class="flex flex-col py-10">
-				<div class="w-full greeting mb-3">
-					<h1 class="inter fw-600 fs-24 blacktext mb-2.5">Earn</h1>
-					<p class="inter fw-400 fs-14 tx-666666">Track your investment performance</p>
+			<EarnDeposit v-if="page === 'Earn Deposit'" />
+			<div v-if="page === 'Dashboard'" class="flex flex-col py-10">
+				<div class="flex justify-between">
+					<div class="mb-3">
+						<h1 class="inter fw-600 fs-24 blacktext mb-2.5">Earn</h1>
+						<p class="inter fw-400 fs-14 tx-666666">Track your investment performance</p>
+					</div>
+					<div class="flex items-center mb-3">
+						<div
+							@click="goToDeposit"
+							style="background-color: #18ae81"
+							class="cursor-pointer br-3 px-4 flex mr-4 items-center justify-center h-10 text-white"
+						>
+							<span class="my-auto">Add Funds</span>
+						</div>
+						<div
+							style="background-color: #e6edff; border: 1px solid #bdd1ff"
+							class="cursor-pointer br-3 px-4 flex items-center justify-center h-10 tx-666666"
+						>
+							<span class="my-auto">Withdraw</span>
+						</div>
+					</div>
 				</div>
 				<div class="grid grid-cols-5">
-					<div class="col-span-2"><BalanceCards /></div>
-					<div class="col-span-3 flex flex-col">
+					<!-- <div class="col-span-2"><BalanceCards /></div> -->
+					<div class="col-span-5 flex flex-col">
 						<router-view></router-view>
 					</div>
 				</div>
@@ -18,19 +36,22 @@
 </template>
 
 <script>
-import BalanceCards from "./BalanceCards.vue";
-import { onMounted } from "vue";
+// import BalanceCards from "./BalanceCards.vue";
+import { onMounted, ref } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
+// import { useRouter } from "vue-router";
+import EarnDeposit from "./EarnDeposit.vue";
 
 export default {
 	name: "Earn",
 	components: {
-		BalanceCards,
+		// BalanceCards,
 		// TransactionHistory,
 		// InterestEarnedPlate,
 		// StartSavingSvg,
+		EarnDeposit,
 	},
 
 	setup() {
@@ -51,9 +72,18 @@ export default {
 				}
 			);
 		});
+		// const router = useRouter();
+		const page = ref("Dashboard");
+
+		const goToDeposit = () => {
+			page.value = "Earn Deposit";
+		};
 
 		const store = useStore();
-		return {};
+		return {
+			goToDeposit,
+			page,
+		};
 	},
 };
 </script>

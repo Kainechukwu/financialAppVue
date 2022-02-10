@@ -1,5 +1,5 @@
 <template>
-	<div class="br-10 bg-white ml-6">
+	<div class="br-10 bg-white">
 		<div class="flex flex-col">
 			<div class="flex mb-1 justify-between py-4 px-6 border-b-2 border-gray-200">
 				<span class="inter fs-16 fw-600 blacktext">Transaction History</span>
