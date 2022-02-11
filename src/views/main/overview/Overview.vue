@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.greeting {
-	margin-bottom: 1.375rem;
-}
+// .greeting {
+// 	margin-bottom: 1.375rem;
+// }
 </style>

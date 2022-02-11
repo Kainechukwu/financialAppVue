@@ -4,7 +4,7 @@ import { Constants } from '@/components/util';
 export default [
 	{
 		path: '/',
-		redirect: "/signup",
+		redirect: "/login",
 		name: 'Home',
 		meta: {
 			skipAuth: true,
@@ -127,33 +127,33 @@ export default [
 								},
 								component: () => import("@/views/main/earn/EarnOverview.vue")
 							},
-							{
-								path: "/deposit",
-								name: "Earn Deposit",
-								meta: {
-									auth: Constants.merchantAuth,
-								},
-								redirect: "/earn/deposit",
-								component: () => import("@/views/main/earn/Deposit.vue"),
-								children: [
-									{
-										path: "/earn/deposit",
-										meta: {
-											auth: Constants.merchantAuth,
-										},
-										name: "Earn Deposit 1",
-										component: () => import("@/views/main/earn/EarnDeposit.vue")
-									},
-									{
-										path: "/earn/fund_account",
-										meta: {
-											auth: Constants.merchantAuth,
-										},
-										name: "Earn_fund Account",
-										component: () => import("@/views/main/earn/FundAccount.vue")
-									},
-								]
-							},
+							// {
+							// 	path: "/deposit",
+							// 	name: "Earn Deposit",
+							// 	meta: {
+							// 		auth: Constants.merchantAuth,
+							// 	},
+							// 	redirect: "/earn/deposit",
+							// 	component: () => import("@/views/main/earn/Deposit.vue"),
+							// 	children: [
+							// 		{
+							// 			path: "/earn/deposit",
+							// 			meta: {
+							// 				auth: Constants.merchantAuth,
+							// 			},
+							// 			name: "Earn Deposit 1",
+							// 			component: () => import("@/views/main/earn/EarnDeposit.vue")
+							// 		},
+							// 		{
+							// 			path: "/earn/fund_account",
+							// 			meta: {
+							// 				auth: Constants.merchantAuth,
+							// 			},
+							// 			name: "Earn_fund Account",
+							// 			component: () => import("@/views/main/earn/FundAccount.vue")
+							// 		},
+							// 	]
+							// },
 							{
 								path: "/withdraw",
 								name: "Earn_Withdraw",
