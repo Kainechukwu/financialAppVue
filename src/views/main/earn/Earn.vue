@@ -1,7 +1,7 @@
 <template>
 	<div class="main-page pb-8 px-8">
 		<div class="w-full mx-auto mb-64">
-			<EarnDeposit v-if="page === 'Earn Deposit'" />
+			<EarnDeposit @rootPage="returnToRoot" v-if="page === 'Earn Deposit'" :page="'Earn Deposit'" />
 			<div v-if="page === 'Dashboard'" class="flex flex-col py-10">
 				<div class="flex justify-between">
 					<div class="mb-3">
@@ -79,10 +79,15 @@ export default {
 			page.value = "Earn Deposit";
 		};
 
+		const returnToRoot = () => {
+			page.value = "Dashboard";
+		};
+
 		const store = useStore();
 		return {
 			goToDeposit,
 			page,
+			returnToRoot,
 		};
 	},
 };

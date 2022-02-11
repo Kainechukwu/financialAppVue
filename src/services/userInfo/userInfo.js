@@ -6,6 +6,8 @@ export default class UserInfo {
 	}
 
 	static transactionHistory(customerId, successHandler, errorHandler) {
+		// Web.get(Constants.API_BASE + `/Transactions/merchant-customer-transactions/${merchantId}?pageSize=` + pageSize + "&pageNumber=" + pageNumber, successHandler, errorHandler)
+
 		Web.get(Constants.API_BASE + `/Wallets/${customerId}/customer-transactions`, successHandler, errorHandler)
 	}
 

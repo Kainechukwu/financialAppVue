@@ -1,7 +1,7 @@
 <template>
 	<div class="">
 		<div style="border-bottom: 1px solid #c7d8ff" class="py-4 pt-6 flex justify-between mb-10">
-			<div class="flex items-center">
+			<div @click="goBack" class="flex cursor-pointer items-center">
 				<svg
 					width="8"
 					height="14"
@@ -25,13 +25,45 @@
 					:class="steps >= 1 ? 'done' : 'undone'"
 					class="flex items-center justify-center h-12 w-12 rounded-full mr-4"
 				>
-					<h1 class="fw-600">1</h1>
+					<svg
+						v-if="steps > 1"
+						width="13"
+						height="10"
+						viewBox="0 0 13 10"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M11.9754 1.18243L4.64205 8.51577L1.30872 5.18243"
+							stroke="white"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+					<h1 v-else class="fw-600">1</h1>
 				</div>
 				<div
 					:class="steps >= 2 ? 'done' : 'undone'"
 					class="flex items-center justify-center h-12 w-12 rounded-full mr-4"
 				>
-					<h1 class="fw-600">2</h1>
+					<svg
+						v-if="steps > 2"
+						width="13"
+						height="10"
+						viewBox="0 0 13 10"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M11.9754 1.18243L4.64205 8.51577L1.30872 5.18243"
+							stroke="white"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+					<h1 v-else class="fw-600">2</h1>
 				</div>
 
 				<div
@@ -43,7 +75,7 @@
 			</div>
 		</div>
 
-		<div class="bg-white max-w-xl mx-auto">
+		<div v-if="steps === 1" class="bg-white max-w-xl mx-auto">
 			<EarnDepositLoading v-if="requestLoading" />
 			<div v-else class="flex flex-col px-6 py-6">
 				<span class="fw-400 fs-14 tx-666666 mb-3">How much would you like to deposit</span>
@@ -258,20 +290,30 @@
 				</button>
 			</div>
 		</div>
+		<FundAccount
+			@finalStep="increaseStep"
+			@rootPage="goToRootPage"
+			@cancel="goBack"
+			@moneySent="setMoneySent"
+			:step="steps"
+			v-if="steps === 2 || steps === 3"
+		/>
 	</div>
 </template>
 
 <script>
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 import UserActions from "@/services/userActions/userActions.js";
 import {
 	ref,
+	toRef,
 	onMounted,
 	//  computed, watch
 } from "vue";
 import { Log, Util, Constants } from "@/components/util";
 import { useStore } from "vuex";
 import EarnDepositLoading from "./earnDepositLoading.vue";
+import FundAccount from "./FundAccount.vue";
 import {
 	Listbox,
 	ListboxButton,
@@ -289,14 +331,19 @@ export default {
 		ListboxOption,
 		ListboxOptions,
 		EarnDepositLoading,
+		FundAccount,
 	},
-	setup() {
+	props: {
+		page: String,
+	},
+	setup(props, context) {
 		onMounted(() => {
 			// const input = document.getElementById("earnInput");
 			// input.focus();
 			getRates();
 		});
-		const router = useRouter();
+		const page = toRef(props, "page");
+		// const router = useRouter();
 		const store = useStore();
 		const depositAmount = ref("");
 		const requestLoading = ref(false);
@@ -306,6 +353,10 @@ export default {
 		const steps = ref(1);
 		const currencies = ref([]);
 		const selected = ref({});
+		const moneySent = ref(false);
+		const setMoneySent = () => {
+			moneySent.value = true;
+		};
 		const charges = Util.currencyFormatter(
 			store.getters["bankDetails/depositFee"],
 			Constants.currencyFormat
@@ -339,6 +390,23 @@ export default {
 					// onMounted();
 				}
 			);
+		};
+
+		const goToRootPage = () => {
+			Log.info(page.value);
+			context.emit("rootPage");
+		};
+
+		const increaseStep = () => {
+			steps.value += 1;
+		};
+
+		const goBack = () => {
+			if (steps.value === 1 || moneySent.value === true) {
+				goToRootPage();
+			} else {
+				steps.value -= 1;
+			}
 		};
 		const computeRate = (num) => {
 			const val = numeral(num / selected.value.sellingRate).format(Constants.currencyFormat);
@@ -379,7 +447,8 @@ export default {
 					store.commit("deposit/transactionRefCode", data.transactionRefCode);
 					store.commit("deposit/transactionsReference", data.transactionsReference);
 					sendAmountLoading.value = false;
-					router.push("/earn/fund_account");
+					increaseStep();
+					// router.push("/earn/fund_account");
 				},
 				(error) => {
 					Log.error(error);
@@ -409,6 +478,10 @@ export default {
 			sendAmountLoading,
 			computeRate,
 			steps,
+			goBack,
+			goToRootPage,
+			increaseStep,
+			setMoneySent,
 		};
 	},
 };
