@@ -17,6 +17,7 @@
 							<span class="my-auto">Add Funds</span>
 						</div>
 						<div
+							@click="goToWithdraw"
 							style="background-color: #e6edff; border: 1px solid #bdd1ff"
 							class="cursor-pointer br-3 px-4 flex items-center justify-center h-10 tx-666666"
 						>
@@ -31,6 +32,7 @@
 					</div>
 				</div>
 			</div>
+			<Withdraw v-if="page === 'Withdraw'" />
 		</div>
 	</div>
 </template>
@@ -43,6 +45,7 @@ import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 // import { useRouter } from "vue-router";
 import EarnDeposit from "./EarnDeposit.vue";
+import Withdraw from "./Withdraw.vue";
 
 export default {
 	name: "Earn",
@@ -52,6 +55,7 @@ export default {
 		// InterestEarnedPlate,
 		// StartSavingSvg,
 		EarnDeposit,
+		Withdraw,
 	},
 
 	setup() {
@@ -79,6 +83,10 @@ export default {
 			page.value = "Earn Deposit";
 		};
 
+		const goToWithdraw = () => {
+			page.value = "Withdraw";
+		};
+
 		const returnToRoot = () => {
 			page.value = "Dashboard";
 		};
@@ -88,6 +96,7 @@ export default {
 			goToDeposit,
 			page,
 			returnToRoot,
+			goToWithdraw,
 		};
 	},
 };

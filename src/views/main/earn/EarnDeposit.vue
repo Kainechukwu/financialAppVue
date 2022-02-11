@@ -17,7 +17,7 @@
 						stroke-linejoin="round"
 					/>
 				</svg>
-				<span class="blacktext ml-4 fw-600 fs-18"> Deposit</span>
+				<span class="blacktext ml-4 fw-600 fs-18"> Deposit Funds</span>
 			</div>
 
 			<div class="flex text-white">
@@ -75,7 +75,11 @@
 			</div>
 		</div>
 
-		<div v-if="steps === 1" class="bg-white max-w-xl mx-auto">
+		<div
+			v-if="steps === 1"
+			style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05)"
+			class="br-10 bg-white max-w-xl mx-auto"
+		>
 			<EarnDepositLoading v-if="requestLoading" />
 			<div v-else class="flex flex-col px-6 py-6">
 				<span class="fw-400 fs-14 tx-666666 mb-3">How much would you like to deposit</span>
@@ -492,12 +496,4 @@ export default {
 // 	background-color: yellow;
 // 	margin-top
 // }
-
-.done {
-	background-color: #18ae81;
-}
-
-.undone {
-	background-color: #c2cfed;
-}
 </style>

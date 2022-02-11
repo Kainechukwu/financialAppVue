@@ -5,10 +5,10 @@ export default class UserInfo {
 		Web.get(Constants.API_BASE + `/Wallets/${customerId}/customer-balance`, successHandler, errorHandler)
 	}
 
-	static transactionHistory(customerId, successHandler, errorHandler) {
+	static transactionHistory(customerId, pageNumber, pageSize, successHandler, errorHandler) {
 		// Web.get(Constants.API_BASE + `/Transactions/merchant-customer-transactions/${merchantId}?pageSize=` + pageSize + "&pageNumber=" + pageNumber, successHandler, errorHandler)
 
-		Web.get(Constants.API_BASE + `/Wallets/${customerId}/customer-transactions`, successHandler, errorHandler)
+		Web.get(Constants.API_BASE + `/Wallets/${customerId}/customer-transactions?PageNumber=` + pageNumber + "&PageSize=" + pageSize, successHandler, errorHandler)
 	}
 
 	static getClientKeys(successHandler, errorHandler) {

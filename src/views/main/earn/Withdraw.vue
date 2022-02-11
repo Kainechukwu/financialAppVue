@@ -1,20 +1,162 @@
 <template>
-	<div
-		style="border: 1px solid #f1f1f1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05)"
-		class="ml-6 bg-white flex flex-col br-10 pt-4 pb-8"
-	>
-		<div class="flex px-4 pb-3 items-center justify-between border-b border-gray-100">
-			<div>
-				<span class="fw-600 fs-16 blacktext">Withdraw Funds</span>
+	<div>
+		<div style="border-bottom: 1px solid #c7d8ff" class="py-4 pt-6 flex justify-between mb-10">
+			<div @click="goBack" class="flex cursor-pointer items-center">
+				<svg
+					width="8"
+					height="14"
+					viewBox="0 0 8 14"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M7 13L1 7L7 1"
+						stroke="#333333"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+				</svg>
+				<span class="blacktext ml-4 fw-600 fs-18"> Withdraw Funds</span>
 			</div>
-			<div>
-				<CancelSvg />
+
+			<div class="flex text-white">
+				<div
+					:class="steps >= 1 ? 'done' : 'undone'"
+					class="flex items-center justify-center h-12 w-12 rounded-full mr-4"
+				>
+					<svg
+						v-if="steps > 1"
+						width="13"
+						height="10"
+						viewBox="0 0 13 10"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M11.9754 1.18243L4.64205 8.51577L1.30872 5.18243"
+							stroke="white"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+					<h1 v-else class="fw-600">1</h1>
+				</div>
+				<div
+					:class="steps >= 2 ? 'done' : 'undone'"
+					class="flex items-center justify-center h-12 w-12 rounded-full mr-4"
+				>
+					<svg
+						v-if="steps > 2"
+						width="13"
+						height="10"
+						viewBox="0 0 13 10"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M11.9754 1.18243L4.64205 8.51577L1.30872 5.18243"
+							stroke="white"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+					<h1 v-else class="fw-600">2</h1>
+				</div>
+
+				<div
+					:class="steps >= 3 ? 'done' : 'undone'"
+					class="flex items-center justify-center h-12 w-12 rounded-full"
+				>
+					<h1 class="fw-600">3</h1>
+				</div>
 			</div>
 		</div>
 		<!-- --------------------- -->
-		<div class="mt-6">
+		<div
+			style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05)"
+			class="br-10 bg-white max-w-xl mx-auto pt-6 pb-10"
+		>
 			<EarnDepositLoading v-if="requestLoading" />
-			<div v-else class="flex flex-col px-4">
+			<div v-else class="flex flex-col px-6">
+				<div class="grid grid-cols-2 gap-4 py-6">
+					<div>
+						<!-- ------------------------ -->
+						<div class="col-span-1">
+							<div
+								style="border: 1.5px solid #99b8ff; background-color: #f2f6ff"
+								class="flex br-5 p-2.5"
+							>
+								<div class="flex flex-col w-full">
+									<div class="flex justify-between">
+										<span class="tx-666666 fw-400 fs-10">PRINCIPAL BALANCE</span>
+										<svg
+											width="12"
+											height="12"
+											viewBox="0 0 12 12"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												fill-rule="evenodd"
+												clip-rule="evenodd"
+												d="M0 6C0 2.67273 2.67273 0 6 0C9.32727 0 12 2.67273 12 6C12 9.32727 9.32727 12 6 12C2.67273 12 0 9.32727 0 6ZM5.1 8.64535L9.46364 4.11808C9.57273 4.00899 9.57273 3.84535 9.46364 3.76353L9.08182 3.38171C8.97273 3.27262 8.80909 3.27262 8.7 3.38171H8.67273L5.01818 7.17262C4.96364 7.22717 4.88182 7.22717 4.82727 7.17262L3.32727 5.56353L3.3 5.53626C3.19091 5.42717 3.02727 5.42717 2.91818 5.53626L2.53636 5.91808C2.48182 5.97262 2.45454 6.05444 2.45454 6.10899C2.45454 6.16353 2.48182 6.24535 2.53636 6.2999L2.59091 6.35444L4.71818 8.64535C4.74545 8.6999 4.82727 8.72717 4.90909 8.72717C4.99091 8.72717 5.04545 8.6999 5.1 8.64535Z"
+												fill="#75A0FF"
+											/>
+											<path
+												fill-rule="evenodd"
+												clip-rule="evenodd"
+												d="M0 6C0 2.67273 2.67273 0 6 0C9.32727 0 12 2.67273 12 6C12 9.32727 9.32727 12 6 12C2.67273 12 0 9.32727 0 6ZM5.1 8.64535L9.46364 4.11808C9.57273 4.00899 9.57273 3.84535 9.46364 3.76353L9.08182 3.38171C8.97273 3.27262 8.80909 3.27262 8.7 3.38171H8.67273L5.01818 7.17262C4.96364 7.22717 4.88182 7.22717 4.82727 7.17262L3.32727 5.56353L3.3 5.53626C3.19091 5.42717 3.02727 5.42717 2.91818 5.53626L2.53636 5.91808C2.48182 5.97262 2.45454 6.05444 2.45454 6.10899C2.45454 6.16353 2.48182 6.24535 2.53636 6.2999L2.59091 6.35444L4.71818 8.64535C4.74545 8.6999 4.82727 8.72717 4.90909 8.72717C4.99091 8.72717 5.04545 8.6999 5.1 8.64535Z"
+												fill="#75A0FF"
+											/>
+										</svg>
+									</div>
+									<span class="fw-500 fs-20 blacktext">Charges: ${{ charges }}</span>
+								</div>
+							</div>
+						</div>
+						<!-- ------------------------- -->
+					</div>
+					<div>
+						<!-- ------------------------ -->
+						<div class="col-span-1">
+							<div
+								style="border: 1.5px solid #f1f1f1; background-color: #ffffff"
+								class="flex br-5 p-2.5"
+							>
+								<div class="flex flex-col w-full">
+									<div class="flex justify-between">
+										<span class="tx-666666 fw-400 fs-10">INTEREST BALANCE</span>
+										<!-- <svg
+											width="12"
+											height="12"
+											viewBox="0 0 12 12"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												fill-rule="evenodd"
+												clip-rule="evenodd"
+												d="M0 6C0 2.67273 2.67273 0 6 0C9.32727 0 12 2.67273 12 6C12 9.32727 9.32727 12 6 12C2.67273 12 0 9.32727 0 6ZM5.1 8.64535L9.46364 4.11808C9.57273 4.00899 9.57273 3.84535 9.46364 3.76353L9.08182 3.38171C8.97273 3.27262 8.80909 3.27262 8.7 3.38171H8.67273L5.01818 7.17262C4.96364 7.22717 4.88182 7.22717 4.82727 7.17262L3.32727 5.56353L3.3 5.53626C3.19091 5.42717 3.02727 5.42717 2.91818 5.53626L2.53636 5.91808C2.48182 5.97262 2.45454 6.05444 2.45454 6.10899C2.45454 6.16353 2.48182 6.24535 2.53636 6.2999L2.59091 6.35444L4.71818 8.64535C4.74545 8.6999 4.82727 8.72717 4.90909 8.72717C4.99091 8.72717 5.04545 8.6999 5.1 8.64535Z"
+												fill="#75A0FF"
+											/>
+											<path
+												fill-rule="evenodd"
+												clip-rule="evenodd"
+												d="M0 6C0 2.67273 2.67273 0 6 0C9.32727 0 12 2.67273 12 6C12 9.32727 9.32727 12 6 12C2.67273 12 0 9.32727 0 6ZM5.1 8.64535L9.46364 4.11808C9.57273 4.00899 9.57273 3.84535 9.46364 3.76353L9.08182 3.38171C8.97273 3.27262 8.80909 3.27262 8.7 3.38171H8.67273L5.01818 7.17262C4.96364 7.22717 4.88182 7.22717 4.82727 7.17262L3.32727 5.56353L3.3 5.53626C3.19091 5.42717 3.02727 5.42717 2.91818 5.53626L2.53636 5.91808C2.48182 5.97262 2.45454 6.05444 2.45454 6.10899C2.45454 6.16353 2.48182 6.24535 2.53636 6.2999L2.59091 6.35444L4.71818 8.64535C4.74545 8.6999 4.82727 8.72717 4.90909 8.72717C4.99091 8.72717 5.04545 8.6999 5.1 8.64535Z"
+												fill="#75A0FF"
+											/>
+										</svg> -->
+									</div>
+									<span class="fw-500 fs-20 blacktext">Charges: ${{ charges }}</span>
+								</div>
+							</div>
+						</div>
+						<!-- ------------------------- -->
+					</div>
+				</div>
 				<span class="fw-400 fs-14 tx-666666 mb-3">How much would you like to withdraw</span>
 				<div class="flex br-5 h-12">
 					<Listbox as="div" v-model="selectedCurrency">
@@ -203,7 +345,7 @@
 
 <script>
 import { useRouter } from "vue-router";
-import CancelSvg from "./CancelSvg.vue";
+// import CancelSvg from "./CancelSvg.vue";
 import { Log, Util, Constants } from "@/components/util";
 import {
 	ref,
@@ -222,7 +364,7 @@ var numeral = require("numeral");
 export default {
 	name: "Withdraw",
 	components: {
-		CancelSvg,
+		// CancelSvg,
 		Listbox,
 		ListboxButton,
 		ListboxOption,
@@ -269,6 +411,7 @@ export default {
 		// const addComma = (n) => {
 		// 	Util.numWithComma(n);
 		// };
+		const steps = ref(1);
 		const router = useRouter();
 		const withdrawalAmount = ref("");
 		const sendAmountLoading = ref(false);
@@ -348,6 +491,7 @@ export default {
 			// Util.currencyFormatter,
 			// format,
 			computeRate,
+			steps,
 			// addComma,
 		};
 	},

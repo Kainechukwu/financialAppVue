@@ -138,8 +138,8 @@ export default {
 		const store = useStore();
 		const customerId = store.getters["authToken/userId"];
 		const depositTransactions = ref([]);
-		// const pageNumber = ref(1);
-		// const pageSize = ref(10);
+		const pageNumber = ref(1);
+		const pageSize = ref(10);
 
 		const historyLoading = ref(true);
 
@@ -150,8 +150,8 @@ export default {
 		const getRecentHistory = () => {
 			UserInfo.transactionHistory(
 				customerId,
-				// pageNumber.value,
-				// pageSize.value,
+				pageNumber.value,
+				pageSize.value,
 				(response) => {
 					Log.info(response.data.data);
 					const historyData = response.data.data;
