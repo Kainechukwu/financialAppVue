@@ -32,7 +32,9 @@
 						</defs>
 					</svg>
 				</div>
-				<span class="fw-400 fs-14 tx-666666">Available Balance: <span>$216,000.00</span></span>
+				<span class="fw-400 fs-14 tx-666666"
+					>Available Balance: <span>${{ totalBalance }}</span></span
+				>
 
 				<!-- <slot></slot> -->
 			</div>

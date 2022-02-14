@@ -86,7 +86,7 @@
 				</Listbox>
 			</div>
 			<div class="flex flex-col justify-between mt-1">
-				<span class="blacktext fw-600 fs-22 counter">${{ interest }}</span>
+				<span class="fw-400 fs-24 blacktext counter">${{ interest }}</span>
 				<span class="fw-400 fs-14 tx-666666"
 					>Here is an overview of your earnings from your investments.</span
 				>
