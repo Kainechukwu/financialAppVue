@@ -378,11 +378,11 @@ export default [
 							}
 						]
 					},
-					{
-						path: "/audit_logs",
-						name: "AuditLogs",
-						component: () => import("@/views/main/AuditLogs.vue")
-					}
+					// {
+					// 	path: "/audit_logs",
+					// 	name: "AuditLogs",
+					// 	component: () => import("@/views/main/AuditLogs.vue")
+					// }
 				]
 			}
 		]

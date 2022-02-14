@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col mt-8">
-		<span class="fw-500 fs-16 mb-4">Recent Tranactions</span>
+		<span class="fw-500 fs-16 mb-4">Tranactions</span>
 		<!-- -------Table-------- -->
 		<div class="flex flex-col">
 			<!-- style="min-width: 100%; max-width: 100%" -->
@@ -16,7 +16,7 @@
 								</div>
 								<span style="color: #999999" class="mt-6 fs-16 fw-400">Nothing to see</span>
 							</div> -->
-						<div class="px-4 bg-white py-2 overflow-y-auto" style="max-height: 40rem">
+						<div class="px-4 bg-white py-2">
 							<table class="min-w-full divide-y divide-gray-100">
 								<thead class="bg-white">
 									<tr>
@@ -169,7 +169,7 @@ export default {
 			Log.info("Status: " + status);
 			if (status === "Successful") {
 				return "bg-Approved";
-			} else if (status === "Failed") {
+			} else if (status === "Failed" || status === "Declined") {
 				return "bg-Expired";
 			} else if (status === "Pending") {
 				return "bg-Pending";

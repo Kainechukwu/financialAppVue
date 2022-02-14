@@ -76,6 +76,7 @@
 		</div>
 		<!-- --------------------- -->
 		<div
+			v-if="steps === 1"
 			style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05)"
 			class="br-10 bg-white max-w-xl mx-auto pt-6 pb-10"
 		>
@@ -86,13 +87,15 @@
 						<!-- ------------------------ -->
 						<div class="col-span-1">
 							<div
-								style="border: 1.5px solid #99b8ff; background-color: #f2f6ff"
-								class="flex br-5 p-2.5"
+								@click="switchWallet('Principal Account')"
+								:class="wallet === 'Principal Account' ? 'activeWallet' : ''"
+								class="flex br-5 p-2.5 cursor-pointer border border-gray-200"
 							>
 								<div class="flex flex-col w-full">
 									<div class="flex justify-between">
 										<span class="tx-666666 fw-400 fs-10">PRINCIPAL BALANCE</span>
 										<svg
+											v-if="wallet === 'Principal Account'"
 											width="12"
 											height="12"
 											viewBox="0 0 12 12"
@@ -113,7 +116,7 @@
 											/>
 										</svg>
 									</div>
-									<span class="fw-500 fs-20 blacktext">Charges: ${{ charges }}</span>
+									<span class="fw-500 fs-20 blacktext">${{ principalBalance }}</span>
 								</div>
 							</div>
 						</div>
@@ -123,13 +126,15 @@
 						<!-- ------------------------ -->
 						<div class="col-span-1">
 							<div
-								style="border: 1.5px solid #f1f1f1; background-color: #ffffff"
-								class="flex br-5 p-2.5"
+								@click="switchWallet('Interest Account')"
+								:class="wallet === 'Interest Account' ? 'activeWallet' : ''"
+								class="flex br-5 p-2.5 cursor-pointer border border-gray-200"
 							>
 								<div class="flex flex-col w-full">
 									<div class="flex justify-between">
 										<span class="tx-666666 fw-400 fs-10">INTEREST BALANCE</span>
-										<!-- <svg
+										<svg
+											v-if="wallet === 'Interest Account'"
 											width="12"
 											height="12"
 											viewBox="0 0 12 12"
@@ -148,9 +153,9 @@
 												d="M0 6C0 2.67273 2.67273 0 6 0C9.32727 0 12 2.67273 12 6C12 9.32727 9.32727 12 6 12C2.67273 12 0 9.32727 0 6ZM5.1 8.64535L9.46364 4.11808C9.57273 4.00899 9.57273 3.84535 9.46364 3.76353L9.08182 3.38171C8.97273 3.27262 8.80909 3.27262 8.7 3.38171H8.67273L5.01818 7.17262C4.96364 7.22717 4.88182 7.22717 4.82727 7.17262L3.32727 5.56353L3.3 5.53626C3.19091 5.42717 3.02727 5.42717 2.91818 5.53626L2.53636 5.91808C2.48182 5.97262 2.45454 6.05444 2.45454 6.10899C2.45454 6.16353 2.48182 6.24535 2.53636 6.2999L2.59091 6.35444L4.71818 8.64535C4.74545 8.6999 4.82727 8.72717 4.90909 8.72717C4.99091 8.72717 5.04545 8.6999 5.1 8.64535Z"
 												fill="#75A0FF"
 											/>
-										</svg> -->
+										</svg>
 									</div>
-									<span class="fw-500 fs-20 blacktext">Charges: ${{ charges }}</span>
+									<span class="fw-500 fs-20 blacktext">${{ interestBalance }}</span>
 								</div>
 							</div>
 						</div>
@@ -308,7 +313,7 @@
 										/>
 									</svg>
 								</div>
-								<span class="fw-400 fs-10 tx-666666">Charges: ${{ charges }}</span>
+								<span class="fw-400 fs-10 tx-666666">${{ charges }}</span>
 							</div>
 						</div>
 					</div>
@@ -339,12 +344,15 @@
 				</button>
 			</div>
 		</div>
+		<BankDetails @finalStep="increaseStep" :step="steps" v-if="steps === 2 || steps === 3" />
+		<!-- <ConfirmWithdrawal /> -->
 		<!-- ------------------ -->
 	</div>
 </template>
 
 <script>
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
+import BankDetails from "./BankDetails.vue";
 // import CancelSvg from "./CancelSvg.vue";
 import { Log, Util, Constants } from "@/components/util";
 import {
@@ -353,6 +361,8 @@ import {
 	//  computed,
 	watch,
 } from "vue";
+import UserInfo from "@/services/userInfo/userInfo.js";
+
 import EarnDepositLoading from "./earnDepositLoading.vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
@@ -365,6 +375,7 @@ export default {
 	name: "Withdraw",
 	components: {
 		// CancelSvg,
+		BankDetails,
 		Listbox,
 		ListboxButton,
 		ListboxOption,
@@ -373,6 +384,73 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
+			getAllRates();
+			getBalance();
+		});
+		// const addComma = (n) => {
+		// 	Util.numWithComma(n);
+		// };
+		const steps = ref(1);
+		// const router = useRouter();
+		const withdrawalAmount = ref("");
+		const sendAmountLoading = ref(false);
+		const amtUsd = ref(0);
+		const rate = ref(0);
+		// const state =
+		// const youReceive = ref(0)rate
+		const store = useStore();
+		const requestLoading = ref(false);
+		const charges = Util.currencyFormatter(
+			store.getters["bankDetails/withdrawalFee"],
+			Constants.currencyFormat
+		);
+		const customerId = store.getters["authToken/userId"];
+		const principalBalance = ref(0);
+		const interestBalance = ref(0);
+		const wallet = ref("Principal Account");
+
+		const switchWallet = (acc) => {
+			wallet.value = acc;
+
+			if (wallet.value === "Principal Account") {
+				store.commit("bankDetails/balance", principalBalance.value);
+				store.commit("bankDetails/walletId", 1);
+			} else if (wallet.value === "Interest Account") {
+				store.commit("bankDetails/balance", interestBalance.value);
+				store.commit("bankDetails/walletId", 2);
+			}
+
+			Log.info(store.getters["bankDetails/walletId"]);
+			Log.info(store.getters["bankDetails/balance"]);
+		};
+
+		const increaseStep = () => {
+			steps.value += 1;
+		};
+
+		const getBalance = () => {
+			UserInfo.accountBalance(
+				customerId,
+				(response) => {
+					Log.info(response);
+					const balance = response.data.data;
+					principalBalance.value = Util.currencyFormatter(
+						balance.principalBalance,
+						Constants.currencyFormat
+					);
+					interestBalance.value = Util.currencyFormatter(
+						balance.interestBalance,
+						Constants.currencyFormat
+					);
+				},
+				(error) => {
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					Log.error(error);
+				}
+			);
+		};
+
+		const getAllRates = () => {
 			requestLoading.value = true;
 			UserActions.getAllRates(
 				(response) => {
@@ -407,24 +485,7 @@ export default {
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
-		});
-		// const addComma = (n) => {
-		// 	Util.numWithComma(n);
-		// };
-		const steps = ref(1);
-		const router = useRouter();
-		const withdrawalAmount = ref("");
-		const sendAmountLoading = ref(false);
-		const amtUsd = ref(0);
-		const rate = ref(0);
-		// const state =
-		// const youReceive = ref(0)rate
-		const store = useStore();
-		const requestLoading = ref(false);
-		const charges = Util.currencyFormatter(
-			store.getters["bankDetails/withdrawalFee"],
-			Constants.currencyFormat
-		);
+		};
 		const goToBankDetails = () => {
 			sendAmountLoading.value = true;
 
@@ -447,7 +508,8 @@ export default {
 					Log.info(selectedCurrency.value.buyingRate * withdrawalAmount.value);
 
 					sendAmountLoading.value = false;
-					router.push("/bank_details");
+					// router.push("/bank_details");
+					increaseStep();
 				}
 			}
 		};
@@ -492,10 +554,20 @@ export default {
 			// format,
 			computeRate,
 			steps,
+			principalBalance,
+			interestBalance,
+			switchWallet,
+			wallet,
+			increaseStep,
 			// addComma,
 		};
 	},
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.activeWallet {
+	border: 1.5px solid #99b8ff;
+	background-color: #f2f6ff;
+}
+</style>
