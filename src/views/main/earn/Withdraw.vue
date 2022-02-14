@@ -373,6 +373,7 @@ var numeral = require("numeral");
 
 export default {
 	name: "Withdraw",
+
 	components: {
 		// CancelSvg,
 		BankDetails,
@@ -382,7 +383,10 @@ export default {
 		ListboxOptions,
 		EarnDepositLoading,
 	},
-	setup() {
+	props: {
+		page: String,
+	},
+	setup(props, context) {
 		onMounted(() => {
 			getAllRates();
 			getBalance();
@@ -396,6 +400,7 @@ export default {
 		const sendAmountLoading = ref(false);
 		const amtUsd = ref(0);
 		const rate = ref(0);
+		const page = ref(props.page);
 		// const state =
 		// const youReceive = ref(0)rate
 		const store = useStore();
@@ -426,6 +431,19 @@ export default {
 
 		const increaseStep = () => {
 			steps.value += 1;
+		};
+
+		const goToRootPage = () => {
+			Log.info(page.value);
+			context.emit("rootPage");
+		};
+
+		const goBack = () => {
+			if (steps.value === 1) {
+				goToRootPage();
+			} else {
+				steps.value -= 1;
+			}
 		};
 
 		const getBalance = () => {
@@ -559,6 +577,7 @@ export default {
 			switchWallet,
 			wallet,
 			increaseStep,
+			goBack,
 			// addComma,
 		};
 	},

@@ -32,7 +32,7 @@
 					</div>
 				</div>
 			</div>
-			<Withdraw v-if="page === 'Withdraw'" />
+			<Withdraw :page="Withdraw" @rootPage="returnToRoot" v-if="page === 'Withdraw'" />
 		</div>
 	</div>
 </template>
