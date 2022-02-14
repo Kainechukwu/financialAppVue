@@ -79,7 +79,7 @@ import LoginService from "@/services/login/LoginService.js";
 import MerchantsSvg from "@/components/svg/MerchantsSvg.vue";
 import { Util, Constants } from "@/components/util";
 import { useStore } from "vuex";
-import AuditLogsSvg from "@/components/svg/AuditLogsSvg.vue";
+// import AuditLogsSvg from "@/components/svg/AuditLogsSvg.vue";
 export default {
 	name: "MainSideBar",
 	components: {
@@ -90,7 +90,7 @@ export default {
 		// CustomersSvg,
 		ConfigurationsSvg,
 		MerchantsSvg,
-		AuditLogsSvg,
+		// AuditLogsSvg,
 	},
 	setup() {
 		const route = useRoute();
@@ -186,13 +186,13 @@ export default {
 				routeName: "Configurations",
 				visible: Util.checkAuth(Constants.backOfficeAuth),
 			},
-			{
-				name: "AuditLogs",
-				href: "/audit_logs",
-				icon: AuditLogsSvg,
-				routeName: "AuditLogs",
-				visible: Util.checkAuth(Constants.merchantAuth) || Util.checkAuth(Constants.backOfficeAuth),
-			},
+			// {
+			// 	name: "AuditLogs",
+			// 	href: "/audit_logs",
+			// 	icon: AuditLogsSvg,
+			// 	routeName: "AuditLogs",
+			// 	visible: Util.checkAuth(Constants.merchantAuth) || Util.checkAuth(Constants.backOfficeAuth),
+			// },
 		];
 		return {
 			navigation,

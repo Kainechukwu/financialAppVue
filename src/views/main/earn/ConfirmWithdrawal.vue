@@ -1,7 +1,7 @@
 <template>
 	<div
 		style="border: 1px solid #f1f1f1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05)"
-		class="ml-6 bg-white flex flex-col br-10 pt-4 pb-8"
+		class="max-w-xl mx-auto bg-white flex flex-col br-10 pt-4 pb-8"
 	>
 		<div class="flex px-4 pb-3 items-center justify-between border-b border-gray-100">
 			<div class="flex">
