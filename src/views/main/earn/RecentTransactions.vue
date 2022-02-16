@@ -34,7 +34,7 @@
 										</th>
 										<th
 											scope="col"
-											class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
+											class="px-6 py-3 text-right fw-600 fs-14 blacktext tracking-wider"
 										>
 											Amount
 										</th>
@@ -84,7 +84,9 @@
 											{{ transaction.currency }}
 										</td>
 										<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-											{{ formatCurrency(transaction.amount) }}
+											<div class="flex justify-end">
+												{{ formatCurrency(transaction.amount) }}
+											</div>
 										</td>
 										<td class="px-6 py-4 whitespace-nowrap blacktext fw-600 fs-14">
 											{{ transaction.userTransactionRef }}
@@ -173,7 +175,7 @@ export default {
 			Log.info("Status: " + status);
 			if (status === "Successful") {
 				return "bg-Approved";
-			} else if (status === "Failed" || status === "Declined") {
+			} else if (status === "Failed" || status === "Declined" || status === "Expired") {
 				return "bg-Expired";
 			} else if (status === "Pending") {
 				return "bg-Pending";
