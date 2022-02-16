@@ -34,7 +34,7 @@
 										</th>
 										<th
 											scope="col"
-											class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
+											class="px-6 py-3 text-right fw-600 fs-14 blacktext tracking-wider"
 										>
 											Amount
 										</th>
@@ -84,7 +84,9 @@
 											{{ transaction.currency }}
 										</td>
 										<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-											{{ transaction.amount }}
+											<div class="flex justify-end">
+												{{ formatCurrency(transaction.amount) }}
+											</div>
 										</td>
 										<td class="px-6 py-4 whitespace-nowrap blacktext fw-600 fs-14">
 											{{ transaction.userTransactionRef }}
@@ -119,7 +121,7 @@
 </template>
 
 <script>
-import { Log, Util } from "@/components/util";
+import { Log, Util, Constants } from "@/components/util";
 import UserInfo from "@/services/userInfo/userInfo.js";
 import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
@@ -165,11 +167,15 @@ export default {
 			);
 		};
 
+		const formatCurrency = (curr) => {
+			return Util.currencyFormatter(curr, Constants.currencyFormat);
+		};
+
 		const displayStyle = (status) => {
 			Log.info("Status: " + status);
 			if (status === "Successful") {
 				return "bg-Approved";
-			} else if (status === "Failed" || status === "Declined") {
+			} else if (status === "Failed" || status === "Declined" || status === "Expired") {
 				return "bg-Expired";
 			} else if (status === "Pending") {
 				return "bg-Pending";
@@ -178,7 +184,7 @@ export default {
 			}
 		};
 
-		return { depositTransactions, displayStyle, dateFormat };
+		return { depositTransactions, displayStyle, dateFormat, formatCurrency };
 	},
 };
 </script>
