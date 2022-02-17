@@ -116,7 +116,7 @@
 											/>
 										</svg>
 									</div>
-									<span class="fw-500 fs-20 blacktext">${{ principalBalance }}</span>
+									<span class="fw-500 fs-20 blacktext">${{ formatCurr(principalBalance) }}</span>
 								</div>
 							</div>
 						</div>
@@ -155,7 +155,7 @@
 											/>
 										</svg>
 									</div>
-									<span class="fw-500 fs-20 blacktext">${{ interestBalance }}</span>
+									<span class="fw-500 fs-20 blacktext">${{ formatCurr(interestBalance) }}</span>
 								</div>
 							</div>
 						</div>
@@ -344,7 +344,12 @@
 				</button>
 			</div>
 		</div>
-		<BankDetails @finalStep="increaseStep" :step="steps" v-if="steps === 2 || steps === 3" />
+		<BankDetails
+			@cancel="goToRootPage"
+			@finalStep="increaseStep"
+			:step="steps"
+			v-if="steps === 2 || steps === 3"
+		/>
 		<!-- <ConfirmWithdrawal /> -->
 		<!-- ------------------ -->
 	</div>
@@ -388,8 +393,6 @@ export default {
 	},
 	setup(props, context) {
 		onMounted(() => {
-			store.commit("bankDetails/balance", principalBalance.value);
-			store.commit("bankDetails/walletId", 1);
 			getAllRates();
 			getBalance();
 		});
@@ -411,10 +414,14 @@ export default {
 			store.getters["bankDetails/withdrawalFee"],
 			Constants.currencyFormat
 		);
+		// const chosenWalletBalance = ref(0)
 		const customerId = store.getters["authToken/userId"];
 		const principalBalance = ref(0);
 		const interestBalance = ref(0);
 		const wallet = ref("Principal Account");
+		const formatCurr = (balance) => {
+			return Util.currencyFormatter(balance, Constants.currencyFormat);
+		};
 
 		const switchWallet = (acc) => {
 			wallet.value = acc;
@@ -454,14 +461,9 @@ export default {
 				(response) => {
 					Log.info(response);
 					const balance = response.data.data;
-					principalBalance.value = Util.currencyFormatter(
-						balance.principalBalance,
-						Constants.currencyFormat
-					);
-					interestBalance.value = Util.currencyFormatter(
-						balance.interestBalance,
-						Constants.currencyFormat
-					);
+					principalBalance.value = balance.principalBalance;
+					interestBalance.value = balance.interestBalance;
+					store.commit("bankDetails/balance", principalBalance.value);
 				},
 				(error) => {
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
@@ -583,6 +585,8 @@ export default {
 			wallet,
 			increaseStep,
 			goBack,
+			formatCurr,
+			goToRootPage,
 			// addComma,
 		};
 	},
