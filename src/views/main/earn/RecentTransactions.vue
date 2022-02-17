@@ -113,6 +113,50 @@
 								</tbody>
 							</table>
 						</div>
+						<div class="px-6 h-16 sm:rounded-b-lg bg-white">
+							<div class="px-1 h-full flex justify-between items-center">
+								<div>
+									<!-- <p class="my-auto hidden">Showing 1-15 of 300 entries</p> -->
+								</div>
+
+								<div class="flex">
+									<div @click="prev" class="cursor-pointer">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-5 w-5"
+											viewBox="0 0 20 20"
+											fill="currentColor"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414zm-6 0a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 1.414L5.414 10l4.293 4.293a1 1 0 010 1.414z"
+												clip-rule="evenodd"
+											/>
+										</svg>
+									</div>
+									<span class="mx-3.5"> Page {{ pageNumber }}</span>
+									<div @click="next" class="cursor-pointer">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-5 w-5"
+											viewBox="0 0 20 20"
+											fill="currentColor"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+												clip-rule="evenodd"
+											/>
+											<path
+												fill-rule="evenodd"
+												d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+												clip-rule="evenodd"
+											/>
+										</svg>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -123,7 +167,7 @@
 <script>
 import { Log, Util, Constants } from "@/components/util";
 import UserInfo from "@/services/userInfo/userInfo.js";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 // import TransactionHistoryEmptySvg from "@/components/svg/TransactionHistoryEmptySvg.vue";
 
@@ -142,6 +186,7 @@ export default {
 		const depositTransactions = ref([]);
 		const pageNumber = ref(1);
 		const pageSize = ref(10);
+		const totalPages = ref(0);
 
 		const historyLoading = ref(true);
 
@@ -158,6 +203,8 @@ export default {
 					Log.info(response.data.data);
 					const historyData = response.data.data;
 					depositTransactions.value = historyData;
+					totalPages.value = response.data.total;
+
 					historyLoading.value = false;
 				},
 				(error) => {
@@ -165,6 +212,26 @@ export default {
 					historyLoading.value = false;
 				}
 			);
+		};
+
+		const checkPagesLeft = () => {
+			const bool = Math.ceil(totalPages.value / pageSize.value) > pageNumber.value;
+			return bool;
+		};
+
+		const prev = () => {
+			if (pageNumber.value > 1) {
+				pageNumber.value--;
+			}
+		};
+
+		const next = () => {
+			if (checkPagesLeft()) {
+				pageNumber.value++;
+			}
+			// else {
+			// 	pageNumber.value++;
+			// }
 		};
 
 		const formatCurrency = (curr) => {
@@ -184,7 +251,20 @@ export default {
 			}
 		};
 
-		return { depositTransactions, displayStyle, dateFormat, formatCurrency };
+		watch(pageNumber, (newValue) => {
+			Log.info(newValue);
+			getRecentHistory();
+		});
+
+		return {
+			depositTransactions,
+			displayStyle,
+			dateFormat,
+			formatCurrency,
+			prev,
+			next,
+			pageNumber,
+		};
 	},
 };
 </script>

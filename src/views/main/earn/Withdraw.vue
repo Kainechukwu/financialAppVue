@@ -388,6 +388,8 @@ export default {
 	},
 	setup(props, context) {
 		onMounted(() => {
+			store.commit("bankDetails/balance", principalBalance.value);
+			store.commit("bankDetails/walletId", 1);
 			getAllRates();
 			getBalance();
 		});
@@ -505,6 +507,9 @@ export default {
 			);
 		};
 		const goToBankDetails = () => {
+			Log.info(wallet.value);
+			Log.info(store.getters["bankDetails/walletId"]);
+			Log.info(store.getters["bankDetails/balance"]);
 			sendAmountLoading.value = true;
 
 			if (
