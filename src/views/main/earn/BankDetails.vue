@@ -5,9 +5,9 @@
 			style="border: 1px solid #f1f1f1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05)"
 			class="max-w-xl mx-auto bg-white flex flex-col br-10 pt-4 pb-8"
 		>
-			<div class="flex px-4 pb-3 items-center justify-between border-b border-gray-100">
+			<div class="flex px-5 pb-3 items-center justify-between border-b border-gray-100">
 				<div class="flex">
-					<div @click="goBack" class="cursor-pointer">
+					<!-- <div @click="goBack" class="cursor-pointer">
 						<svg
 							width="24"
 							height="24"
@@ -30,17 +30,17 @@
 								stroke-linejoin="round"
 							/>
 						</svg>
-					</div>
+					</div> -->
 
-					<span class="fw-600 fs-16 blacktext ml-3">Bank Details</span>
+					<span class="fw-600 fs-16 blacktext">Bank Details</span>
 				</div>
-				<div>
+				<!-- <div>
 					<CancelSvg />
-				</div>
+				</div> -->
 			</div>
 			<!-- --------------------- -->
 			<Form @submit="goNext" :validation-schema="schema" v-slot="{ errors }" class="mt-6">
-				<div class="px-4 flex flex-col">
+				<div class="px-5 flex flex-col">
 					<div class="grid grid-cols-2 gap-5 mb-8">
 						<div class="">
 							<label for="Beneficiary Name" class="fs-14 tx-666666 fw-600">Beneficiary Name</label>
@@ -164,13 +164,13 @@
 			</Form>
 			<!-- ------------------ -->
 		</div>
-		<ConfirmWithdrawal v-else-if="'View Bank Details'" />
+		<ConfirmWithdrawal @cancel="$emit('cancel')" v-else-if="'View Bank Details'" />
 	</div>
 </template>
 
 <script>
-import { useRouter } from "vue-router";
-import CancelSvg from "./CancelSvg.vue";
+// import { useRouter } from "vue-router";
+// import CancelSvg from "./CancelSvg.vue";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import { ref } from "vue";
@@ -184,16 +184,16 @@ export default {
 		step: Number,
 	},
 	components: {
-		CancelSvg,
+		// CancelSvg,
 		Form,
 		Field,
 		ConfirmWithdrawal,
 	},
 	setup(props, context) {
-		const router = useRouter();
-		const goBack = () => {
-			router.push("/withdraw");
-		};
+		// const router = useRouter();
+		// const goBack = () => {
+		// 	router.push("/withdraw");
+		// };
 
 		const currView = ref("Input Bank Details");
 
@@ -233,7 +233,7 @@ export default {
 
 		return {
 			goNext,
-			goBack,
+			// goBack,
 			schema,
 			agree,
 			nextLoading,

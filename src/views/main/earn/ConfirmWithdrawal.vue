@@ -3,9 +3,9 @@
 		style="border: 1px solid #f1f1f1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05)"
 		class="max-w-xl mx-auto bg-white flex flex-col br-10 pt-4 pb-8"
 	>
-		<div class="flex px-4 pb-3 items-center justify-between border-b border-gray-100">
+		<div class="flex px-5 pb-3 items-center justify-between border-b border-gray-100">
 			<div class="flex">
-				<div @click="goBack" class="cursor-pointer">
+				<!-- <div @click="goBack" class="cursor-pointer">
 					<svg
 						width="24"
 						height="24"
@@ -28,13 +28,13 @@
 							stroke-linejoin="round"
 						/>
 					</svg>
-				</div>
+				</div> -->
 
-				<span class="fw-600 fs-16 blacktext ml-3">Confirm Withdrawal</span>
+				<span class="fw-600 fs-16 blacktext">Confirm Withdrawal</span>
 			</div>
-			<div>
+			<!-- <div>
 				<CancelSvg />
-			</div>
+			</div> -->
 		</div>
 		<!-- --------------------- -->
 		<div class="p-5 flex flex-col">
@@ -108,7 +108,7 @@
 				<!-- --------------- -->
 			</div>
 			<div class="grid grid-cols-2 gap-4">
-				<div @click="goBack" class="cursor-pointer br-5">
+				<div @click="$emit('cancel')" class="cursor-pointer br-5">
 					<div style="border: 1px solid #f1f1f1" class="flex justify-center items-center h-12">
 						<span class="blacktext fs-16 fw-500">Cancel</span>
 					</div>
@@ -125,8 +125,8 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
-import CancelSvg from "./CancelSvg.vue";
+// import { useRouter } from "vue-router";
+// import CancelSvg from "./CancelSvg.vue";
 // import UserActions from "@/services/userActions/userActions.js";
 import { onMounted } from "vue";
 import { Log, Util, Constants } from "@/components/util";
@@ -135,7 +135,7 @@ import { useStore } from "vuex";
 export default {
 	name: "Confirm Withdrawal",
 	components: {
-		CancelSvg,
+		// CancelSvg,
 	},
 	setup() {
 		onMounted(() => {
@@ -151,7 +151,7 @@ export default {
 			// );
 		});
 		const store = useStore();
-		const router = useRouter();
+		// const router = useRouter();
 		const bankDetails = {
 			amountToReceive: Util.currencyFormatter(
 				store.getters["bankDetails/amountToReceive"],
@@ -169,7 +169,7 @@ export default {
 			store.commit("setBankDetailsPinModal", true);
 		};
 		const goBack = () => {
-			router.push("/bank_details");
+			// router.push("/bank_details");
 		};
 		return {
 			goBack,

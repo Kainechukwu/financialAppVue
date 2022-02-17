@@ -158,7 +158,7 @@ import { onMounted, ref, watch } from "vue";
 import { Log, Util, Constants } from "@/components/util";
 import UserActions from "@/services/userActions/userActions.js";
 import { useStore } from "vuex";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+// import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 
 import {
 	Listbox,
@@ -175,9 +175,9 @@ export default {
 		// ListboxLabel,
 		ListboxOption,
 		ListboxOptions,
-		Popover,
-		PopoverButton,
-		PopoverPanel,
+		// Popover,
+		// PopoverButton,
+		// PopoverPanel,
 	},
 	setup() {
 		onMounted(() => {
@@ -187,6 +187,7 @@ export default {
 		const store = useStore();
 		const userId = store.getters["authToken/userId"];
 		const periods = [
+			{ period: "Lifetime", value: 5 },
 			{ period: "Today", value: 1 },
 			{ period: "Yesterday", value: 2 },
 			{ period: "Last 7 days", value: 3 },
