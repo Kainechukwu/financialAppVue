@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div
-			v-if="currView === 'Input Bank Details'"
+			v-if="step === 2"
 			style="border: 1px solid #f1f1f1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05)"
 			class="max-w-xl mx-auto bg-white flex flex-col br-10 pt-4 pb-8"
 		>
@@ -164,7 +164,7 @@
 			</Form>
 			<!-- ------------------ -->
 		</div>
-		<ConfirmWithdrawal @cancel="$emit('cancel')" v-else-if="'View Bank Details'" />
+		<ConfirmWithdrawal @cancel="$emit('cancel')" v-else-if="step === 3" />
 	</div>
 </template>
 
