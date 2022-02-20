@@ -154,32 +154,41 @@ export default [
 							// 		},
 							// 	]
 							// },
-							{
-								path: "/withdraw",
-								name: "Earn_Withdraw",
-								meta: {
-									auth: Constants.merchantAuth,
-								},
-								component: () => import("@/views/main/earn/Withdraw.vue")
-							},
-							{
-								path: "/bank_details",
-								name: "Earn_Bank Details",
-								meta: {
-									auth: Constants.merchantAuth,
-								},
-								component: () => import("@/views/main/earn/BankDetails.vue")
-							},
-							{
-								path: "/confirm_withdrawal",
-								meta: {
-									auth: Constants.merchantAuth,
-								},
-								name: "Earn_Confirm Withdrawal",
-								component: () => import("@/views/main/earn/ConfirmWithdrawal.vue")
-							},
+
+							// {
+							// 	path: "/bank_details",
+							// 	name: "Earn_Bank Details",
+							// 	meta: {
+							// 		auth: Constants.merchantAuth,
+							// 	},
+							// 	component: () => import("@/views/main/earn/BankDetails.vue")
+							// },
+							// {
+							// 	path: "/confirm_withdrawal",
+							// 	meta: {
+							// 		auth: Constants.merchantAuth,
+							// 	},
+							// 	name: "Earn_Confirm Withdrawal",
+							// 	component: () => import("@/views/main/earn/ConfirmWithdrawal.vue")
+							// },
 
 						]
+					},
+					{
+						path: "/withdraw",
+						name: "Earn_Withdraw",
+						meta: {
+							auth: Constants.merchantAuth,
+						},
+						component: () => import("@/views/main/earn/Withdraw.vue")
+					},
+					{
+						path: "/deposit",
+						name: "Earn_Deposit",
+						meta: {
+							auth: Constants.merchantAuth,
+						},
+						component: () => import("@/views/main/earn/EarnDeposit.vue")
 					},
 					// {
 					// 	path: "/transactions",

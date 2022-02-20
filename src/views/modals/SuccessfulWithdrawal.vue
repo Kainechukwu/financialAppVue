@@ -89,8 +89,8 @@ export default {
 		};
 		const close = () => {
 			store.commit("setRerender", 1);
-			// router.push("/earn/overview");
-			router.go();
+			router.push("/earn/overview");
+			// router.go();
 			store.commit("setTransactionSuccessfulModal", false);
 
 			// router.go();

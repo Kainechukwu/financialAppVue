@@ -1,8 +1,8 @@
 <template>
 	<div class="main-page pb-8 px-8">
 		<div class="w-full mx-auto mb-64">
-			<EarnDeposit @rootPage="returnToRoot" v-if="page === 'Earn Deposit'" :page="'Earn Deposit'" />
-			<div v-if="page === 'Dashboard'" class="flex flex-col py-10">
+			<!-- <EarnDeposit @rootPage="returnToRoot" v-if="page === 'Earn Deposit'" :page="'Earn Deposit'" /> -->
+			<div class="flex flex-col py-10">
 				<div class="flex justify-between">
 					<div class="mb-3">
 						<h1 class="inter fw-600 fs-24 blacktext mb-2.5">Earn</h1>
@@ -32,7 +32,7 @@
 					</div>
 				</div>
 			</div>
-			<Withdraw :page="Withdraw" @rootPage="returnToRoot" v-if="page === 'Withdraw'" />
+			<!-- <Withdraw :page="Withdraw" @rootPage="returnToRoot" v-if="page === 'Withdraw'" /> -->
 		</div>
 	</div>
 </template>
@@ -43,9 +43,9 @@ import { onMounted, ref } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
-// import { useRouter } from "vue-router";
-import EarnDeposit from "./EarnDeposit.vue";
-import Withdraw from "./Withdraw.vue";
+import { useRouter } from "vue-router";
+// import EarnDeposit from "./EarnDeposit.vue";
+// import Withdraw from "./Withdraw.vue";
 
 export default {
 	name: "Earn",
@@ -54,8 +54,8 @@ export default {
 		// TransactionHistory,
 		// InterestEarnedPlate,
 		// StartSavingSvg,
-		EarnDeposit,
-		Withdraw,
+		// EarnDeposit,
+		// Withdraw,
 	},
 
 	setup() {
@@ -76,19 +76,19 @@ export default {
 				}
 			);
 		});
-		// const router = useRouter();
+		const router = useRouter();
 		const page = ref("Dashboard");
 
 		const goToDeposit = () => {
-			page.value = "Earn Deposit";
+			router.push("/deposit");
 		};
 
 		const goToWithdraw = () => {
-			page.value = "Withdraw";
+			router.push("/withdraw");
 		};
 
 		const returnToRoot = () => {
-			page.value = "Dashboard";
+			router.push("/earn/overview");
 		};
 
 		const store = useStore();

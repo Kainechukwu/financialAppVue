@@ -159,7 +159,7 @@ import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
 import { computed, onMounted, watch } from "vue";
 import { reactive, toRefs, ref } from "vue";
 import { Log } from "@/components/util";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 
 export default {
 	name: "BankDetailsPin",
@@ -176,7 +176,7 @@ export default {
 		onMounted(() => {
 			// document.getElementById("code01").focus();
 		});
-		const router = useRouter();
+		// const router = useRouter();
 
 		const codes = reactive({
 			code1: "",
@@ -273,7 +273,7 @@ export default {
 						submitLoading.value = false;
 						Log.info("transaction withjdrawal response" + String(response));
 						store.commit("setBankDetailsPinModal", false);
-						router.push("/earn/overview");
+						// router.push("/earn/overview");
 						resetInput();
 
 						store.commit("setTransactionSuccessfulModal", true);
