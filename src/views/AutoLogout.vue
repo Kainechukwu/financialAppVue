@@ -41,8 +41,8 @@ export default {
 		const isLoggedIn = computed(() => store.getters["authToken/loggedIn"]);
 
 		const setTimers = function () {
-			warningTimer.value = setTimeout(warningMessage, 14 * 60 * 1000); // 14mins * 60 * 1000
-			logoutTimer.value = setTimeout(logoutUser, 15 * 60 * 1000); // 15mins * 60 * 1000
+			warningTimer.value = setTimeout(warningMessage, 4.5 * 60 * 1000); // 14mins * 60 * 1000
+			logoutTimer.value = setTimeout(logoutUser, 5 * 60 * 1000); // 15mins * 60 * 1000
 			warningZone.value = false;
 		};
 		const resetTimer = function () {
