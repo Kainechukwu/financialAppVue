@@ -15,6 +15,10 @@ export default class UserInfo {
 
 		Web.get(Constants.API_BASE + '/Account/get-clientkeys', successHandler, errorHandler)
 	}
+	static getInterestRate(successHandler, errorHandler) {
+		Web.get(Constants.API_BASE + '/Rates/interest-percent', successHandler, errorHandler)
+
+	}
 
 
 }

@@ -63,12 +63,13 @@
 				</div>
 
 				<div class="flex">
-					<span class="fw-400 fs-24 blacktext mr-3">${{ totalBalance }}</span>
+					<span class="fw-400 fs-24 blacktext mr-3">${{ totalWithPerSecInterest }}</span>
 					<!-- <img src="totalbalance.jpg" class="h-8 w-8" alt="" /> -->
 				</div>
 				<span class="fw-400 fs-14 tx-666666"
 					>Available Balance: <span>${{ availableBalance }}</span></span
 				>
+				<!-- <span>{{ totalWithPerSecInterest }}</span> -->
 
 				<!-- <slot></slot> -->
 			</div>
@@ -82,7 +83,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import UserInfo from "@/services/userInfo/userInfo.js";
 import { useStore } from "vuex";
 // import { useRouter } from "vue-router";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed, watch } from "vue";
 import { Log, Util, Constants } from "@/components/util";
 export default {
 	name: "TotalBalancePlate",
@@ -93,25 +94,44 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
+			getInterestRate();
 			// Log.info("rerender:" + JSON.stringify(rerender));
 			getBalance();
+			setInterval(add, 1000);
 		});
 
 		const store = useStore();
 		const totalBalance = ref("0.00");
+		const total = ref(0);
 		const availableBalance = ref("0.00");
+		const principalBalance = ref(0);
+		const interestRate = ref(0);
+		const adjustedInterest = ref(0);
+		const watchThis = computed(() => (interestRate.value * principalBalance.value) / 86400);
+		// const d = ref(computed(() => new Date()));
+
+		// const interestPerSecond = computed(() => interestCalculation());
 		const customerId = store.getters["authToken/userId"];
+		// const currentdate = ref(new Date());
+
+		const totalWithPerSecInterest = computed(() => {
+			const val = Number(total.value) + Number(value.value);
+			return Util.currencyFormatter(val, Constants.currencyFormat);
+		});
+		const value = ref(0);
 		const getBalance = () => {
 			UserInfo.accountBalance(
 				customerId,
 				(response) => {
 					Log.info(response);
 					const balance = response.data.data;
-					const total =
-						balance.principalBalance + balance.interestBalance + balance.suspenseBalance;
-					totalBalance.value = Util.currencyFormatter(total, Constants.currencyFormat);
+					principalBalance.value = balance.principalBalance;
+
+					total.value = principalBalance.value + balance.interestBalance + balance.suspenseBalance;
+
+					totalBalance.value = Util.currencyFormatter(total.value, Constants.currencyFormat);
 					availableBalance.value = Util.currencyFormatter(
-						balance.principalBalance + balance.interestBalance,
+						principalBalance.value + balance.interestBalance,
 						Constants.currencyFormat
 					);
 					// interestBalance.value = Util.currencyFormatter(
@@ -126,7 +146,74 @@ export default {
 			);
 		};
 
-		return { totalBalance, availableBalance };
+		const getInterestRate = () => {
+			UserInfo.getInterestRate(
+				(response) => {
+					Log.info(response);
+					interestRate.value = response.data.data / 100;
+					// interestAdjustMent();
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
+		const interestAdjustMent = () => {
+			const date = new Date();
+			// const lastHour = date.getHours();
+			const lastMinute = date.getMinutes();
+			const secsInLastHr = date.getSeconds();
+			const secondsPassed = lastMinute * 60 + secsInLastHr;
+
+			adjustedInterest.value = secondsPassed * interestPerSec();
+			value.value = adjustedInterest.value;
+			Log.info("before:" + adjustedInterest.value);
+			adjustedInterest.value = 0;
+			Log.info("after:" + adjustedInterest.value);
+		};
+
+		// const resetAdjustedInterest = () => {
+		// 	adjustedInterest.value = 0;
+		// };
+
+		const interestPerSec = () => {
+			return (interestRate.value * principalBalance.value) / 86400;
+		};
+
+		const add = () => {
+			// if (adjustedInterest.value > 0) {
+			// const interestPerSecond = interestPerSec() + adjustedInterest.value;
+			// Log.info("adjustedInterest: " + adjustedInterest.value);
+
+			// value.value += interestPerSecond;
+			// Log.info("values: " + value.value);
+
+			// resetAdjustedInterest();
+
+			// 	console.log("hello");
+			// } else {
+			const interestPerSecond = interestPerSec();
+
+			value.value += interestPerSecond;
+			Log.info("values: " + value.value);
+			// }
+
+			// Log.info("adjustedInterest: " + adjustedInterest.value);
+			// return value.value;
+		};
+
+		watch(watchThis, (newValue) => {
+			if (newValue > 0) {
+				interestAdjustMent();
+				// Log.info("increased");
+				// if (adjustedInterest.value) {
+				// 	resetAdjustedInterest();
+				// }
+			}
+		});
+
+		return { totalWithPerSecInterest, value, totalBalance, availableBalance };
 	},
 };
 </script>
