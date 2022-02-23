@@ -60,21 +60,21 @@ export default class LoginService {
 
 	}
 
-	static replaceToken(refreshToken) {
-		LoginService.getRefreshToken(
-			refreshToken,
+	// static replaceToken(refreshToken) {
+	// 	LoginService.getRefreshToken(
+	// 		refreshToken,
 
-			(response) => {
-				const data = response.data.data;
-				store.commit("authToken/apiToken", data.jwToken);
-				store.commit("authToken/refreshToken", data.refreshToken)
-				Log.info("tokenData:" + JSON.stringify(data))
-			},
-			(error) => {
-				Log.info("Tokenerror: " + error)
-			}
-		)
-	}
+	// 		(response) => {
+	// 			const data = response.data.data;
+	// 			store.commit("authToken/apiToken", data.jwToken);
+	// 			store.commit("authToken/refreshToken", data.refreshToken)
+	// 			Log.info("tokenData:" + JSON.stringify(data))
+	// 		},
+	// 		(error) => {
+	// 			Log.info("Tokenerror: " + error)
+	// 		}
+	// 	)
+	// }
 
 
 
