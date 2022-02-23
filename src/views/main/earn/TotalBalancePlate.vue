@@ -53,8 +53,8 @@
 								<div style="background-color: #666666" class="br-5 px-3 py-3">
 									<span class="text-white">
 										Your available balance is the value you can withdraw. Bornfree gives you
-										interests in real-time, and they will impact your available balance every 1
-										hour.
+										interests in real-time, and they will impact your available balance every 24
+										hours.
 									</span>
 								</div>
 							</PopoverPanel>
@@ -182,25 +182,10 @@ export default {
 		};
 
 		const add = () => {
-			// if (adjustedInterest.value > 0) {
-			// const interestPerSecond = interestPerSec() + adjustedInterest.value;
-			// Log.info("adjustedInterest: " + adjustedInterest.value);
-
-			// value.value += interestPerSecond;
-			// Log.info("values: " + value.value);
-
-			// resetAdjustedInterest();
-
-			// 	console.log("hello");
-			// } else {
 			const interestPerSecond = interestPerSec();
 
 			value.value += interestPerSecond;
-			Log.info("values: " + value.value);
-			// }
-
-			// Log.info("adjustedInterest: " + adjustedInterest.value);
-			// return value.value;
+			// Log.info("values: " + value.value);
 		};
 
 		watch(watchThis, (newValue) => {

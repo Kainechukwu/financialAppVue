@@ -47,34 +47,48 @@ export default class LoginService {
 		)
 	}
 
+	static getRefreshToken(refreshToken, successHandler, errorHandler) {
+		// 
+		Web.postRefreshToken(
+			Constants.API_BASE + "/Account/refresh-token",
+			"",
+			refreshToken,
+
+			successHandler,
+			errorHandler
+		)
+
+	}
+
+	// static replaceToken(refreshToken) {
+	// 	LoginService.getRefreshToken(
+	// 		refreshToken,
+
+	// 		(response) => {
+	// 			const data = response.data.data;
+	// 			store.commit("authToken/apiToken", data.jwToken);
+	// 			store.commit("authToken/refreshToken", data.refreshToken)
+	// 			Log.info("tokenData:" + JSON.stringify(data))
+	// 		},
+	// 		(error) => {
+	// 			Log.info("Tokenerror: " + error)
+	// 		}
+	// 	)
+	// }
+
 
 
 	static handleSuccessfulLogin(response) {
-		// const store = useStore();
-		// companyName: "disney"
-		// dob: "27/12/1994"
-		// email: "kaine.bismarck@suprbiz.io"
-		// firstName: "kainechukwu"
-		// hasPin: true
-		// id: "dce38ac5-4b38-467b-addf-cfad2ba9c223"
-		// isVerified: true
-		// jwToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJrYWluZS5iaXNtYXJja0BzdXByYml6LmlvIiwianRpIjoiY2IwYmRlMTAtNjdhMi00OTk2LWFmNmItNjFjNzU0MjcyZjFjIiwiZW1haWwiOiJrYWluZS5iaXNtYXJja0BzdXByYml6LmlvIiwidWlkIjoiZGNlMzhhYzUtNGIzOC00NjdiLWFkZGYtY2ZhZDJiYTljMjIzIiwiaXAiOiIxNzIuMzEuMzQuMTg4Iiwicm9sZXMiOiJNZXJjaGFudCIsImV4cCI6MTY0MzI1Nzk4OCwiaXNzIjoiQ29yZUlkZW50aXR5IiwiYXVkIjoiQ29yZUlkZW50aXR5VXNlciJ9.cUMzcituwx1HsEvNNtbjljq4ol0K7jknYcFMl3yQIzg"
-		// lastName: "Bismarck"
-		// phoneNumber: null
-		// roles: ["Merchant"]
-		// userName: "kainechukwu Bismarck"
-		// Util.formatTime(
-		// 	new Date(data.dob),
-		// 	"YYYY-MM-DD HH:mm:ss.SSSS",
-		// 	"DD/MM/YYYY"
-
-		// )
 
 
 		const data = response.data.data;
 		Log.info("below is data")
 		Log.info(data);
 		store.commit("authToken/apiToken", data.jwToken);
+		store.commit("authToken/refreshToken", data.refreshToken)
+
+		//commit refreshToken
+		//set timeout to call refreshtoken endpoint and pass jwToken
 		store.commit("authToken/isVerified", data.isVerified);
 		store.commit("authToken/userId", data.id);
 		store.commit("authToken/email", data.email);
@@ -89,6 +103,7 @@ export default class LoginService {
 		store.commit("authToken/isProfileUpdated", data.isProfileUpdated);
 		store.commit("authToken/isPhoneNumberVerified", data.isPhoneNumberVerified);
 		store.commit("authToken/isKycDone", data.isKycDone);
+
 
 
 
