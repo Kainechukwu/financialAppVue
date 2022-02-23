@@ -79,6 +79,17 @@ export default class Web {
 			.catch(errorCallback);
 	}
 
+	static postRefreshToken(url, data, refreshToken, successCallback, errorCallback) {
+		axios.post(Web.BASE_URL + url, data, {
+			headers: {
+				'refreshToken': refreshToken,
+				// 'Authorization': "Bearer" + " " + jwToken
+			}
+		})
+			.then(successCallback)
+			.catch(errorCallback);
+	}
+
 	static put(url, data, successCallback, errorCallback) {
 		Web.putAbsolute(Web.BASE_URL + url, data, successCallback, errorCallback);
 	}

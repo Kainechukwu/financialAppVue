@@ -3,6 +3,7 @@ const state = {
 	// username: '',
 	isVerified: false,
 	apiToken: null,
+	refreshToken: null,
 	userId: "",
 	email: "",
 	roles: [],
@@ -59,6 +60,12 @@ const getters = {
 	apiToken(state) {
 		return state.apiToken;
 	},
+
+	refreshToken(state) {
+		return state.refreshToken;
+	},
+
+
 
 	userId(state) {
 		return state.userId;
@@ -117,6 +124,9 @@ const mutations = {
 	apiToken(state, token) {
 		state.loggedIn = true;
 		state.apiToken = token;
+	},
+	refreshToken(state, refreshToken) {
+		state.refreshToken = refreshToken
 	},
 
 	isVerified(state, isVerified) {
