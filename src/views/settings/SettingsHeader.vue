@@ -19,7 +19,7 @@
 			></div>
 		</div>
 		<!-- ------------------------- -->
-		<div class="h-16 ml-2 flex flex-col justify-between mr-10">
+		<!-- <div class="h-16 ml-2 flex flex-col justify-between mr-10">
 			<div class="h-2"></div>
 			<div
 				class="fw-600 fs-14"
@@ -31,7 +31,7 @@
 				class="h-02rem"
 				:class="{ 'nav-link-bg': currentPage === 'Business Details Settings' }"
 			></div>
-		</div>
+		</div> -->
 		<!-- ------------------------- -->
 		<div class="h-16 ml-2 flex flex-col justify-between mr-10">
 			<div class="h-2"></div>
