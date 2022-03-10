@@ -82,6 +82,7 @@ export default {
 				}
 			);
 		});
+
 		const router = useRouter();
 		const page = ref("Dashboard");
 

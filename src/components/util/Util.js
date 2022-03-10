@@ -4,6 +4,55 @@ import Log from "./Log.js";
 var numeral = require("numeral");
 
 export default class Util {
+
+	static getDeviceType = (string) => {
+		const ua = string;
+		if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+
+
+			return "tablet";
+		}
+		if (
+			/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+				ua
+			)
+		) {
+
+			return "mobile";
+		}
+
+		return "desktop";
+	};
+
+	static getSystemOs = (string) => {
+		const result = string.split("(")[1].split(";")[0]
+		return result
+	}
+	static throttleObject = {};
+
+	static throttle(t) {
+		if (Util.throttleObject[t.key]) {
+			Util.throttleObject[t.key].exec = false;
+		}
+
+		Util.throttleObject[t.key] = t;
+		t.exec = true;
+
+		setTimeout(() => {
+			if (t.exec) {
+				if (Util.isValidFunction(t.func)) {
+					t.func();
+				} else if (Util.isValidFunction(t.run)) {
+					t.run();
+				}
+			}
+		}, t.time || 1000);
+	}
+
+	static isValidFunction(f) {
+		return typeof f === "function";
+	}
+
 	static hasLowerCase(str) {
 		return /[a-z]/.test(str);
 	}

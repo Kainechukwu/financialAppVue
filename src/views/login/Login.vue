@@ -103,12 +103,14 @@
 <script>
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { reactive, toRefs } from "vue";
+
 import { useRouter } from "vue-router";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import LoginService from "@/services/login/LoginService.js";
 import { Log, Util, Constants } from "@/components/util";
-// import UserActions from "@/services/userActions/userActions.js";
+import UserActions from "@/services/userActions/userActions.js";
+import { useStore } from "vuex";
 
 export default {
 	name: "Login",
@@ -119,7 +121,7 @@ export default {
 	},
 	setup() {
 		const router = useRouter();
-
+		const store = useStore();
 		const loginUser = reactive({
 			loading: false,
 		});
@@ -135,21 +137,26 @@ export default {
 		});
 
 		const postDeviceInfo = () => {
-			Log.info("info");
-			// UserActions.postDeviceInfo(
-			// 	{
-			// 		deviceName: "string",
-			// 		operatingSystem: "string",
-			// 		email: "string",
-			// 		userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-			// 	},
-			// 	(response) => {
-			// 		Log.info(response);
-			// 	},
-			// 	(error) => {
-			// 		Log.error(error);
-			// 	}
-			// );
+			const device = Util.getDeviceType(window.navigator.userAgent);
+			const os = Util.getSystemOs(window.navigator.userAgent);
+			Log.info("type:" + device);
+			Log.info("os:" + os);
+
+			Log.info("info nav:" + JSON.stringify(window.navigator));
+			UserActions.postDeviceInfo(
+				{
+					deviceName: device,
+					operatingSystem: os,
+					email: store.getters["authToken/email"],
+					userId: store.getters["authToken/userId"],
+				},
+				(response) => {
+					Log.info(response);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
 		};
 
 		const handleLogin = (values) => {
@@ -178,9 +185,18 @@ export default {
 				},
 				(error) => {
 					Log.error("login error:" + JSON.stringify(error));
+					// Log.info("it erred")
 					loginUser.loading = false;
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					Log.info("loginLoading " + String(loginUser.loading));
+					// Util.throttle({
+					// 	key: "login",
+					// 	run: () => {
+					// 		handleLogin();
+					// 	},
+					// 	time: 400,
+					// });
+					handleLogin();
 				}
 			);
 		};
