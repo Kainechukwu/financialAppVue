@@ -172,5 +172,11 @@ export default class UserActions {
 
 	}
 
+	static postDeviceInfo(userDetails, successHandler, errorHandler) {
+
+		Web.post(Constants.API_BASE + "/Account/device-data", userDetails, successHandler, errorHandler)
+
+	}
+
 
 }

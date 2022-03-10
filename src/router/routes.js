@@ -78,6 +78,14 @@ export default [
 		component: () => import("@/views/redirect/ConfirmEmailRedirect.vue"),
 
 	},
+	// {
+	// 	path: "/letters",
+	// 	name: "Letters",
+	// 	meta: {
+	// 		skipAuth: true,
+	// 	},
+	// 	component: () => import("@/views/Letters.vue")
+	// },
 
 	// {
 	// 	path: "/business_details",

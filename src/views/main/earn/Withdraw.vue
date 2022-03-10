@@ -25,7 +25,7 @@
 					<div class="flex text-white">
 						<div
 							:class="steps >= 1 ? 'done' : 'undone'"
-							class="flex items-center justify-center h-12 w-12 rounded-full mr-4"
+							class="flex items-center justify-center h-10 w-10 rounded-full mr-4"
 						>
 							<svg
 								v-if="steps > 1"
@@ -47,7 +47,7 @@
 						</div>
 						<div
 							:class="steps >= 2 ? 'done' : 'undone'"
-							class="flex items-center justify-center h-12 w-12 rounded-full mr-4"
+							class="flex items-center justify-center h-10 w-10 rounded-full mr-4"
 						>
 							<svg
 								v-if="steps > 2"
@@ -70,7 +70,7 @@
 
 						<div
 							:class="steps >= 3 ? 'done' : 'undone'"
-							class="flex items-center justify-center h-12 w-12 rounded-full"
+							class="flex items-center justify-center h-10 w-10 rounded-full"
 						>
 							<h1 class="fw-600">3</h1>
 						</div>

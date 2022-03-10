@@ -21,8 +21,8 @@
 				<Form @submit="updateProfile" :validation-schema="schema" v-slot="{ errors }">
 					<div class="flex flex-col w-9/12">
 						<div class="flex flex-col">
-							<div class="grid grid-cols-2 gap-4">
-								<div class="mb-8">
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+								<div class="mb-8 col-span-1">
 									<label for="First Name" class="fs-14 fw-400 tx-666666">First Name</label>
 									<Field
 										readonly
@@ -38,7 +38,7 @@
 									<div class="invalid-feedback text-red-500">{{ errors.firstName }}</div>
 								</div>
 
-								<div class="mb-8">
+								<div class="mb-8 col-span-1">
 									<label for="Last Name" class="fs-14 fw-400 tx-666666">Last Name</label>
 									<Field
 										readonly
@@ -55,9 +55,9 @@
 								</div>
 							</div>
 
-							<div class="grid grid-cols-2 gap-4">
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 								<!-- -------------- -->
-								<div class="mb-8">
+								<div class="mb-8 col-span-1">
 									<label for="Email Address" class="fs-14 fw-400 tx-666666">Email Address</label>
 									<Field
 										readonly
@@ -74,7 +74,7 @@
 									<div class="invalid-feedback text-red-500">{{ errors.email }}</div>
 								</div>
 
-								<div>
+								<div class="col-span-1">
 									<label for="Phone No" class="fs-14 tx-666666 fw-600">Phone No</label>
 									<div class="relative">
 										<Field
@@ -92,7 +92,7 @@
 								</div>
 							</div>
 
-							<div class="mb-8">
+							<div class="mb-8 col-span-1">
 								<label for="Date of Birth" class="fs-14 fw-400 tx-666666">Date of Birth</label>
 								<Field
 									id="Date of Birth"

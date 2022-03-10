@@ -1,7 +1,7 @@
 <template>
 	<div class="col-span-1">
 		<div class="flex h-full flex-col bg-white br-10 px-4">
-			<div class="flex flex-col justify-between my-4 h-7">
+			<div class="flex flex-col justify-between my-4">
 				<div class="flex justify-between mb-2">
 					<span class="fw-400 fs-12 tx-666666 uppercase"
 						>Your total balance in <span>USD</span></span
@@ -85,6 +85,8 @@ import { useStore } from "vuex";
 // import { useRouter } from "vue-router";
 import { onMounted, ref, computed, watch } from "vue";
 import { Log, Util, Constants } from "@/components/util";
+// var detect = require("detect");
+// var ua = detect.parse(navigator.userAgent);
 export default {
 	name: "TotalBalancePlate",
 	components: {
@@ -94,6 +96,8 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
+			// Log.info("navigator:" + JSON.stringify(window.navigator.userAgent));
+			// Log.info("us" + ua.name );
 			getInterestRate();
 			// Log.info("rerender:" + JSON.stringify(rerender));
 			getBalance();
@@ -105,7 +109,10 @@ export default {
 		const total = ref(0);
 		const availableBalance = ref("0.00");
 		const principalBalance = ref(0);
+		const walletBalance = ref(0);
+		const ledgerBalance = ref(0);
 		const interestRate = ref(0);
+		const value = ref(0);
 		const adjustedInterest = ref(0);
 		const watchThis = computed(() => (interestRate.value * principalBalance.value) / 86400);
 		// const d = ref(computed(() => new Date()));
@@ -118,7 +125,7 @@ export default {
 			const val = Number(total.value) + Number(value.value);
 			return Util.currencyFormatter(val, Constants.currencyFormat);
 		});
-		const value = ref(0);
+
 		const getBalance = () => {
 			UserInfo.accountBalance(
 				customerId,
@@ -126,6 +133,8 @@ export default {
 					Log.info(response);
 					const balance = response.data.data;
 					principalBalance.value = balance.principalBalance;
+					ledgerBalance.value = balance.ledgerBalance;
+					walletBalance.value = principalBalance.value - ledgerBalance.value;
 
 					total.value = principalBalance.value + balance.interestBalance + balance.suspenseBalance;
 
@@ -178,7 +187,7 @@ export default {
 		// };
 
 		const interestPerSec = () => {
-			return (interestRate.value * principalBalance.value) / 86400;
+			return (interestRate.value * walletBalance.value) / 86400;
 		};
 
 		const add = () => {

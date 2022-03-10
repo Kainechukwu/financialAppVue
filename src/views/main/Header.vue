@@ -1,6 +1,9 @@
 <template>
-	<div class="h-24 header w-full flex items-center px-8">
-		<div class="flex w-full items-center justify-between">
+	<div style="height: 4.375rem" class="header w-full flex items-center px-8">
+		<!-- <div class="block 900:hidden"> -->
+		<MainMenuBtn />
+		<!-- </div> -->
+		<div class="flex 900:mr-0 w-full items-center justify-between">
 			<div class="flex">
 				<!-- <div class="flex items-center mr-4">
 					<svg
@@ -73,9 +76,13 @@
 
 <script>
 import { ref } from "vue";
+import MainMenuBtn from "@/components/svg/MainMenuBtn.vue";
 import { useStore } from "vuex";
 export default {
 	name: "Header",
+	components: {
+		MainMenuBtn,
+	},
 	setup() {
 		const store = useStore();
 		const fName = store.getters["authToken/firstName"];

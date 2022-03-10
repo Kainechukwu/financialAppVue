@@ -19,7 +19,7 @@
 							</div>
 							<span style="color: #999999" class="mt-6 fs-16 fw-400">Nothing to see</span>
 						</div>
-						<div v-else lass="px-4 bg-white py-2">
+						<div v-else class="px-4 bg-white py-2">
 							<table class="min-w-full divide-y divide-gray-100">
 								<thead class="bg-white">
 									<tr>
@@ -78,7 +78,7 @@
 									<tr
 										class=""
 										v-for="transaction in depositTransactions"
-										:key="transaction.description"
+										:key="transaction.userTransactionRef"
 									>
 										<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 											{{ transaction.narration }}
@@ -107,7 +107,7 @@
 											<div
 												:class="displayStyle(transaction.transactionStatus)"
 												class="flex justify-center items-center h-8"
-												style="border-radius: 100px; max-width: 93px"
+												style="border-radius: 100px; min-width: 93px"
 											>
 												{{ transaction.transactionStatus }}
 											</div>

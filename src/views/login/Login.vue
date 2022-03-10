@@ -108,6 +108,7 @@ import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import LoginService from "@/services/login/LoginService.js";
 import { Log, Util, Constants } from "@/components/util";
+// import UserActions from "@/services/userActions/userActions.js";
 
 export default {
 	name: "Login",
@@ -133,6 +134,24 @@ export default {
 			password: Yup.string().required("Password is required"),
 		});
 
+		const postDeviceInfo = () => {
+			Log.info("info");
+			// UserActions.postDeviceInfo(
+			// 	{
+			// 		deviceName: "string",
+			// 		operatingSystem: "string",
+			// 		email: "string",
+			// 		userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+			// 	},
+			// 	(response) => {
+			// 		Log.info(response);
+			// 	},
+			// 	(error) => {
+			// 		Log.error(error);
+			// 	}
+			// );
+		};
+
 		const handleLogin = (values) => {
 			loginUser.loading = true;
 			Log.info(loginUser.loading);
@@ -153,6 +172,7 @@ export default {
 						router.push("/backOffice/transactions");
 					} else if (Util.checkAuth(Constants.merchantAuth)) {
 						router.push("/earn");
+						postDeviceInfo();
 					}
 					Util.handleGlobalAlert(true, "success", response.data.message);
 				},

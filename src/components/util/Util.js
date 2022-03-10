@@ -38,6 +38,11 @@ export default class Util {
 		store.commit("setGlobalAlert", { show, type, text });
 	}
 
+	static handleNotification = (show, type, text) => {
+
+		store.commit("setNotification", { show, type, text });
+	}
+
 	static formatTime(
 		time,
 		inputFormat,

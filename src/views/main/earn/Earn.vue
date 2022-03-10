@@ -11,7 +11,7 @@
 					<div class="flex items-center mb-3">
 						<div
 							@click="goToDeposit"
-							style="background-color: #18ae81"
+							style="background-color: #18ae81; min-width: 102px"
 							class="cursor-pointer br-3 px-4 flex mr-4 items-center justify-center h-10 text-white"
 						>
 							<span class="my-auto">Add Funds</span>
@@ -60,6 +60,12 @@ export default {
 
 	setup() {
 		onMounted(() => {
+			// Util.handleNotification(
+			// 	true,
+			// 	"Success",
+			// 	"Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet."
+			// );
+
 			UserActions.getCharges(
 				(response) => {
 					Log.info(response);

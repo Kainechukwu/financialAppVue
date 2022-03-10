@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="grid grid-cols-3 gap-4 mb-4">
+		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
 			<div class="col-span-1">
 				<div class="flex h-full flex-col bg-white br-10 px-4 pb-3">
 					<div class="flex flex-col justify-between my-4">

@@ -161,6 +161,10 @@ input[type="number"] {
   font-family: "Manrope", sans-serif;
 }
 
+.mainMenuBtn {
+  display: block;
+}
+
 .main-page {
   background-color: #f2f6ff;
   // height: 100%;
@@ -296,5 +300,11 @@ input:-webkit-autofill:active {
 @media (max-width: 1536px) {
   .navDivWidth {
     width: 56rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .mainMenuBtn {
+    display: none;
   }
 }
