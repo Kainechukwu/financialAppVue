@@ -46,6 +46,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 // import EarnDeposit from "./EarnDeposit.vue";
 // import Withdraw from "./Withdraw.vue";
+// import { askForPermissioToReceiveNotifications } from "@/push-notification";
 
 export default {
 	name: "Earn",
@@ -65,6 +66,7 @@ export default {
 			// 	"Success",
 			// 	"Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet."
 			// );
+			// askForPermissioToReceiveNotifications();
 
 			UserActions.getCharges(
 				(response) => {

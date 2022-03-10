@@ -111,6 +111,7 @@ import LoginService from "@/services/login/LoginService.js";
 import { Log, Util, Constants } from "@/components/util";
 import UserActions from "@/services/userActions/userActions.js";
 import { useStore } from "vuex";
+// import { askForPermissioToReceiveNotifications } from "@/push-notification";
 
 export default {
 	name: "Login",
@@ -180,6 +181,7 @@ export default {
 					} else if (Util.checkAuth(Constants.merchantAuth)) {
 						router.push("/earn");
 						postDeviceInfo();
+						// askForPermissioToReceiveNotifications();
 					}
 					Util.handleGlobalAlert(true, "success", response.data.message);
 				},
