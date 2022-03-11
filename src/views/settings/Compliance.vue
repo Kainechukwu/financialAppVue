@@ -41,8 +41,11 @@
 						</div>
 					</div>
 				</div>
+
 				<BusinessDetails v-if="currentView === 'BusinessDetails'" />
-				<div v-else>dkjfnw</div>
+				<BankAccount v-if="currentView === 'BankAccount'" />
+
+				<Directors v-if="currentView === 'Directors'" />
 			</div>
 		</div>
 	</div>
@@ -63,6 +66,9 @@ import { ref, onMounted } from "vue";
 // import { useRouter } from "vue-router";
 // import * as Yup from "yup";
 import BusinessDetails from "./BusinessDetails.vue";
+import BankAccount from "./BankAccount.vue";
+import Directors from "./Directors.vue";
+
 // import {
 // 	Listbox,
 // 	ListboxButton,
@@ -81,6 +87,8 @@ export default {
 		// ListboxOptions,
 		// BusinessVerification,
 		BusinessDetails,
+		BankAccount,
+		Directors,
 		// StaticBusinessVerification,
 		// GreenCheckedSvg,
 		CheckedSvg,

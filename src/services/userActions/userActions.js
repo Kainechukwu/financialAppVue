@@ -178,5 +178,10 @@ export default class UserActions {
 
 	}
 
+	static subscribeDevice(userDetails, successHandler, errorHandler) {
+		Web.post(Constants.API_BASE + "/Device/subscribe-device", userDetails, successHandler, errorHandler)
+
+	}
+
 
 }

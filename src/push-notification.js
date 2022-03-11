@@ -1,6 +1,8 @@
-// import firebase from 'firebase';
-const firebase = require("firebase")
+import firebase from 'firebase';
+// const firebase = require("firebase")
 import { Log, } from "@/components/util";
+import store from "@/store/index.js";
+import UserActions from "@/services/userActions/userActions.js"
 
 
 export const initializeFirebase = () => {
@@ -39,7 +41,20 @@ export const askForPermissioToReceiveNotifications = async () => {
 
 
     const token = await messaging.getToken();
-    Log.info('user token: ' + JSON.stringify(token));
+
+    Log.info('user FCM token: ' + JSON.stringify(token));
+    UserActions.subscribeDevice(
+      {
+        token: token,
+        userId: store.getters["authToken/userId"]
+      },
+      (response) => {
+        Log.info("response FCM:" + JSON.stringify(response))
+      },
+      (error) => {
+        Log.error("error FCM:" + JSON.stringify(error))
+      }
+    )
 
     return token;
   } catch (error) {

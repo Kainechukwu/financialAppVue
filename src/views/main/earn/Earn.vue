@@ -44,9 +44,11 @@ import UserActions from "@/services/userActions/userActions.js";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+
+import { inject } from "vue";
 // import EarnDeposit from "./EarnDeposit.vue";
 // import Withdraw from "./Withdraw.vue";
-// import { askForPermissioToReceiveNotifications } from "@/push-notification";
+import { askForPermissioToReceiveNotifications } from "@/push-notification";
 
 export default {
 	name: "Earn",
@@ -61,12 +63,15 @@ export default {
 
 	setup() {
 		onMounted(() => {
+			// const messaging = inject("messaging");
+
+			console.log("Firebase cloud messaging object", messaging);
 			// Util.handleNotification(
 			// 	true,
 			// 	"Success",
 			// 	"Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet."
 			// );
-			// askForPermissioToReceiveNotifications();
+			askForPermissioToReceiveNotifications();
 
 			UserActions.getCharges(
 				(response) => {
@@ -84,6 +89,8 @@ export default {
 				}
 			);
 		});
+
+		const messaging = inject("messaging");
 
 		const router = useRouter();
 		const page = ref("Dashboard");

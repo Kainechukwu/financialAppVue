@@ -110,7 +110,7 @@ import * as Yup from "yup";
 import LoginService from "@/services/login/LoginService.js";
 import { Log, Util, Constants } from "@/components/util";
 import UserActions from "@/services/userActions/userActions.js";
-import { useStore } from "vuex";
+// import { useStore } from "vuex";
 // import { askForPermissioToReceiveNotifications } from "@/push-notification";
 
 export default {
@@ -122,7 +122,7 @@ export default {
 	},
 	setup() {
 		const router = useRouter();
-		const store = useStore();
+		// const store = useStore();
 		const loginUser = reactive({
 			loading: false,
 		});
@@ -148,8 +148,8 @@ export default {
 				{
 					deviceName: device,
 					operatingSystem: os,
-					email: store.getters["authToken/email"],
-					userId: store.getters["authToken/userId"],
+					// email: store.getters["authToken/email"],
+					// userId: store.getters["authToken/userId"],
 				},
 				(response) => {
 					Log.info(response);
