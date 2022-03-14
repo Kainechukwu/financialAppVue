@@ -1,6 +1,8 @@
 <template>
 	<div class="h-full">
-		<MainSideBar />
+		<div class="hidden 900:block vertical-menu h-full w-64 fixed py-5 px-6 overflow-y-auto">
+			<MainSideBar />
+		</div>
 		<router-view />
 		<!-- <add-product-modal /> -->
 		<this-plan-modal />

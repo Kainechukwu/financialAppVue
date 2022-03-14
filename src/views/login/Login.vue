@@ -103,11 +103,15 @@
 <script>
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { reactive, toRefs } from "vue";
+
 import { useRouter } from "vue-router";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import LoginService from "@/services/login/LoginService.js";
 import { Log, Util, Constants } from "@/components/util";
+import UserActions from "@/services/userActions/userActions.js";
+// import { useStore } from "vuex";
+// import { askForPermissioToReceiveNotifications } from "@/push-notification";
 
 export default {
 	name: "Login",
@@ -118,7 +122,7 @@ export default {
 	},
 	setup() {
 		const router = useRouter();
-
+		// const store = useStore();
 		const loginUser = reactive({
 			loading: false,
 		});
@@ -132,6 +136,29 @@ export default {
 			email: Yup.string().required("Email is required").email("Email is invalid"),
 			password: Yup.string().required("Password is required"),
 		});
+
+		const postDeviceInfo = () => {
+			const device = Util.getDeviceType(window.navigator.userAgent);
+			const os = Util.getSystemOs(window.navigator.userAgent);
+			Log.info("type:" + device);
+			Log.info("os:" + os);
+
+			Log.info("info nav:" + JSON.stringify(window.navigator));
+			UserActions.postDeviceInfo(
+				{
+					deviceName: device,
+					operatingSystem: os,
+					// email: store.getters["authToken/email"],
+					// userId: store.getters["authToken/userId"],
+				},
+				(response) => {
+					Log.info(response);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
 
 		const handleLogin = (values) => {
 			loginUser.loading = true;
@@ -153,14 +180,25 @@ export default {
 						router.push("/backOffice/transactions");
 					} else if (Util.checkAuth(Constants.merchantAuth)) {
 						router.push("/earn");
+						postDeviceInfo();
+						// askForPermissioToReceiveNotifications();
 					}
 					Util.handleGlobalAlert(true, "success", response.data.message);
 				},
 				(error) => {
 					Log.error("login error:" + JSON.stringify(error));
+					// Log.info("it erred")
 					loginUser.loading = false;
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					Log.info("loginLoading " + String(loginUser.loading));
+					// Util.throttle({
+					// 	key: "login",
+					// 	run: () => {
+					// 		handleLogin();
+					// 	},
+					// 	time: 400,
+					// });
+					handleLogin();
 				}
 			);
 		};

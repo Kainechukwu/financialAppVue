@@ -6,9 +6,11 @@ import backOffice from "./modules/backOffice"
 import createPersistedState from "vuex-persistedstate";
 
 let timer;
+let noticeTimer;
 export default createStore({
   state: {
     addPlanModal: false,
+    openSideBar: false,
     thisPlanModal: false,
     addProductModal: false,
     otpPhoneNumberModal: false,
@@ -16,6 +18,7 @@ export default createStore({
     signupEmail: "",
     sidebarMenu: false,
     globaAlert: { show: false, text: "", type: "" },
+    notification: { show: false, text: "", type: "" },
     bankDetailsPinModal: false,
     transactionSuccessfulModal: false,
     rerender: 0,
@@ -25,6 +28,9 @@ export default createStore({
 
   },
   mutations: {
+    setOpenSideBar(state, payload) {
+      state.openSideBar = payload;
+    },
     setTransactionDetailsModal(state, payload) {
       state.transactionDetailsModal = payload;
     },
@@ -64,6 +70,20 @@ export default createStore({
       timer = setTimeout(() => {
         const alert = document.getElementById("globalAlert");
         state.globaAlert = { show: false, text: "", type: "" }
+        if (payload.show === true) {
+          alert.click();
+        }
+      }, 5000)
+    },
+    setNotification(state, payload) {
+      // Clear previous timer
+      clearTimeout(noticeTimer);
+      // update alert state
+      state.notification = payload;
+      // set new noticeTimer
+      noticeTimer = setTimeout(() => {
+        const alert = document.getElementById("notification");
+        state.notification = { show: false, text: "", type: "" }
         if (payload.show === true) {
           alert.click();
         }

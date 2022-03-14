@@ -5,8 +5,8 @@
 		<div>
 			<div class="flex flex-col w-9/12">
 				<div class="flex flex-col">
-					<div class="grid grid-cols-2 gap-4">
-						<div class="mb-8">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div class="md:mb-8 col-span-1">
 							<label for="First Name" class="fs-14 fw-400 tx-666666">First Name</label>
 							<input
 								readonly
@@ -20,7 +20,7 @@
 							/>
 						</div>
 
-						<div class="mb-8">
+						<div class="mb-4 md:mb-8 col-span-1">
 							<label for="Last Name" class="fs-14 fw-400 tx-666666">Last Name</label>
 							<input
 								readonly
@@ -35,9 +35,9 @@
 						</div>
 					</div>
 
-					<div class="grid grid-cols-2 gap-4">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 						<!-- -------------- -->
-						<div class="mb-8">
+						<div class="md:mb-8 col-span-1">
 							<label for="Email Address" class="fs-14 fw-400 tx-666666">Email Address</label>
 							<input
 								readonly
@@ -52,7 +52,7 @@
 							/>
 						</div>
 
-						<div>
+						<div class="mb-4 md:mb-0 col-span-1">
 							<label for="Phone No" class="fs-14 tx-666666 fw-600">Phone No</label>
 							<div class="relative">
 								<input

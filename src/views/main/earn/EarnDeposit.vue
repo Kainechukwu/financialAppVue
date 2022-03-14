@@ -25,7 +25,7 @@
 					<div class="flex text-white">
 						<div
 							:class="steps >= 1 ? 'done' : 'undone'"
-							class="flex items-center justify-center h-12 w-12 rounded-full mr-4"
+							class="flex items-center justify-center h-10 w-10 rounded-full mr-4"
 						>
 							<svg
 								v-if="steps > 1"
@@ -47,7 +47,7 @@
 						</div>
 						<div
 							:class="steps >= 2 ? 'done' : 'undone'"
-							class="flex items-center justify-center h-12 w-12 rounded-full mr-4"
+							class="flex items-center justify-center h-10 w-10 rounded-full mr-4"
 						>
 							<svg
 								v-if="steps > 2"
@@ -70,7 +70,7 @@
 
 						<div
 							:class="steps >= 3 ? 'done' : 'undone'"
-							class="flex items-center justify-center h-12 w-12 rounded-full"
+							class="flex items-center justify-center h-10 w-10 rounded-full"
 						>
 							<h1 class="fw-600">3</h1>
 						</div>
@@ -83,7 +83,7 @@
 					class="br-10 bg-white max-w-xl mx-auto"
 				>
 					<EarnDepositLoading v-if="requestLoading" />
-					<div v-else class="flex flex-col px-6 py-6">
+					<div v-else class="flex flex-col px-6 pt-6 pb-9">
 						<span class="fw-400 fs-14 tx-666666 mb-3">How much would you like to deposit</span>
 						<div class="flex br-5 h-12">
 							<Listbox as="div" v-model="selected">
@@ -287,7 +287,7 @@
 							:disabled="sendAmountLoading"
 							type="submit"
 							style="background-color: #2b7ee4"
-							class="mx-auto flex items-center justify-center h-12 w-full br-5"
+							class="mb-1 mt-1 mx-auto flex items-center justify-center h-12 w-full br-5"
 						>
 							<div class="flex items-center justify-center">
 								<span class="fw-500 fs-16 text-white"> Next</span>

@@ -11,7 +11,7 @@
 					<div class="flex items-center mb-3">
 						<div
 							@click="goToDeposit"
-							style="background-color: #18ae81"
+							style="background-color: #18ae81; min-width: 102px"
 							class="cursor-pointer br-3 px-4 flex mr-4 items-center justify-center h-10 text-white"
 						>
 							<span class="my-auto">Add Funds</span>
@@ -44,8 +44,11 @@ import UserActions from "@/services/userActions/userActions.js";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+
+import { inject } from "vue";
 // import EarnDeposit from "./EarnDeposit.vue";
 // import Withdraw from "./Withdraw.vue";
+import { askForPermissioToReceiveNotifications } from "@/push-notification";
 
 export default {
 	name: "Earn",
@@ -60,6 +63,16 @@ export default {
 
 	setup() {
 		onMounted(() => {
+			// const messaging = inject("messaging");
+
+			console.log("Firebase cloud messaging object", messaging);
+			// Util.handleNotification(
+			// 	true,
+			// 	"Success",
+			// 	"Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet."
+			// );
+			askForPermissioToReceiveNotifications();
+
 			UserActions.getCharges(
 				(response) => {
 					Log.info(response);
@@ -76,6 +89,9 @@ export default {
 				}
 			);
 		});
+
+		const messaging = inject("messaging");
+
 		const router = useRouter();
 		const page = ref("Dashboard");
 

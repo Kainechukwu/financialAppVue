@@ -9,6 +9,10 @@ import "./assets/css/base.css"
 import VueChartkick from "vue-chartkick";
 import VueNumerals from 'vue-numerals';
 import "chartkick/chart.js";
+// import firebaseMessaging from './firebase'
+// import { initializeFirebase } from '@/push-notification';
+// import registerServiceWorker from '@/registerServiceWorker';
+
 
 // import vClickOutside from './library/v-click-outside'
 // import "./assets/css/app.min.css"
@@ -20,6 +24,9 @@ createApp(App)
 	.use(store)
 	.use(VueChartkick)
 	.use(VueNumerals)
+	// .use(initializeFirebase)
+	// .use(registerServiceWorker)
 	.use(router)
+	// .config.globalProperties.$messaging = firebaseMessaging
 	.mount('#app')
 	// .directive('clickOutside', vClickOutside)
