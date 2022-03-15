@@ -2,7 +2,7 @@
 	<div class="w-full pb-8">
 		<div class="grid grid-rows-1">
 			<div class="px-10 pb-8 grid grid-cols-5 mt-12">
-				<div class="col-span-2">
+				<div class="col-span-2 mr-4">
 					<div class="flex flex-col">
 						<div
 							class="cursor-pointer mb-6 flex items-center"

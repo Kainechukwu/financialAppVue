@@ -75,6 +75,22 @@ export default class LoginService {
 	// 		}
 	// 	)
 	// }
+	// static replaceToken = () => {
+	// 	LoginService.getRefreshToken(
+	// 		store.getters["authToken/refreshToken"],
+	// 		(response) => {
+	// 			const data = response.data.data;
+	// 			store.commit("authToken/apiToken", data.jwToken);
+	// 			store.commit("authToken/refreshToken", data.refreshToken);
+	// 			Log.info("tokenData:" + JSON.stringify(data));
+	// 			let t = 0;
+	// 			Log.info(t++);
+	// 		},
+	// 		(error) => {
+	// 			Log.info("Tokenerror: " + error);
+	// 		}
+	// 	);
+	// };
 
 
 
@@ -85,10 +101,7 @@ export default class LoginService {
 		Log.info("below is data")
 		Log.info(data);
 		store.commit("authToken/apiToken", data.jwToken);
-		store.commit("authToken/refreshToken", data.refreshToken)
 
-		//commit refreshToken
-		//set timeout to call refreshtoken endpoint and pass jwToken
 		store.commit("authToken/isVerified", data.isVerified);
 		store.commit("authToken/userId", data.id);
 		store.commit("authToken/email", data.email);
@@ -104,6 +117,13 @@ export default class LoginService {
 		store.commit("authToken/isPhoneNumberVerified", data.isPhoneNumberVerified);
 		store.commit("authToken/isKycDone", data.isKycDone);
 
+		//commit refreshToken
+		store.commit("authToken/refreshToken", data.refreshToken)
+
+
+		//set interval to call refreshtoken endpoint and pass jwToken
+		// setInterval(replaceToken, 28 * 60 * 1000);
+		// setInterval(LoginService.replaceToken, 5000);
 
 
 

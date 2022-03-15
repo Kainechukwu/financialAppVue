@@ -23,8 +23,8 @@
 				class="flex flex-col"
 			>
 				<!-- --------------- -->
-				<div class="grid grid-cols-2 gap-4">
-					<div class="mb-6 col-span-1">
+				<div class="grid grid-cols-2 sm:gap-4">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<label for="Bank Name" class="fs-14 fw-400 tx-666666">Bank Name</label>
 						<Field
 							id="Bank Name"
@@ -39,7 +39,7 @@
 						<div class="invalid-feedback text-red-500">{{ errors.bankName }}</div>
 					</div>
 
-					<div class="mb-6 col-span-1">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<label for="Bank Officer" class="fs-14 fw-400 tx-666666">Bank Officer</label>
 						<Field
 							id="Bank Officer"
@@ -72,8 +72,8 @@
 
 				<!-- -------------- -->
 
-				<div class="grid grid-cols-2 gap-4">
-					<div class="mb-6 col-span-1">
+				<div class="grid grid-cols-2 md:gap-4">
+					<div class="mb-6 col-span-2 md:col-span-1">
 						<label for="Bank Phone Number" class="fs-14 fw-400 tx-666666">Bank Phone Number</label>
 						<Field
 							id="Bank Phone Number"
@@ -88,7 +88,7 @@
 						<div class="invalid-feedback text-red-500">{{ errors.bankPhoneNumber }}</div>
 					</div>
 
-					<div class="mb-6 col-span-1">
+					<div class="mb-6 col-span-2 md:col-span-1">
 						<label for="Account Name" class="fs-14 fw-400 tx-666666">Account Name</label>
 						<Field
 							id="Account Name"
@@ -103,8 +103,8 @@
 					</div>
 				</div>
 
-				<div class="grid grid-cols-2 gap-4">
-					<div class="mb-6 col-span-1">
+				<div class="grid grid-cols-2 sm:gap-4">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<label for="Account Number" class="fs-14 fw-400 tx-666666">Account Number</label>
 						<Field
 							id="Account Number"
@@ -119,7 +119,7 @@
 						<div class="invalid-feedback text-red-500">{{ errors.accountNumber }}</div>
 					</div>
 
-					<div class="mb-6 col-span-1">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<label for="Transfer Type" class="fs-14 fw-400 tx-666666">Transfer Type</label>
 						<Field
 							id="Transfer Type"
@@ -140,7 +140,7 @@
 					<button
 						type="submit"
 						:disabled="loading"
-						class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
+						class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-12 br-5 flex items-center justify-center"
 					>
 						<div class="flex items-center justify-center">
 							<span class="text-white">Save</span>

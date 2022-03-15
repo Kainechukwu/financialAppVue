@@ -1,6 +1,6 @@
 <template>
 	<div
-		@click="toggleSidebar"
+		@click="toggle"
 		style=""
 		class="mainMenuBtn 900:ml-0 px-5 py-2 mr-3 br-5 border border-blue-200"
 	>
@@ -21,25 +21,24 @@
 
 <script>
 import { useStore } from "vuex";
-import { ref } from "vue";
+import { computed } from "vue";
 import { Log } from "@/components/util";
 
 export default {
 	name: "MainMenuBtn",
 	setup() {
 		const store = useStore();
-		const isOpen = ref(store.state.openSideBar);
+		const isOpen = computed(() => store.state.openSideBar);
 		const toggle = () => {
-			isOpen.value = !isOpen.value;
+			if (isOpen.value === false) {
+				store.commit("setOpenSideBar", true);
+			} else {
+				store.commit("setOpenSideBar", false);
+			}
+			// Log.info(isOpen.value);
 		};
-		const toggleSidebar = () => {
-			Log.info("before: " + String(isOpen.value));
-			toggle();
-			Log.info("after: " + String(isOpen.value));
 
-			store.commit("setOpenSideBar", isOpen.value);
-		};
-		return { toggleSidebar };
+		return { toggle };
 	},
 };
 </script>

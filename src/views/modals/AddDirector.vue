@@ -335,7 +335,7 @@
 									<div class="grid grid-cols-2 gap-4">
 										<div class="mb-6 col-span-1">
 											<div class="relative">
-												<Listbox as="div" v-model="selectedIndustry">
+												<Listbox as="div" v-model="selectedId">
 													<ListboxLabel class="block fs-14 tx-666666 fw-600">
 														Identification Type
 													</ListboxLabel>
@@ -343,7 +343,7 @@
 														<ListboxButton
 															class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 sm:text-sm"
 														>
-															<span class="block truncate">{{ selectedIndustry.name }}</span>
+															<span class="block truncate">{{ selectedId.name }}</span>
 															<span
 																class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
 															>
@@ -377,10 +377,10 @@
 															>
 																<ListboxOption
 																	as="template"
-																	v-for="industry in industries"
-																	:key="industry.id"
-																	:value="industry"
-																	v-slot="{ active, selectedIndustry }"
+																	v-for="idType in idTypes"
+																	:key="idType.id"
+																	:value="idType"
+																	v-slot="{ active, selectedId }"
 																>
 																	<li
 																		:class="[
@@ -390,15 +390,15 @@
 																	>
 																		<span
 																			:class="[
-																				selectedIndustry ? 'font-semibold' : 'font-normal',
+																				selectedId ? 'font-semibold' : 'font-normal',
 																				'block truncate',
 																			]"
 																		>
-																			{{ industry.name }}
+																			{{ idType.name }}
 																		</span>
 
 																		<span
-																			v-if="selectedIndustry"
+																			v-if="selectedId"
 																			:class="[
 																				active ? 'text-white' : 'text-indigo-600',
 																				'absolute inset-y-0 right-0 flex items-center pr-4',
@@ -614,18 +614,18 @@ export default {
 		const businessDetailsData = ref({});
 		// const state = ref("");
 		const states = ref([]);
-		const industries = [
+		const idTypes = [
 			{
 				id: "1",
-				name: "Industrial Technology",
+				name: "Passpost",
 			},
 			{
 				id: "2",
-				name: "Agriculture",
+				name: "Drivers Lisence",
 			},
 			{
 				id: "3",
-				name: "Banking",
+				name: "National Identification",
 			},
 		];
 
@@ -652,12 +652,12 @@ export default {
 				}
 			);
 		};
-		const selectedIndustry = ref(industries[0]);
+		const selectedId = ref(idTypes[0]);
 		const businessDetails = reactive({
 			// companyName: "",
 			countryId: 0,
 			stateId: 0,
-			// industry: "",
+			// idType: "",
 			// numberOfStaff: "",
 			// websiteUrl: "",
 			selectedFile: "",
@@ -738,7 +738,7 @@ export default {
 				companyName: values.companyName,
 				countryId: id,
 				stateId: stateId,
-				industry: selectedIndustry.value.name,
+				idType: selectedId.value.name,
 				numberOfStaff: values.numberOfStaff,
 				websiteUrl: "http://" + values.websiteUrl,
 				about: businessDetails.about,
@@ -795,8 +795,8 @@ export default {
 			states,
 			selectedState,
 			saveDetails,
-			industries,
-			selectedIndustry,
+			idTypes,
+			selectedId,
 			selected,
 			schema,
 			businessDetailsData,
