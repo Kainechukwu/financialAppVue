@@ -35,7 +35,7 @@ export default {
 			} else {
 				store.commit("setOpenSideBar", false);
 			}
-			// Log.info(isOpen.value);
+			Log.info(isOpen.value);
 		};
 
 		return { toggle };

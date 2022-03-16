@@ -617,7 +617,7 @@ export default {
 		const idTypes = [
 			{
 				id: "1",
-				name: "Passpost",
+				name: "Passport",
 			},
 			{
 				id: "2",
@@ -720,7 +720,7 @@ export default {
 		};
 
 		const schema = Yup.object().shape({
-			DOB: Yup.date().required("Number of staff field is required"),
+			DOB: Yup.date().required("DOB field is required"),
 			firstName: Yup.string().required("First Name is required"),
 			lastName: Yup.string().required("Last Name is required"),
 			phoneNumber: Yup.string().required("Phone Numberis required"),

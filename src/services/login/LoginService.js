@@ -120,7 +120,7 @@ export default class LoginService {
 		//commit refreshToken
 		store.commit("authToken/refreshToken", data.refreshToken)
 
-
+		// store.dispatch('authToken/increment')
 		//set interval to call refreshtoken endpoint and pass jwToken
 		// setInterval(replaceToken, 28 * 60 * 1000);
 		// setInterval(LoginService.replaceToken, 5000);
