@@ -147,16 +147,43 @@
 			<label for="Upload Incorporation Document" class="fs-14 fw-400 tx-666666"
 				>Upload Incorporation Document</label
 			>
-			<input
-				readonly
-				id="Upload Incorporation Document"
-				name="documentName"
-				type="text"
-				autocomplete="off"
-				v-model="documentName"
-				required=""
-				class="bg-gray-100 mt-1.5 br-5 h-14 appearance-none relative block w-full pr-3 pl-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 cursor-pointer sm:text-sm"
-			/>
+			<div class="relative">
+				<input
+					readonly
+					id="Upload Incorporation Document"
+					name="documentName"
+					type="text"
+					autocomplete="off"
+					v-model="documentName"
+					required=""
+					class="bg-gray-100 pl-11 mt-1.5 br-5 h-14 appearance-none relative block w-full pr-3 pl-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 cursor-pointer sm:text-sm"
+				/>
+				<div class="absolute mx-3 inset-y-0 h-full flex items-center">
+					<!-- <svg
+						width="21"
+						height="20"
+						viewBox="0 0 21 20"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M18.8337 9.23342V10.0001C18.8326 11.7971 18.2507 13.5457 17.1748 14.9849C16.0988 16.4242 14.5864 17.4772 12.8631 17.9867C11.1399 18.4962 9.29804 18.435 7.61238 17.8122C5.92673 17.1895 4.48754 16.0385 3.50946 14.531C2.53138 13.0235 2.06682 11.2401 2.18506 9.44702C2.30329 7.65389 2.998 5.94703 4.16556 4.58098C5.33312 3.21494 6.91098 2.26291 8.66382 1.86688C10.4167 1.47085 12.2505 1.65204 13.892 2.38342"
+							stroke="#18AE81"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+						<path
+							d="M18.8333 3.33337L10.5 11.675L8 9.17504"
+							stroke="#18AE81"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg> -->
+					<GreenCheckedSvg />
+				</div>
+			</div>
 		</div>
 
 		<!-- --------------------- -->
@@ -232,11 +259,16 @@
 
 <script>
 import { toRefs, reactive } from "vue";
+import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
+import { Util } from "@/components/util";
 
 export default {
 	name: "StaticBusinessDetails",
 	props: {
 		details: Object,
+	},
+	components: {
+		GreenCheckedSvg,
 	},
 
 	setup(props) {
@@ -253,27 +285,13 @@ export default {
 			websiteUrl: props.details.websiteUrl,
 			beneficiaryOwners: props.details.beneficiaryOwners,
 			registrationType: props.details.registrationType,
-			registrationDate: props.details.registrationDate,
+			registrationDate: Util.formatTime(
+				props.details.registrationDate,
+				"YYYY-MM-DD HH:mm:ss.SSSS",
+				"DD/MM/YYYY"
+			),
 			documentName: props.details.documentName,
 		});
-
-		// about: null
-		// address: "aawdaws"
-		// beneficiaryOwners: null
-		// companyName: "ascascas"
-		// country: "Germany"
-		// documentName: "codepen snap.jpg"
-		// documentPath: null
-		// generatedFileName: null
-		// id: "0cc3ef21-f61b-4299-95d6-d87536764b21"
-		// industry: null
-		// numberOfStaff: null
-		// ownerId: "dce38ac5-4b38-467b-addf-cfad2ba9c223"
-		// rcNumber: "ascasc"
-		// registrationDate: "0001-01-01T00:00:00"
-		// registrationType: "LLC"
-		// state: null
-		// websiteUrl: null
 
 		return {
 			...toRefs(businessDetails),

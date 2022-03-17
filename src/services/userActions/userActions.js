@@ -113,6 +113,24 @@ export default class UserActions {
 		)
 	}
 
+	static createDirector(details, successHandler, errorHandler) {
+
+
+		Web.post(
+			Constants.API_BASE + "/Kyc/directors",
+			details,
+			successHandler,
+			errorHandler
+		)
+
+	}
+
+	static getDirectors(ownerId, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Kyc/directors/${ownerId}`, successHandler, errorHandler)
+
+	}
+
 
 	static compliancePersonalUpload(details, successHandler, errorHandler) {
 		Web.post(
