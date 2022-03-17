@@ -43,6 +43,7 @@
 						<div class="mb-4">
 							<label for="password" class="fs-14 tx-666666 fw-600">Password</label>
 							<Field
+								autocomplete="off"
 								name="password"
 								type="password"
 								class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"

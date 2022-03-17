@@ -146,7 +146,7 @@
 			<div class="flex justify-start">
 				<div
 					@click="generateKeys"
-					class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
+					class="cursor-pointer greenButton fs-14 fw-500 w-full lg:w-3/4 xl:w-2/4 h-14 br-5 flex items-center justify-center"
 				>
 					<span class="text-white">Generate New Secret Keys</span>
 				</div>

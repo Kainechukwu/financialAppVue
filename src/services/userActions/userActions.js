@@ -87,6 +87,50 @@ export default class UserActions {
 		)
 	}
 
+	static saveCompliance(businessDetails, successHandler, errorHandler) {
+
+		Web.post(
+			Constants.API_BASE + "/Kyc/compliances",
+			businessDetails,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static getBankAccount(ownerId, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Kyc/bank-accounts/${ownerId}`, successHandler, errorHandler)
+
+	}
+
+	static saveBankAccount(bankDetails, successHandler, errorHandler) {
+
+		Web.post(
+			Constants.API_BASE + "/Kyc/bank-accounts",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static createDirector(details, successHandler, errorHandler) {
+
+
+		Web.post(
+			Constants.API_BASE + "/Kyc/directors",
+			details,
+			successHandler,
+			errorHandler
+		)
+
+	}
+
+	static getDirectors(ownerId, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Kyc/directors/${ownerId}`, successHandler, errorHandler)
+
+	}
+
 
 	static compliancePersonalUpload(details, successHandler, errorHandler) {
 		Web.post(
@@ -168,7 +212,7 @@ export default class UserActions {
 
 	static getBusinessDetails(userId, successHandler, errorHandler) {
 
-		Web.get(Constants.API_BASE + `/Kyc/business-profiles-by-ownerId/${userId}`, successHandler, errorHandler)
+		Web.get(Constants.API_BASE + `/Kyc/compliances/${userId}`, successHandler, errorHandler)
 
 	}
 

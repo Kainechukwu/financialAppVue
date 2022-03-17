@@ -7,7 +7,7 @@
 		</div> -->
 	<div class="col-span-3">
 		<div class="flex flex-col w-10/12">
-			<!-- <StaticBusinessDetails
+			<StaticBusinessDetails
 				v-if="
 					businessDetailsData &&
 					businessDetailsData.companyName &&
@@ -15,14 +15,15 @@
 					businessDetailsData.companyName.length > 0
 				"
 				:details="businessDetailsData"
-			/> -->
+			/>
 			<Form
+				v-else
 				@submit="saveDetails"
 				:validation-schema="schema"
 				v-slot="{ errors }"
 				class="flex flex-col"
 			>
-				<div class="mb-8">
+				<div class="mb-6">
 					<label for="Company Name" class="fs-14 fw-400 tx-666666">Company Name</label>
 					<Field
 						id="Company Name"
@@ -38,11 +39,11 @@
 				</div>
 
 				<!-- --------------- -->
-				<div class="grid grid-cols-2 gap-4">
-					<div class="mb-6 col-span-1">
+				<div class="grid grid-cols-2 sm:gap-4">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<div class="relative">
 							<Listbox as="div" v-model="selected">
-								<ListboxLabel class="block fs-14 tx-666666 fw-600">
+								<ListboxLabel class="block fs-14 tx-666666 fw-600 truncate">
 									Country of Incorporation
 								</ListboxLabel>
 								<div class="mt-1 relative">
@@ -196,7 +197,7 @@
 						</div>
 					</div> -->
 
-					<div class="mb-8">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<label for="Registration Date" class="fs-14 fw-400 tx-666666">Registration Date</label>
 						<Field
 							id="Registration Date"
@@ -213,8 +214,8 @@
 
 				<!-- -------------- -->
 
-				<div class="grid grid-cols-2 gap-4">
-					<div class="mb-6 col-span-1">
+				<div class="grid grid-cols-2 sm:gap-4">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<div class="relative">
 							<Listbox as="div" v-model="selectedIndustry">
 								<ListboxLabel class="block fs-14 tx-666666 fw-600"> Industry </ListboxLabel>
@@ -292,7 +293,7 @@
 							</Listbox>
 						</div>
 					</div>
-					<div class="mb-6 col-span-1">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<label for="Number of Staff" class="mb-2 block fs-14 tx-666666 fw-600"
 							>Number of Staff</label
 						>
@@ -347,8 +348,8 @@
 				</div>
 
 				<!-- ----------------------- -->
-				<div class="grid grid-cols-2 gap-4">
-					<div class="mb-6 col-span-1">
+				<div class="grid grid-cols-2 sm:gap-4">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<Listbox as="div" v-model="selectedRegType">
 							<ListboxLabel class="block fs-14 tx-666666 fw-600"> Registration Type </ListboxLabel>
 							<div class="mt-1 relative">
@@ -424,7 +425,7 @@
 							</div>
 						</Listbox>
 					</div>
-					<div class="mb-6 col-span-1">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<label for="Rc Number" class="fs-14 tx-666666 fw-600">Rc Number</label>
 						<div class="relative">
 							<Field
@@ -500,8 +501,8 @@
 					<div class="invalid-feedback text-red-500">{{ fileAttatchedErr }}</div>
 				</div>
 				<!-- ---------------- -->
-				<div class="grid grid-cols-2 gap-4">
-					<div class="mb-6 col-span-1">
+				<div class="grid grid-cols-2 xl:gap-4">
+					<div class="mb-6 col-span-2 xl:col-span-1">
 						<label for="Website URL" class="fs-14 fw-400 tx-666666">Website URL</label>
 						<Field
 							id="Website URL"
@@ -515,8 +516,14 @@
 						/>
 						<div class="invalid-feedback text-red-500">{{ errors.websiteUrl }}</div>
 					</div>
-
-					<div class="mb-6 col-span-1">
+					<!-- style="
+								white-space: nowrap;
+								width: 100%;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								display: inline-block;
+							" -->
+					<div class="mb-6 col-span-2 xl:col-span-1">
 						<label for="Ultimate Beneficial Owners" class="fs-14 tx-666666 fw-600"
 							>Ultimate Beneficial Owners</label
 						>
@@ -579,7 +586,7 @@
 <script>
 import { toRefs, reactive, onMounted, ref, watch } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
-// import StaticBusinessDetails from "./StaticBusinessDetails.vue";
+import StaticBusinessDetails from "./StaticBusinessDetails.vue";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import { Form, Field } from "vee-validate";
@@ -605,7 +612,7 @@ export default {
 		// GreenCheckedSvg,
 		Form,
 		Field,
-		// StaticBusinessDetails,
+		StaticBusinessDetails,
 		// CheckIcon,
 		// SelectorIcon,
 	},
@@ -688,6 +695,7 @@ export default {
 		const onFileSelected = (e) => {
 			const files = e.target.files[0];
 			businessDetails.selectedFile = files;
+			businessDetails.documentName = files.name;
 			Log.info(e.target.files);
 			Log.info(businessDetails.selectedFile);
 
@@ -695,6 +703,7 @@ export default {
 				.then((res) => {
 					Log.info(res);
 					businessDetails.documentBase64 = res.split(",")[1];
+					Log.info("businessDetails.documentName:" + JSON.stringify(businessDetails.documentName));
 				})
 				.catch((err) => {
 					Log.info(err);
@@ -712,11 +721,11 @@ export default {
 			return id;
 		};
 
-		const getStateId = (state) => {
-			const id = states.value.find((obj) => obj.name === state).id;
+		// const getStateId = (state) => {
+		// 	const id = states.value.find((obj) => obj.name === state).id;
 
-			return id;
-		};
+		// 	return id;
+		// };
 
 		const getStates = () => {
 			const stateId = getCountryId(selected.value.name);
@@ -746,34 +755,43 @@ export default {
 
 		const prepareBusinessDetails = (values) => {
 			const id = getCountryId(selected.value.name);
-			const stateId = getStateId(selectedState.value.name);
+			// const stateId = getStateId(selectedState.value.name);
 
 			const obj = {
-				ownerId: store.getters["authToken/userId"],
 				companyName: values.companyName,
 				countryId: id,
-				stateId: stateId,
+				// stateId: stateId,
+				registrationType: selectedRegType.value,
+				address: values.openingAddress,
+				registrationDate: values.registrationDate,
 				industry: selectedIndustry.value.name,
 				numberOfStaff: values.numberOfStaff,
 				websiteUrl: "http://" + values.websiteUrl,
 				about: businessDetails.about,
+				rcNumber: values.rcNumber,
+				beneficiaryOwners: values.ultimateBeneficialOwners,
+				documentName: businessDetails.documentName,
+				documentBase64: businessDetails.documentBase64,
+				ownerId: store.getters["authToken/userId"],
 			};
+			Log.info("business Details values:" + JSON.stringify(obj));
 			return obj;
 		};
 
 		const saveDetails = (values) => {
 			loading.value = true;
-			Log.info(prepareBusinessDetails(values));
-			UserActions.setBusinessProfile(
+			prepareBusinessDetails(values);
+			Log.info(router.name);
+			UserActions.saveCompliance(
 				prepareBusinessDetails(values),
 				(response) => {
 					loading.value = false;
 					// store.commit("authToken/companyName", values.companyName);
 					Util.handleGlobalAlert(true, "success", response.data.message);
 					Log.info(response);
-					if (store.getters["authToken/isKycDone"] === false) {
-						router.push("/settings/compliance");
-					}
+					// if (store.getters["authToken/isKycDone"] === false) {
+					// 	router.push("/settings/compliance");
+					// }
 				},
 				(error) => {
 					loading.value = false;

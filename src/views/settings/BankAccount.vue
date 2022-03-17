@@ -7,24 +7,25 @@
 		</div> -->
 	<div class="col-span-3">
 		<div class="flex flex-col w-10/12">
-			<!-- <StaticBusinessDetails
+			<StaticBankAccount
 				v-if="
-					businessDetailsData &&
-					businessDetailsData.companyName &&
-					businessDetailsData.companyName !== null &&
-					businessDetailsData.companyName.length > 0
+					bankAccountData &&
+					bankAccountData.bankName &&
+					bankAccountData.bankName !== null &&
+					bankAccountData.bankName.length > 0
 				"
-				:details="businessDetailsData"
-			/> -->
+				:details="bankAccountData"
+			/>
 			<Form
+				v-else
 				@submit="saveDetails"
 				:validation-schema="schema"
 				v-slot="{ errors }"
 				class="flex flex-col"
 			>
 				<!-- --------------- -->
-				<div class="grid grid-cols-2 gap-4">
-					<div class="mb-6 col-span-1">
+				<div class="grid grid-cols-2 sm:gap-4">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<label for="Bank Name" class="fs-14 fw-400 tx-666666">Bank Name</label>
 						<Field
 							id="Bank Name"
@@ -39,7 +40,7 @@
 						<div class="invalid-feedback text-red-500">{{ errors.bankName }}</div>
 					</div>
 
-					<div class="mb-6 col-span-1">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<label for="Bank Officer" class="fs-14 fw-400 tx-666666">Bank Officer</label>
 						<Field
 							id="Bank Officer"
@@ -72,8 +73,8 @@
 
 				<!-- -------------- -->
 
-				<div class="grid grid-cols-2 gap-4">
-					<div class="mb-6 col-span-1">
+				<div class="grid grid-cols-2 md:gap-4">
+					<div class="mb-6 col-span-2 md:col-span-1">
 						<label for="Bank Phone Number" class="fs-14 fw-400 tx-666666">Bank Phone Number</label>
 						<Field
 							id="Bank Phone Number"
@@ -88,7 +89,7 @@
 						<div class="invalid-feedback text-red-500">{{ errors.bankPhoneNumber }}</div>
 					</div>
 
-					<div class="mb-6 col-span-1">
+					<div class="mb-6 col-span-2 md:col-span-1">
 						<label for="Account Name" class="fs-14 fw-400 tx-666666">Account Name</label>
 						<Field
 							id="Account Name"
@@ -103,8 +104,8 @@
 					</div>
 				</div>
 
-				<div class="grid grid-cols-2 gap-4">
-					<div class="mb-6 col-span-1">
+				<div class="grid grid-cols-2 sm:gap-4">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<label for="Account Number" class="fs-14 fw-400 tx-666666">Account Number</label>
 						<Field
 							id="Account Number"
@@ -119,7 +120,7 @@
 						<div class="invalid-feedback text-red-500">{{ errors.accountNumber }}</div>
 					</div>
 
-					<div class="mb-6 col-span-1">
+					<div class="mb-6 col-span-2 sm:col-span-1">
 						<label for="Transfer Type" class="fs-14 fw-400 tx-666666">Transfer Type</label>
 						<Field
 							id="Transfer Type"
@@ -140,7 +141,7 @@
 					<button
 						type="submit"
 						:disabled="loading"
-						class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
+						class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-12 br-5 flex items-center justify-center"
 					>
 						<div class="flex items-center justify-center">
 							<span class="text-white">Save</span>
@@ -157,14 +158,13 @@
 </template>
 
 <script>
-import { toRefs, reactive, onMounted, ref, watch } from "vue";
+import { onMounted, ref } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
-// import StaticBusinessDetails from "./StaticBusinessDetails.vue";
+import StaticBankAccount from "./StaticBankAccount.vue";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
-import { useRouter } from "vue-router";
 // import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
 
 // import {
@@ -178,6 +178,7 @@ export default {
 	name: "BankAccount",
 	components: {
 		// GreenCheckedSvg,
+		StaticBankAccount,
 		Form,
 		Field,
 		// StaticBusinessDetails,
@@ -186,125 +187,25 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			UserActions.getCountries(
-				(response) => {
-					countries.value = response.data.data;
-					selected.value = countries.value[0];
-					// Log.info(countries.value);
-
-					getStates();
-				},
-				(error) => {
-					Log.error(error);
-				}
-			);
-
-			buisnessDetailsGetter();
+			getBankAccount();
 		});
 
 		const store = useStore();
-		const router = useRouter();
-		const countries = ref([]);
-		const loading = ref(false);
-		const registrationTypes = ref(["LLC", "PLC", "NGO"]);
-		const selectedRegType = ref(registrationTypes.value[0]);
-		// const countriesLoading = ref(false);
-		const selected = ref({});
-		const selectedState = ref({});
-		const userId = store.getters["authToken/userId"];
-		const businessDetailsData = ref({});
-		// const state = ref("");
-		const states = ref([]);
-		const industries = [
-			{
-				id: "1",
-				name: "Industrial Technology",
-			},
-			{
-				id: "2",
-				name: "Agriculture",
-			},
-			{
-				id: "3",
-				name: "Banking",
-			},
-		];
+		// const router = useRouter();
+		const bankAccountData = ref({});
 
-		const buisnessDetailsGetter = () => {
-			UserActions.getBusinessDetails(
+		const loading = ref(false);
+		const userId = store.getters["authToken/userId"];
+
+		const getBankAccount = () => {
+			UserActions.getBankAccount(
 				userId,
 				(response) => {
-					businessDetailsData.value = response.data.data;
-					Log.info(response);
+					bankAccountData.value = response.data.data;
+					Log.info("bankData:" + JSON.stringify(bankAccountData.value));
 				},
 				(error) => {
 					Log.info(error);
-				}
-			);
-		};
-		const selectedIndustry = ref(industries[0]);
-		const businessDetails = reactive({
-			// bankName: "",
-			countryId: 0,
-			stateId: 0,
-			// industry: "",
-			// numberOfStaff: "",
-			// websiteUrl: "",
-			selectedFile: "",
-
-			documentName: "",
-			documentBase64: "",
-			about: "",
-		});
-
-		const fileAttatchedErr = ref("");
-		const showFilesToSelect = ref({});
-
-		const onFileSelected = (e) => {
-			const files = e.target.files[0];
-			businessDetails.selectedFile = files;
-			Log.info(e.target.files);
-			Log.info(businessDetails.selectedFile);
-
-			Util.toBase64(files)
-				.then((res) => {
-					Log.info(res);
-					businessDetails.documentBase64 = res.split(",")[1];
-				})
-				.catch((err) => {
-					Log.info(err);
-				});
-		};
-
-		const chooseFiles = () => {
-			showFilesToSelect.value = document.getElementById("upload id2");
-			showFilesToSelect.value.click();
-		};
-
-		const getCountryId = (country) => {
-			const id = countries.value.find((obj) => obj.name === country).id;
-
-			return id;
-		};
-
-		const getStateId = (state) => {
-			const id = states.value.find((obj) => obj.name === state).id;
-
-			return id;
-		};
-
-		const getStates = () => {
-			const stateId = getCountryId(selected.value.name);
-			Log.info("stateId:" + String(stateId));
-			UserActions.getStates(
-				stateId,
-				(response) => {
-					states.value = response.data.data;
-					selectedState.value = states.value[0];
-					// Log.info(response);
-				},
-				(error) => {
-					Log.error(error);
 				}
 			);
 		};
@@ -319,36 +220,33 @@ export default {
 			transferType: Yup.string().required("Transfer Type Owners is required"),
 		});
 
-		const prepareBusinessDetails = (values) => {
-			const id = getCountryId(selected.value.name);
-			const stateId = getStateId(selectedState.value.name);
-
+		const prepareBankDetails = (values) => {
 			const obj = {
-				ownerId: store.getters["authToken/userId"],
-				companyName: values.bankName,
-				countryId: id,
-				stateId: stateId,
-				industry: selectedIndustry.value.name,
-				numberOfStaff: values.numberOfStaff,
-				websiteUrl: "http://" + values.websiteUrl,
-				about: businessDetails.about,
+				ownerId: userId,
+				bankPhoneNumber: values.bankPhoneNumber,
+				accountName: values.accountName,
+				bankName: values.bankName,
+				bankOfficer: values.bankOfficer,
+				bankAddress: values.bankAddress,
+				accountNumber: values.accountNumber,
+				transferType: values.transferType,
 			};
 			return obj;
 		};
 
 		const saveDetails = (values) => {
 			loading.value = true;
-			Log.info(prepareBusinessDetails(values));
-			UserActions.setBusinessProfile(
-				prepareBusinessDetails(values),
+			Log.info(prepareBankDetails(values));
+			UserActions.saveBankAccount(
+				prepareBankDetails(values),
 				(response) => {
 					loading.value = false;
 					// store.commit("authToken/companyName", values.companyName);
 					Util.handleGlobalAlert(true, "success", response.data.message);
 					Log.info(response);
-					if (store.getters["authToken/isKycDone"] === false) {
-						router.push("/settings/compliance");
-					}
+					// if (store.getters["authToken/isKycDone"] === false) {
+					// 	router.push("/settings/compliance");
+					// }
 				},
 				(error) => {
 					loading.value = false;
@@ -359,39 +257,13 @@ export default {
 			);
 		};
 
-		watch(selected, (newValue, oldValue) => {
-			if (newValue !== oldValue && oldValue !== {}) {
-				Log.info("changed");
-				Log.info(newValue);
-				// Log.info();
-				getStates();
-			}
-		});
-
-		watch(businessDetails, (newValue) => {
-			if (typeof newValue.selectedFile === "object") {
-				fileAttatchedErr.value = "";
-			}
-		});
-
 		return {
-			...toRefs(businessDetails),
-			countries,
 			loading,
-			// country,
-			states,
-			selectedState,
+			bankAccountData,
+
 			saveDetails,
-			industries,
-			selectedIndustry,
-			selected,
+
 			schema,
-			businessDetailsData,
-			registrationTypes,
-			selectedRegType,
-			chooseFiles,
-			onFileSelected,
-			fileAttatchedErr,
 		};
 	},
 };

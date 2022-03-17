@@ -1,4 +1,4 @@
-
+import { Log } from "@/components/util";
 const state = {
 	// username: '',
 	isVerified: false,
@@ -18,15 +18,16 @@ const state = {
 	isProfileUpdated: false,
 	isPhoneNumberVerified: false,
 	isKycDone: false,
+	count: 0
 
 	// authorizations: [],
 };
 
 
 const getters = {
-	// username(state) {
-	// 	return state.username;
-	// },
+	count(state) {
+		return state.count;
+	},
 	isProfileUpdated(state) {
 		return state.isProfileUpdated;
 	},
@@ -155,6 +156,11 @@ const mutations = {
 	},
 	entryUrl(state, entryUrl) {
 		state.entryUrl = entryUrl;
+	},
+
+	increment(state) {
+		state.count++
+		Log.info("stateCount:" + state.count)
 	}
 
 };
@@ -162,7 +168,12 @@ const mutations = {
 
 const actions = {
 
+	increment({ commit }) {
 
+		setInterval(() => {
+			commit('increment')
+		}, 1000)
+	}
 
 };
 
