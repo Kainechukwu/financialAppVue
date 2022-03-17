@@ -22,7 +22,7 @@
 			<div
 				@click="openModal"
 				style="background-color: #dedede; max-width: 120px"
-				class="mt-4 cursor-pointer fs-14 fw-400 px-4 h-11 br-5 flex items-center justify-center"
+				class="mt-4 mb-20 cursor-pointer fs-14 fw-400 px-4 h-11 br-5 flex items-center justify-center"
 			>
 				<div class="flex items-center justify-center">
 					<span class="">Add Director</span>

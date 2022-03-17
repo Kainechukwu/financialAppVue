@@ -90,7 +90,7 @@ export default class UserActions {
 	static saveCompliance(businessDetails, successHandler, errorHandler) {
 
 		Web.post(
-			Constants.API_BASE + "/Kyc/compliances",
+			Constants.API_BASE + "/Kyc/business-details",
 			businessDetails,
 			successHandler,
 			errorHandler
@@ -212,7 +212,7 @@ export default class UserActions {
 
 	static getBusinessDetails(userId, successHandler, errorHandler) {
 
-		Web.get(Constants.API_BASE + `/Kyc/compliances/${userId}`, successHandler, errorHandler)
+		Web.get(Constants.API_BASE + `/Kyc/business-details/${userId}`, successHandler, errorHandler)
 
 	}
 
