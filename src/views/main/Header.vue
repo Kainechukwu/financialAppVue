@@ -3,8 +3,94 @@
 		<!-- <div class="block 900:hidden"> -->
 		<MainMenuBtn />
 		<!-- </div> -->
-		<div class="flex 900:mr-0 w-full items-center justify-between">
-			<div class="flex">
+		<div class="flex 900:mr-0 w-full items-center justify-end">
+			<div class="flex mr-8">
+				<Menu as="div" class="relative inline-block text-left">
+					<div>
+						<MenuButton
+							class="bg-gray-100 rounded-full flex items-center text-gray-400 hover:text-gray-600"
+						>
+							<span class="sr-only">Open options</span>
+							<svg
+								width="20"
+								height="17"
+								viewBox="0 0 20 17"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M16 7C16 5.4087 15.3679 3.88258 14.2426 2.75736C13.1174 1.63214 11.5913 1 10 1C8.4087 1 6.88258 1.63214 5.75736 2.75736C4.63214 3.88258 4 5.4087 4 7C4 14 1 16 1 16H19C19 16 16 14 16 7Z"
+									stroke="#999999"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						</MenuButton>
+					</div>
+
+					<transition
+						enter-active-class="transition ease-out duration-100"
+						enter-from-class="transform opacity-0 scale-95"
+						enter-to-class="transform opacity-100 scale-100"
+						leave-active-class="transition ease-in duration-75"
+						leave-from-class="transform opacity-100 scale-100"
+						leave-to-class="transform opacity-0 scale-95"
+					>
+						<MenuItems
+							style="max-height: 337px"
+							class="z-40 overflow-y-auto origin-top-right absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+						>
+							<div v-if="notifications.length === 0 && loading">
+								<TableSkeleton />
+							</div>
+							<div v-else-if="notifications.length === 0 && !loading">
+								<span>No notifications</span>
+							</div>
+							<div class="py-1" v-if="notifications.length > 0">
+								<MenuItem
+									v-for="notification in notifications"
+									:key="notification.id"
+									v-slot="{ active }"
+								>
+									<div
+										style="border-bottom: 1px solid #f1f1f1"
+										class="flex flex-col px-3 py-3"
+										:class="[active ? 'bg-gray-100 ' : 'bg-white']"
+									>
+										<div class="flex">
+											<div class="flex items-start mr-3 pt-2">
+												<svg
+													width="5"
+													height="5"
+													viewBox="0 0 5 5"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<circle
+														cx="2.5"
+														cy="2.5"
+														r="2.5"
+														:fill="notification.isRead ? '#497FF9' : '#DFDFDF'"
+													/>
+												</svg>
+											</div>
+											<div class="flex flex-col">
+												<div class="">
+													<span class="blacktext fs-14 fw-700">{{ notification.title }}</span>
+												</div>
+												<span class="mt-1 fs-12 fw-400 blacktext">{{ notification.details }} </span>
+												<span class="tx-666666 fs-12 fw-400 mt-2">{{
+													dateFormat(notification.date)
+												}}</span>
+											</div>
+										</div>
+									</div>
+								</MenuItem>
+							</div>
+						</MenuItems>
+					</transition>
+				</Menu>
 				<!-- <div class="flex items-center mr-4">
 					<svg
 						width="24"
@@ -75,25 +161,67 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+// import { DotsVerticalIcon } from '@heroicons/vue/solid'
+import TableSkeleton from "@/components/skeletons/TableSkeletons.vue";
+
+import UserActions from "@/services/userActions/userActions.js";
+import { Log, Util } from "@/components/util";
+
 import MainMenuBtn from "@/components/svg/MainMenuBtn.vue";
 import { useStore } from "vuex";
 export default {
 	name: "Header",
 	components: {
 		MainMenuBtn,
+		Menu,
+		MenuButton,
+		MenuItem,
+		MenuItems,
+		TableSkeleton,
+		// DotsVerticalIcon,
 	},
 	setup() {
+		onMounted(() => {
+			getAllNotifications();
+		});
 		const store = useStore();
+		const userId = store.getters["authToken/userId"];
 		const fName = store.getters["authToken/firstName"];
 		const lName = store.getters["authToken/lastName"];
 		const fInitial = fName.slice(0, 1).toUpperCase();
 		const lInitial = lName.slice(0, 1).toUpperCase();
 		const enabled = ref(false);
+		const notifications = ref([]);
+		const loading = ref(false);
 		const toggle = () => {
 			enabled.value = !enabled.value;
 		};
-		return { enabled, toggle, fInitial, lInitial };
+
+		const dateFormat = (date) => {
+			const d = Util.formatTime(date, "YYYY-MM-DD HH:mm:ss.SSSS", "MMM DD");
+			return d;
+		};
+
+		const getAllNotifications = () => {
+			loading.value = true;
+			UserActions.getAllNotifications(
+				userId,
+				10,
+				1,
+				(response) => {
+					loading.value = false;
+					notifications.value = response.data.data;
+					Log.info(response);
+				},
+				(error) => {
+					loading.value = false;
+					Log.error(error);
+				}
+			);
+		};
+		return { enabled, toggle, dateFormat, fInitial, lInitial, notifications, loading };
 	},
 };
 </script>

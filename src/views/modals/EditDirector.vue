@@ -328,6 +328,7 @@
 											type="text"
 											autocomplete="off"
 											required=""
+											v-model="address"
 											placeholder=""
 											class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 											:class="{ 'is-invalid': errors.address }"
@@ -744,13 +745,13 @@ export default {
 			// const stateId = getStateId(selectedState.value.name);
 
 			const obj = {
-				ownerId: userId,
+				id: detailsForAutoFill.value.id,
 				firstName: values.firstName,
 				lastName: values.lastName,
-
+				address: values.address,
 				emailAddress: values.email,
 				phoneNumber: values.phoneNumber,
-				dateOfBirth: values.DOB,
+				dob: values.DOB,
 				identificationType: selectedId.value.name,
 				identificationNumber: values.identificationNumber,
 				countryId: id,
@@ -763,7 +764,7 @@ export default {
 		const saveDetails = (values) => {
 			loading.value = true;
 			Log.info(prepareDirectorDetails(values));
-			UserActions.createDirector(
+			UserActions.editDirectorDetails(
 				prepareDirectorDetails(values),
 				(response) => {
 					loading.value = false;
@@ -772,12 +773,13 @@ export default {
 					Log.info(response);
 					// if (store.getters["authToken/isKycDone"] === false) {
 					router.go();
+					close();
 					// }
 				},
 				(error) => {
 					loading.value = false;
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-
+					close();
 					Log.error(error);
 				}
 			);
