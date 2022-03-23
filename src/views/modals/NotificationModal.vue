@@ -21,7 +21,7 @@
 								class="px-6 flex items-center justify-between"
 							>
 								<div class="my-4 flex justify-between w-full">
-									<h2 class="blacktext fw-600 fs-16">Delete Director</h2>
+									<h2 class="blacktext fw-600 fs-16">Notification</h2>
 									<div @click="close" class="cursor-pointer">
 										<svg
 											width="24"
@@ -47,31 +47,14 @@
 									</div>
 								</div>
 							</div>
-							<div style="max-height: 500px" class="flex flex-col p-6">
-								<div class="flex justify-center mb-8">
-									<h1 class="tx-666666 fw-500 fs-16">
-										Are you sure you want to delete this director?
-									</h1>
+							<div style="" class="flex flex-col p-6">
+								<!-- <div class="flex flex-col"> -->
+								<div class="">
+									<span class="blacktext fs-14 fw-700">{{ notification.title }}</span>
 								</div>
-								<div class="grid grid-cols-2 gap-4">
-									<div @click="close" class="cursor-pointer br-5">
-										<div
-											style="border: 1px solid #f1f1f1"
-											class="flex justify-center items-center h-12 br-5"
-										>
-											<span class="blacktext fs-16 fw-500">Cancel</span>
-										</div>
-									</div>
-
-									<button @click="deleteDirector" class="br-5 bg-peach">
-										<div class="flex cursor-pointer items-center justify-center h-12">
-											<span class="fw-500 fs-16 text-white my-auto">Delete</span>
-											<div v-if="loading" class="h-4 w-4 ml-4 rounded-md block">
-												<div class="roundLoader opacity-50 mx-auto"></div>
-											</div>
-										</div>
-									</button>
-								</div>
+								<span class="mt-1 fs-12 fw-400 blacktext">{{ notification.details }} </span>
+								<span class="tx-666666 fs-12 fw-400 mt-2">{{ dateFormat(notification.date) }}</span>
+								<!-- </div> -->
 							</div>
 							<!-- </div> -->
 						</div>
@@ -83,58 +66,35 @@
 </template>
 
 <script>
-import { onMounted, ref, toRef } from "vue";
-import UserActions from "@/services/userActions/userActions.js";
+import { onMounted, toRef } from "vue";
 
-import { Log, Util } from "@/components/util";
+import { Util } from "@/components/util";
 
 export default {
-	name: "DeleteDirector",
+	name: "NotificationModal",
 	props: {
 		open: Boolean,
-		directorId: Object,
+		notification: Object,
 	},
 	components: {},
 	setup(props, context) {
-		onMounted(() => {
-			Log.info("hello Edits");
-		});
+		onMounted(() => {});
 
 		// const store = useStore();
 		const isModalOpen = toRef(props, "open");
 
-		const loading = ref(false);
-
 		const close = () => {
 			context.emit("close");
 		};
-
-		const deleteDirector = () => {
-			loading.value = true;
-			UserActions.deleteDirector(
-				props.directorId,
-				(response) => {
-					loading.value = false;
-					Util.handleGlobalAlert(true, "success", response.data.message);
-
-					Log.info(response);
-					close();
-				},
-				(error) => {
-					loading.value = false;
-					// Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-					close();
-					Log.error(error);
-				}
-			);
+		const dateFormat = (date) => {
+			const d = Util.formatTime(date, "YYYY-MM-DD HH:mm:ss.SSSS", "MMM DD");
+			return d;
 		};
 
 		return {
 			isModalOpen,
 			close,
-			deleteDirector,
-
-			loading,
+			dateFormat,
 		};
 	},
 };

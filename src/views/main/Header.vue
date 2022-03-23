@@ -47,13 +47,14 @@
 							<div v-else-if="notifications.length === 0 && !loading">
 								<span>No notifications</span>
 							</div>
-							<div class="py-1" v-if="notifications.length > 0">
+							<div class="py-1" ref="notificationScroll" v-if="notifications.length > 0">
 								<MenuItem
 									v-for="notification in notifications"
 									:key="notification.id"
 									v-slot="{ active }"
 								>
 									<div
+										@click="openNotification(notification)"
 										style="border-bottom: 1px solid #f1f1f1"
 										class="flex flex-col px-3 py-3"
 										:class="[active ? 'bg-gray-100 ' : 'bg-white']"
@@ -71,7 +72,7 @@
 														cx="2.5"
 														cy="2.5"
 														r="2.5"
-														:fill="notification.isRead ? '#497FF9' : '#DFDFDF'"
+														:fill="notification.isRead ? '#DFDFDF' : '#497FF9'"
 													/>
 												</svg>
 											</div>
@@ -87,6 +88,9 @@
 										</div>
 									</div>
 								</MenuItem>
+								<div v-if="notifications.length > 0 && loading">
+									<TableSkeleton />
+								</div>
 							</div>
 						</MenuItems>
 					</transition>
@@ -157,11 +161,17 @@
 				</div>
 			</div>
 		</div>
+		<notification-modal
+			@close="closeNotification"
+			:open="notificationOpen"
+			:notification="clickedNotification"
+		/>
 	</div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
+import NotificationModal from "@/views/modals/NotificationModal.vue";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 // import { DotsVerticalIcon } from '@heroicons/vue/solid'
 import TableSkeleton from "@/components/skeletons/TableSkeletons.vue";
@@ -180,23 +190,79 @@ export default {
 		MenuItem,
 		MenuItems,
 		TableSkeleton,
+		NotificationModal,
+
 		// DotsVerticalIcon,
 	},
 	setup() {
 		onMounted(() => {
+			addEvent();
 			getAllNotifications();
 		});
+		onUnmounted(() => {
+			removeEvent();
+		});
 		const store = useStore();
+		const notificationOpen = ref(false);
+		const clickedNotification = ref({});
 		const userId = store.getters["authToken/userId"];
 		const fName = store.getters["authToken/firstName"];
 		const lName = store.getters["authToken/lastName"];
 		const fInitial = fName.slice(0, 1).toUpperCase();
 		const lInitial = lName.slice(0, 1).toUpperCase();
 		const enabled = ref(false);
+		const notificationScroll = ref(null);
+		const busy = ref(false);
 		const notifications = ref([]);
+		const pageNumber = ref(1);
+		const totalPages = ref(0);
+		const pageSize = ref(5);
 		const loading = ref(false);
+
+		const passNotificationInfo = (info) => {
+			clickedNotification.value = info;
+		};
+
+		const openNotification = (info) => {
+			passNotificationInfo(info);
+			Log.info("clicked:" + JSON.stringify(clickedNotification.value));
+			Util.throttle({
+				key: "Open-Notification",
+				run: () => {
+					notificationOpen.value = true;
+				},
+				time: 400,
+			});
+		};
+
+		const closeNotification = () => {
+			notificationOpen.value = false;
+			clickedNotification.value = {};
+		};
 		const toggle = () => {
 			enabled.value = !enabled.value;
+		};
+
+		const removeEvent = () => {
+			window.removeEventListener("scroll", onScroll);
+		};
+
+		const addEvent = () => {
+			window.addEventListener("scroll", onScroll);
+		};
+
+		const loadMore = () => {
+			busy.value = true;
+			pageNumber.value += 1;
+
+			getAllNotifications();
+
+			busy.value = false;
+		};
+
+		const checkPagesLeft = () => {
+			const bool = Math.ceil(totalPages.value / pageSize.value) > pageNumber.value;
+			return bool;
 		};
 
 		const dateFormat = (date) => {
@@ -208,11 +274,12 @@ export default {
 			loading.value = true;
 			UserActions.getAllNotifications(
 				userId,
-				10,
-				1,
+				pageSize.value,
+				pageNumber.value,
 				(response) => {
 					loading.value = false;
-					notifications.value = response.data.data;
+					notifications.value.push(...response.data.data);
+					totalPages.value = response.data.total;
 					Log.info(response);
 				},
 				(error) => {
@@ -221,7 +288,40 @@ export default {
 				}
 			);
 		};
-		return { enabled, toggle, dateFormat, fInitial, lInitial, notifications, loading };
+
+		const onScroll = () => {
+			Util.throttle({
+				key: "Notifications-infinite-scroll",
+				run: () => {
+					if (busy.value) {
+						return;
+					}
+					let element = notificationScroll.value;
+
+					if (element.getBoundingClientRect().bottom < window.innerHeight) {
+						if (checkPagesLeft()) {
+							loadMore();
+						}
+					}
+				},
+				time: 100,
+			});
+		};
+		return {
+			enabled,
+			toggle,
+			dateFormat,
+			fInitial,
+			lInitial,
+			notifications,
+			loading,
+			busy,
+			notificationScroll,
+			openNotification,
+			closeNotification,
+			notificationOpen,
+			clickedNotification,
+		};
 	},
 };
 </script>
