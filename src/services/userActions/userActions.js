@@ -125,6 +125,20 @@ export default class UserActions {
 
 	}
 
+	static deleteDirector(id, successHandler, errorHandler) {
+
+		Web.delete(Constants.API_BASE + `/Kyc/directors/${id}`, successHandler, errorHandler)
+	}
+
+	static editDirectorDetails(details, successHandler, errorHandler) {
+		Web.put(
+			Constants.API_BASE + "/Kyc/directors",
+			details,
+			successHandler,
+			errorHandler
+		)
+	}
+
 	static getDirectors(ownerId, successHandler, errorHandler) {
 
 		Web.get(Constants.API_BASE + `/Kyc/directors/${ownerId}`, successHandler, errorHandler)
@@ -224,6 +238,45 @@ export default class UserActions {
 
 	static subscribeDevice(userDetails, successHandler, errorHandler) {
 		Web.post(Constants.API_BASE + "/Device/subscribe-device", userDetails, successHandler, errorHandler)
+
+	}
+
+
+	//Notifications
+
+	static getAllNotifications(userId, pageSize, pageNumber, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Notifications/all?UserId=${userId}&PageSize=${pageSize}&PageNumber=${pageNumber}`, successHandler, errorHandler)
+
+	}
+
+	static getUserNotification(userId, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Notifications/${userId}`, successHandler, errorHandler)
+
+	}
+
+	static deleteUserNotification(id, successHandler, errorHandler) {
+
+		Web.delete(Constants.API_BASE + `/Notifications/${id}`, successHandler, errorHandler)
+
+	}
+
+	static markReadNotification(id, successHandler, errorHandler) {
+
+		Web.patch(Constants.API_BASE + `/Notifications/${id}/read`, successHandler, errorHandler)
+
+	}
+
+	static muteNotifications(details, successHandler, errorHandler) {
+
+		Web.post(Constants.API_BASE + "/Notifications/mute", details, successHandler, errorHandler)
+
+	}
+
+	static unmuteNotifications(details, successHandler, errorHandler) {
+
+		Web.post(Constants.API_BASE + "/Notifications/unmute", details, successHandler, errorHandler)
 
 	}
 

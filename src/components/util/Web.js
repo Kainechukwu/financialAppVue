@@ -102,5 +102,41 @@ export default class Web {
 			.catch(errorCallback);
 	}
 
+	static delete(url, successCallback, errorCallback) {
+		Web.deleteAbsolute(Web.BASE_URL + url, successCallback, errorCallback);
+	}
+
+	static deleteBackOffice(url, successCallback, errorCallback) {
+		Web.deleteAbsolute(Web.BO_BASE_URL + url, successCallback, errorCallback);
+	}
+
+
+	static deleteAbsolute(
+		url, successCallback, errorCallback
+	) {
+		axios.delete(url)
+			.then(successCallback)
+			.catch(errorCallback);
+	}
+
+	static patch(url, successCallback, errorCallback) {
+		Web.patchAbsolute(Web.BASE_URL + url, successCallback, errorCallback);
+	}
+
+	static patchBackOffice(url, successCallback, errorCallback) {
+		Web.patchAbsolute(Web.BO_BASE_URL + url, successCallback, errorCallback);
+	}
+
+
+	static patchAbsolute(
+		url, successCallback, errorCallback
+	) {
+		axios.patch(url)
+			.then(successCallback)
+			.catch(errorCallback);
+	}
+
+
+
 
 }

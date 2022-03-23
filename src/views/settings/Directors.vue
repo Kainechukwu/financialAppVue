@@ -13,7 +13,7 @@
 					<span>{{ director.firstName }} {{ director.lastName }}</span>
 					<div class="flex items-center">
 						<span @click="openEditModal(director)" class="cursor-pointer px-4">Edit</span>
-						<span class="cursor-pointer px-4">Delete</span>
+						<span @click="openDeleteModal(director.id)" class="cursor-pointer px-4">Delete</span>
 					</div>
 				</div>
 			</div>
@@ -37,6 +37,12 @@
 			:details="detailsToEdit"
 			:open="openEdit"
 		/>
+		<delete-director
+			v-if="directorToDelete.length > 0"
+			:directorId="directorToDelete"
+			@close="closeDelete"
+			:open="openDelete"
+		/>
 	</div>
 </template>
 
@@ -46,6 +52,7 @@ import UserActions from "@/services/userActions/userActions.js";
 import { useStore } from "vuex";
 import { Log, Util } from "@/components/util";
 import EditDirector from "@/views/modals/EditDirector.vue";
+import DeleteDirector from "@/views/modals/DeleteDirector.vue";
 
 import AddDirector from "@/views/modals/AddDirector.vue";
 export default {
@@ -53,14 +60,18 @@ export default {
 	components: {
 		AddDirector,
 		EditDirector,
+		DeleteDirector,
 	},
 	setup() {
 		onMounted(() => {
 			getDirectors();
 		});
 		const open = ref(false);
+		const openDelete = ref(false);
 		const openEdit = ref(false);
 		const detailsToEdit = ref({});
+		const directorToDelete = ref("");
+
 		const store = useStore();
 		const directors = ref([]);
 		const userId = store.getters["authToken/userId"];
@@ -77,8 +88,12 @@ export default {
 			);
 		};
 
-		const passInfo = (info) => {
+		const passEditInfo = (info) => {
 			detailsToEdit.value = info;
+		};
+
+		const passDeleteInfo = (info) => {
+			directorToDelete.value = info;
 		};
 
 		const openModal = () => {
@@ -89,7 +104,7 @@ export default {
 		};
 
 		const openEditModal = (info) => {
-			passInfo(info);
+			passEditInfo(info);
 			// Log.info("info" + JSON.stringify(info));
 			// Log.info("passedInfo:" + JSON.stringify(detailsToEdit.value));
 			Util.throttle({
@@ -101,17 +116,38 @@ export default {
 			});
 		};
 		const closeEdit = () => {
+			detailsToEdit.value = {};
 			openEdit.value = false;
+		};
+
+		const openDeleteModal = (info) => {
+			passDeleteInfo(info);
+			// Log.info("info" + JSON.stringify(info));
+			// Log.info("passedInfo:" + JSON.stringify(detailsToEdit.value));
+			Util.throttle({
+				key: "Open Delete Modal",
+				run: () => {
+					openDelete.value = true;
+				},
+				time: 300,
+			});
+		};
+		const closeDelete = () => {
+			openDelete.value = false;
 		};
 		return {
 			open,
 			openEdit,
+			openDelete,
+			openDeleteModal,
+			closeDelete,
 			openEditModal,
 			closeEdit,
 			close,
 			openModal,
 			directors,
 			detailsToEdit,
+			directorToDelete,
 		};
 	},
 };

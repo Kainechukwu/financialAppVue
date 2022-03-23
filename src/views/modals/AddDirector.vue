@@ -739,10 +739,10 @@ export default {
 				ownerId: userId,
 				firstName: values.firstName,
 				lastName: values.lastName,
-
+				address: values.address,
 				emailAddress: values.email,
 				phoneNumber: values.phoneNumber,
-				dateOfBirth: values.DOB,
+				dob: values.DOB,
 				identificationType: selectedId.value.name,
 				identificationNumber: values.identificationNumber,
 				countryId: id,
@@ -764,12 +764,13 @@ export default {
 					Log.info(response);
 					// if (store.getters["authToken/isKycDone"] === false) {
 					router.go();
+					close();
 					// }
 				},
 				(error) => {
 					loading.value = false;
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-
+					close();
 					Log.error(error);
 				}
 			);

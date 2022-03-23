@@ -33,6 +33,37 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+  // height: 120px;
+}
+
+.notice::-webkit-scrollbar {
+  width: 8px;
+  // height: 120px;
+}
+
+// .notice::-webkit-scrollbar-thumb {
+//   // background: #497ff9;
+//   // border-radius: 10px;
+//   height: 20%;
+// }
+::-webkit-scrollbar-track {
+  background: #d4e7ed;
+}
+::-webkit-scrollbar-thumb {
+  background: #497ff9;
+  border-radius: 10px;
+  height: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b7d8f;
+}
+
+.bg-peach {
+  background-color: #ff7677;
+}
+
 .blacktext {
   color: #333333;
 }
