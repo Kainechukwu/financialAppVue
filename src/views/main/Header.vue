@@ -39,7 +39,7 @@
 					>
 						<MenuItems
 							style="max-height: 337px"
-							class="z-40 overflow-y-auto origin-top-right absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+							class="z-40 overflow-y-auto notice origin-top-right absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
 						>
 							<div v-if="notifications.length === 0 && loading">
 								<TableSkeleton />
@@ -56,8 +56,8 @@
 									<div
 										@click="openNotification(notification)"
 										style="border-bottom: 1px solid #f1f1f1"
-										class="flex flex-col px-3 py-3"
-										:class="[active ? 'bg-gray-100 ' : 'bg-white']"
+										class="cursor-pointer flex flex-col px-3 py-3"
+										:class="[active ? 'bg-gray-100' : 'bg-white']"
 									>
 										<div class="flex">
 											<div class="flex items-start mr-3 pt-2">
@@ -204,6 +204,7 @@ export default {
 		});
 		const store = useStore();
 		const notificationOpen = ref(false);
+		const noticeKey = ref(0);
 		const clickedNotification = ref({});
 		const userId = store.getters["authToken/userId"];
 		const fName = store.getters["authToken/firstName"];
@@ -235,9 +236,44 @@ export default {
 			});
 		};
 
-		const closeNotification = () => {
+		function markView(notifications, id) {
+			notifications.forEach((notification) => {
+				if (notification.id === id) {
+					Log.info("before change:" + JSON.stringify(notification.isRead));
+					notification.isRead = true;
+					noticeKey.value++;
+
+					Log.info("after change:" + JSON.stringify(notification.isRead));
+					Log.info("notification:" + JSON.stringify(notification));
+					Log.info("notifications:" + JSON.stringify(notifications));
+				}
+			});
+
+			return notifications;
+		}
+
+		const markReadNotification = (id) => {
+			UserActions.markReadNotification(
+				id,
+				(response) => {
+					Log.info("oldNotification:" + JSON.stringify(notifications.value));
+					Log.info(id);
+					notifications.value = markView(notifications.value, id);
+					Log.info("newNotification:" + JSON.stringify(notifications.value));
+
+					Log.info(response);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
+		const closeNotification = (id) => {
 			notificationOpen.value = false;
+
 			clickedNotification.value = {};
+			markReadNotification(id);
 		};
 		const toggle = () => {
 			enabled.value = !enabled.value;
@@ -266,7 +302,7 @@ export default {
 		};
 
 		const dateFormat = (date) => {
-			const d = Util.formatTime(date, "YYYY-MM-DD HH:mm:ss.SSSS", "MMM DD");
+			const d = Util.formatTime(date, "YYYY-MM-DD HH:mm:ss.SSSS", "MMM DD ddd hh:mm a");
 			return d;
 		};
 
@@ -315,6 +351,7 @@ export default {
 			lInitial,
 			notifications,
 			loading,
+			noticeKey,
 			busy,
 			notificationScroll,
 			openNotification,

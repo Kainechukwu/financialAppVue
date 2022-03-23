@@ -256,15 +256,15 @@ export default class UserActions {
 
 	}
 
-	static deleteUserNotification(userId, successHandler, errorHandler) {
+	static deleteUserNotification(id, successHandler, errorHandler) {
 
-		Web.delete(Constants.API_BASE + `/Notifications/${userId}`, successHandler, errorHandler)
+		Web.delete(Constants.API_BASE + `/Notifications/${id}`, successHandler, errorHandler)
 
 	}
 
-	static markReadNotification(userId, successHandler, errorHandler) {
+	static markReadNotification(id, successHandler, errorHandler) {
 
-		Web.patch(Constants.API_BASE + `/Notifications/${userId}/read`, successHandler, errorHandler)
+		Web.patch(Constants.API_BASE + `/Notifications/${id}/read`, successHandler, errorHandler)
 
 	}
 

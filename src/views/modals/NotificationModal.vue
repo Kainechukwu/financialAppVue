@@ -84,10 +84,10 @@ export default {
 		const isModalOpen = toRef(props, "open");
 
 		const close = () => {
-			context.emit("close");
+			context.emit("close", props.notification.id);
 		};
 		const dateFormat = (date) => {
-			const d = Util.formatTime(date, "YYYY-MM-DD HH:mm:ss.SSSS", "MMM DD");
+			const d = Util.formatTime(date, "YYYY-MM-DD HH:mm:ss.SSSS", "MMM DD ddd hh:mm a");
 			return d;
 		};
 
