@@ -158,11 +158,13 @@
 			:notification="clickedNotification"
 		/>
 		<NotificationMobile
-			v-if="isNoticeMobileOpen"
+			v-show="isNoticeMobileOpen"
 			@close="closeNoticeMobile"
+			:userId="userId"
 			@openNotification="openNotification"
-			:notifications="notifications"
 		/>
+
+		<!-- :notifications="notifications" -->
 	</div>
 </template>
 
@@ -360,6 +362,7 @@ export default {
 			notifications,
 			loading,
 			noticeKey,
+			userId,
 			busy,
 			notificationScroll,
 			openNotification,
