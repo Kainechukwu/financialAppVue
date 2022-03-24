@@ -27,7 +27,7 @@
 						<MenuItems
 							style="max-height: 337px"
 							ref="notificationScroll"
-							class="z-40 overflow-y-auto notice origin-top-right fixed md:absolute right-0 mt-2 w-full md:w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+							class="z-40 overflow-y-auto notice origin-top-right absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
 						>
 							<div v-if="notifications.length === 0 && loading">
 								<TableSkeleton />
@@ -76,9 +76,12 @@
 										</div>
 									</div>
 								</MenuItem>
-								<div v-if="notifications.length > 0 && loading">
+								<!-- <div v-if="notifications.length > 0 && loading">
 									<TableSkeleton />
-								</div>
+								</div> -->
+							</div>
+							<div v-if="notifications.length > 0 && loading">
+								<TableSkeleton />
 							</div>
 						</MenuItems>
 					</transition>
@@ -154,7 +157,12 @@
 			:open="notificationOpen"
 			:notification="clickedNotification"
 		/>
-		<NotificationMobile v-if="isNoticeMobileOpen" @close="closeNoticeMobile" />
+		<NotificationMobile
+			v-if="isNoticeMobileOpen"
+			@close="closeNoticeMobile"
+			@openNotification="openNotification"
+			:notifications="notifications"
+		/>
 	</div>
 </template>
 
