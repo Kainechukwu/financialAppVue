@@ -5,27 +5,14 @@
 		<!-- </div> -->
 		<div class="flex 900:mr-0 w-full items-center justify-end">
 			<div class="flex mr-8">
-				<Menu as="div" class="relative inline-block text-left">
+				<div class="md:hidden">
+					<NotificationBell @click="openNoticeMobile" />
+				</div>
+				<Menu as="div" class="hidden relative md:inline-block text-left">
 					<div>
-						<MenuButton
-							class="bg-gray-100 rounded-full flex items-center text-gray-400 hover:text-gray-600"
-						>
+						<MenuButton class="flex items-center text-gray-400 hover:text-gray-600">
 							<span class="sr-only">Open options</span>
-							<svg
-								width="20"
-								height="17"
-								viewBox="0 0 20 17"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<path
-									d="M16 7C16 5.4087 15.3679 3.88258 14.2426 2.75736C13.1174 1.63214 11.5913 1 10 1C8.4087 1 6.88258 1.63214 5.75736 2.75736C4.63214 3.88258 4 5.4087 4 7C4 14 1 16 1 16H19C19 16 16 14 16 7Z"
-									stroke="#999999"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								/>
-							</svg>
+							<NotificationBell />
 						</MenuButton>
 					</div>
 
@@ -39,15 +26,16 @@
 					>
 						<MenuItems
 							style="max-height: 337px"
-							class="z-40 overflow-y-auto notice origin-top-right absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+							ref="notificationScroll"
+							class="z-40 overflow-y-auto notice origin-top-right fixed md:absolute right-0 mt-2 w-full md:w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
 						>
 							<div v-if="notifications.length === 0 && loading">
 								<TableSkeleton />
 							</div>
-							<div v-else-if="notifications.length === 0 && !loading">
+							<div class="p-3" v-else-if="notifications.length === 0 && !loading">
 								<span>No notifications</span>
 							</div>
-							<div class="py-1" ref="notificationScroll" v-if="notifications.length > 0">
+							<div class="py-1" v-if="notifications.length > 0">
 								<MenuItem
 									v-for="notification in notifications"
 									:key="notification.id"
@@ -166,6 +154,7 @@
 			:open="notificationOpen"
 			:notification="clickedNotification"
 		/>
+		<NotificationMobile v-if="isNoticeMobileOpen" @close="closeNoticeMobile" />
 	</div>
 </template>
 
@@ -175,10 +164,10 @@ import NotificationModal from "@/views/modals/NotificationModal.vue";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 // import { DotsVerticalIcon } from '@heroicons/vue/solid'
 import TableSkeleton from "@/components/skeletons/TableSkeletons.vue";
-
+import NotificationBell from "@/components/svg/NotificationBell.vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Log, Util } from "@/components/util";
-
+import NotificationMobile from "./NotificationMobile.vue";
 import MainMenuBtn from "@/components/svg/MainMenuBtn.vue";
 import { useStore } from "vuex";
 export default {
@@ -190,7 +179,9 @@ export default {
 		MenuItem,
 		MenuItems,
 		TableSkeleton,
+		NotificationBell,
 		NotificationModal,
+		NotificationMobile,
 
 		// DotsVerticalIcon,
 	},
@@ -203,6 +194,7 @@ export default {
 			removeEvent();
 		});
 		const store = useStore();
+		const isNoticeMobileOpen = ref(false);
 		const notificationOpen = ref(false);
 		const noticeKey = ref(0);
 		const clickedNotification = ref({});
@@ -234,6 +226,14 @@ export default {
 				},
 				time: 400,
 			});
+		};
+
+		const openNoticeMobile = () => {
+			isNoticeMobileOpen.value = true;
+		};
+
+		const closeNoticeMobile = () => {
+			isNoticeMobileOpen.value = false;
 		};
 
 		function markView(notifications, id) {
@@ -358,6 +358,9 @@ export default {
 			closeNotification,
 			notificationOpen,
 			clickedNotification,
+			isNoticeMobileOpen,
+			openNoticeMobile,
+			closeNoticeMobile,
 		};
 	},
 };
