@@ -11,7 +11,7 @@
 				<!-- This element is to trick the browser into centering the modal contents. -->
 				<span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
 				<section
-					class="main inline-block bg-white align-bottom br-5 shadow-xs text-left overflow-hidden transform transition-all max-w-lg mx-auto sm:my-8 sm:align-middle sm:w-full"
+					class="main inline-block bg-white align-bottom br-5 shadow-xs text-left overflow-hidden transform transition-all max-w-lg mx-auto sm:my-8 sm:align-middle w-full sm:w-full"
 				>
 					<div class="w-full h-full overflow-y-auto">
 						<div class="flex flex-col h-full pb-6">
