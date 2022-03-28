@@ -12,7 +12,8 @@
 					bankAccountData &&
 					bankAccountData.bankName &&
 					bankAccountData.bankName !== null &&
-					bankAccountData.bankName.length > 0
+					bankAccountData.bankName.length > 0 &&
+					bankAccountData.approved
 				"
 				:details="bankAccountData"
 			/>
@@ -31,6 +32,7 @@
 							id="Bank Name"
 							name="bankName"
 							type="text"
+							v-model="bankName"
 							autocomplete="off"
 							required=""
 							placeholder="Bank name"
@@ -46,6 +48,7 @@
 							id="Bank Officer"
 							name="bankOfficer"
 							type="text"
+							v-model="bankOfficer"
 							autocomplete="off"
 							required=""
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -62,6 +65,7 @@
 						id="Bank Address"
 						name="bankAddress"
 						type="text"
+						v-model="bankAddress"
 						autocomplete="off"
 						required=""
 						placeholder=""
@@ -82,6 +86,7 @@
 							type="text"
 							autocomplete="off"
 							required=""
+							v-model="bankPhoneNumber"
 							placeholder=""
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							:class="{ 'is-invalid': errors.bankPhoneNumber }"
@@ -97,6 +102,7 @@
 							type="text"
 							autocomplete="off"
 							required=""
+							v-model="accountName"
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							:class="{ 'is-invalid': errors.accountName }"
 						/>
@@ -113,6 +119,7 @@
 							type="text"
 							autocomplete="off"
 							required=""
+							v-model="accountNumber"
 							placeholder=""
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							:class="{ 'is-invalid': errors.accountNumber }"
@@ -126,6 +133,7 @@
 							id="Transfer Type"
 							name="transferType"
 							type="text"
+							v-model="transferType"
 							autocomplete="off"
 							required=""
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -158,7 +166,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, toRef, reactive, toRefs } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
 import StaticBankAccount from "./StaticBankAccount.vue";
 import { Log, Util } from "@/components/util";
@@ -176,6 +184,9 @@ import * as Yup from "yup";
 // } from "@headlessui/vue";
 export default {
 	name: "BankAccount",
+	props: {
+		details: Object,
+	},
 	components: {
 		// GreenCheckedSvg,
 		StaticBankAccount,
@@ -185,30 +196,26 @@ export default {
 		// CheckIcon,
 		// SelectorIcon,
 	},
-	setup() {
+	setup(props) {
 		onMounted(() => {
-			getBankAccount();
+			// getBankAccount();
 		});
 
 		const store = useStore();
 		// const router = useRouter();
-		const bankAccountData = ref({});
+		const bankAccountData = toRef(props, "details");
+		const autoFillData = reactive({
+			bankPhoneNumber: bankAccountData.value.bankPhoneNumber,
+			accountName: bankAccountData.value.accountName,
+			bankName: bankAccountData.value.bankName,
+			bankOfficer: bankAccountData.value.bankOfficer,
+			bankAddress: bankAccountData.value.bankAddress,
+			accountNumber: bankAccountData.value.accountNumber,
+			transferType: bankAccountData.value.transferType,
+		});
 
 		const loading = ref(false);
 		const userId = store.getters["authToken/userId"];
-
-		const getBankAccount = () => {
-			UserActions.getBankAccount(
-				userId,
-				(response) => {
-					bankAccountData.value = response.data.data;
-					Log.info("bankData:" + JSON.stringify(bankAccountData.value));
-				},
-				(error) => {
-					Log.info(error);
-				}
-			);
-		};
 
 		const schema = Yup.object().shape({
 			bankPhoneNumber: Yup.string().required("Bank Phone Number field is required"),
@@ -260,7 +267,7 @@ export default {
 		return {
 			loading,
 			bankAccountData,
-
+			...toRefs(autoFillData),
 			saveDetails,
 
 			schema,

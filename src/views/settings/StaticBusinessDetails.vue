@@ -10,7 +10,6 @@
 				autocomplete="off"
 				v-model="companyName"
 				required=""
-				placeholder="The Walt Disney Company"
 				class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 			/>
 		</div>
@@ -30,7 +29,6 @@
 						autocomplete="off"
 						required=""
 						v-model="country"
-						placeholder="1-50"
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
 					/>
 				</div>
@@ -47,7 +45,6 @@
 						autocomplete="off"
 						required=""
 						v-model="registrationDate"
-						placeholder="1-50"
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
 					/>
 				</div>
@@ -68,7 +65,6 @@
 						autocomplete="off"
 						required=""
 						v-model="industry"
-						placeholder=""
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
 					/>
 				</div>
@@ -84,7 +80,6 @@
 						autocomplete="off"
 						required=""
 						v-model="numberOfStaff"
-						placeholder=""
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
 					/>
 				</div>
@@ -92,7 +87,7 @@
 		</div>
 		<!-- ---------------- -->
 		<div class="mb-6">
-			<label for="Oprning Address" class="fs-14 fw-400 tx-666666">Oprning Address</label>
+			<label for="Oprning Address" class="fs-14 fw-400 tx-666666">Opening Address</label>
 			<input
 				readonly
 				id="Oprning Address"
@@ -118,7 +113,6 @@
 						autocomplete="off"
 						required=""
 						v-model="registrationType"
-						placeholder=""
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
 					/>
 				</div>
@@ -134,7 +128,6 @@
 						autocomplete="off"
 						required=""
 						v-model="rcNumber"
-						placeholder=""
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
 					/>
 				</div>
@@ -216,7 +209,6 @@
 						autocomplete="off"
 						required=""
 						v-model="beneficiaryOwners"
-						placeholder=""
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
 					/>
 				</div>
@@ -237,7 +229,6 @@
 				v-model="about"
 				autocomplete="off"
 				required=""
-				placeholder=""
 				class="mt-1.5 br-5 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 			></textarea>
 		</div>
@@ -285,11 +276,9 @@ export default {
 			websiteUrl: props.details.websiteUrl,
 			beneficiaryOwners: props.details.beneficiaryOwners,
 			registrationType: props.details.registrationType,
-			registrationDate: Util.formatTime(
-				props.details.registrationDate,
-				"YYYY-MM-DD HH:mm:ss.SSSS",
-				"DD/MM/YYYY"
-			),
+			registrationDate: props.details.registrationDate
+				? Util.formatTime(props.details.registrationDate, "YYYY-MM-DD HH:mm:ss.SSSS", "YYYY-MM-DD")
+				: "",
 			documentName: props.details.documentName,
 		});
 

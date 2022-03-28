@@ -43,6 +43,11 @@ input[type="number"] {
   // height: 120px;
 }
 
+.navHeaderScroll::-webkit-scrollbar {
+  width: 4px;
+  // height: 120px;
+}
+
 // .notice::-webkit-scrollbar-thumb {
 //   // background: #497ff9;
 //   // border-radius: 10px;
