@@ -65,7 +65,7 @@
 				<div class="flex">
 					<span class="fw-400 fs-24 blacktext mr-3"
 						>${{ totalWithPerSecInterest
-						}}<span class="fs-14 text-red-300 ml-px">{{ interectDecimal }}</span></span
+						}}<span class="fs-14 ml-px">{{ interectDecimal }}</span></span
 					>
 					<!-- <img src="totalbalance.jpg" class="h-8 w-8" alt="" /> -->
 				</div>
