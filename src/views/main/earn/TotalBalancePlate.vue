@@ -63,7 +63,10 @@
 				</div>
 
 				<div class="flex">
-					<span class="fw-400 fs-24 blacktext mr-3">${{ totalWithPerSecInterest }}</span>
+					<span class="fw-400 fs-24 blacktext mr-3"
+						>${{ totalWithPerSecInterest
+						}}<span class="fs-14 text-red-300 ml-px">{{ interectDecimal }}</span></span
+					>
 					<!-- <img src="totalbalance.jpg" class="h-8 w-8" alt="" /> -->
 				</div>
 				<span class="fw-400 fs-14 tx-666666"
@@ -123,7 +126,15 @@ export default {
 
 		const totalWithPerSecInterest = computed(() => {
 			const val = Number(total.value) + Number(value.value);
-			return Util.currencyFormatter(val, Constants.currencyFormat);
+			const displayValue = Util.currencyFormatter(val, Constants.btcFormat);
+			return displayValue.slice(0, displayValue.length - 6);
+		});
+
+		const interectDecimal = computed(() => {
+			const val = Number(total.value) + Number(value.value);
+			const displayValue = Util.currencyFormatter(val, Constants.btcFormat);
+
+			return displayValue.slice(displayValue.length - 6, displayValue.length);
 		});
 
 		const getBalance = () => {
@@ -207,7 +218,7 @@ export default {
 			}
 		});
 
-		return { totalWithPerSecInterest, value, totalBalance, availableBalance };
+		return { totalWithPerSecInterest, value, totalBalance, availableBalance, interectDecimal };
 	},
 };
 </script>

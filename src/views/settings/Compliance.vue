@@ -8,8 +8,9 @@
 							class="cursor-pointer mb-6 flex items-center"
 							@click="changeView('BusinessDetails')"
 						>
-							<CheckedSvg />
-							<!-- <GreenCheckedSvg v-else /> -->
+							<GreenCheckedSvg v-if="isBusinessDetailsApproved" />
+
+							<CheckedSvg v-else />
 							<h1
 								:class="currentView === 'BusinessDetails' ? 'fw-700' : 'fw-400'"
 								class="ml-3 tx-666666 fs-18"
@@ -19,8 +20,9 @@
 						</div>
 
 						<div class="cursor-pointer mb-6 flex items-center" @click="changeView('BankAccount')">
-							<CheckedSvg />
-							<!-- <GreenCheckedSvg v-else /> -->
+							<GreenCheckedSvg v-if="isBankAccountApproved" />
+
+							<CheckedSvg v-else />
 							<h1
 								:class="currentView === 'BankAccount' ? 'fw-700' : 'fw-400'"
 								class="ml-3 tx-666666 fs-18"
@@ -30,8 +32,9 @@
 						</div>
 
 						<div class="cursor-pointer flex items-center" @click="changeView('Directors')">
-							<CheckedSvg />
-							<!-- <GreenCheckedSvg v-else /> -->
+							<GreenCheckedSvg v-if="allDirectorsApproved" />
+
+							<CheckedSvg v-else />
 							<h1
 								:class="currentView === 'Directors' ? 'fw-700' : 'fw-400'"
 								class="ml-3 tx-666666 fs-18"
@@ -39,13 +42,22 @@
 								Directors
 							</h1>
 						</div>
+						<!-- <div>{{ businessDetailsLoading }}</div> -->
 					</div>
 				</div>
 
-				<BusinessDetails v-if="currentView === 'BusinessDetails'" />
-				<BankAccount v-if="currentView === 'BankAccount'" />
+				<BusinessDetails
+					v-if="currentView === 'BusinessDetails'"
+					:details="businessDetailsData"
+					:detailsLoading="businessDetailsLoading"
+				/>
+				<BankAccount v-if="currentView === 'BankAccount'" :details="bankAccountData" />
 
-				<Directors v-if="currentView === 'Directors'" />
+				<Directors
+					v-if="currentView === 'Directors'"
+					:directorList="directors"
+					@refetch="getDirectors"
+				/>
 			</div>
 		</div>
 	</div>
@@ -55,13 +67,13 @@
 import CheckedSvg from "@/components/svg/CheckedSvg.vue";
 // import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
 import { ref, onMounted } from "vue";
-// import { Log, Util } from "@/components/util";
-// import { useStore } from "vuex";
-// import UserActions from "@/services/userActions/userActions.js";
+import { Log } from "@/components/util";
+import { useStore } from "vuex";
+import UserActions from "@/services/userActions/userActions.js";
 // import BusinessVerification from "./BusinessVerification.vue";
 // import StaticCompliance from "./StaticCompliance.vue";
 // import StaticBusinessVerification from "./StaticBusinessVerification.vue";
-// import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
+import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
 // import { Form, Field } from "vee-validate";
 // import { useRouter } from "vue-router";
 // import * as Yup from "yup";
@@ -90,7 +102,7 @@ export default {
 		BankAccount,
 		Directors,
 		// StaticBusinessVerification,
-		// GreenCheckedSvg,
+		GreenCheckedSvg,
 		CheckedSvg,
 		// Form,
 		// Field,
@@ -98,11 +110,72 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			// getBusinessVerificationDetails();
-			// getPersonalComplianceDetails();
+			//get all compliance details
+			buisnessDetailsGetter();
+			getBankAccount();
+			getDirectors();
 		});
+		const store = useStore();
 
+		const userId = store.getters["authToken/userId"];
+		const businessDetailsData = ref({});
+		const businessDetailsLoading = ref(false);
+		const bankAccountData = ref({});
+		const allDirectorsApproved = ref(false);
+		const isBankAccountApproved = ref(false);
+		const directors = ref([]);
+		const isBusinessDetailsApproved = ref(false);
 		const currentView = ref("BusinessDetails");
+
+		const buisnessDetailsGetter = () => {
+			businessDetailsLoading.value = true;
+			UserActions.getBusinessDetails(
+				userId,
+				(response) => {
+					businessDetailsLoading.value = false;
+
+					businessDetailsData.value = response.data.data;
+					isBusinessDetailsApproved.value = response.data.data.approved;
+
+					Log.info(response);
+				},
+				(error) => {
+					businessDetailsLoading.value = false;
+
+					Log.info(error);
+				}
+			);
+		};
+
+		const getBankAccount = () => {
+			UserActions.getBankAccount(
+				userId,
+				(response) => {
+					bankAccountData.value = response.data.data;
+					isBankAccountApproved.value = response.data.data.approved;
+					Log.info("bankData:" + JSON.stringify(bankAccountData.value));
+				},
+				(error) => {
+					Log.info(error);
+				}
+			);
+		};
+
+		const getDirectors = () => {
+			UserActions.getDirectors(
+				userId,
+				(response) => {
+					Log.info("Directors:" + JSON.stringify(response.data.data));
+					directors.value = response.data.data;
+					allDirectorsApproved.value = !directors.value
+						.map((director) => director.approved)
+						.includes(false);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
 
 		const changeView = (view) => {
 			currentView.value = view;
@@ -111,6 +184,14 @@ export default {
 		return {
 			currentView,
 			changeView,
+			isBusinessDetailsApproved,
+			businessDetailsData,
+			bankAccountData,
+			isBankAccountApproved,
+			directors,
+			allDirectorsApproved,
+			getDirectors,
+			businessDetailsLoading,
 		};
 	},
 };

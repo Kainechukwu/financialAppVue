@@ -552,7 +552,7 @@ import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 // import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
 
 import {
@@ -583,18 +583,7 @@ export default {
 	},
 	setup(props, context) {
 		onMounted(() => {
-			UserActions.getCountries(
-				(response) => {
-					countries.value = response.data.data;
-					selected.value = countries.value[0];
-					// Log.info(countries.value);
-
-					// getStates();
-				},
-				(error) => {
-					Log.error(error);
-				}
-			);
+			getCountries();
 
 			buisnessDetailsGetter();
 		});
@@ -602,7 +591,7 @@ export default {
 		// const store = useStore();
 		const isModalOpen = toRef(props, "open");
 		const store = useStore();
-		const router = useRouter();
+		// const router = useRouter();
 		const countries = ref([]);
 		const loading = ref(false);
 		const registrationTypes = ref(["LLC", "PLC", "NGO"]);
@@ -650,6 +639,21 @@ export default {
 				},
 				(error) => {
 					Log.info(error);
+				}
+			);
+		};
+
+		const getCountries = () => {
+			UserActions.getCountries(
+				(response) => {
+					countries.value = response.data.data;
+					selected.value = countries.value[0];
+					// Log.info(countries.value);
+
+					// getStates();
+				},
+				(error) => {
+					Log.error(error);
 				}
 			);
 		};
@@ -763,7 +767,7 @@ export default {
 					Util.handleGlobalAlert(true, "success", response.data.message);
 					Log.info(response);
 					// if (store.getters["authToken/isKycDone"] === false) {
-					router.go();
+					context.emit("success");
 					close();
 					// }
 				},

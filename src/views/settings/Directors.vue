@@ -11,7 +11,7 @@
 					class="blacktext fs-14 fw-400 mb-2.5 flex items-center justify-between br-5 h-12 px-4"
 				>
 					<span>{{ director.firstName }} {{ director.lastName }}</span>
-					<div class="flex items-center">
+					<div v-if="!director.approved" class="flex items-center">
 						<span @click="openEditModal(director)" class="cursor-pointer px-4">Edit</span>
 						<span @click="openDeleteModal(director.id)" class="cursor-pointer px-4">Delete</span>
 					</div>
@@ -30,7 +30,7 @@
 			</div>
 			<!-- </div> -->
 		</div>
-		<add-director @close="close" :open="open" />
+		<add-director @close="close" :open="open" @success="refetch" />
 		<edit-director
 			v-if="Object.keys(detailsToEdit).length > 0"
 			@close="closeEdit"
@@ -47,10 +47,10 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
-import UserActions from "@/services/userActions/userActions.js";
-import { useStore } from "vuex";
-import { Log, Util } from "@/components/util";
+import { ref, onMounted, toRef } from "vue";
+// import UserActions from "@/services/userActions/userActions.js";
+// import { useStore } from "vuex";
+import { Util } from "@/components/util";
 import EditDirector from "@/views/modals/EditDirector.vue";
 import DeleteDirector from "@/views/modals/DeleteDirector.vue";
 
@@ -62,31 +62,20 @@ export default {
 		EditDirector,
 		DeleteDirector,
 	},
-	setup() {
-		onMounted(() => {
-			getDirectors();
-		});
+	props: {
+		directorList: Array,
+	},
+	setup(props, context) {
+		onMounted(() => {});
 		const open = ref(false);
 		const openDelete = ref(false);
 		const openEdit = ref(false);
 		const detailsToEdit = ref({});
 		const directorToDelete = ref("");
 
-		const store = useStore();
-		const directors = ref([]);
-		const userId = store.getters["authToken/userId"];
-		const getDirectors = () => {
-			UserActions.getDirectors(
-				userId,
-				(response) => {
-					Log.info("Directors:" + JSON.stringify(response.data.data));
-					directors.value = response.data.data;
-				},
-				(error) => {
-					Log.error(error);
-				}
-			);
-		};
+		// const store = useStore();
+		const directors = toRef(props, "directorList");
+		// const userId = store.getters["authToken/userId"];
 
 		const passEditInfo = (info) => {
 			detailsToEdit.value = info;
@@ -135,6 +124,10 @@ export default {
 		const closeDelete = () => {
 			openDelete.value = false;
 		};
+
+		const refetch = () => {
+			context.emit("refetch");
+		};
 		return {
 			open,
 			openEdit,
@@ -148,6 +141,7 @@ export default {
 			directors,
 			detailsToEdit,
 			directorToDelete,
+			refetch,
 		};
 	},
 };

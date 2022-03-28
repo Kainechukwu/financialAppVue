@@ -6,18 +6,22 @@
 			</div>
 		</div> -->
 	<div class="col-span-3">
-		<div class="flex flex-col w-10/12">
+		<div v-if="businessDetailsLoading">
+			<FormEmptyState />
+		</div>
+		<div v-else class="flex flex-col w-10/12">
 			<StaticBusinessDetails
 				v-if="
 					businessDetailsData &&
 					businessDetailsData.companyName &&
 					businessDetailsData.companyName !== null &&
-					businessDetailsData.companyName.length > 0
+					businessDetailsData.companyName.length > 0 &&
+					businessDetailsData.approved
 				"
 				:details="businessDetailsData"
 			/>
 			<Form
-				v-else
+				v-else-if="!businessDetailsData.approved"
 				@submit="saveDetails"
 				:validation-schema="schema"
 				v-slot="{ errors }"
@@ -30,6 +34,7 @@
 						name="companyName"
 						type="text"
 						autocomplete="off"
+						v-model="cName"
 						required=""
 						placeholder="The Walt Disney Company"
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -203,6 +208,7 @@
 							id="Registration Date"
 							name="registrationDate"
 							type="date"
+							v-model="registrationDate"
 							autocomplete="off"
 							required=""
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -303,6 +309,7 @@
 								name="numberOfStaff"
 								type="number"
 								autocomplete="off"
+								v-model="numberOfStaff"
 								required=""
 								placeholder="1-50"
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
@@ -340,6 +347,7 @@
 						type="text"
 						autocomplete="off"
 						required=""
+						v-model="address"
 						placeholder=""
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						:class="{ 'is-invalid': errors.openingAddress }"
@@ -434,6 +442,7 @@
 								type="text"
 								autocomplete="off"
 								required=""
+								v-model="rcNumber"
 								placeholder=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								:class="{ 'is-invalid': errors.rcNumber }"
@@ -510,6 +519,7 @@
 							type="text"
 							autocomplete="off"
 							required=""
+							v-model="websiteUrl"
 							placeholder="http://"
 							class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							:class="{ 'is-invalid': errors.websiteUrl }"
@@ -534,6 +544,7 @@
 								type="text"
 								autocomplete="off"
 								required=""
+								v-model="beneficiaryOwners"
 								placeholder=""
 								class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 								:class="{ 'is-invalid': errors.ultimateBeneficialOwners }"
@@ -584,7 +595,7 @@
 </template>
 
 <script>
-import { toRefs, reactive, onMounted, ref, watch } from "vue";
+import { toRefs, reactive, onMounted, ref, watch, toRef } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
 import StaticBusinessDetails from "./StaticBusinessDetails.vue";
 import { Log, Util } from "@/components/util";
@@ -592,6 +603,7 @@ import { useStore } from "vuex";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import { useRouter } from "vue-router";
+import FormEmptyState from "./FormEmptyStates.vue";
 // import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
 
 import {
@@ -610,13 +622,18 @@ export default {
 		ListboxOption,
 		ListboxOptions,
 		// GreenCheckedSvg,
+		FormEmptyState,
 		Form,
 		Field,
 		StaticBusinessDetails,
 		// CheckIcon,
 		// SelectorIcon,
 	},
-	setup() {
+	props: {
+		details: Object,
+		detailsLoading: Boolean,
+	},
+	setup(props) {
 		onMounted(() => {
 			UserActions.getCountries(
 				(response) => {
@@ -631,7 +648,13 @@ export default {
 				}
 			);
 
+			Log.info("detailsLoading:" + props.detailsLoading);
+
 			buisnessDetailsGetter();
+
+			// setTimeout(() => {
+			// 	Log.info(industries[industriesIndex.value]);
+			// }, 7000);
 		});
 
 		const store = useStore();
@@ -640,11 +663,26 @@ export default {
 		const loading = ref(false);
 		const registrationTypes = ref(["LLC", "PLC", "NGO"]);
 		const selectedRegType = ref(registrationTypes.value[0]);
+		const isApproved = ref(false);
+		const busiDetailsData = ref({});
+		const userId = store.getters["authToken/userId"];
+
 		// const countriesLoading = ref(false);
+		const businessDetailsData = toRef(props, "details");
+		const businessDetailsLoading = toRef(props, "detailsLoading");
 		const selected = ref({});
 		const selectedState = ref({});
-		const userId = store.getters["authToken/userId"];
-		const businessDetailsData = ref({});
+		const cName = ref("");
+		const numberOfStaff = ref("");
+		const address = ref("");
+		const rcNumber = ref("");
+		const websiteUrl = ref("");
+		const beneficiaryOwners = ref("");
+		const registrationDate = ref("");
+		const industriesIndex = ref(0);
+		const about = ref("");
+		// const registrationDate = ref("");
+
 		// const state = ref("");
 		const states = ref([]);
 		const industries = [
@@ -662,21 +700,9 @@ export default {
 			},
 		];
 
-		const buisnessDetailsGetter = () => {
-			UserActions.getBusinessDetails(
-				userId,
-				(response) => {
-					businessDetailsData.value = response.data.data;
-					Log.info(response);
-				},
-				(error) => {
-					Log.info(error);
-				}
-			);
-		};
-		const selectedIndustry = ref(industries[0]);
+		const selectedIndustry = ref(industries[industriesIndex.value]);
 		const businessDetails = reactive({
-			// companyName: "",
+			// companyName: busiDetailsData.value.companyName,
 			countryId: 0,
 			stateId: 0,
 			// industry: "",
@@ -686,11 +712,57 @@ export default {
 
 			documentName: "",
 			documentBase64: "",
-			about: "",
+			// about: "",
 		});
 
 		const fileAttatchedErr = ref("");
 		const showFilesToSelect = ref({});
+
+		const buisnessDetailsGetter = () => {
+			// businessDetailsLoading.value = true;
+			UserActions.getBusinessDetails(
+				userId,
+				(response) => {
+					// businessDetailsLoading.value = false;
+
+					busiDetailsData.value = response.data.data;
+					// isBusinessDetailsApproved.value = response.data.data.approved;
+					cName.value = busiDetailsData.value.companyName ? busiDetailsData.value.companyName : "";
+					numberOfStaff.value = busiDetailsData.value.numberOfStaff
+						? busiDetailsData.value.numberOfStaff
+						: "";
+					address.value = busiDetailsData.value.address ? busiDetailsData.value.address : "";
+					rcNumber.value = busiDetailsData.value.rcNumber ? busiDetailsData.value.rcNumber : "";
+					websiteUrl.value = busiDetailsData.value.websiteUrl
+						? busiDetailsData.value.websiteUrl
+						: "";
+					beneficiaryOwners.value = busiDetailsData.value.beneficiaryOwners
+						? busiDetailsData.value.beneficiaryOwners
+						: "";
+					about.value = busiDetailsData.value.about ? busiDetailsData.value.about : "";
+					industriesIndex.value =
+						busiDetailsData.value.industry.length > 0
+							? industries.findIndex((item) => item.name === busiDetailsData.value.industry)
+							: 0;
+
+					selectedIndustry.value = industries[industriesIndex.value];
+
+					registrationDate.value = busiDetailsData.value.registrationDate
+						? busiDetailsData.value.registrationDate
+						: "";
+					Log.info(
+						"index:" + JSON.stringify(industries.findIndex((item) => item.name === "Agriculture"))
+					);
+
+					Log.info("busiDetailsData:" + JSON.stringify(busiDetailsData.value));
+				},
+				(error) => {
+					// businessDetailsLoading.value = false;
+
+					Log.info(error);
+				}
+			);
+		};
 
 		const onFileSelected = (e) => {
 			const files = e.target.files[0];
@@ -714,6 +786,11 @@ export default {
 			showFilesToSelect.value = document.getElementById("upload id2");
 			showFilesToSelect.value.click();
 		};
+
+		// const dateFormat = (date) => {
+		// 	const d = Util.formatTime(date, "YYYY-MM-DD", "YYYY-MM-DD");
+		// 	return d;
+		// };
 
 		const getCountryId = (country) => {
 			const id = countries.value.find((obj) => obj.name === country).id;
@@ -767,7 +844,7 @@ export default {
 				industry: selectedIndustry.value.name,
 				numberOfStaff: values.numberOfStaff,
 				websiteUrl: "http://" + values.websiteUrl,
-				about: businessDetails.about,
+				about: about.value,
 				rcNumber: values.rcNumber,
 				beneficiaryOwners: values.ultimateBeneficialOwners,
 				documentName: businessDetails.documentName,
@@ -819,6 +896,7 @@ export default {
 
 		return {
 			...toRefs(businessDetails),
+
 			countries,
 			loading,
 			// country,
@@ -835,6 +913,16 @@ export default {
 			chooseFiles,
 			onFileSelected,
 			fileAttatchedErr,
+			isApproved,
+			businessDetailsLoading,
+			cName,
+			numberOfStaff,
+			address,
+			rcNumber,
+			websiteUrl,
+			beneficiaryOwners,
+			about,
+			registrationDate,
 		};
 	},
 };
