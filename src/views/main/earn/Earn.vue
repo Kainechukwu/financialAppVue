@@ -32,6 +32,7 @@
 					</div>
 				</div>
 			</div>
+			<add-funds-naija :open="isAddFundsNaijaOpen" @close="closeAddFundsNaija" />
 			<!-- <Withdraw :page="Withdraw" @rootPage="returnToRoot" v-if="page === 'Withdraw'" /> -->
 		</div>
 	</div>
@@ -39,6 +40,7 @@
 
 <script>
 // import BalanceCards from "./BalanceCards.vue";
+import AddFundsNaija from "@/views/modals/AddFundsNaija.vue";
 import { onMounted, ref } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
 import { Log, Util } from "@/components/util";
@@ -53,6 +55,7 @@ import { askForPermissioToReceiveNotifications } from "@/push-notification";
 export default {
 	name: "Earn",
 	components: {
+		AddFundsNaija,
 		// BalanceCards,
 		// TransactionHistory,
 		// InterestEarnedPlate,
@@ -94,13 +97,24 @@ export default {
 
 		const router = useRouter();
 		const page = ref("Dashboard");
+		const isAddFundsNaijaOpen = ref(false);
 
 		const goToDeposit = () => {
-			router.push("/deposit");
+			openAddFundsNaija();
+			// router.push("/deposit");
+		};
+
+		const openAddFundsNaija = () => {
+			isAddFundsNaijaOpen.value = true;
+		};
+
+		const closeAddFundsNaija = () => {
+			isAddFundsNaijaOpen.value = false;
 		};
 
 		const goToWithdraw = () => {
-			router.push("/withdraw");
+			router.push("/withdraw-n");
+			// router.push("/withdraw");
 		};
 
 		const returnToRoot = () => {
@@ -113,6 +127,9 @@ export default {
 			page,
 			returnToRoot,
 			goToWithdraw,
+			openAddFundsNaija,
+			isAddFundsNaijaOpen,
+			closeAddFundsNaija,
 		};
 	},
 };

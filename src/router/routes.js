@@ -191,6 +191,14 @@ export default [
 						component: () => import("@/views/main/earn/Withdraw.vue")
 					},
 					{
+						path: "/withdraw-n",
+						name: "NaijaWithdraw",
+						meta: {
+							auth: Constants.merchantAuth,
+						},
+						component: () => import("@/views/main/earn/NaijaWithdraw.vue")
+					},
+					{
 						path: "/deposit",
 						name: "Earn_Deposit",
 						meta: {
