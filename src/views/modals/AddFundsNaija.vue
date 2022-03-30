@@ -52,6 +52,7 @@
 							<div style="max-height: 500px" class="flex flex-col p-8">
 								<span class="tx-666666 fs-14 fw-400 mb-4">
 									Use this number to transfer funds to your wallet, just like any other bank number
+									{{ bankDetails }}
 								</span>
 
 								<div
@@ -60,17 +61,30 @@
 								>
 									<div class="flex items-center justify-between mb-2">
 										<span class="tx-666666 fs-14 fw-400">Account Number:</span>
-										<span class="blackText fs-14 fw-500">8113560338</span>
+										<span
+											v-if="bankDetails?.accountNumber.length > 0"
+											class="blackText fs-14 fw-500"
+											>{{ bankDetails?.accountNumber }}</span
+										>
+										<span v-else class="blackText fs-14 fw-500">none</span>
 									</div>
 
 									<div class="flex items-center justify-between mb-2">
 										<span class="tx-666666 fs-14 fw-400">Bank Name:</span>
-										<span class="blackText fs-14 fw-500">Wema Bank</span>
+										<span v-if="bankDetails?.bankName.length > 0" class="blackText fs-14 fw-500">{{
+											bankDetails?.bankName
+										}}</span>
+										<span v-else class="blackText fs-14 fw-500">none</span>
 									</div>
 
 									<div class="flex items-center justify-between">
 										<span class="tx-666666 fs-14 fw-400">Account Name:</span>
-										<span class="blackText fs-14 fw-500">Wale Business Inc</span>
+										<span
+											v-if="bankDetails?.accountName.length > 0"
+											class="blackText fs-14 fw-500"
+											>{{ bankDetails?.accountName }}</span
+										>
+										<span v-else class="blackText fs-14 fw-500">none</span>
 									</div>
 								</div>
 
@@ -126,7 +140,8 @@
 </template>
 
 <script>
-import { onMounted, toRef, ref } from "vue";
+import { onMounted, toRef, computed } from "vue";
+import { useStore } from "vuex";
 // import UserActions from "@/services/userActions/userActions.js";
 // import { Log, Util } from "@/components/util";
 
@@ -139,23 +154,28 @@ export default {
 	setup(props, context) {
 		onMounted(() => {});
 
-		// const store = useStore();
+		const store = useStore();
 		const isModalOpen = toRef(props, "open");
-		const valueToCopy = ref("Account Details");
-		// const store = useStore();
+		// const valueToCopy = ref("Account Details");
+		const bankDetails = computed(() => store.getters["bankDetails/naijaBankDetails"]);
 
 		const close = () => {
 			context.emit("close");
 		};
 
+		const getCopy = () => {
+			return `Account Name: ${bankDetails.value.accountName}, Account Number: ${bankDetails.value.accountNumber}, Bank Name: ${bankDetails.value.bankName}`;
+		};
+
 		const copy = () => {
-			navigator.clipboard.writeText(valueToCopy.value);
+			navigator.clipboard.writeText(JSON.stringify(getCopy()));
 		};
 
 		return {
 			isModalOpen,
 			close,
 			copy,
+			bankDetails,
 		};
 	},
 };

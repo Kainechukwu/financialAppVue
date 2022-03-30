@@ -48,9 +48,31 @@ export default class UserActions {
 
 	}
 
+	static getNaijaBeneficiary(bankDetails, successHandler, errorHandler) {
+
+		Web.post(
+			Constants.API_BASE + "/Transactions/resolve-nuban",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static getNaijaBankAccountDetails(customerId, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Transactions/${customerId}/bank-account-details`, successHandler, errorHandler)
+
+	}
+
 	static getBankDetails(successHandler, errorHandler) {
 
 		Web.get(Constants.API_BASE + '/Transactions/bornfree-bank-data', successHandler, errorHandler)
+
+	}
+
+	static getBankList(successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + '/Transactions/banks', successHandler, errorHandler)
 
 	}
 	static getCustomerTransactions(merchantId, successHandler, errorHandler) {

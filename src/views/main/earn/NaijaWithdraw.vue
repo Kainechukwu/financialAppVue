@@ -271,25 +271,27 @@
 								<input
 									id="BeneficiaryAccountNumber"
 									name="BeneficiaryAccountNumber"
-									type="number"
+									type="text"
 									autocomplete="off"
+									v-model="beneficiaryAccountNumber"
 									required=""
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 focus:border-gray-400 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm"
 								/>
 								<!-- <div class="invalid-feedback text-red-500">{{ passwordError }}</div> -->
 							</div>
 
-							<div class="mb-6">
+							<div v-if="beneficiaryName.length > 0" class="mb-6">
 								<label for="Beneficiary Name" class="fs-14 tx-666666 fw-600"
 									>Beneficiary Name</label
 								>
 								<input
+									readonly
 									id="BeneficiaryName"
 									name="BeneficiaryName"
 									type="text"
 									autocomplete="off"
 									required=""
-									readonly
+									v-model="beneficiaryName"
 									style="background-color: #f9f9f9"
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 focus:border-gray-400 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm"
 								/>
@@ -297,16 +299,29 @@
 							</div>
 
 							<button
-								@click="proceed"
-								:disabled="sendAmountLoading"
+								v-if="beneficiaryName.length === 0"
+								@click="getNaijaBeneficiary"
+								:disabled="beneficiaryLoading"
 								style="background-color: #2b7ee4"
 								class="mx-auto cursor-pointer flex items-center justify-center h-12 w-80 br-5"
 							>
 								<div class="flex items-center justify-center">
 									<span class="fw-500 fs-16 text-white"> Get Beneficiary</span>
-									<div v-if="sendAmountLoading" class="h-4 w-4 ml-4 rounded-md block">
+									<div v-if="beneficiaryLoading" class="h-4 w-4 ml-4 rounded-md block">
 										<div class="roundLoader opacity-50 mx-auto"></div>
 									</div>
+								</div>
+							</button>
+							<button
+								v-else
+								style="background-color: #2b7ee4"
+								class="mx-auto cursor-pointer flex items-center justify-center h-12 w-80 br-5"
+							>
+								<div class="flex items-center justify-center">
+									<span class="fw-500 fs-16 text-white">Proceed</span>
+									<!-- <div v-if="beneficiaryLoading" class="h-4 w-4 ml-4 rounded-md block">
+										<div class="roundLoader opacity-50 mx-auto"></div>
+									</div> -->
 								</div>
 							</button>
 						</div>
@@ -337,6 +352,7 @@ import { Log, Util, Constants } from "@/components/util";
 import {
 	ref,
 	onMounted,
+	onBeforeMount,
 	//  computed,
 	watch,
 } from "vue";
@@ -352,7 +368,7 @@ import {
 	ListboxOption,
 	ListboxOptions,
 } from "@headlessui/vue";
-import { useStore } from "vuex";
+// import { useStore } from "vuex";
 // import { numeralFormat } from "vue-numerals";
 // var numeral = require("numeral");
 // import numeral from "numeral";
@@ -375,25 +391,34 @@ export default {
 		page: String,
 	},
 	setup() {
+		onBeforeMount(() => {
+			getBankList();
+		});
 		onMounted(() => {
-			getAllRates();
+			// getAllRates();
 		});
 
 		const steps = ref(1);
 		const router = useRouter();
-		const currencies = ref([]);
-		const selectedCurrency = ref({});
-		const openRecipients = ref(false);
-		const banks = ref([
-			{ name: "Wema Bank", id: 1 },
-			{ name: "Access Bank", id: 2 },
+		const currencies = ref([
+			{
+				currency: "NGN",
+				id: 5,
+			},
 		]);
-		const selectedBank = ref(banks.value[0]);
+		const beneficiaryName = ref("");
+		const beneficiaryAccountNumber = ref("");
+		const beneficiaryLoading = ref(false);
+
+		const selectedCurrency = ref(currencies.value[0]);
+		const openRecipients = ref(false);
+		const banks = ref([]);
+		const selectedBank = ref({});
 		const withdrawalAmount = ref("");
 
 		const sendAmountLoading = ref(false);
 
-		const store = useStore();
+		// const store = useStore();
 		const requestLoading = ref(false);
 
 		const formatCurr = (balance) => {
@@ -424,23 +449,58 @@ export default {
 			}
 		};
 
-		const getAllRates = () => {
-			requestLoading.value = true;
-			UserActions.getAllRates(
+		const getBankList = () => {
+			UserActions.getBankList(
 				(response) => {
-					currencies.value = response.data.data;
-					selectedCurrency.value = currencies.value.length > 0 ? currencies.value[0] : {};
+					banks.value = response.data.data;
+					selectedBank.value = banks.value[0];
 
-					store.commit("bankDetails/rateId", selectedCurrency.value.id);
-					requestLoading.value = false;
+					Log.info(response);
 				},
 				(error) => {
-					requestLoading.value = false;
-					Log.info(error);
-					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					Log.error(error);
 				}
 			);
 		};
+
+		const getNaijaBeneficiary = () => {
+			beneficiaryLoading.value = true;
+			UserActions.getNaijaBeneficiary(
+				{
+					bankCode: String(selectedBank.value.code),
+					accountNumber: String(beneficiaryAccountNumber.value),
+				},
+				(response) => {
+					beneficiaryLoading.value = false;
+					beneficiaryName.value = response.data.data ? response.data.data : "";
+
+					Log.info(response);
+				},
+				(error) => {
+					beneficiaryLoading.value = false;
+
+					Log.error(error);
+				}
+			);
+		};
+
+		// const getAllRates = () => {
+		// 	requestLoading.value = true;
+		// 	UserActions.getAllRates(
+		// 		(response) => {
+		// 			currencies.value = response.data.data;
+		// 			selectedCurrency.value = currencies.value.length > 0 ? currencies.value[0] : {};
+
+		// 			store.commit("bankDetails/rateId", selectedCurrency.value.id);
+		// 			requestLoading.value = false;
+		// 		},
+		// 		(error) => {
+		// 			requestLoading.value = false;
+		// 			Log.info(error);
+		// 			Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+		// 		}
+		// 	);
+		// };
 
 		const proceed = () => {
 			Log.info("Proceed");
@@ -471,11 +531,14 @@ export default {
 			banks,
 			selectedBank,
 			withdrawalAmount,
-
+			beneficiaryName,
+			beneficiaryAccountNumber,
 			increaseStep,
 			goBack,
 			formatCurr,
 			goToRootPage,
+			getNaijaBeneficiary,
+			beneficiaryLoading,
 			// addComma,
 		};
 	},

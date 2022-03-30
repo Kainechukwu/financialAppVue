@@ -46,7 +46,7 @@ import UserActions from "@/services/userActions/userActions.js";
 import { Log, Util } from "@/components/util";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-
+import UserInfo from "@/services/userInfo/userInfo.js";
 import { inject } from "vue";
 // import EarnDeposit from "./EarnDeposit.vue";
 // import Withdraw from "./Withdraw.vue";
@@ -91,17 +91,47 @@ export default {
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
+
+			getNaijaBankAccountDetails();
 		});
 
 		const messaging = inject("messaging");
-
+		const store = useStore();
+		const isNigerian = UserInfo.isNigerian();
+		const userId = store.getters["authToken/userId"];
 		const router = useRouter();
 		const page = ref("Dashboard");
 		const isAddFundsNaijaOpen = ref(false);
 
+		const getNaijaBankAccountDetails = () => {
+			if (isNigerian) {
+				UserActions.getNaijaBankAccountDetails(
+					userId,
+					(response) => {
+						Log.info("responseNaijaBank:" + JSON.stringify(response));
+						// const fakeData = {
+						// 	accountNumber: "111",
+						// 	accountName: "kaine",
+						// 	bankName: "Access",
+						// };
+						store.commit(
+							"bankDetails/naijaBankDetails",
+							// fakeData
+							response.data.data
+						);
+					},
+					(error) => {
+						Log.error(error);
+					}
+				);
+			}
+		};
 		const goToDeposit = () => {
-			openAddFundsNaija();
-			// router.push("/deposit");
+			if (isNigerian) {
+				openAddFundsNaija();
+			} else {
+				router.push("/deposit");
+			}
 		};
 
 		const openAddFundsNaija = () => {
@@ -113,15 +143,17 @@ export default {
 		};
 
 		const goToWithdraw = () => {
-			router.push("/withdraw-n");
-			// router.push("/withdraw");
+			if (isNigerian) {
+				router.push("/withdraw-n");
+			} else {
+				router.push("/withdraw");
+			}
 		};
 
 		const returnToRoot = () => {
 			router.push("/earn/overview");
 		};
 
-		const store = useStore();
 		return {
 			goToDeposit,
 			page,
@@ -130,6 +162,7 @@ export default {
 			openAddFundsNaija,
 			isAddFundsNaijaOpen,
 			closeAddFundsNaija,
+			isNigerian,
 		};
 	},
 };
