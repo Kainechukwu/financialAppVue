@@ -332,6 +332,7 @@ export default {
 						lastName: values.lastName,
 						email: values.email,
 						password: values.password,
+						countryId: selected.value.id,
 					},
 					(response) => {
 						Log.info("response:" + JSON.stringify(response.response));
@@ -347,6 +348,16 @@ export default {
 						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					}
 				);
+				// Log.info(
+				// 	"signupPayLoad:" +
+				// 		JSON.stringify({
+				// 			firstName: values.firstName,
+				// 			lastName: values.lastName,
+				// 			email: values.email,
+				// 			password: values.password,
+				// 			countryId: selected.value.id,
+				// 		})
+				// );
 			}
 		};
 
