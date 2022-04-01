@@ -127,6 +127,30 @@ export default {
 		const isBusinessDetailsApproved = ref(false);
 		const currentView = ref("BusinessDetails");
 
+		const prepareDetailsObject = () => {
+			const obj = {
+				about: "",
+				address: "",
+				approved: false,
+				beneficiaryOwners: "",
+				companyName: "",
+				country: "",
+				documentName: "",
+				documentPath: "",
+
+				industry: "",
+				numberOfStaff: "",
+
+				rcNumber: "",
+				registrationDate: "",
+				registrationType: "",
+				state: "",
+				verificationStatus: "",
+				websiteUrl: "",
+			};
+			return obj;
+		};
+
 		const buisnessDetailsGetter = () => {
 			businessDetailsLoading.value = true;
 			UserActions.getBusinessDetails(
@@ -134,8 +158,10 @@ export default {
 				(response) => {
 					businessDetailsLoading.value = false;
 
-					businessDetailsData.value = response.data.data;
-					isBusinessDetailsApproved.value = response.data.data.approved;
+					businessDetailsData.value = response.data.data
+						? response.data.data
+						: prepareDetailsObject();
+					isBusinessDetailsApproved.value = businessDetailsData.value.approved;
 
 					Log.info(response);
 				},
@@ -167,9 +193,10 @@ export default {
 				(response) => {
 					Log.info("Directors:" + JSON.stringify(response.data.data));
 					directors.value = response.data.data;
-					allDirectorsApproved.value = !directors.value
-						.map((director) => director.approved)
-						.includes(false);
+					allDirectorsApproved.value =
+						directors.value.length > 0
+							? !directors.value.map((director) => director.approved).includes(false)
+							: false;
 				},
 				(error) => {
 					Log.error(error);

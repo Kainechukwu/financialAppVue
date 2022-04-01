@@ -177,13 +177,14 @@
 							</div>
 
 							<span
+								v-if="beneficiaryListArray.length > 0"
 								@click="goToBeneficiaryList"
 								style="text-decoration-line: underline; color: #407bff"
-								class="cursor-pointer mt-5 mb-6 fw-400 fs-14"
-								>Previous Recipients</span
+								class="cursor-pointer mt-5 fw-400 fs-14"
+								>Previous Beneficiaries</span
 							>
 
-							<div class="mb-7">
+							<div class="mb-7 mt-6">
 								<div class="relative">
 									<Listbox as="div" v-model="selectedBank">
 										<ListboxLabel class="block fs-14 tx-666666 fw-600 truncate">
@@ -298,7 +299,7 @@
 								<!-- <div class="invalid-feedback text-red-500">{{ passwordError }}</div> -->
 							</div>
 
-							<button
+							<!-- <button
 								v-if="beneficiaryName.length === 0"
 								@click="getNaijaBeneficiary"
 								:disabled="beneficiaryLoading"
@@ -311,9 +312,11 @@
 										<div class="roundLoader opacity-50 mx-auto"></div>
 									</div>
 								</div>
-							</button>
+							</button> -->
 							<button
-								v-else
+								:class="beneficiaryName.length === 0 && 'opacity-50'"
+								:disabled="beneficiaryName.length === 0"
+								@click="openNaijaWithdrawalOtp"
 								style="background-color: #2b7ee4"
 								class="mx-auto cursor-pointer flex items-center justify-center h-12 w-80 br-5"
 							>
@@ -337,6 +340,16 @@
 					:step="steps"
 					v-if="steps === 2 || steps === 3"
 				/>
+
+				<naija-withdrawal-modal-otp
+					:open="naijaWithdrawalOtpOpen"
+					:amount="withdrawalAmount"
+					:destinationAccountNumber="beneficiaryAccountNumber"
+					:destinationAccountName="beneficiaryName"
+					:destinationBankCode="selectedBank.code"
+					:destinationBankName="selectedBank.name"
+					@close="closeNaijaWithdrawalOtp"
+				/>
 				<!-- <ConfirmWithdrawal /> -->
 				<!-- ------------------ -->
 			</div>
@@ -346,6 +359,7 @@
 
 <script>
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 import BankDetails from "./BankDetails.vue";
 // import CancelSvg from "./CancelSvg.vue";
 import { Log, Util, Constants } from "@/components/util";
@@ -361,6 +375,7 @@ import {
 import EarnDepositLoading from "./earnDepositLoading.vue";
 import UserActions from "@/services/userActions/userActions.js";
 import NaijaBeneficiaryList from "./NaijaBeneficiaryList.vue";
+import NaijaWithdrawalModalOtp from "@/views/modals/NaijaWithdrawalModalOtp";
 import {
 	Listbox,
 	ListboxLabel,
@@ -386,6 +401,7 @@ export default {
 		ListboxLabel,
 		EarnDepositLoading,
 		NaijaBeneficiaryList,
+		NaijaWithdrawalModalOtp,
 	},
 	props: {
 		page: String,
@@ -393,12 +409,14 @@ export default {
 	setup() {
 		onBeforeMount(() => {
 			getBankList();
+			getPrevBeneficiaries();
 		});
 		onMounted(() => {
 			// getAllRates();
 		});
 
 		const steps = ref(1);
+		const store = useStore();
 		const router = useRouter();
 		const currencies = ref([
 			{
@@ -409,7 +427,11 @@ export default {
 		const beneficiaryName = ref("");
 		const beneficiaryAccountNumber = ref("");
 		const beneficiaryLoading = ref(false);
-
+		const naijaWithdrawalOtpOpen = ref(false);
+		const userId = ref(store.getters["authToken/userId"]);
+		const beneficiaryListArray = ref([]);
+		const pageNumber = ref(1);
+		const pageSize = ref(10);
 		const selectedCurrency = ref(currencies.value[0]);
 		const openRecipients = ref(false);
 		const banks = ref([]);
@@ -449,12 +471,35 @@ export default {
 			}
 		};
 
+		const openNaijaWithdrawalOtp = () => {
+			naijaWithdrawalOtpOpen.value = true;
+		};
+
+		const closeNaijaWithdrawalOtp = () => {
+			naijaWithdrawalOtpOpen.value = false;
+		};
+
 		const getBankList = () => {
 			UserActions.getBankList(
 				(response) => {
 					banks.value = response.data.data;
 					selectedBank.value = banks.value[0];
 
+					Log.info(response);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
+		const getPrevBeneficiaries = () => {
+			UserActions.getPrevBeneficiaries(
+				userId.value,
+				pageNumber.value,
+				pageSize.value,
+				(response) => {
+					beneficiaryListArray.value = response.data.data;
 					Log.info(response);
 				},
 				(error) => {
@@ -515,6 +560,11 @@ export default {
 		// 	Log.info(newValue);
 		// 	youReceive.value =
 		// });
+		watch(beneficiaryAccountNumber, (newValue) => {
+			if (newValue.length === 10) {
+				getNaijaBeneficiary();
+			}
+		});
 
 		return {
 			proceed,
@@ -526,7 +576,7 @@ export default {
 			// youReceive,
 			sendAmountLoading,
 			requestLoading,
-
+			beneficiaryListArray,
 			steps,
 			banks,
 			selectedBank,
@@ -539,6 +589,10 @@ export default {
 			goToRootPage,
 			getNaijaBeneficiary,
 			beneficiaryLoading,
+			openNaijaWithdrawalOtp,
+			naijaWithdrawalOtpOpen,
+			closeNaijaWithdrawalOtp,
+
 			// addComma,
 		};
 	},

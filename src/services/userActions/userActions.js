@@ -58,6 +58,22 @@ export default class UserActions {
 		)
 	}
 
+	static getPrevBeneficiaries(userId, pageNumber, pageSize, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Transactions/${userId}/beneficiaries?pageNumber=${pageNumber}&pageSize=${pageSize}`, successHandler, errorHandler)
+
+	}
+
+	static naijaWithdrawal(bankDetails, successHandler, errorHandler) {
+
+		Web.post(
+			Constants.API_BASE + "/Transactions/withdraw-nigerian",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+	}
+
 	static getNaijaBankAccountDetails(customerId, successHandler, errorHandler) {
 
 		Web.get(Constants.API_BASE + `/Transactions/${customerId}/bank-account-details`, successHandler, errorHandler)

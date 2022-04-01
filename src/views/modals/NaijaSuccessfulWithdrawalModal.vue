@@ -75,14 +75,14 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 
 export default {
-	name: "SuccessfulWithdrawalModal",
+	name: "NaijaSuccessfulWithdrawalModal",
 	components: {
 		// OtpNumberSvg,
 	},
 	setup() {
 		const store = useStore();
 		const router = useRouter();
-		const isModalOpen = computed(() => store.state.transactionSuccessfulModal);
+		const isModalOpen = computed(() => store.state.naijaTransactionSuccessfulModal);
 
 		const done = () => {
 			close();
@@ -91,7 +91,7 @@ export default {
 			// store.commit("setRerender", 1);
 			router.push("/earn/overview");
 			// router.go();
-			store.commit("setTransactionSuccessfulModal", false);
+			store.commit("setNaijaTransactionSuccessfulModal", false);
 
 			// router.go();
 		};

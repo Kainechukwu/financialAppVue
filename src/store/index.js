@@ -21,6 +21,8 @@ export default createStore({
     notification: { show: false, text: "", type: "" },
     bankDetailsPinModal: false,
     transactionSuccessfulModal: false,
+    naijaTransactionSuccessfulModal: false,
+
     rerender: 0,
     confirmTransaction: false,
     rejectTransaction: false,
@@ -28,6 +30,9 @@ export default createStore({
 
   },
   mutations: {
+    setNaijaTransactionSuccessfulModal(state, payload) {
+      state.naijaTransactionSuccessfulModal = payload;
+    },
     setOpenSideBar(state, payload) {
       state.openSideBar = payload;
     },

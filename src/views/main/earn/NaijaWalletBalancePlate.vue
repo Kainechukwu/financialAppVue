@@ -3,11 +3,8 @@
 		<div class="flex h-full flex-col bg-white br-10 px-4">
 			<div class="flex flex-col justify-between my-4">
 				<div class="flex justify-between mb-2">
-					<span v-if="isNigerian" class="fw-400 fs-12 tx-666666 uppercase"
+					<span class="fw-400 fs-12 tx-666666 uppercase"
 						>Wallet balance in <span class="text-green-300">NGN</span></span
-					>
-					<span v-else class="fw-400 fs-12 tx-666666 uppercase"
-						>Your total balance in <span>USD</span></span
 					>
 					<!-- <div class=" flex"> -->
 					<Popover class="relative">
@@ -66,21 +63,14 @@
 				</div>
 
 				<div class="flex">
-					<span v-if="isNigerian" class="fw-400 fs-24 blacktext mr-3"
+					<span class="fw-400 fs-24 blacktext mr-3"
 						>N{{ totalWithPerSecInterest
-						}}<span class="fs-14 ml-px">{{ interectDecimal }}</span></span
-					>
-					<span v-else class="fw-400 fs-24 blacktext mr-3"
-						>${{ totalWithPerSecInterest
 						}}<span class="fs-14 ml-px">{{ interectDecimal }}</span></span
 					>
 					<!-- <img src="totalbalance.jpg" class="h-8 w-8" alt="" /> -->
 				</div>
-				<span v-if="isNigerian" class="fw-400 fs-14 tx-666666"
+				<span class="fw-400 fs-14 tx-666666"
 					>Available Balance: <span>N{{ availableBalance }}</span></span
-				>
-				<span v-else class="fw-400 fs-14 tx-666666"
-					>Available Balance: <span>${{ availableBalance }}</span></span
 				>
 				<!-- <span>{{ totalWithPerSecInterest }}</span> -->
 
@@ -101,7 +91,7 @@ import { Log, Util, Constants } from "@/components/util";
 // var detect = require("detect");
 // var ua = detect.parse(navigator.userAgent);
 export default {
-	name: "TotalBalancePlate",
+	name: "NaijaWalletBalancePlate",
 	components: {
 		Popover,
 		PopoverButton,
@@ -119,7 +109,6 @@ export default {
 
 		const store = useStore();
 		const totalBalance = ref("0.00");
-		const isNigerian = UserInfo.isNigerian();
 		const total = ref(0);
 		const availableBalance = ref("0.00");
 		const principalBalance = ref(0);
@@ -229,14 +218,7 @@ export default {
 			}
 		});
 
-		return {
-			totalWithPerSecInterest,
-			value,
-			totalBalance,
-			availableBalance,
-			interectDecimal,
-			isNigerian,
-		};
+		return { totalWithPerSecInterest, value, totalBalance, availableBalance, interectDecimal };
 	},
 };
 </script>

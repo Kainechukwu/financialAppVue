@@ -142,7 +142,10 @@
 				<!-- </div> -->
 			</div>
 			<div class="flex flex-col justify-between mt-1">
-				<span class="fw-400 fs-24 blacktext counter">${{ interest }}</span>
+				<span v-if="isNigerian" class="fw-400 fs-24 blacktext counter"> N{{ interest }} </span>
+				<span v-else class="fw-400 fs-24 blacktext counter"> ${{ interest }} </span>
+				<!-- {{ interest }} -->
+
 				<span class="fw-400 fs-14 tx-666666"
 					>Here is an overview of your earnings from your investments.</span
 				>
@@ -154,6 +157,8 @@
 
 <script>
 import counterUp from "counterup2";
+import UserInfo from "@/services/userInfo/userInfo.js";
+
 import { onMounted, ref, watch } from "vue";
 import { Log, Util, Constants } from "@/components/util";
 import UserActions from "@/services/userActions/userActions.js";
@@ -193,7 +198,11 @@ export default {
 			{ period: "Last 7 days", value: 3 },
 			{ period: "Last 30 days", value: 4 },
 		];
+		const isNigerian = ref(UserInfo.isNigerian());
+
+		// const currency = isNigerian ? "N" : "$";
 		const selected = ref(periods[0]);
+		const interest = ref(Util.currencyFormatter(0, Constants.currencyFormat));
 
 		const getEarnings = () => {
 			UserActions.getEarnings(
@@ -215,8 +224,6 @@ export default {
 			);
 		};
 
-		const interest = ref(Util.currencyFormatter(0, Constants.currencyFormat));
-
 		const counter = () => {
 			const items = document.querySelectorAll(".counter");
 
@@ -233,7 +240,7 @@ export default {
 			Log.info(newValue);
 			getEarnings();
 		});
-		return { periods, selected, interest };
+		return { periods, selected, interest, isNigerian };
 	},
 };
 </script>

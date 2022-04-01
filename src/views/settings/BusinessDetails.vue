@@ -718,6 +718,30 @@ export default {
 		const fileAttatchedErr = ref("");
 		const showFilesToSelect = ref({});
 
+		const prepareDetailsObject = () => {
+			const obj = {
+				about: "",
+				address: "",
+				approved: false,
+				beneficiaryOwners: "",
+				companyName: "",
+				country: "",
+				documentName: "",
+				documentPath: "",
+
+				industry: "",
+				numberOfStaff: "",
+
+				rcNumber: "",
+				registrationDate: "",
+				registrationType: "",
+				state: "",
+				verificationStatus: "",
+				websiteUrl: "",
+			};
+			return obj;
+		};
+
 		const buisnessDetailsGetter = () => {
 			// businessDetailsLoading.value = true;
 			UserActions.getBusinessDetails(
@@ -725,8 +749,9 @@ export default {
 				(response) => {
 					// businessDetailsLoading.value = false;
 
-					busiDetailsData.value = response.data.data;
 					// isBusinessDetailsApproved.value = response.data.data.approved;
+
+					busiDetailsData.value = response.data.data ? response.data.data : prepareDetailsObject();
 					cName.value = busiDetailsData.value.companyName ? busiDetailsData.value.companyName : "";
 					numberOfStaff.value = busiDetailsData.value.numberOfStaff
 						? busiDetailsData.value.numberOfStaff
