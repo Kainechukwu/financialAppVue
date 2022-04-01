@@ -190,7 +190,11 @@ export default {
 			}
 			let element = notificationScroll.value;
 
-			if (element.getBoundingClientRect().bottom < window.innerHeight) {
+			if (element === null) {
+				return;
+			}
+
+			if (element !== null && element.getBoundingClientRect().bottom < window.innerHeight) {
 				if (checkPagesLeft()) {
 					loadMore();
 				}

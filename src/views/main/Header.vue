@@ -343,8 +343,11 @@ export default {
 						return;
 					}
 					let element = notificationScroll.value;
+					if (element === null) {
+						return;
+					}
 
-					if (element.getBoundingClientRect().bottom < window.innerHeight) {
+					if (element !== null && element.getBoundingClientRect().bottom < window.innerHeight) {
 						if (checkPagesLeft()) {
 							loadMore();
 						}

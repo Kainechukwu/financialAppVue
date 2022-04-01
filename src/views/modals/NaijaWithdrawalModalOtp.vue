@@ -178,7 +178,7 @@ export default {
 	// },
 	props: {
 		open: Boolean,
-		amount: Number,
+		amount: String,
 		destinationAccountNumber: String,
 		destinationAccountName: String,
 		destinationBankCode: String,
@@ -222,7 +222,7 @@ export default {
 				pin: code,
 				amount: Number(props.amount),
 				userId: store.getters["authToken/userId"],
-				wallet: 1,
+				wallet: store.getters["bankDetails/walletId"],
 				destinationAccountNumber: props.destinationAccountNumber,
 				destinationAccountName: props.destinationAccountName,
 				destinationBankCode: props.destinationBankCode,
