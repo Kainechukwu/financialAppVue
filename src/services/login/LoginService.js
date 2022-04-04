@@ -112,6 +112,7 @@ export default class LoginService {
 		store.commit("authToken/dob", data.dob ? data.dob : new Date("01/01/1000"));
 		store.commit("authToken/phoneNumber", data.phoneNumber ? data.phoneNumber : "");
 		store.commit("authToken/companyName", data.companyName ? data.companyName : "Unverified");
+		store.commit("authToken/countryName", data.countryName ? data.countryName : "")
 		// store.commit("authToken/companyName", null);
 		store.commit("authToken/isProfileUpdated", data.isProfileUpdated);
 		store.commit("authToken/isPhoneNumberVerified", data.isPhoneNumberVerified);

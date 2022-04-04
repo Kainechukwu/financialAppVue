@@ -14,7 +14,8 @@ const state = {
 	amountToReceive: 0,
 	withdrawalFee: 0,
 	depositFee: 0,
-	walletId: 0
+	walletId: 0,
+	naijaBankDetails: {}
 
 
 };
@@ -25,6 +26,9 @@ const getters = {
 	// details(state) {
 	// 	return state.details
 	// }
+	naijaBankDetails(state) {
+		return state.naijaBankDetails
+	},
 	walletId(state) {
 		return state.walletId
 	},
@@ -71,6 +75,10 @@ const getters = {
 
 
 const mutations = {
+
+	naijaBankDetails(state, naijaBankDetails) {
+		state.naijaBankDetails = naijaBankDetails;
+	},
 	walletId(state, walletId) {
 		state.walletId = walletId;
 	},

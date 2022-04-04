@@ -12,8 +12,11 @@
 				<section
 					class="main inline-block bg-white align-bottom br-5 shadow-xs text-left overflow-hidden transform transition-all max-w-sm mx-auto sm:my-8 sm:align-middle sm:w-full"
 				>
-					<div class="w-full h-full overflow-y-auto p-6">
-						<div class="flex flex-col justify-center items-center">
+					<div class="w-full h-full overflow-y-auto flex flex-col">
+						<div style="border: 1px solid #f4f4f4" class="flex items-center px-6 py-4">
+							<div class="w-full flex justify-center">
+								<span class="fw-500 fs-14 blacktext">Authentication Pin</span>
+							</div>
 							<div @click="close" class="ml-auto">
 								<svg
 									width="24"
@@ -37,6 +40,8 @@
 									/>
 								</svg>
 							</div>
+						</div>
+						<div class="flex flex-col justify-center items-center p-6">
 							<div class="flex justify-center mb-4">
 								<OtpNumberSvg />
 							</div>
@@ -156,13 +161,13 @@ import { useStore } from "vuex";
 // import { useRouter } from "vue-router";
 import UserActions from "@/services/userActions/userActions.js";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
-import { computed, onMounted, watch } from "vue";
-import { reactive, toRefs, ref } from "vue";
+import { onMounted, watch } from "vue";
+import { reactive, toRefs, ref, toRef } from "vue";
 import { Log } from "@/components/util";
 // import { useRouter } from "vue-router";
 
 export default {
-	name: "BankDetailsPin",
+	name: "NaijaWithdrawalModalOtp",
 	components: {
 		OtpNumberSvg,
 	},
@@ -171,8 +176,15 @@ export default {
 	// 		this.$forceUpdate();
 	// 	},
 	// },
-	setup() {
-		const store = useStore();
+	props: {
+		open: Boolean,
+		amount: String,
+		destinationAccountNumber: String,
+		destinationAccountName: String,
+		destinationBankCode: String,
+		destinationBankName: String,
+	},
+	setup(props, context) {
 		onMounted(() => {
 			// document.getElementById("code01").focus();
 		});
@@ -186,36 +198,10 @@ export default {
 			code5: "",
 			code6: "",
 		});
-
-		// var input = document.getElementById("myInput");
-
-		// input.onkeydown = function () {
-		// 	var key = event.keyCode || event.charCode;
-
-		// 	if (key == 8 || key == 46) return false;
-		// };
-
-		// const del = (event, prev) => {
-
-		// 	// const curr = document.getElementById(curr);
-		// 	if (event.inputType === "deleteContentBackward" && event.target.value === "") {
-		// 		// Focus on the previous field
-		// 		document.getElementById(prev).focus();
-		// 	}
-		// 	// const input = document.getElementById(curr);
-
-		// 	// input.onkeydown = function (event) {
-		// 	// 	var key = event.keyCode || event.charCode;
-
-		// 	// 	if (key == 8 || key == 46) {
-		// 	// 		input.value = "";
-		// 	// 		document.getElementById(prev).focus();
-		// 	// 	}
-		// 	// };
-		// };
+		const store = useStore();
 		const errorMessage = ref("");
 		const submitLoading = ref(false);
-		const isModalOpen = computed(() => store.state.bankDetailsPinModal);
+		const isModalOpen = toRef(props, "open");
 		// const router = useRouter();
 		function clickEvent(e, next) {
 			// Log.info(String(curr) + " " + String(next));
@@ -233,17 +219,13 @@ export default {
 
 			const obj = {
 				pin: code,
-				amount: store.getters["bankDetails/amount"],
-				rateId: store.getters["bankDetails/rateId"],
+				amount: Number(props.amount),
 				userId: store.getters["authToken/userId"],
 				wallet: store.getters["bankDetails/walletId"],
-				bank: {
-					beneficiaryName: store.getters["bankDetails/beneficiaryName"],
-					beneficiaryAccountNumber: store.getters["bankDetails/beneficiaryAccountNumber"],
-					bankName: store.getters["bankDetails/bankName"],
-					abaRoutingNumber: store.getters["bankDetails/abaRoutingNumber"],
-					bankAddress: store.getters["bankDetails/bankAddress"],
-				},
+				destinationAccountNumber: props.destinationAccountNumber,
+				destinationAccountName: props.destinationAccountName,
+				destinationBankCode: props.destinationBankCode,
+				destinationBankName: props.destinationBankName,
 			};
 
 			return obj;
@@ -266,32 +248,35 @@ export default {
 				submitLoading.value = false;
 				errorMessage.value = "All fields must be filled";
 			} else {
-				UserActions.transactionWithdrawal(
+				UserActions.naijaWithdrawal(
 					prepareDetails(),
-
 					(response) => {
 						submitLoading.value = false;
-						Log.info("transaction withjdrawal response" + String(response));
-						store.commit("setBankDetailsPinModal", false);
-						// router.push("/earn/overview");
+						Log.info("transaction withdrawal response" + String(response));
+						close();
 						resetInput();
-
-						store.commit("setTransactionSuccessfulModal", true);
+						store.commit("setNaijaTransactionSuccessfulModal", true);
 					},
 					(error) => {
 						submitLoading.value = false;
-						Log.error("transaction withdrawal response" + String(error));
-						resetInput();
-						// store.commit("setBankDetailsPinModal", false);
-						// router.push("/withdraw");
+						Log.error("naija withdrawal response " + String(error));
 						errorMessage.value = error.response.data.Message;
-						// Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+						// store.commit("setNaijaTransactionSuccessfulModal", true);
+						// close();
+						resetInput();
+
+						Log.info(store.state.naijaTransactionSuccessfulModal);
 					}
 				);
+				// store.commit("setTransactionSuccessfulModal", true);
+				// resetInput();
+				// close();
+
+				Log.info(prepareDetails());
 			}
 		};
 		const close = () => {
-			store.commit("setBankDetailsPinModal", false);
+			context.emit("close");
 			errorMessage.value = "";
 		};
 

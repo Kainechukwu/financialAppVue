@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+			<!-- <NaijaWalletBalancePlate v-if="isNigerian" /> -->
 			<div class="col-span-1">
 				<div class="flex h-full flex-col bg-white br-10 px-4 pb-3">
 					<div class="flex flex-col justify-between my-4">
@@ -44,6 +45,7 @@
 					</div>
 				</div>
 			</div>
+
 			<TotalBalancePlate />
 			<div class="col-span-1"><InterestEarnedPlate /></div>
 		</div>
@@ -57,6 +59,9 @@
 import InterestEarnedPlate from "./InterestEarnedPlate.vue";
 import TotalBalancePlate from "./TotalBalancePlate.vue";
 import RecentTransactions from "./RecentTransactions";
+// import UserInfo from "@/services/userInfo/userInfo.js";
+// import NaijaWalletBalancePlate from "./NaijaWalletBalancePlate.vue";
+
 // import StartSavingSvg from "@/components/svg/StartSavingSvg.vue";
 export default {
 	name: "Earn Overview",
@@ -65,10 +70,15 @@ export default {
 		InterestEarnedPlate,
 		TotalBalancePlate,
 		RecentTransactions,
+		// NaijaWalletBalancePlate,
 		// StartSavingSvg,
 	},
 	setup() {
-		return {};
+		// const isNigerian = UserInfo.isNigerian();
+
+		return {
+			// isNigerian
+		};
 	},
 };
 </script>

@@ -10,6 +10,7 @@ const state = {
 	firstName: "",
 	lastName: "",
 	hasPin: false,
+	countryName: "",
 	entryUrl: "",
 	loggedIn: false,
 	dob: "",
@@ -25,6 +26,9 @@ const state = {
 
 
 const getters = {
+	countryName(state) {
+		return state.countryName;
+	},
 	count(state) {
 		return state.count;
 	},
@@ -95,6 +99,9 @@ const getters = {
 
 
 const mutations = {
+	countryName(state, countryName) {
+		state.countryName = countryName;
+	},
 	isProfileUpdated(state, isProfileUpdated) {
 		state.isProfileUpdated = isProfileUpdated;
 	},

@@ -82,7 +82,7 @@
 						<!-- ------------ -->
 
 						<!-- ------------- -->
-						<div class="mb-8">
+						<div class="mb-6">
 							<label for="password" class="fs-14 tx-666666 fw-600">Password</label>
 							<!-- <input
 								id="password"
@@ -102,6 +102,87 @@
 							/>
 							<div class="invalid-feedback text-red-500">{{ errors.password }}</div>
 							<!-- <div class="invalid-feedback text-red-500">{{ passwordError }}</div> -->
+						</div>
+
+						<div class="mb-8">
+							<div class="relative">
+								<Listbox as="div" v-model="selected">
+									<ListboxLabel class="block fs-14 tx-666666 fw-600 truncate">
+										Country
+									</ListboxLabel>
+									<div class="mt-1 relative">
+										<ListboxButton
+											class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 sm:text-sm"
+										>
+											<span class="block truncate">{{ selected.name }}</span>
+											<span
+												class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+											>
+												<div class="h-5 w-5 text-gray-400 flex items-center">
+													<svg
+														width="12"
+														height="6"
+														viewBox="0 0 12 6"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M1 1L5.73 5.2L10.46 1"
+															stroke="#BFBFBF"
+															stroke-width="1.5"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</div>
+											</span>
+										</ListboxButton>
+
+										<transition
+											leave-active-class="transition ease-in duration-100"
+											leave-from-class="opacity-100"
+											leave-to-class="opacity-0"
+										>
+											<ListboxOptions
+												class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+											>
+												<ListboxOption
+													as="template"
+													v-for="country in countries"
+													:key="country.id"
+													:value="country"
+													v-slot="{ active, selected }"
+												>
+													<li
+														:class="[
+															active ? 'blacktext bg-gray-100' : 'blacktext',
+															'cursor-default select-none relative py-2 pl-3 pr-9',
+														]"
+													>
+														<span
+															:class="[
+																selected ? 'font-semibold' : 'font-normal',
+																'block truncate',
+															]"
+														>
+															{{ country.name }}
+														</span>
+
+														<span
+															v-if="selected"
+															:class="[
+																active ? 'text-white' : 'text-indigo-600',
+																'absolute inset-y-0 right-0 flex items-center pr-4',
+															]"
+														>
+														</span>
+													</li>
+												</ListboxOption>
+											</ListboxOptions>
+										</transition>
+									</div>
+								</Listbox>
+							</div>
 						</div>
 					</div>
 
@@ -141,20 +222,35 @@ import { onMounted } from "vue";
 import { useStore } from "vuex";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, ref } from "vue";
 import SignupService from "@/services/signup/SignupService.js";
 import { Log, Util } from "@/components/util";
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
+import UserActions from "@/services/userActions/userActions.js";
+import {
+	Listbox,
+	ListboxButton,
+	ListboxLabel,
+	ListboxOption,
+	ListboxOptions,
+} from "@headlessui/vue";
+
 export default {
 	name: "Signup",
 	components: {
 		SuprBizLogo,
 		Form,
 		Field,
+		Listbox,
+		ListboxButton,
+		ListboxLabel,
+		ListboxOption,
+		ListboxOptions,
 	},
 
 	setup() {
 		onMounted(() => {
+			getCountries();
 			console.log("name", store.getters["authToken/companyName"]);
 		});
 		const store = useStore();
@@ -162,6 +258,8 @@ export default {
 		const signupUser = reactive({
 			loading: false,
 		});
+		const countries = ref([]);
+		const selected = ref({});
 
 		const user = reactive({
 			userEmail: "",
@@ -187,6 +285,19 @@ export default {
 		});
 		const goToLogin = () => {
 			router.push("/login");
+		};
+
+		const getCountries = () => {
+			UserActions.getCountries(
+				(response) => {
+					countries.value = response.data.data;
+					selected.value = countries.value[0];
+					// Log.info(countries.value);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
 		};
 
 		// const checkPassword = (e) => {
@@ -221,6 +332,7 @@ export default {
 						lastName: values.lastName,
 						email: values.email,
 						password: values.password,
+						countryId: selected.value.id,
 					},
 					(response) => {
 						Log.info("response:" + JSON.stringify(response.response));
@@ -236,6 +348,16 @@ export default {
 						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					}
 				);
+				// Log.info(
+				// 	"signupPayLoad:" +
+				// 		JSON.stringify({
+				// 			firstName: values.firstName,
+				// 			lastName: values.lastName,
+				// 			email: values.email,
+				// 			password: values.password,
+				// 			countryId: selected.value.id,
+				// 		})
+				// );
 			}
 		};
 
@@ -249,6 +371,8 @@ export default {
 			goToLogin,
 			signupUser,
 			schema,
+			selected,
+			countries,
 		};
 	},
 };

@@ -48,9 +48,47 @@ export default class UserActions {
 
 	}
 
+	static getNaijaBeneficiary(bankDetails, successHandler, errorHandler) {
+
+		Web.post(
+			Constants.API_BASE + "/Transactions/resolve-nuban",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static getPrevBeneficiaries(userId, pageNumber, pageSize, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Transactions/${userId}/beneficiaries?pageNumber=${pageNumber}&pageSize=${pageSize}`, successHandler, errorHandler)
+
+	}
+
+	static naijaWithdrawal(bankDetails, successHandler, errorHandler) {
+
+		Web.post(
+			Constants.API_BASE + "/Transactions/withdraw-nigerian",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static getNaijaBankAccountDetails(customerId, successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Transactions/${customerId}/bank-account-details`, successHandler, errorHandler)
+
+	}
+
 	static getBankDetails(successHandler, errorHandler) {
 
 		Web.get(Constants.API_BASE + '/Transactions/bornfree-bank-data', successHandler, errorHandler)
+
+	}
+
+	static getBankList(successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + '/Transactions/banks', successHandler, errorHandler)
 
 	}
 	static getCustomerTransactions(merchantId, successHandler, errorHandler) {
@@ -277,6 +315,12 @@ export default class UserActions {
 	static unmuteNotifications(details, successHandler, errorHandler) {
 
 		Web.post(Constants.API_BASE + "/Notifications/unmute", details, successHandler, errorHandler)
+
+	}
+
+	static resendPhonenumberConfirmation(successHandler, errorHandler) {
+
+		Web.post(Constants.API_BASE + `/Account/resend-phonenumber-confirmation-code`, "", successHandler, errorHandler)
 
 	}
 

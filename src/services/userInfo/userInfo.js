@@ -1,4 +1,6 @@
 import { Web, Constants } from "@/components/util"
+import store from "@/store/index.js";
+
 
 export default class UserInfo {
 	static accountBalance(customerId, successHandler, errorHandler) {
@@ -18,6 +20,11 @@ export default class UserInfo {
 	static getInterestRate(successHandler, errorHandler) {
 		Web.get(Constants.API_BASE + '/Rates/interest-percent', successHandler, errorHandler)
 
+	}
+
+	static isNigerian() {
+		const country = store.getters['authToken/countryName'];
+		return country != null && country.length > 0 && country === "Nigeria";
 	}
 
 
