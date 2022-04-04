@@ -52,7 +52,7 @@
 							<div style="max-height: 500px" class="flex flex-col p-8">
 								<span class="tx-666666 fs-14 fw-400 mb-4">
 									Use this number to transfer funds to your wallet, just like any other bank number
-									{{ bankDetails }}
+									<!-- {{ bankDetails }} -->
 								</span>
 
 								<div

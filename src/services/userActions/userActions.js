@@ -318,5 +318,11 @@ export default class UserActions {
 
 	}
 
+	static resendPhonenumberConfirmation(successHandler, errorHandler) {
+
+		Web.post(Constants.API_BASE + `/Account/resend-phonenumber-confirmation-code`, "", successHandler, errorHandler)
+
+	}
+
 
 }

@@ -123,7 +123,7 @@
 														</svg>
 													</div>
 													<span class="fw-500 fs-20 blacktext"
-														>${{ formatCurr(principalBalance) }}</span
+														>N{{ formatCurr(principalBalance) }}</span
 													>
 												</div>
 											</div>
@@ -164,7 +164,7 @@
 														</svg>
 													</div>
 													<span class="fw-500 fs-20 blacktext"
-														>${{ formatCurr(interestBalance) }}</span
+														>N{{ formatCurr(interestBalance) }}</span
 													>
 												</div>
 											</div>
@@ -585,9 +585,10 @@ export default {
 				.required("Amount is required")
 				.matches(/^[0-9]+$/, "Amount must contain only numbers"),
 			AccNumber: Yup.string()
+				.required("Account Number is required")
 				.matches(/^[0-9]+$/, "Account number must contain only numbers")
 				// .typeError("Account number must contain only numbers")
-				.required("Account Number is required")
+
 				// .min(10)
 				.test(
 					"len",
@@ -600,6 +601,7 @@ export default {
 			withdrawalAmount.value = values.Amount;
 			beneficiaryAccountNumber.value = values.AccNumber;
 			naijaWithdrawalOtpOpen.value = true;
+			// store.commit("setTransactionSuccessfulModal", true);
 		};
 
 		const switchWallet = (acc) => {
@@ -658,24 +660,23 @@ export default {
 				pageNumber.value,
 				pageSize.value,
 				(response) => {
-					const fakeData = [
-						{
-							accountName: "Kaine Bismarck",
-							accountNumber: "0123456789",
-							bankName: "ACCESS BANK",
-							bankCode: "000114",
-							id: "1",
-						},
-						{
-							accountName: "Wale Adenuga",
-							accountNumber: "0123456789",
-							bankName: "Access Bank",
-							bankCode: "000115",
-							id: "2",
-						},
-					];
-					beneficiaryListArray.value =
-						response.data.data.length > 0 ? response.data.data : fakeData;
+					// const fakeData = [
+					// 	{
+					// 		accountName: "Kaine Bismarck",
+					// 		accountNumber: "0123456789",
+					// 		bankName: "ACCESS BANK",
+					// 		bankCode: "000114",
+					// 		id: "1",
+					// 	},
+					// 	{
+					// 		accountName: "Wale Adenuga",
+					// 		accountNumber: "0123456789",
+					// 		bankName: "Access Bank",
+					// 		bankCode: "000115",
+					// 		id: "2",
+					// 	},
+					// ];
+					beneficiaryListArray.value = response.data.data.length > 0 ? response.data.data : [];
 					Log.info(response);
 				},
 				(error) => {

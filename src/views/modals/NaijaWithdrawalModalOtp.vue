@@ -185,7 +185,6 @@ export default {
 		destinationBankName: String,
 	},
 	setup(props, context) {
-		const store = useStore();
 		onMounted(() => {
 			// document.getElementById("code01").focus();
 		});
@@ -199,7 +198,7 @@ export default {
 			code5: "",
 			code6: "",
 		});
-
+		const store = useStore();
 		const errorMessage = ref("");
 		const submitLoading = ref(false);
 		const isModalOpen = toRef(props, "open");
@@ -260,12 +259,13 @@ export default {
 					},
 					(error) => {
 						submitLoading.value = false;
-						Log.error("naija withdrawal response" + String(error));
-						resetInput();
-						// store.commit("setNaijaTransactionSuccessfulModal", true);
-
-						// close();
+						Log.error("naija withdrawal response " + String(error));
 						errorMessage.value = error.response.data.Message;
+						// store.commit("setNaijaTransactionSuccessfulModal", true);
+						// close();
+						resetInput();
+
+						Log.info(store.state.naijaTransactionSuccessfulModal);
 					}
 				);
 				// store.commit("setTransactionSuccessfulModal", true);

@@ -111,7 +111,10 @@
 
 							<!-- ----------  -->
 
-							<div class="flex justify-end">
+							<div class="flex justify-between">
+								<span @click="resendPhonenumberConfirmation" class="text-blue-500 cursor-pointer"
+									>Resend confirmation password</span
+								>
 								<button
 									:disabled="submitLoading"
 									type="submit"
@@ -246,6 +249,19 @@ export default {
 				}
 			);
 		};
+
+		const resendPhonenumberConfirmation = () => {
+			UserActions.resendPhonenumberConfirmation(
+				(response) => {
+					Log.info(response);
+					Util.handleGlobalAlert(true, "success", response.data.message);
+				},
+				(error) => {
+					Log.error(error);
+					Util.handleGlobalAlert(true, "failed", "OTP not sent. Try again later.");
+				}
+			);
+		};
 		return {
 			...toRefs(userProfile),
 			updateProfile,
@@ -253,6 +269,7 @@ export default {
 			submitLoading,
 			// isProfileUpdated,
 			profileData,
+			resendPhonenumberConfirmation,
 		};
 	},
 };
