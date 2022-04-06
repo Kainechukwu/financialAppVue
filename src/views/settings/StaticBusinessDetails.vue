@@ -124,7 +124,7 @@
 						readonly
 						id="RC Number"
 						name="reNumber"
-						type="number"
+						type="string"
 						autocomplete="off"
 						required=""
 						v-model="rcNumber"
@@ -205,7 +205,7 @@
 						readonly
 						id="Ultimate Beneficial Owners"
 						name="beneficiaryOwners"
-						type="number"
+						type="string"
 						autocomplete="off"
 						required=""
 						v-model="beneficiaryOwners"
