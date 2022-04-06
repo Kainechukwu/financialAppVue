@@ -12,7 +12,7 @@
 				v-if="
 					profileData &&
 					profileData.phoneNumber &&
-					profileData.phoneNumber !== null &&
+					profileData.phoneNumber === null &&
 					profileData.phoneNumber.length > 0
 				"
 				:details="profileData"
@@ -112,9 +112,14 @@
 							<!-- ----------  -->
 
 							<div class="flex justify-between">
-								<span @click="resendPhonenumberConfirmation" class="text-blue-500 cursor-pointer"
-									>Resend confirmation password</span
-								>
+								<div>
+									<span
+										v-if="phoneNumCheck.length > 0"
+										@click="resendPhonenumberConfirmation"
+										class="text-blue-500 cursor-pointer"
+										>Resend OTP</span
+									>
+								</div>
 								<button
 									:disabled="submitLoading"
 									type="submit"
@@ -166,6 +171,7 @@ export default {
 		const store = useStore();
 		// const profileUpdate = ApiResource.create();
 		const submitLoading = ref(false);
+		const phoneNumCheck = computed(() => store.getters["authToken/phoneNumber"]);
 		const userId = store.getters["authToken/userId"];
 		// const isProfileUpdated = computed(() => store.getters["authToken/isProfileUpdated"]);
 		const profileData = ref({});
@@ -178,7 +184,7 @@ export default {
 			// 	: "",
 			firstName: computed(() => store.getters["authToken/firstName"]),
 			lastName: store.getters["authToken/lastName"],
-			phoneNo: "",
+			phoneNo: store.getters["authToken/phoneNumber"] ? store.getters["authToken/phoneNumber"] : "",
 
 			// userType: "Corporate",
 			// accountCreated: false,
@@ -254,7 +260,9 @@ export default {
 			UserActions.resendPhonenumberConfirmation(
 				(response) => {
 					Log.info(response);
-					Util.handleGlobalAlert(true, "success", response.data.message);
+					// Util.handleGlobalAlert(true, "success", response.data.message);
+					store.commit("setOtpPhoneNumberModal", true);
+					// store.getters["authToken/phoneNumber"];
 				},
 				(error) => {
 					Log.error(error);
@@ -267,6 +275,7 @@ export default {
 			updateProfile,
 			schema,
 			submitLoading,
+			phoneNumCheck,
 			// isProfileUpdated,
 			profileData,
 			resendPhonenumberConfirmation,

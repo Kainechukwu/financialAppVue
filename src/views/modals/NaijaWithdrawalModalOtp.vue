@@ -261,9 +261,12 @@ export default {
 						submitLoading.value = false;
 						Log.error("naija withdrawal response " + String(error));
 						errorMessage.value = error.response.data.Message;
-						// store.commit("setNaijaTransactionSuccessfulModal", true);
+						// // store.commit("setNaijaTransactionSuccessfulModal", true);
 						// close();
 						resetInput();
+						// close();
+
+						// context.emit("success");
 
 						Log.info(store.state.naijaTransactionSuccessfulModal);
 					}

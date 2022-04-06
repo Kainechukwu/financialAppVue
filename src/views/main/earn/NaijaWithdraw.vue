@@ -405,6 +405,9 @@
 									</div>
 								</div>
 							</button> -->
+								<div v-if="beneficiaryLoading" class="h-8 w-8 mx-auto rounded-md block">
+									<div class="roundLoader opacity-25 mx-auto"></div>
+								</div>
 								<button
 									:class="
 										beneficiaryName.length === 0 || Object.keys(errors).length > 0
@@ -441,6 +444,7 @@
 					:destinationBankCode="selectedBank.code"
 					:destinationBankName="selectedBank.name"
 					@close="closeNaijaWithdrawalOtp"
+					@success="openSuccessModal"
 				/>
 				<!-- <ConfirmWithdrawal /> -->
 				<!-- ------------------ -->
@@ -604,6 +608,10 @@ export default {
 			// store.commit("setTransactionSuccessfulModal", true);
 		};
 
+		const closeNaijaWithdrawalOtp = () => {
+			naijaWithdrawalOtpOpen.value = false;
+		};
+
 		const switchWallet = (acc) => {
 			wallet.value = acc;
 
@@ -634,10 +642,6 @@ export default {
 					Log.error(error);
 				}
 			);
-		};
-
-		const closeNaijaWithdrawalOtp = () => {
-			naijaWithdrawalOtpOpen.value = false;
 		};
 
 		const getBankList = () => {
@@ -728,6 +732,10 @@ export default {
 			Log.info("Proceed");
 		};
 
+		const openSuccessModal = () => {
+			store.commit("setNaijaTransactionSuccessfulModal", true);
+		};
+
 		watch(selectedBank, (newValue) => {
 			// store.commit("bankDetails/rateId", newValue.id);
 			if (beneficiaryAccountNumber.value.length === 10) {
@@ -769,7 +777,7 @@ export default {
 			withdrawalAmount,
 			beneficiaryAccountNumber,
 			beneficiaryName,
-
+			openSuccessModal,
 			increaseStep,
 			goBack,
 			formatCurr,
