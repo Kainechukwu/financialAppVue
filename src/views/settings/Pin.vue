@@ -28,7 +28,7 @@
 						<div class="mb-8">
 							<label for="Current Pin" class="inter fs-14 fw-400 tx-666666">Current PIN</label>
 							<Field
-								id="Current Pin"
+								id="Current_Pin"
 								name="currentPin"
 								type="password"
 								autocomplete="off"
@@ -43,7 +43,7 @@
 						<div class="mb-8">
 							<label for="New Pin" class="inter fs-14 fw-400 tx-666666">New PIN</label>
 							<Field
-								id="New Pin"
+								id="New_Pin"
 								name="newPin"
 								type="password"
 								autocomplete="off"
@@ -59,7 +59,7 @@
 								>Confirm New PIN</label
 							>
 							<Field
-								id="Confirm New Pin"
+								id="Confirm_New_Pin"
 								name="confirmNewPin"
 								type="password"
 								autocomplete="off"
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import CreatePin from "./CreatePin.vue";
 // import ApiResource from "@/components/core/ApiResource";
@@ -105,6 +105,9 @@ export default {
 		Field,
 	},
 	setup() {
+		onMounted(() => {
+			preventLetterInput();
+		});
 		const store = useStore();
 
 		const hasPIN = computed(() => store.getters["authToken/hasPin"]);
@@ -112,12 +115,26 @@ export default {
 		const pinUpdateLoading = ref(false);
 
 		const schema = Yup.object().shape({
-			currentPin: Yup.string().required("Current pin field is required"),
+			currentPin: Yup.string()
+				.required("Current pin field is required")
+				.test(
+					"len",
+					"Current pin must be exactly 6 characters",
+					(val) => val?.toString().length === 6
+				)
+				.matches(/^[0-9]+$/, "Current pin must contain only numbers"),
 			newPin: Yup.string()
 				.required("New pin field is required")
-				.min(6, "Pin must be at least 6 characters"),
+				.test("len", "New pin must be exactly 6 characters", (val) => val?.toString().length === 6)
+				.matches(/^[0-9]+$/, "New pin must contain only numbers"),
 			confirmNewPin: Yup.string()
-				.required("Confirm pin field is required")
+				.test(
+					"len",
+					"Pin confirmation must be exactly 6 characters",
+					(val) => val?.toString().length === 6
+				)
+				.matches(/^[0-9]+$/, "Pin confirmation must contain only numbers")
+
 				.required("Pin confirmation is required")
 				.oneOf([Yup.ref("newPin"), null], "Pins must match"),
 		});
@@ -142,6 +159,26 @@ export default {
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 				}
 			);
+		};
+
+		const preventLetterInput = () => {
+			document.getElementById("Current_Pin").addEventListener("keypress", function (evt) {
+				if (evt.which < 48 || evt.which > 57) {
+					evt.preventDefault();
+				}
+			});
+
+			document.getElementById("New_Pin").addEventListener("keypress", function (evt) {
+				if (evt.which < 48 || evt.which > 57) {
+					evt.preventDefault();
+				}
+			});
+
+			document.getElementById("Confirm_New_Pin").addEventListener("keypress", function (evt) {
+				if (evt.which < 48 || evt.which > 57) {
+					evt.preventDefault();
+				}
+			});
 		};
 
 		return {
