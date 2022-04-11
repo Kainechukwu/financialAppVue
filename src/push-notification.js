@@ -7,7 +7,13 @@ import UserActions from "@/services/userActions/userActions.js"
 
 export const initializeFirebase = () => {
   firebase.initializeApp({
-    messagingSenderId: '193154658535'
+    apiKey: "AIzaSyCLBvYpUJqZSjLcEwTCYA6g9ILATXGZyaQ",
+    authDomain: "bornfree-89c05.firebaseapp.com",
+    projectId: "bornfree-89c05",
+    storageBucket: "bornfree-89c05.appspot.com",
+    messagingSenderId: "193154658535",
+    appId: "1:193154658535:web:734d04fb799b7b11c13242",
+    measurementId: "G-TSZH5EB6YW"
   });
 
   // use other service worker
@@ -29,6 +35,7 @@ export const askForPermissioToReceiveNotifications = async () => {
       if (currentToken) {
         // Send the token to your server and update the UI if necessary
         // ...
+
       } else {
         // Show permission request UI
         Log.info('No registration token available. Request permission to generate one.');
