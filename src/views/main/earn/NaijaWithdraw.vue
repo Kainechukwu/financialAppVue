@@ -282,31 +282,40 @@
 												Bank Name
 											</ListboxLabel>
 											<div class="mt-1 relative">
-												<ListboxButton
+												<input
+													ref="bankInput"
+													onkeyup="filterFunction()"
+													@focus="openBankArray"
 													class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:border-gray-400 sm:text-sm"
+													type="text"
+													v-model="bankText"
+												/>
+												<span
+													class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+												>
+													<div class="h-5 w-5 text-gray-400 flex items-center">
+														<svg
+															width="12"
+															height="6"
+															viewBox="0 0 12 6"
+															fill="none"
+															xmlns="http://www.w3.org/2000/svg"
+														>
+															<path
+																d="M1 1L5.73 5.2L10.46 1"
+																stroke="#BFBFBF"
+																stroke-width="1.5"
+																stroke-linecap="round"
+																stroke-linejoin="round"
+															/>
+														</svg>
+													</div>
+												</span>
+												<ListboxButton
+													id="bankButton"
+													class="hidden bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:border-gray-400 sm:text-sm"
 												>
 													<span class="block truncate">{{ selectedBank.name }}</span>
-													<span
-														class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
-													>
-														<div class="h-5 w-5 text-gray-400 flex items-center">
-															<svg
-																width="12"
-																height="6"
-																viewBox="0 0 12 6"
-																fill="none"
-																xmlns="http://www.w3.org/2000/svg"
-															>
-																<path
-																	d="M1 1L5.73 5.2L10.46 1"
-																	stroke="#BFBFBF"
-																	stroke-width="1.5"
-																	stroke-linecap="round"
-																	stroke-linejoin="round"
-																/>
-															</svg>
-														</div>
-													</span>
 												</ListboxButton>
 
 												<transition
@@ -318,6 +327,7 @@
 														class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
 													>
 														<ListboxOption
+															id="bankOptions"
 															as="template"
 															v-for="bank in banks"
 															:key="bank.id"
@@ -538,8 +548,11 @@ export default {
 		const selectedCurrency = ref(currencies.value[0]);
 		const openRecipients = ref(false);
 		const banks = ref([]);
+		const bankInput = ref(null);
 		const selectedBank = ref({});
+		const bankText = ref("");
 		const withdrawalAmount = ref("");
+		const bankListButton = ref(null);
 
 		const sendAmountLoading = ref(false);
 
@@ -548,6 +561,12 @@ export default {
 
 		const formatCurr = (balance) => {
 			return Util.currencyFormatter(balance, Constants.currencyFormat);
+		};
+
+		const openBankArray = () => {
+			bankListButton.value = document.getElementById("bankButton");
+			bankListButton.value.click();
+			bankInput.value.focus();
 		};
 
 		const increaseStep = () => {
@@ -649,7 +668,7 @@ export default {
 				(response) => {
 					banks.value = response.data.data;
 					selectedBank.value = banks.value !== null ? banks.value[0] : {};
-
+					bankText.value = banks.value !== null ? banks.value[0].name : "";
 					Log.info(response);
 				},
 				(error) => {
@@ -738,6 +757,7 @@ export default {
 
 		watch(selectedBank, (newValue) => {
 			// store.commit("bankDetails/rateId", newValue.id);
+			bankText.value = newValue.name;
 			if (beneficiaryAccountNumber.value.length === 10) {
 				getNaijaBeneficiary();
 			}
@@ -760,6 +780,28 @@ export default {
 			}
 		});
 
+		function filterFunction() {
+			let input, filter, span, div, txtValue, i;
+			//get input element
+			input = document.getElementById("bankInput");
+			//get input value
+			filter = input.value.toUpperCase();
+
+			//get list parent div
+			div = document.getElementById("bankOptions");
+
+			//get individual list items
+			span = div.getElementsByTagName("span");
+			for (i = 0; i < span.length; i++) {
+				txtValue = span[i].textContent || span[i].innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					span[i].style.display = "";
+				} else {
+					span[i].style.display = "none";
+				}
+			}
+		}
+
 		return {
 			proceed,
 			goToBeneficiaryList,
@@ -767,6 +809,7 @@ export default {
 			currencies,
 			selectedCurrency,
 			openRecipients,
+			filterFunction,
 			// youReceive,
 			sendAmountLoading,
 			requestLoading,
@@ -780,6 +823,7 @@ export default {
 			openSuccessModal,
 			increaseStep,
 			goBack,
+			bankText,
 			formatCurr,
 			goToRootPage,
 			getNaijaBeneficiary,
@@ -789,9 +833,11 @@ export default {
 			closeNaijaWithdrawalOtp,
 			switchWallet,
 			wallet,
+			bankInput,
 			principalBalance,
 			interestBalance,
 			schema,
+			openBankArray,
 
 			// addComma,
 		};
