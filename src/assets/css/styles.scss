@@ -2,19 +2,25 @@
 @font-face {
   font-family: BR FirmaReg;
   // font-weight: bold;
-  src: url("BR Firma/BR Firma Regular.otf") format("opentype");
+  src: url("BR Firma2/BR Firma Regular.woff") format("woff");
 }
 
 @font-face {
   font-family: BR FirmaBold;
   // font-weight: bold;
-  src: url("BR Firma/BR Firma Bold.otf") format("opentype");
+  src: url("BR Firma2/BR Firma Bold.woff") format("woff");
 }
 
 @font-face {
   font-family: BR FirmaBlack;
   // font-weight: bold;
-  src: url("BR Firma/BR Firma Black.otf") format("opentype");
+  src: url("BR Firma2/BR Firma Black.woff") format("woff");
+}
+
+@font-face {
+  font-family: BR FirmaLight;
+  // font-weight: bold;
+  src: url("BR Firma2/BR Firma Light.woff") format("woff");
 }
 
 html,
@@ -28,6 +34,10 @@ body {
 
 .brFirmaBold {
   font-family: BR FirmaBold;
+}
+
+.brFirmaLight {
+  font-family: BR FirmaLight;
 }
 
 .brFirmaBlack {

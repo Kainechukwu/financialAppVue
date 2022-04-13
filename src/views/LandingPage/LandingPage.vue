@@ -6,6 +6,8 @@
 		<WhySuprbiz />
 		<FAQ />
 		<Footer />
+		<Gradient1 />
+		<Gradient2 />
 	</div>
 </template>
 
@@ -16,6 +18,8 @@ import OurProducts from "./OurProducts.vue";
 import WhySuprbiz from "./WhySuprbiz.vue";
 import FAQ from "./FAQ.vue";
 import Footer from "./Footer.vue";
+import Gradient1 from "./Gradient1.vue";
+import Gradient2 from "./Gradient2.vue";
 
 export default {
 	name: "LandingPage",
@@ -26,6 +30,8 @@ export default {
 		WhySuprbiz,
 		FAQ,
 		Footer,
+		Gradient1,
+		Gradient2,
 	},
 	setup() {
 		return {};

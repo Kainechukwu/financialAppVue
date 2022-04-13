@@ -1,5 +1,5 @@
 <template>
-	<div style="background-color: #1e2235" class="text-white w-full">
+	<div style="background-color: #1e2235" class="z-10 text-white w-full">
 		<div class="mx-auto flex flex-col pt-8 pb-6" style="max-width: 55rem">
 			<div class="w-full grid grid-cols-7">
 				<div class="col-span-2 flex flex-col items-start">
