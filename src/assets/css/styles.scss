@@ -1,8 +1,37 @@
 @import "./components.scss";
+@font-face {
+  font-family: BR FirmaReg;
+  // font-weight: bold;
+  src: url("BR Firma/BR Firma Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: BR FirmaBold;
+  // font-weight: bold;
+  src: url("BR Firma/BR Firma Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: BR FirmaBlack;
+  // font-weight: bold;
+  src: url("BR Firma/BR Firma Black.otf") format("opentype");
+}
 
 html,
 body {
   height: 100%;
+}
+
+.brFirmaReg {
+  font-family: BR FirmaReg;
+}
+
+.brFirmaBold {
+  font-family: BR FirmaBold;
+}
+
+.brFirmaBlack {
+  font-family: BR FirmaBlack;
 }
 
 body {
@@ -122,6 +151,10 @@ input[type="number"] {
   font-size: 14px;
 }
 
+.fs-15 {
+  font-size: 15px;
+}
+
 .fs-16 {
   font-size: 16px;
 }
@@ -146,6 +179,18 @@ input[type="number"] {
   font-size: 30px;
 }
 
+.fs-36 {
+  font-size: 36px;
+}
+
+.fs-40 {
+  font-size: 40px;
+}
+
+.fs-48 {
+  font-size: 48px;
+}
+
 .fw-300 {
   font-weight: 300;
 }
@@ -166,6 +211,9 @@ input[type="number"] {
   font-weight: 700;
 }
 
+.fw-900 {
+  font-weight: 900;
+}
 .greenButton {
   background-color: #1ed69e;
 }

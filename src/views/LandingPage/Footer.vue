@@ -1,0 +1,40 @@
+<template>
+	<div style="background-color: #1e2235" class="text-white w-full">
+		<div class="mx-auto flex flex-col pt-8 pb-6" style="max-width: 55rem">
+			<div class="w-full grid grid-cols-7">
+				<div class="col-span-2 flex flex-col items-start">
+					<span class="fs-40 fw-700 brFirmaReg mb-8">Suprbiz</span>
+					<span class="brFirmaReg fw-400 fs-16"
+						>Building DeFi and FinTech infrastructure for businesses</span
+					>
+				</div>
+				<div
+					class="-ml-4 mr-2 col-span-1 fs-15 brFirmaReg fw-400 col-start-6 flex flex-col items-end"
+				>
+					<span class="my-px">Growth Earnings</span>
+					<span class="my-px">Treasury</span>
+					<span class="my-px">About</span>
+					<span class="my-px">Blog</span>
+					<span class="my-px">Careers</span>
+				</div>
+				<div class="col-span-1 fs-15 brFirmaReg fw-400 col-start-7 flex flex-col items-end">
+					<span class="my-px">Contact Us</span>
+					<span class="my-px">Privacy Policy</span>
+					<span class="my-px">Terms of Service</span>
+				</div>
+			</div>
+			<span class="mt-16 fs-14 brFirmaReg fw-400">© 2022 Suprbiz · All rights reserved · </span>
+		</div>
+	</div>
+</template>
+
+<script>
+export default {
+	name: "Footer",
+	setup() {
+		return {};
+	},
+};
+</script>
+
+<style lang="scss" scoped></style>

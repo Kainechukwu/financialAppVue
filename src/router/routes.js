@@ -1,4 +1,5 @@
 import Home from '../views/Home.vue'
+import LandingPage from "@/views/LandingPage/LandingPage.vue"
 import { Constants } from '@/components/util';
 
 export default [
@@ -10,6 +11,15 @@ export default [
 			skipAuth: true,
 		},
 		component: Home
+	},
+	{
+		path: '/suprbiz',
+
+		name: 'LandiingPage',
+		meta: {
+			skipAuth: true,
+		},
+		component: LandingPage
 	},
 	{
 		path: "/signup",
