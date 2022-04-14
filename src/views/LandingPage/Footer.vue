@@ -11,7 +11,10 @@
 						>Building DeFi and FinTech infrastructure for businesses</span
 					>
 				</div>
-				<div class="col-span-4 sm:col-span-3 col-start-4 sm:col-start-5 flex justify-end">
+				<div
+					style="padding-top: 9px"
+					class="col-span-5 sm:col-span-4 col-start-3 sm:col-start-4 flex justify-end"
+				>
 					<div class="mr-2 fs-15 brFirmaReg fw-400 col-start-6 flex flex-col items-end">
 						<span class="my-px">Growth Earnings</span>
 						<span class="my-px">Treasury</span>
@@ -26,7 +29,9 @@
 					</div>
 				</div>
 			</div>
-			<span class="mt-16 fs-14 brFirmaReg fw-400">© 2022 Suprbiz · All rights reserved · </span>
+			<div class="pt-20">
+				<span class="fs-14 brFirmaReg fw-400">© 2022 Suprbiz · All rights reserved · </span>
+			</div>
 		</div>
 	</div>
 </template>
