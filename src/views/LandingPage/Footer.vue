@@ -24,7 +24,7 @@
 					</div>
 					<div class="fs-15 brFirmaReg fw-400 col-start-7 flex flex-col items-end">
 						<span class="my-px">Contact Us</span>
-						<span class="my-px">Privacy Policy</span>
+						<span class="my-px">Privacy Policys</span>
 						<span class="my-px">Terms of Service</span>
 					</div>
 				</div>
