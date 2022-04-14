@@ -19,6 +19,7 @@ export default {
 	width: 40%;
 	height: 1353.34px;
 	margin-bottom: 280px;
+	margin-top: 26.875rem;
 	// z-index: -1;
 }
 </style>

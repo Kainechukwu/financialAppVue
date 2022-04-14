@@ -7,6 +7,7 @@
 		<FAQ />
 		<Footer />
 		<Gradient1 />
+		<Gradient3 />
 		<Gradient2 />
 	</div>
 </template>
@@ -20,6 +21,7 @@ import FAQ from "./FAQ.vue";
 import Footer from "./Footer.vue";
 import Gradient1 from "./Gradient1.vue";
 import Gradient2 from "./Gradient2.vue";
+import Gradient3 from "./Gradient3.vue";
 
 export default {
 	name: "LandingPage",
@@ -32,6 +34,7 @@ export default {
 		Footer,
 		Gradient1,
 		Gradient2,
+		Gradient3,
 	},
 	setup() {
 		return {};

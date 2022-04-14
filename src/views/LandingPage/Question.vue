@@ -1,7 +1,10 @@
 <template>
-	<div class="p-6 flex flex-col bg-white br-10 w-8/12">
+	<div
+		:class="showAnswer ? 'activeNhoverShadow' : ''"
+		class="p-6 flex flex-col bg-white br-10 w-8/12"
+	>
 		<div class="flex justify-between">
-			<span class="brFirmaReg fs-18">{{ question }} </span>
+			<span class="brFirmaReg fs-18 fw-400">{{ question }} </span>
 
 			<div @click="toggle" v-if="!showAnswer" class="flex items-center cursor-pointer">
 				<svg
@@ -32,8 +35,8 @@
 				</svg>
 			</div>
 		</div>
-		<!-- <div> -->
-		<span v-if="showAnswer" class="mt-6">{{ answer }}</span>
+		<!-- <div class=""> -->
+		<span v-if="showAnswer" class="mt-6 brFirmaReg fw-400 fs-14">{{ answer }}</span>
 		<!-- </div> -->
 	</div>
 </template>
@@ -56,4 +59,19 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.expandable {
+	//   background: #fff;
+	//   overflow: hidden;
+	//   color: #000;
+	//   line-height: 50px;
+
+	transition: all 0.5s ease-in-out;
+	transform-origin: left top;
+	transform: scaleY(0);
+}
+
+// .expandable:target {
+// 	transform: scaleY(1);
+// }
+</style>

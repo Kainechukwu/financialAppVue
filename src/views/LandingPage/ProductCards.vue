@@ -1,22 +1,25 @@
 <template>
 	<div
 		style="background: rgba(255, 255, 255, 0.5); border-radius: 20px"
-		class="col-span-1 px-4 py-6"
+		class="productCard col-span-1 z-10 px-6 py-8"
 	>
 		<div class="flex flex-col">
 			<div class="my-2">
 				<slot></slot>
 			</div>
 
-			<span class="mt-2 brFirmaBold fs-18 mb-3" style="color: #1e2235">{{ header }} </span>
-			<span class="brFirmaReg fs-14">{{ description }}</span>
+			<span class="mt-2 brFirmaBold fw-700 fs-18 mb-3" style="color: #1e2235">{{ header }} </span>
+			<span style="line-height: 21px" class="brFirmaReg fw-400 fs-14">{{ description }}</span>
 
-			<div class="mt-3 flex items-center">
-				<span v-if="header === 'Multi-Currency Account' || header === 'USDC Backed Debit Cards'"
+			<div class="mt-6 flex items-center">
+				<span
+					class="brFirmaSB fw-600 fs-14"
+					v-if="header === 'Multi-Currency Account' || header === 'USDC Backed Debit Cards'"
 					>Coming soon</span
 				>
 				<button
 					v-else
+					class="brFirmaReg fw-400 fs-14"
 					style="
 						width: 115px;
 						height: 40px;

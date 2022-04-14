@@ -1,7 +1,7 @@
 <template>
 	<div class="mx-auto px-12 xs:px-0" style="max-width: 71.25rem">
 		<div class="w-full flex justify-between py-6">
-			<div>
+			<div class="z-10">
 				<svg
 					width="138"
 					height="37"
@@ -15,11 +15,11 @@
 					/>
 				</svg>
 			</div>
-			<div class="flex justify-between items-center fw-400 brFirmaReg">
-				<span class="cursor-pointer">Products</span>
-				<span class="cursor-pointer mx-12">FAQs</span>
+			<div class="flex justify-between items-center fs-18 fw-400 brFirmaReg">
+				<span class="cursor-pointer z-10">Products</span>
+				<span class="cursor-pointer z-10 mx-12">FAQs</span>
 				<button
-					class="cursor-pointer w-36 h-12"
+					class="cursor-pointer w-36 h-12 z-10"
 					style="border: 2px solid #1e2235; box-sizing: border-box; border-radius: 100px"
 				>
 					Get Started

@@ -1,8 +1,8 @@
 <template>
 	<div class="mx-auto" style="max-width: 71.25rem">
 		<div class="flex flex-col items-center justify-center">
-			<div class="inline relative mt-56 mb-20">
-				<span style="color: #1e2235" class="fs-48 fw-700 brFirmaReg">Why Suprbiz?</span>
+			<div class="inline relative mt-48 mb-5">
+				<span style="color: #1e2235" class="fs-48 fw-700 z-10 brFirmaBold">Why Suprbiz?</span>
 				<div class="flex justify-end">
 					<svg
 						width="191"
@@ -19,7 +19,9 @@
 				</div>
 			</div>
 
-			<span style="max-width: 55rem" class="mt-4 mb-20 fs-18 text-center blacktext brFirmaReg"
+			<span
+				style="max-width: 55rem"
+				class="mt-4 mb-20 z-10 fw-400 fs-18 text-center blacktext brFirmaReg"
 				>We break through the compliance and complexity, so that you don’t have to. Use a single
 				source of access to launch DeFi products that your customers want.</span
 			>
