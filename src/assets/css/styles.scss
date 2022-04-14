@@ -29,6 +29,12 @@
   src: url("BR Firma2/BR Firma SemiBold.woff") format("woff");
 }
 
+@font-face {
+  font-family: BR FirmaMd;
+  // font-weight: bold;
+  src: url("BR Firma2/BR Firma Medium.woff") format("woff");
+}
+
 html,
 body {
   height: 100%;
@@ -36,6 +42,10 @@ body {
 
 .brFirmaSB {
   font-family: BR FirmaSB;
+}
+
+.brFirmaMD {
+  font-family: BR FirmaMd;
 }
 
 .brFirmaReg {
@@ -80,16 +90,36 @@ body {
   box-shadow: 0px 4px 67px rgba(0, 0, 0, 0.2);
 }
 
+.productCard {
+  background: #ffffff80;
+  border-radius: 20px;
+}
+
 .productCard:hover {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.11);
 }
 
+.whySuprbizCard {
+  background: #ffffffcc;
+
+  border-radius: 20px;
+}
+
 .whySuprbizCard:hover {
   box-shadow: 0px 4px 67px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
 }
 
 .blacktext {
   color: #333333;
+}
+
+.navyColor {
+  color: #1e2235;
+}
+
+.navyBg {
+  background-color: #1e2235;
 }
 
 // .bluebtn {
@@ -203,6 +233,10 @@ body {
 
 .fw-900 {
   font-weight: 900;
+}
+
+.textGray {
+  color: #343434;
 }
 // .greenButton {
 //   background-color: #1ed69e;

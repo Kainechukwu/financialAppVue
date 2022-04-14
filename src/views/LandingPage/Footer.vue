@@ -13,9 +13,9 @@
 				</div>
 				<div
 					style="padding-top: 9px"
-					class="col-span-5 sm:col-span-4 col-start-3 sm:col-start-4 flex justify-end"
+					class="col-span-5 sm:col-span-4 col-start-3 sm:col-start-4 flex flex-col sm:flex-row justify-end"
 				>
-					<div class="mr-2 fs-15 brFirmaReg fw-400 col-start-6 flex flex-col items-end">
+					<div class="sm:mr-2 fs-15 brFirmaReg fw-400 col-start-6 flex flex-col items-end">
 						<span class="my-px">Growth Earnings</span>
 						<span class="my-px">Treasury</span>
 						<span class="my-px">About</span>

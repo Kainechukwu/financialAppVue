@@ -34,14 +34,8 @@
 			>
 
 			<button
-				style="
-					background-color: #1e2235;
-					width: 203px;
-					height: 60px;
-					border-radius: 100px;
-					box-shadow: 1px 1px 133px #4a537a;
-				"
-				class="z-10 shadow-lg mb-60 mt-14 brFirmaReg fw-400 text-white fs-18"
+				style="width: 203px; height: 60px; border-radius: 100px; box-shadow: 1px 1px 133px #4a537a"
+				class="navyBg z-10 shadow-lg mb-60 mt-14 brFirmaReg fw-400 text-white fs-18"
 			>
 				Learn More
 			</button>

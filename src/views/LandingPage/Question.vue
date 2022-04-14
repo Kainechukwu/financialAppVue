@@ -1,12 +1,15 @@
 <template>
 	<div
+		@click="toggle"
 		:class="showAnswer ? 'activeNhoverShadow' : ''"
-		class="p-6 flex flex-col bg-white br-10 w-full md:w-8/12"
+		class="p-6 cursor-pointer flex flex-col bg-white br-10 w-full md:w-8/12"
 	>
 		<div class="flex justify-between">
-			<span class="brFirmaReg fs-18 fw-400">{{ question }} </span>
+			<span :class="showAnswer ? 'brFirmaMD' : 'brFirmaReg'" class="fs-18 fw-400"
+				>{{ question }}
+			</span>
 
-			<div @click="toggle" v-if="!showAnswer" class="flex items-center cursor-pointer">
+			<div v-if="!showAnswer" class="flex items-center cursor-pointer">
 				<svg
 					width="16"
 					height="17"
@@ -20,7 +23,7 @@
 					/>
 				</svg>
 			</div>
-			<div @click="toggle" v-else class="flex items-center cursor-pointer">
+			<div v-else class="flex items-center cursor-pointer">
 				<svg
 					width="16"
 					height="3"
@@ -35,9 +38,11 @@
 				</svg>
 			</div>
 		</div>
-		<!-- <div class=""> -->
-		<span v-if="showAnswer" class="mt-6 brFirmaReg fw-400 fs-14">{{ answer }}</span>
-		<!-- </div> -->
+		<div v-if="showAnswer" class="">
+			<p v-for="answer in answers" :key="answer" class="mt-6 brFirmaReg fw-400 fs-14">
+				{{ answer }}
+			</p>
+		</div>
 	</div>
 </template>
 
@@ -47,7 +52,7 @@ export default {
 	name: "Questions",
 	props: {
 		question: String,
-		answer: String,
+		answers: Array,
 	},
 	setup() {
 		const showAnswer = ref(false);
