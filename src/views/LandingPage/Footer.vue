@@ -11,19 +11,19 @@
 						>Building DeFi and FinTech infrastructure for businesses</span
 					>
 				</div>
-				<div
-					class="-ml-4 mr-2 col-span-1 fs-15 brFirmaReg fw-400 col-start-6 flex flex-col items-end"
-				>
-					<span class="my-px">Growth Earnings</span>
-					<span class="my-px">Treasury</span>
-					<span class="my-px">About</span>
-					<span class="my-px">Blog</span>
-					<span class="my-px">Careers</span>
-				</div>
-				<div class="col-span-1 fs-15 brFirmaReg fw-400 col-start-7 flex flex-col items-end">
-					<span class="my-px">Contact Us</span>
-					<span class="my-px">Privacy Policy</span>
-					<span class="my-px">Terms of Service</span>
+				<div class="col-span-4 sm:col-span-3 col-start-4 sm:col-start-5 flex justify-end">
+					<div class="mr-2 fs-15 brFirmaReg fw-400 col-start-6 flex flex-col items-end">
+						<span class="my-px">Growth Earnings</span>
+						<span class="my-px">Treasury</span>
+						<span class="my-px">About</span>
+						<span class="my-px">Blog</span>
+						<span class="my-px">Careers</span>
+					</div>
+					<div class="fs-15 brFirmaReg fw-400 col-start-7 flex flex-col items-end">
+						<span class="my-px">Contact Us</span>
+						<span class="my-px">Privacy Policy</span>
+						<span class="my-px">Terms of Service</span>
+					</div>
 				</div>
 			</div>
 			<span class="mt-16 fs-14 brFirmaReg fw-400">© 2022 Suprbiz · All rights reserved · </span>
