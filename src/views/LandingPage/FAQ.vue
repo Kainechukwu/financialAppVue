@@ -1,13 +1,16 @@
 <template>
 	<div class="w-full pb-32 pt-24">
 		<div class="mx-auto mt-40" style="max-width: 71.25rem">
-			<div class="mx-auto flex flex-col items-center justify-center" style="max-width: 55rem">
+			<div
+				class="mx-auto px-12 md:px-12 lg:px-12 xl:p-0 flex flex-col items-center justify-center"
+				style="max-width: 55rem"
+			>
 				<div class="inline relative mb-12">
 					<div class="absolute inset-x-0 w-9/12 mx-auto faqBg"></div>
 
-					<span style="color: #1e2235" class="fs-36 fw-700 brFirmaBold"
-						>Frequently Asked Questions</span
-					>
+					<p style="color: #1e2235" class="text-center fs-36 fw-700 brFirmaBold">
+						Frequently Asked Questions
+					</p>
 				</div>
 				<div
 					class="w-full mb-6 flex flex-col items-center justify-between"

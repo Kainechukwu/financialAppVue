@@ -59,44 +59,6 @@ body {
   font-size: 14px;
 }
 
-input[type="text"],
-input[type="date"],
-input[type="email"],
-input[type="tel"],
-input[type="password"] {
-  border: 1px solid #e2e2e2;
-
-  &:focus {
-    border: 1px solid #b7b7b7;
-  }
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-::-webkit-scrollbar {
-  width: 12px;
-  // height: 120px;
-}
-
-.notice::-webkit-scrollbar {
-  width: 8px;
-  // height: 120px;
-}
-
-.navHeaderScroll::-webkit-scrollbar {
-  width: 4px;
-  // height: 120px;
-}
-
 // .notice::-webkit-scrollbar-thumb {
 //   // background: #497ff9;
 //   // border-radius: 10px;
@@ -126,21 +88,17 @@ input[type="number"] {
   box-shadow: 0px 4px 67px rgba(0, 0, 0, 0.2);
 }
 
-.bg-peach {
-  background-color: #ff7677;
-}
-
 .blacktext {
   color: #333333;
 }
 
-.bluebtn {
-  background-color: #2b7ee4;
-}
+// .bluebtn {
+//   background-color: #2b7ee4;
+// }
 
-.bluebtn:hover {
-  background-color: #136fdf;
-}
+// .bluebtn:hover {
+//   background-color: #136fdf;
+// }
 
 .br-3 {
   border-radius: 3px;
@@ -246,182 +204,182 @@ input[type="number"] {
 .fw-900 {
   font-weight: 900;
 }
-.greenButton {
-  background-color: #1ed69e;
-}
+// .greenButton {
+//   background-color: #1ed69e;
+// }
 
-.h-02rem {
-  height: 0.2rem;
-}
+// .h-02rem {
+//   height: 0.2rem;
+// }
 
-.h-50px {
-  height: 3.125rem;
-}
+// .h-50px {
+//   height: 3.125rem;
+// }
 
-.h-26 {
-  height: 6.25rem;
-}
+// .h-26 {
+//   height: 6.25rem;
+// }
 
-.headerBottomBorder {
-  border: 1px solid #f1f1f1;
-}
+// .headerBottomBorder {
+//   border: 1px solid #f1f1f1;
+// }
 
-.inter {
-  font-family: "Inter", sans-serif;
-}
+// .inter {
+//   font-family: "Inter", sans-serif;
+// }
 
-.line-h-100 {
-  line-height: 100%;
-}
+// .line-h-100 {
+//   line-height: 100%;
+// }
 
-.manrope {
-  font-family: "Manrope", sans-serif;
-}
+// .manrope {
+//   font-family: "Manrope", sans-serif;
+// }
 
-.mainMenuBtn {
-  display: block;
-}
+// .mainMenuBtn {
+//   display: block;
+// }
 
-.main-page {
-  background-color: #f2f6ff;
-  // height: 100%;
-}
+// .main-page {
+//   background-color: #f2f6ff;
+//   // height: 100%;
+// }
 
-.mlmr-100px {
-  margin: 0 100px;
-}
+// .mlmr-100px {
+//   margin: 0 100px;
+// }
 
-.max-w-69 {
-  max-width: 69rem;
-}
+// .max-w-69 {
+//   max-width: 69rem;
+// }
 
-.max-w-70 {
-  max-width: 70rem;
-}
+// .max-w-70 {
+//   max-width: 70rem;
+// }
 
-.max-w-8xl {
-  max-width: 90rem;
-}
+// .max-w-8xl {
+//   max-width: 90rem;
+// }
 
-.max-w-page {
-  max-width: 63rem;
-}
+// .max-w-page {
+//   max-width: 63rem;
+// }
 
-.nav-link-color {
-  color: #2b7ee4;
-}
+// .nav-link-color {
+//   color: #2b7ee4;
+// }
 
-.nav-link-bg {
-  background-color: #2b7ee4;
-}
+// .nav-link-bg {
+//   background-color: #2b7ee4;
+// }
 
-.onboard-form {
-  margin-top: 100px;
-}
+// .onboard-form {
+//   margin-top: 100px;
+// }
 
-.block {
-  display: block;
-}
+// .block {
+//   display: block;
+// }
 
-.bg-success {
-  background-color: #d2f9ed;
-  color: #18ae81;
-}
-.bg-failed {
-  background-color: #ffe8e5;
-  color: #ff4d4f;
-}
+// .bg-success {
+//   background-color: #d2f9ed;
+//   color: #18ae81;
+// }
+// .bg-failed {
+//   background-color: #ffe8e5;
+//   color: #ff4d4f;
+// }
 
-.mb-5 {
-  margin-bottom: 5px;
-}
+// .mb-5 {
+//   margin-bottom: 5px;
+// }
 
-.page {
-  // height: calc(100vh - 80px);
-  height: 100%;
-  padding-bottom: 100px;
-  background-color: #f2f6ff;
-}
+// .page {
+//   // height: calc(100vh - 80px);
+//   height: 100%;
+//   padding-bottom: 100px;
+//   background-color: #f2f6ff;
+// }
 
-.roundLoader {
-  border: 6px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 6px solid #4691a6;
-  width: 100%;
-  height: 100%;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
+// .roundLoader {
+//   border: 6px solid #f3f3f3;
+//   border-radius: 50%;
+//   border-top: 6px solid #4691a6;
+//   width: 100%;
+//   height: 100%;
+//   -webkit-animation: spin 2s linear infinite; /* Safari */
+//   animation: spin 2s linear infinite;
+// }
 
-.thTypeListColor {
-  color: #4d4d4d;
-}
+// .thTypeListColor {
+//   color: #4d4d4d;
+// }
 
-.th-dateColor {
-  color: #a6a6a6;
-}
+// .th-dateColor {
+//   color: #a6a6a6;
+// }
 
-.th-green {
-  color: #18ae81;
-}
+// .th-green {
+//   color: #18ae81;
+// }
 
-.th-peach {
-  color: #ff4d4f;
-}
+// .th-peach {
+//   color: #ff4d4f;
+// }
 
-.tx-666666 {
-  color: #666666;
-}
+// .tx-666666 {
+//   color: #666666;
+// }
 
-.tx-999999 {
-  color: #999999;
-}
+// .tx-999999 {
+//   color: #999999;
+// }
 
-.w-navlogin {
-  width: 7.063rem;
-}
+// .w-navlogin {
+//   width: 7.063rem;
+// }
 
-.logoAndAvatar {
-  // width: 11rem;
-}
+// .logoAndAvatar {
+//   // width: 11rem;
+// }
 
-.done {
-  background-color: #18ae81;
-}
+// .done {
+//   background-color: #18ae81;
+// }
 
-.undone {
-  background-color: #c2cfed;
-}
+// .undone {
+//   background-color: #c2cfed;
+// }
 
-.w-22rem {
-  width: 22rem;
-}
+// .w-22rem {
+//   width: 22rem;
+// }
 
-.w-69rem {
-  width: 69rem;
-}
+// .w-69rem {
+//   width: 69rem;
+// }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
-}
+// input:-webkit-autofill,
+// input:-webkit-autofill:hover,
+// input:-webkit-autofill:focus,
+// input:-webkit-autofill:active {
+//   -webkit-box-shadow: 0 0 0 30px white inset !important;
+// }
 
-@media only screen and (min-width: 1536px) {
-  .navDivWidth {
-    width: 64rem;
-  }
-}
+// @media only screen and (min-width: 1536px) {
+//   .navDivWidth {
+//     width: 64rem;
+//   }
+// }
 
-@media (max-width: 1536px) {
-  .navDivWidth {
-    width: 56rem;
-  }
-}
+// @media (max-width: 1536px) {
+//   .navDivWidth {
+//     width: 56rem;
+//   }
+// }
 
-@media (min-width: 900px) {
-  .mainMenuBtn {
-    display: none;
-  }
-}
+// @media (min-width: 900px) {
+//   .mainMenuBtn {
+//     display: none;
+//   }
+// }

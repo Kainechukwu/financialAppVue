@@ -1,5 +1,5 @@
 <template>
-	<div class="gradient3Bg absolute top-0 right-0"></div>
+	<div class="hidden sm:block gradient3Bg absolute top-0 right-0"></div>
 </template>
 
 <script>

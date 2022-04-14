@@ -1,7 +1,7 @@
 <template>
 	<div class="mx-auto heroBg" style="">
 		<div
-			class="z-10 mt-56 mx-auto flex flex-col items-center justify-center"
+			class="z-10 mt-56 px-12 md:px-12 lg:px-12 xl:p-0 mx-auto flex flex-col items-center justify-center"
 			style="max-width: 55rem"
 		>
 			<div class="z-10">
@@ -24,7 +24,9 @@
 				</div>
 			</div>
 
-			<span class="fs-48 blacktext fw-900 brFirmaBlack z-20"> infrastructure for business </span>
+			<span class="text-center fs-48 blacktext fw-900 brFirmaBlack z-20">
+				infrastructure for business
+			</span>
 
 			<span class="z-20 mt-4 fs-24 fw-400 text-center blacktext brFirmaReg"
 				>We enable businesses to manage their treasury and connect their customers to high yields

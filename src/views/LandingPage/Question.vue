@@ -1,7 +1,7 @@
 <template>
 	<div
 		:class="showAnswer ? 'activeNhoverShadow' : ''"
-		class="p-6 flex flex-col bg-white br-10 w-8/12"
+		class="p-6 flex flex-col bg-white br-10 w-full md:w-8/12"
 	>
 		<div class="flex justify-between">
 			<span class="brFirmaReg fs-18 fw-400">{{ question }} </span>

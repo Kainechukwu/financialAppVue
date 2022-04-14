@@ -107,7 +107,7 @@
 				</ProductCards>
 				<ProductCards
 					header="Multi-Currency Account"
-					description="Give your customers access to high yield accounts in their local currency. Earning more in comparison to traditional bank rates with interest that accrues every hour and pays out daily."
+					description="Manage your global business with the convenience of local accounts. We will issue you a USD, EUR, GBP, and NGN account, regardless of where you operate."
 				>
 					<svg
 						width="60"
@@ -129,7 +129,7 @@
 				</ProductCards>
 				<ProductCards
 					header="USDC Backed Debit Cards"
-					description="Give your customers access to high yield accounts in their local currency. Earning more in comparison to traditional bank rates with interest that accrues every hour and pays out daily."
+					description="Let your customers spend unlimited dollars with our USDC backed debit card. Issue dollar virtual or physical cards to them and settle Suprbiz in USDC."
 				>
 					<svg
 						width="60"

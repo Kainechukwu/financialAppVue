@@ -1,5 +1,5 @@
 <template>
-	<div style="background-color: #ece9e5" class="">
+	<div style="background-color: #ece9e5; min-width: 555px" class="">
 		<Header />
 		<HeroSection />
 		<OurProducts />

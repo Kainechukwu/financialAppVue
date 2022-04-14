@@ -1,6 +1,6 @@
 <template>
 	<div class="mx-auto" style="max-width: 71.25rem">
-		<div class="flex flex-col items-center justify-center">
+		<div class="flex flex-col items-center justify-center px-12 md:px-12 lg:px-12 xl:p-0">
 			<div class="inline relative mt-48 mb-5">
 				<span style="color: #1e2235" class="fs-48 fw-700 z-10 brFirmaBold">Why Suprbiz?</span>
 				<div class="flex justify-end">
@@ -26,9 +26,7 @@
 				source of access to launch DeFi products that your customers want.</span
 			>
 
-			<div
-				class="w-full grid px-12 md:px-12 md:grid-cols-2 lg:px-12 xl:p-0 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-			>
+			<div class="w-full grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
 				<WhySuprbizCards
 					header="Developer Friendly"
 					description="Our plug-and-play APIs are designed to be consumed in hours. We have handled all the on-chain complexities for you, so you can focus on your customer and business."
