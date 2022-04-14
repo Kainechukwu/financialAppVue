@@ -5,10 +5,10 @@
 			style="max-width: 55rem"
 		>
 			<div class="z-10">
-				<span class="fs-48 blacktext fw-900 brFirmaBlack">
+				<p class="text-center fs-48 blacktext fw-900 brFirmaBlack">
 					<span class="" style="color: #3f735f">DeFi</span> and FinTech
-				</span>
-				<div class="flex justify-end">
+				</p>
+				<div class="flex justify-center sm:justify-end">
 					<svg
 						width="191"
 						height="12"

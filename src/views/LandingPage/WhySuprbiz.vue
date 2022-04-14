@@ -2,8 +2,8 @@
 	<div class="mx-auto" style="max-width: 71.25rem">
 		<div class="flex flex-col items-center justify-center px-12 md:px-12 lg:px-12 xl:p-0">
 			<div class="inline relative mt-48 mb-5">
-				<span style="color: #1e2235" class="fs-48 fw-700 z-10 brFirmaBold">Why Suprbiz?</span>
-				<div class="flex justify-end">
+				<p style="color: #1e2235" class="text-center fs-48 fw-700 z-10 brFirmaBold">Why Suprbiz?</p>
+				<div class="flex justify-center sm:justify-end">
 					<svg
 						width="191"
 						height="12"

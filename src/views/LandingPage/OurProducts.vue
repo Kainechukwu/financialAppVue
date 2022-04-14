@@ -1,7 +1,7 @@
 <template>
 	<div class="mx-auto" style="max-width: 71.25rem">
 		<div class="mx-auto flex flex-col items-center justify-center" style="max-width: 55rem">
-			<div class="inline relative mb-20">
+			<div class="inline relative mb-20 z-20">
 				<span style="color: #1e2235" class="fs-48 fw-700 z-10 brFirmaBold">Our Products</span>
 				<div class="flex justify-center">
 					<svg
