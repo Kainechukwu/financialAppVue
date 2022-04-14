@@ -2,13 +2,11 @@
 	<div style="" class="productCard col-span-1 z-10 px-6 py-8">
 		<div class="flex flex-col h-full relative">
 			<div class="my-2">
-				<slot></slot>
+				<slot name="icon"></slot>
 			</div>
 
 			<span class="mt-2 brFirmaBold fw-700 fs-18 mb-3 navyColor">{{ header }} </span>
-			<span style="line-height: 21px" class="mb-6 brFirmaReg fw-400 fs-14 textGray">{{
-				description
-			}}</span>
+			<slot name="description"></slot>
 
 			<div class="flex items-center mt-auto">
 				<div
