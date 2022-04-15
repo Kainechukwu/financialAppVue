@@ -19,7 +19,7 @@
 				</div>
 			</div>
 			<!-- grid px-12 md:px-12 md:grid-cols-2 lg:px-12 xl:p-0 lg:grid-cols-3 xl:grid-cols-4 gap-4 -->
-			<div class="w-full grid px-12 md:px-12 md:grid-cols-2 lg:px-0 lg:grid-cols-3 gap-4">
+			<div class="w-full grid px-4 md:px-12 md:grid-cols-2 lg:px-0 lg:grid-cols-3 gap-4">
 				<ProductCards header="DeFi Yields API">
 					<template #icon>
 						<svg

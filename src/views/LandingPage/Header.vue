@@ -1,5 +1,5 @@
 <template>
-	<div class="mx-auto px-12 xs:px-0" style="max-width: 71.25rem">
+	<div class="mx-auto px-4 xs:px-0" style="max-width: 71.25rem">
 		<div class="w-full flex justify-between py-6">
 			<div class="z-10 flex items-center">
 				<svg

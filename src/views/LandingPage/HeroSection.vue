@@ -1,7 +1,7 @@
 <template>
 	<div class="mx-auto heroBg" style="">
 		<div
-			class="z-10 mt-56 px-12 md:px-12 lg:px-12 xl:p-0 mx-auto flex flex-col items-center justify-center"
+			class="z-10 mt-56 px-4 md:px-12 lg:px-12 xl:p-0 mx-auto flex flex-col items-center justify-center"
 			style="max-width: 55rem"
 		>
 			<div class="z-10">

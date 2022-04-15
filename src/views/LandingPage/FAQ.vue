@@ -6,7 +6,7 @@
 			<!-- <div class="absolute inset-x-0 w-9/12 mx-auto faqBg"></div> -->
 
 			<div
-				class="mx-auto px-12 md:px-12 lg:px-12 xl:p-0 flex flex-col items-center justify-center"
+				class="mx-auto px-4 md:px-12 lg:px-12 xl:p-0 flex flex-col items-center justify-center"
 				style="max-width: 55rem"
 			>
 				<div class="inline relative mb-12">
