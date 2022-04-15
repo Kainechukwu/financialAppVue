@@ -16,8 +16,12 @@
 				</svg>
 			</div>
 			<div class="navyColor flex justify-between items-center fs-18 fw-400 brFirmaReg">
-				<span class="cursor-pointer hidden z-10">Products</span>
-				<span class="cursor-pointer hidden sm:block z-10 mx-12">FAQs</span>
+				<!-- <span class="cursor-pointer hidden z-10">Products</span> -->
+
+				<span class="cursor-pointer hidden sm:block z-10 mx-12">
+					<a href="#faqSection"> FAQs </a>
+				</span>
+
 				<button
 					class="cursor-pointer w-36 h-12 z-10"
 					style="border: 2px solid #1e2235; box-sizing: border-box; border-radius: 100px"

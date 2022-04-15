@@ -15,7 +15,6 @@
     "counterup2": "^2.0.2",
     "detect.js": "^2.2.3",
     "firebase": "^4.8.1",
-    "jquery": "^3.6.0",
     "moment": "^2.29.1",
     "numeral": "^2.0.6",
     "v-click-outside": "^3.1.2",
