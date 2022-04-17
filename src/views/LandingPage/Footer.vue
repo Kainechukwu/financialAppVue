@@ -17,23 +17,27 @@
 					<div
 						class="sm:mr-8 fs-15 brFirmaReg fw-400 col-start-6 flex flex-row sm:flex-col items-end"
 					>
-						<router-link to="#" class="my-px mr-5 sm:mr-0">Growth Earnings</router-link>
-						<router-link to="#" class="my-px mr-5 sm:mr-0">Treasury</router-link>
-						<router-link to="#" class="my-px mr-5 sm:mr-0">About</router-link>
-						<router-link to="#" class="my-px mr-5 sm:mr-0">Blog</router-link>
-						<router-link to="#" class="hidden sm:block my-px sm:mr-0">Careers</router-link>
+						<router-link to="#" class="underline my-px mr-5 sm:mr-0">Growth Earnings</router-link>
+						<router-link to="#" class="underline my-px mr-5 sm:mr-0">Treasury</router-link>
+						<router-link to="#" class="underline my-px mr-5 sm:mr-0">About</router-link>
+						<router-link to="#" class="underline my-px mr-5 sm:mr-0">Blog</router-link>
+						<router-link to="#" class="underline hidden sm:block my-px sm:mr-0"
+							>Careers</router-link
+						>
 					</div>
 					<div class="fs-15 brFirmaReg fw-400 col-start-7 flex flex-row sm:flex-col items-end">
-						<router-link to="#" class="block sm:hidden my-px mr-5 sm:mr-0">Careers</router-link>
+						<router-link to="#" class="underline block sm:hidden my-px mr-5 sm:mr-0"
+							>Careers</router-link
+						>
 
-						<router-link to="#" class="my-px mr-5 sm:mr-0">Contact Us</router-link>
-						<router-link to="#" class="my-px mr-5 sm:mr-0">Privacy Policy</router-link>
-						<router-link to="#" class="hidden sm:block my-px mr-5 sm:mr-0"
+						<router-link to="#" class="underline my-px mr-5 sm:mr-0">Contact Us</router-link>
+						<router-link to="#" class="underline my-px mr-5 sm:mr-0">Privacy Policy</router-link>
+						<router-link to="#" class="underline hidden sm:block my-px mr-5 sm:mr-0"
 							>Terms of Service</router-link
 						>
 					</div>
 					<div class="fs-15 brFirmaReg fw-400 col-start-7 flex flex-row sm:flex-col items-end">
-						<router-link to="#" class="block sm:hidden my-px mr-5 sm:mr-0"
+						<router-link to="#" class="underline block sm:hidden my-px mr-5 sm:mr-0"
 							>Terms of Service</router-link
 						>
 					</div>

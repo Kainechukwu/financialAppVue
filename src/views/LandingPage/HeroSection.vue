@@ -5,7 +5,7 @@
 			style="max-width: 55rem"
 		>
 			<div class="z-10">
-				<p class="text-center heroHeaderText blacktext fw-900 brFirmaBlack">
+				<p class="text-center headerText blacktext fw-900 brFirmaBlack">
 					<span class="" style="color: #3f735f">DeFi</span> and FinTech
 				</p>
 				<div class="flex justify-center sm:justify-end">
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 
-			<span class="text-center heroHeaderText blacktext fw-900 brFirmaBlack z-20">
+			<span class="text-center headerText blacktext fw-900 brFirmaBlack z-20">
 				infrastructure for business
 			</span>
 

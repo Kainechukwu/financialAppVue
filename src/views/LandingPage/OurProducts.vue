@@ -2,7 +2,7 @@
 	<div class="mx-auto" style="max-width: 71.25rem">
 		<div class="mx-auto flex flex-col items-center justify-center" style="max-width: 55rem">
 			<div class="inline relative mb-20 z-20">
-				<span class="navyColor fs-48 fw-700 z-10 brFirmaBold">Our Products</span>
+				<span class="navyColor headerText fw-700 z-10 brFirmaBold">Our Products</span>
 				<div class="flex justify-center">
 					<svg
 						width="191"
