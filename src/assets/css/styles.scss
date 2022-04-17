@@ -75,6 +75,14 @@ body {
   padding-bottom: 1rem;
 }
 
+.heroHeaderText {
+  font-size: 30px;
+}
+
+.heroBodyText {
+  font-size: 16px;
+}
+
 ::-webkit-scrollbar {
   width: 12px;
   // height: 120px;
@@ -252,6 +260,32 @@ body {
 
 .textGray {
   color: #343434;
+}
+
+.heroButton {
+  font-size: 14px;
+  width: 163px;
+  height: 50px;
+  border-radius: 100px;
+  box-shadow: 1px 1px 133px #4a537a;
+}
+
+@media (min-width: 768px) {
+  .heroHeaderText {
+    font-size: 48px;
+  }
+
+  .heroBodyText {
+    font-size: 24px;
+  }
+
+  .heroButton {
+    font-size: 18px;
+    width: 203px;
+    height: 60px;
+    border-radius: 100px;
+    box-shadow: 1px 1px 133px #4a537a;
+  }
 }
 // .greenButton {
 //   background-color: #1ed69e;

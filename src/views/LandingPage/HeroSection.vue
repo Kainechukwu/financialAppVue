@@ -5,7 +5,7 @@
 			style="max-width: 55rem"
 		>
 			<div class="z-10">
-				<p class="text-center fs-48 blacktext fw-900 brFirmaBlack">
+				<p class="text-center heroHeaderText blacktext fw-900 brFirmaBlack">
 					<span class="" style="color: #3f735f">DeFi</span> and FinTech
 				</p>
 				<div class="flex justify-center sm:justify-end">
@@ -24,18 +24,18 @@
 				</div>
 			</div>
 
-			<span class="text-center fs-48 blacktext fw-900 brFirmaBlack z-20">
+			<span class="text-center heroHeaderText blacktext fw-900 brFirmaBlack z-20">
 				infrastructure for business
 			</span>
 
-			<span class="z-20 mt-4 fs-24 fw-400 text-center blacktext brFirmaReg"
+			<span class="z-20 mt-4 heroBodyText fw-400 text-center blacktext brFirmaReg"
 				>We enable businesses to manage their treasury and connect their customers to high yields
 				savings products that are regulatory compliant.</span
 			>
 
 			<button
-				style="width: 203px; height: 60px; border-radius: 100px; box-shadow: 1px 1px 133px #4a537a"
-				class="navyBg z-10 shadow-lg mb-60 mt-14 brFirmaReg fw-400 text-white fs-18"
+				style=""
+				class="navyBg z-10 shadow-lg mb-60 mt-14 brFirmaReg fw-400 text-white heroButton"
 			>
 				Learn More
 			</button>
