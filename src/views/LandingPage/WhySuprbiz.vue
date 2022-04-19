@@ -1,7 +1,7 @@
 <template>
 	<div class="mx-auto" style="max-width: 71.25rem">
 		<div class="flex flex-col items-center justify-center px-4 md:px-12 lg:px-12 xl:p-0">
-			<div class="inline relative mt-48 mb-5">
+			<div class="inline relative mt-24 md:mt-56 mb-5">
 				<p class="text-center headerText fw-700 navyColor z-10 brFirmaBold">Why Suprbiz?</p>
 				<div class="flex justify-center sm:justify-end">
 					<svg

@@ -1,6 +1,9 @@
 <template>
 	<div class="mx-auto" style="max-width: 71.25rem">
-		<div class="mx-auto flex flex-col items-center justify-center" style="max-width: 55rem">
+		<div
+			class="mt-24 md:mt-56 mx-auto flex flex-col items-center justify-center"
+			style="max-width: 55rem"
+		>
 			<div class="inline relative mb-20 z-20">
 				<span class="navyColor headerText fw-700 z-10 brFirmaBold">Our Products</span>
 				<div class="flex justify-center">

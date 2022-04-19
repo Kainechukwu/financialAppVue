@@ -1,7 +1,7 @@
 <template>
 	<div class="mx-auto px-4 xs:px-0" style="max-width: 71.25rem">
 		<div class="w-full flex justify-between py-6">
-			<div class="z-10 flex items-center">
+			<div class="z-10 flex items-center h-10 w-28 md:h-full md:w-full my-auto">
 				<svg
 					width="138"
 					height="37"
@@ -15,13 +15,13 @@
 					/>
 				</svg>
 			</div>
-			<div class="navyColor flex justify-between items-center fs-18 fw-400 brFirmaReg">
+			<div class="navyColor flex justify-between items-center headerSectionText fw-400 brFirmaReg">
 				<!-- <span class="cursor-pointer hidden z-10">Products</span> -->
 
 				<span class="cursor-pointer hidden sm:block z-10 mx-12">
 					<a href="#faqSection"> FAQs </a>
 				</span>
-
+				<!-- class="cursor-pointer h-8 w-28 md:w-36 md:h-12 z-10" -->
 				<button
 					class="cursor-pointer w-36 h-12 z-10"
 					style="border: 2px solid #1e2235; box-sizing: border-box; border-radius: 100px"

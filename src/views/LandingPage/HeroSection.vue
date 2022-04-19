@@ -1,7 +1,7 @@
 <template>
 	<div class="mx-auto heroBg" style="">
 		<div
-			class="z-10 mt-56 px-4 md:px-12 lg:px-12 xl:p-0 mx-auto flex flex-col items-center justify-center"
+			class="z-10 mt-24 md:mt-56 px-4 md:px-12 lg:px-12 xl:p-0 mx-auto flex flex-col items-center justify-center"
 			style="max-width: 55rem"
 		>
 			<div class="z-10">
@@ -33,10 +33,7 @@
 				savings products that are regulatory compliant.</span
 			>
 
-			<button
-				style=""
-				class="navyBg z-10 shadow-lg mb-60 mt-14 brFirmaReg fw-400 text-white heroButton"
-			>
+			<button style="" class="navyBg z-10 shadow-lg mt-14 brFirmaReg fw-400 text-white heroButton">
 				Learn More
 			</button>
 			<!-- <img class="h-12 w-12" src="" alt="hh" /> -->

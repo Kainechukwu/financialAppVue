@@ -1,8 +1,8 @@
 <template>
-	<div id="faqSection" class="faq relative w-full pb-32 pt-24">
-		<div class="absolute inset-x-0 mt-20 mx-auto faqBg"></div>
+	<div class="relative w-full">
+		<div id="faqSection" class="absolute inset-x-0 -mt-20 mx-auto faqBg"></div>
 
-		<div class="relative mx-auto mt-40" style="max-width: 71.25rem">
+		<div class="mt-24 md:mt-56 relative mx-auto" style="max-width: 71.25rem">
 			<!-- <div class="absolute inset-x-0 w-9/12 mx-auto faqBg"></div> -->
 
 			<div
