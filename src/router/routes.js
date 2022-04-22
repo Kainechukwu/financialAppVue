@@ -226,24 +226,34 @@ export default [
 						name: "Merchants",
 						component: () => import("@/views/main/Merchants.vue")
 					},
-					// {
-					// 	path: "/customers",
-					// 	redirect: "/customers/customer_list",
-					// 	name: "Customers",
-					// 	component: () => import("@/views/main/customers/Customers.vue"),
-					// 	children: [
-					// 		{
-					// 			path: "/customers/customer_list",
-					// 			name: "Customers List",
-					// 			component: () => import("@/views/main/customers/CustomerList.vue")
-					// 		},
-					// 		{
-					// 			path: "/customers/transactions/:merchantId",
-					// 			name: "Customers Transactions",
-					// 			component: () => import("@/views/main/customers/Transactions.vue")
-					// 		},
-					// 	]
-					// },
+					{
+						path: "/customers",
+						redirect: "/customers/customer_list",
+						name: "Customers",
+						component: () => import("@/views/main/customers/Customers.vue"),
+						children: [
+							{
+								path: "/customers/customer_list",
+								name: "Customers List",
+								component: () => import("@/views/main/customers/CustomerList.vue")
+							},
+							{
+								path: "/customers/transactions/:merchantId",
+								name: "Customers Transactions",
+								component: () => import("@/views/main/customers/Transactions.vue")
+							},
+							{
+								path: "/customers/ngn_transactions",
+								name: "NGN Transactions",
+								component: () => import("@/views/main/customers/NGNTransactions.vue")
+							},
+							{
+								path: "/customers/usd_transactions",
+								name: "USD Transactions",
+								component: () => import("@/views/main/customers/USDTransactions.vue")
+							},
+						]
+					},
 					{
 						path: "/backOffice/transactions",
 						redirect: "/backoffice/transactions/deposit_list",

@@ -72,7 +72,7 @@ import CheckedSvgOutlined from "@/components/svg/CheckedSvgOutlined.vue";
 import SettingsSvg from "@/components/svg/SettingsSvg";
 import TransactionsSvg from "@/components/svg/TransactionsSvg.vue";
 import PayoutsSvg from "@/components/svg/PayoutsSvg.vue";
-// import CustomersSvg from "@/components/svg/CustomersSvg.vue";
+import CustomersSvg from "@/components/svg/CustomersSvg.vue";
 // import PlansSvg from "@/components/svg/PlansSvg.vue";
 import ConfigurationsSvg from "@/components/svg/ConfigurationsSvg";
 import LoginService from "@/services/login/LoginService.js";
@@ -164,12 +164,13 @@ export default {
 				routeName: "Merchants",
 				visible: Util.checkAuth(Constants.backOfficeAuth),
 			},
-			// {
-			// 	name: "Customers",
-			// 	href: "/customers",
-			// 	icon: CustomersSvg,
-			// 	routeName: "Customers",
-			// },
+			{
+				name: "Customers",
+				href: "/customers",
+				icon: CustomersSvg,
+				routeName: "Customers",
+				visible: Util.checkAuth(Constants.merchantAuth),
+			},
 			// {
 			// 	name: "Plans",
 			// 	href: "/plans",
