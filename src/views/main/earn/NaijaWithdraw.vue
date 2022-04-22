@@ -282,10 +282,16 @@
 												Bank Name
 											</ListboxLabel>
 											<div class="mt-1 relative">
+												<!-- onkeyup="filterFunction" -->
 												<input
 													ref="bankInput"
-													onkeyup="filterFunction()"
-													@focus="openBankArray"
+													id="bankInput"
+													@click="
+														bankListIsVisible === true
+															? (bankListIsVisible = false)
+															: (bankListIsVisible = true)
+													"
+													@blur="bankListIsVisible = false"
 													class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:border-gray-400 sm:text-sm"
 													type="text"
 													v-model="bankText"
@@ -311,28 +317,28 @@
 														</svg>
 													</div>
 												</span>
-												<ListboxButton
+												<!-- <ListboxButton
 													id="bankButton"
 													class="hidden bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:border-gray-400 sm:text-sm"
 												>
 													<span class="block truncate">{{ selectedBank.name }}</span>
-												</ListboxButton>
+												</ListboxButton> -->
 
 												<transition
 													leave-active-class="transition ease-in duration-100"
 													leave-from-class="opacity-100"
 													leave-to-class="opacity-0"
 												>
-													<ListboxOptions
+													<div
+														v-if="bankListIsVisible"
 														class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
 													>
-														<ListboxOption
+														<ul
 															id="bankOptions"
 															as="template"
 															v-for="bank in banks"
 															:key="bank.id"
 															:value="bank"
-															v-slot="{ active, selectedBank }"
 														>
 															<li
 																:class="[
@@ -358,8 +364,8 @@
 																>
 																</span>
 															</li>
-														</ListboxOption>
-													</ListboxOptions>
+														</ul>
+													</div>
 												</transition>
 											</div>
 										</Listbox>
@@ -553,6 +559,7 @@ export default {
 		const bankText = ref("");
 		const withdrawalAmount = ref("");
 		const bankListButton = ref(null);
+		const bankListIsVisible = ref(false);
 
 		const sendAmountLoading = ref(false);
 
@@ -565,8 +572,16 @@ export default {
 
 		const openBankArray = () => {
 			bankListButton.value = document.getElementById("bankButton");
+			const input = document.getElementById("bankInput");
 			bankListButton.value.click();
-			bankInput.value.focus();
+
+			Util.throttle({
+				key: "Withdrawal Input Focus",
+				run: () => {
+					input.focus();
+				},
+				time: 400,
+			});
 		};
 
 		const increaseStep = () => {
@@ -838,6 +853,7 @@ export default {
 			interestBalance,
 			schema,
 			openBankArray,
+			bankListIsVisible,
 
 			// addComma,
 		};

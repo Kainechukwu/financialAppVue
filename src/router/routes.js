@@ -11,6 +11,14 @@ export default [
 		},
 		component: Home
 	},
+	// {
+	// 	path: "/semanticUi",
+	// 	name: "SemanticUi",
+	// 	meta: {
+	// 		skipAuth: true,
+	// 	},
+	// 	component: () => import("@/views/semanticUi.vue")
+	// },
 	{
 		path: "/signup",
 		name: "Signup",
