@@ -336,6 +336,7 @@
 													>
 														<ul
 															id="bankOptions"
+															class="bankOptions"
 															as="template"
 															v-for="bank in banks"
 															:key="bank.id"
@@ -354,11 +355,11 @@
 																	{{ bank.name }}
 																</span>
 
-																<span
+																<!-- <span
 																	v-if="selectedBank"
 																	:class="['absolute inset-y-0 right-0 flex items-center pr-4']"
 																>
-																</span>
+																</span> -->
 															</li>
 														</ul>
 													</div>
@@ -804,25 +805,29 @@ export default {
 
 		function filterFunction() {
 			Log.info("key");
-			// let input, filter, span, div, txtValue, i;
-			// //get input element
-			// input = document.getElementById("bankInput");
-			// //get input value
-			// filter = input.value.toUpperCase();
+			let input, filter, menuItem, txtValue, i;
+			// txtValue, i
+			//get input element
+			input = document.getElementById("bankInput");
+			//get input value
+			filter = input.value.toUpperCase();
+			Log.info(filter);
 
-			// //get list parent div
+			// // //get list parent div
 			// div = document.getElementById("bankOptions");
 
-			// //get individual list items
-			// span = div.getElementsByTagName("li");
-			// for (i = 0; i < span.length; i++) {
-			// 	txtValue = span[i].textContent || span[i].innerText;
-			// 	if (txtValue.toUpperCase().indexOf(filter) > -1) {
-			// 		span[i].style.display = "";
-			// 	} else {
-			// 		span[i].style.display = "none";
-			// 	}
-			// }
+			// // //get individual list items
+			// span = div.querySelector('.bankList');
+			menuItem = document.querySelectorAll("ul.bankOptions span");
+			Log.info(menuItem);
+			for (i = 0; i < menuItem.length; i++) {
+				txtValue = menuItem[i].textContent || menuItem[i].innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					menuItem[i].parentNode.style.display = "";
+				} else {
+					menuItem[i].parentNode.style.display = "none";
+				}
+			}
 		}
 
 		//what happens when selected bank is changed
