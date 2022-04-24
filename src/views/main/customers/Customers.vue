@@ -55,13 +55,14 @@
 									>
 								</MenuItem>
 								<MenuItem v-slot="{ active }">
-									<span
+									<router-link
+										to="/customers/create_deposit"
 										class="cursor-pointer border-b border-gray-100"
 										:class="[
 											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
 											'block px-4 py-2 fs-14 fw-400 blacktext',
 										]"
-										>Create Deposit</span
+										>Create Deposit</router-link
 									>
 								</MenuItem>
 								<MenuItem v-slot="{ active }">

@@ -255,6 +255,11 @@ export default [
 						]
 					},
 					{
+						path: "/customers/create_deposit",
+						name: "CreateDeposit",
+						component: () => import("@/views/main/customers/CreateDeposit.vue")
+					},
+					{
 						path: "/backOffice/transactions",
 						redirect: "/backoffice/transactions/deposit_list",
 						name: "Transactions",

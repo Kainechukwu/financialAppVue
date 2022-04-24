@@ -161,6 +161,7 @@
 									<div class="flex justify-center">
 										<button
 											type="submit"
+											:disabled="loading"
 											class="cursor-pointer bluebtn fs-14 fw-500 w-2/4 h-12 br-5 flex items-center justify-center"
 										>
 											<div class="flex items-center justify-center">
