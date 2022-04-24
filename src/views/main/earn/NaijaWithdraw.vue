@@ -292,6 +292,7 @@
 															: (bankListIsVisible = true)
 													"
 													@blur="bankListIsVisible = false"
+													v-on:keyup="filterFunction"
 													class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:border-gray-400 sm:text-sm"
 													type="text"
 													v-model="bankText"
@@ -341,10 +342,8 @@
 															:value="bank"
 														>
 															<li
-																:class="[
-																	active ? 'blacktext bg-gray-100' : 'blacktext',
-																	'cursor-default select-none relative py-2 pl-3 pr-9',
-																]"
+																@click="pickBank(bank)"
+																:class="['cursor-default select-none relative py-2 pl-3 pr-9']"
 															>
 																<span
 																	:class="[
@@ -357,10 +356,7 @@
 
 																<span
 																	v-if="selectedBank"
-																	:class="[
-																		active ? 'text-white' : 'text-indigo-600',
-																		'absolute inset-y-0 right-0 flex items-center pr-4',
-																	]"
+																	:class="['absolute inset-y-0 right-0 flex items-center pr-4']"
 																>
 																</span>
 															</li>
@@ -770,14 +766,25 @@ export default {
 			store.commit("setNaijaTransactionSuccessfulModal", true);
 		};
 
-		watch(selectedBank, (newValue) => {
-			// store.commit("bankDetails/rateId", newValue.id);
-			bankText.value = newValue.name;
+		const pickBank = (picked) => {
+			bankText.value = picked.name;
+			selectedBank.value = picked;
 			if (beneficiaryAccountNumber.value.length === 10) {
 				getNaijaBeneficiary();
 			}
-			Log.info(newValue);
-		});
+
+			Log.info(selectedBank.value);
+		};
+
+		// watch(selectedBank, (newValue) => {
+		// 	// store.commit("bankDetails/rateId", newValue.id);
+		// 	Log.info("Changed");
+		// 	bankText.value = newValue.name;
+		// 	if (beneficiaryAccountNumber.value.length === 10) {
+		// 		getNaijaBeneficiary();
+		// 	}
+		// 	Log.info(newValue);
+		// });
 
 		// watch(rate, (newValue) => {
 		// 	Log.info(newValue);
@@ -796,26 +803,29 @@ export default {
 		});
 
 		function filterFunction() {
-			let input, filter, span, div, txtValue, i;
-			//get input element
-			input = document.getElementById("bankInput");
-			//get input value
-			filter = input.value.toUpperCase();
+			Log.info("key");
+			// let input, filter, span, div, txtValue, i;
+			// //get input element
+			// input = document.getElementById("bankInput");
+			// //get input value
+			// filter = input.value.toUpperCase();
 
-			//get list parent div
-			div = document.getElementById("bankOptions");
+			// //get list parent div
+			// div = document.getElementById("bankOptions");
 
-			//get individual list items
-			span = div.getElementsByTagName("span");
-			for (i = 0; i < span.length; i++) {
-				txtValue = span[i].textContent || span[i].innerText;
-				if (txtValue.toUpperCase().indexOf(filter) > -1) {
-					span[i].style.display = "";
-				} else {
-					span[i].style.display = "none";
-				}
-			}
+			// //get individual list items
+			// span = div.getElementsByTagName("li");
+			// for (i = 0; i < span.length; i++) {
+			// 	txtValue = span[i].textContent || span[i].innerText;
+			// 	if (txtValue.toUpperCase().indexOf(filter) > -1) {
+			// 		span[i].style.display = "";
+			// 	} else {
+			// 		span[i].style.display = "none";
+			// 	}
+			// }
 		}
+
+		//what happens when selected bank is changed
 
 		return {
 			proceed,
@@ -837,6 +847,7 @@ export default {
 			beneficiaryName,
 			openSuccessModal,
 			increaseStep,
+			pickBank,
 			goBack,
 			bankText,
 			formatCurr,
