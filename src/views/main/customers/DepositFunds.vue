@@ -19,7 +19,7 @@
 								stroke-linejoin="round"
 							/>
 						</svg>
-						<span class="blacktext ml-4 fw-600 fs-18"> Create Deposit</span>
+						<span class="blacktext ml-4 fw-600 fs-18"> Deposit Funds</span>
 					</div>
 				</div>
 				<!-- --------------------- -->
@@ -299,7 +299,7 @@ import {
 // import numeral from "numeral";
 
 export default {
-	name: "CreateDeposit",
+	name: "DepositFunds",
 
 	components: {
 		// CancelSvg,
