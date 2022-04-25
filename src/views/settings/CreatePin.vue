@@ -11,7 +11,7 @@
 			<div class="mb-8 w-full">
 				<label for="Create PIN" class="inter fs-14 fw-400 tx-666666">Create PIN</label>
 				<Field
-					id="Create Pin"
+					id="Create_Pin"
 					name="pin"
 					type="password"
 					autocomplete="off"
@@ -24,7 +24,7 @@
 			<div class="mb-10 w-full">
 				<label for="Confirm PIN" class="inter fs-14 fw-400 tx-666666">Confirm PIN</label>
 				<Field
-					id="Confirm Pin"
+					id="Confirm_Pin"
 					name="confirmPin"
 					type="password"
 					autocomplete="off"
@@ -54,6 +54,7 @@
 import {
 	// reactive,
 	//  toRefs,
+	onMounted,
 	ref,
 } from "vue";
 // import ApiResource from "@/components/core/ApiResource";
@@ -71,12 +72,18 @@ export default {
 		Field,
 	},
 	setup() {
+		onMounted(() => {
+			preventLetterInput();
+		});
 		// const userDetails = reactive({
 		// 	pin: "",
 		// 	confirmPin: "",
 		// });
 		const schema = Yup.object().shape({
-			pin: Yup.string().required("Pin is required").min(6, "Pin must be at least 6 characters"),
+			pin: Yup.string()
+				.required("Pin is required")
+				.test("len", "Pin must be exactly 6 characters", (val) => val?.toString().length === 6)
+				.matches(/^[0-9]+$/, "Pin must contain only numbers"),
 			confirmPin: Yup.string()
 				.required("Pin confirmation is required")
 				.oneOf([Yup.ref("pin"), null], "Pins must match"),
@@ -110,6 +117,20 @@ export default {
 			// } else {
 			// 	Log.info("PINs must match");
 			// }
+		};
+
+		const preventLetterInput = () => {
+			document.getElementById("Create_Pin").addEventListener("keypress", function (evt) {
+				if (evt.which < 48 || evt.which > 57) {
+					evt.preventDefault();
+				}
+			});
+
+			document.getElementById("Confirm_Pin").addEventListener("keypress", function (evt) {
+				if (evt.which < 48 || evt.which > 57) {
+					evt.preventDefault();
+				}
+			});
 		};
 		return {
 			// ...toRefs(userDetails),

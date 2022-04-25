@@ -8,6 +8,9 @@ import "./assets/css/styles.scss"
 import "./assets/css/base.css"
 import VueChartkick from "vue-chartkick";
 import VueNumerals from 'vue-numerals';
+// import SuiVue from 'semantic-ui-vue';
+// import 'semantic-ui-css/semantic.min.css';
+// import 'semantic-ui-css/semantic.js';
 import "chartkick/chart.js";
 // import firebaseMessaging from './firebase'
 // import { initializeFirebase } from '@/push-notification';
@@ -24,6 +27,7 @@ createApp(App)
 	.use(store)
 	.use(VueChartkick)
 	.use(VueNumerals)
+	// .use(SuiVue)
 	// .use(initializeFirebase)
 	// .use(registerServiceWorker)
 	.use(router)

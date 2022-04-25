@@ -89,10 +89,10 @@
 								</div>
 
 								<div class="flex items-center justify-center mt-5">
-									<div
+									<button
 										@click="copy"
 										style="border: 1px solid #d6e3ff; border-radius: 3px"
-										class="flex items-center px-3 py-1 cursor-pointer"
+										class="relative flex items-center px-3 py-1 cursor-pointer"
 									>
 										<div class="mr-2">
 											<svg
@@ -117,6 +117,13 @@
 											</svg>
 										</div>
 										<span class="tx-666666 fs-12 fw-300"> Copy account details </span>
+									</button>
+									<div
+										style="border: 1px solid #d6e3ff; border-radius: 3px"
+										class="relative ml-3 mb-auto px-2 right-0"
+										v-if="isCopied"
+									>
+										<span class="tx-666666 fs-12 fw-300"> Copied</span>
 									</div>
 								</div>
 								<div
@@ -140,10 +147,10 @@
 </template>
 
 <script>
-import { onMounted, toRef, computed } from "vue";
+import { onMounted, toRef, computed, ref } from "vue";
 import { useStore } from "vuex";
 // import UserActions from "@/services/userActions/userActions.js";
-// import { Log, Util } from "@/components/util";
+import { Util } from "@/components/util";
 
 export default {
 	name: "AddFundsNaija",
@@ -155,6 +162,7 @@ export default {
 		onMounted(() => {});
 
 		const store = useStore();
+		const isCopied = ref(false);
 		const isModalOpen = toRef(props, "open");
 		// const valueToCopy = ref("Account Details");
 		const bankDetails = computed(() => store.getters["bankDetails/naijaBankDetails"]);
@@ -169,6 +177,14 @@ export default {
 
 		const copy = () => {
 			navigator.clipboard.writeText(JSON.stringify(getCopy()));
+			isCopied.value = true;
+			Util.throttle({
+				key: "Remove copied feedback",
+				run: () => {
+					isCopied.value = false;
+				},
+				time: 1000,
+			});
 		};
 
 		return {
@@ -176,6 +192,7 @@ export default {
 			close,
 			copy,
 			bankDetails,
+			isCopied,
 		};
 	},
 };

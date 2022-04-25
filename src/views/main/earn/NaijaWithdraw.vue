@@ -282,53 +282,69 @@
 												Bank Name
 											</ListboxLabel>
 											<div class="mt-1 relative">
-												<ListboxButton
+												<!-- onkeyup="filterFunction" -->
+												<input
+													ref="bankInput"
+													id="bankInput"
+													@click="
+														bankListIsVisible === true
+															? (bankListIsVisible = false)
+															: (bankListIsVisible = true)
+													"
+													@blur="bankListIsVisible = false"
+													v-on:keyup="filterFunction"
 													class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:border-gray-400 sm:text-sm"
+													type="text"
+													v-model="bankText"
+												/>
+												<span
+													class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+												>
+													<div class="h-5 w-5 text-gray-400 flex items-center">
+														<svg
+															width="12"
+															height="6"
+															viewBox="0 0 12 6"
+															fill="none"
+															xmlns="http://www.w3.org/2000/svg"
+														>
+															<path
+																d="M1 1L5.73 5.2L10.46 1"
+																stroke="#BFBFBF"
+																stroke-width="1.5"
+																stroke-linecap="round"
+																stroke-linejoin="round"
+															/>
+														</svg>
+													</div>
+												</span>
+												<!-- <ListboxButton
+													id="bankButton"
+													class="hidden bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:border-gray-400 sm:text-sm"
 												>
 													<span class="block truncate">{{ selectedBank.name }}</span>
-													<span
-														class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
-													>
-														<div class="h-5 w-5 text-gray-400 flex items-center">
-															<svg
-																width="12"
-																height="6"
-																viewBox="0 0 12 6"
-																fill="none"
-																xmlns="http://www.w3.org/2000/svg"
-															>
-																<path
-																	d="M1 1L5.73 5.2L10.46 1"
-																	stroke="#BFBFBF"
-																	stroke-width="1.5"
-																	stroke-linecap="round"
-																	stroke-linejoin="round"
-																/>
-															</svg>
-														</div>
-													</span>
-												</ListboxButton>
+												</ListboxButton> -->
 
 												<transition
 													leave-active-class="transition ease-in duration-100"
 													leave-from-class="opacity-100"
 													leave-to-class="opacity-0"
 												>
-													<ListboxOptions
+													<div
+														v-if="bankListIsVisible"
 														class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
 													>
-														<ListboxOption
+														<ul
+															id="bankOptions"
+															class="bankOptions"
 															as="template"
 															v-for="bank in banks"
 															:key="bank.id"
 															:value="bank"
-															v-slot="{ active, selectedBank }"
 														>
 															<li
-																:class="[
-																	active ? 'blacktext bg-gray-100' : 'blacktext',
-																	'cursor-default select-none relative py-2 pl-3 pr-9',
-																]"
+																@click="pickBank(bank)"
+																:class="['cursor-default select-none relative py-2 pl-3 pr-9']"
 															>
 																<span
 																	:class="[
@@ -339,17 +355,14 @@
 																	{{ bank.name }}
 																</span>
 
-																<span
+																<!-- <span
 																	v-if="selectedBank"
-																	:class="[
-																		active ? 'text-white' : 'text-indigo-600',
-																		'absolute inset-y-0 right-0 flex items-center pr-4',
-																	]"
+																	:class="['absolute inset-y-0 right-0 flex items-center pr-4']"
 																>
-																</span>
+																</span> -->
 															</li>
-														</ListboxOption>
-													</ListboxOptions>
+														</ul>
+													</div>
 												</transition>
 											</div>
 										</Listbox>
@@ -405,7 +418,7 @@
 									</div>
 								</div>
 							</button> -->
-								<div v-if="beneficiaryLoading" class="h-8 w-8 mx-auto rounded-md block">
+								<div v-if="beneficiaryLoading" class="mb-6 h-8 w-8 mx-auto rounded-md block">
 									<div class="roundLoader opacity-25 mx-auto"></div>
 								</div>
 								<button
@@ -538,8 +551,12 @@ export default {
 		const selectedCurrency = ref(currencies.value[0]);
 		const openRecipients = ref(false);
 		const banks = ref([]);
+		const bankInput = ref(null);
 		const selectedBank = ref({});
+		const bankText = ref("");
 		const withdrawalAmount = ref("");
+		const bankListButton = ref(null);
+		const bankListIsVisible = ref(false);
 
 		const sendAmountLoading = ref(false);
 
@@ -548,6 +565,20 @@ export default {
 
 		const formatCurr = (balance) => {
 			return Util.currencyFormatter(balance, Constants.currencyFormat);
+		};
+
+		const openBankArray = () => {
+			bankListButton.value = document.getElementById("bankButton");
+			const input = document.getElementById("bankInput");
+			bankListButton.value.click();
+
+			Util.throttle({
+				key: "Withdrawal Input Focus",
+				run: () => {
+					input.focus();
+				},
+				time: 400,
+			});
 		};
 
 		const increaseStep = () => {
@@ -608,6 +639,16 @@ export default {
 			// store.commit("setTransactionSuccessfulModal", true);
 		};
 
+		const openSuccessModal = () => {
+			Util.throttle({
+				key: "Open-success-modal",
+				run: () => {
+					store.commit("setTransactionSuccessfulModal", true);
+				},
+				time: 400,
+			});
+		};
+
 		const closeNaijaWithdrawalOtp = () => {
 			naijaWithdrawalOtpOpen.value = false;
 		};
@@ -649,7 +690,7 @@ export default {
 				(response) => {
 					banks.value = response.data.data;
 					selectedBank.value = banks.value !== null ? banks.value[0] : {};
-
+					bankText.value = banks.value !== null ? banks.value[0].name : "";
 					Log.info(response);
 				},
 				(error) => {
@@ -732,12 +773,20 @@ export default {
 			Log.info("Proceed");
 		};
 
-		const openSuccessModal = () => {
-			store.commit("setNaijaTransactionSuccessfulModal", true);
+		const pickBank = (picked) => {
+			bankText.value = picked.name;
+			selectedBank.value = picked;
+			if (beneficiaryAccountNumber.value.length === 10) {
+				getNaijaBeneficiary();
+			}
+
+			Log.info(selectedBank.value);
 		};
 
 		watch(selectedBank, (newValue) => {
 			// store.commit("bankDetails/rateId", newValue.id);
+			Log.info("Changed");
+			// bankText.value = newValue.name;
 			if (beneficiaryAccountNumber.value.length === 10) {
 				getNaijaBeneficiary();
 			}
@@ -760,6 +809,35 @@ export default {
 			}
 		});
 
+		function filterFunction() {
+			Log.info("key");
+			let input, filter, menuItem, txtValue, i;
+			// txtValue, i
+			//get input element
+			input = document.getElementById("bankInput");
+			//get input value
+			filter = input.value.toUpperCase();
+			Log.info(filter);
+
+			// // //get list parent div
+			// div = document.getElementById("bankOptions");
+
+			// // //get individual list items
+			// span = div.querySelector('.bankList');
+			menuItem = document.querySelectorAll("ul.bankOptions span");
+			Log.info(menuItem);
+			for (i = 0; i < menuItem.length; i++) {
+				txtValue = menuItem[i].textContent || menuItem[i].innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					menuItem[i].parentNode.style.display = "";
+				} else {
+					menuItem[i].parentNode.style.display = "none";
+				}
+			}
+		}
+
+		//what happens when selected bank is changed
+
 		return {
 			proceed,
 			goToBeneficiaryList,
@@ -767,6 +845,7 @@ export default {
 			currencies,
 			selectedCurrency,
 			openRecipients,
+			filterFunction,
 			// youReceive,
 			sendAmountLoading,
 			requestLoading,
@@ -779,7 +858,9 @@ export default {
 			beneficiaryName,
 			openSuccessModal,
 			increaseStep,
+			pickBank,
 			goBack,
+			bankText,
 			formatCurr,
 			goToRootPage,
 			getNaijaBeneficiary,
@@ -789,9 +870,12 @@ export default {
 			closeNaijaWithdrawalOtp,
 			switchWallet,
 			wallet,
+			bankInput,
 			principalBalance,
 			interestBalance,
 			schema,
+			openBankArray,
+			bankListIsVisible,
 
 			// addComma,
 		};

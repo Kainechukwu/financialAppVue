@@ -661,7 +661,7 @@ export default {
 		const router = useRouter();
 		const countries = ref([]);
 		const loading = ref(false);
-		const registrationTypes = ref(["LLC", "PLC", "NGO"]);
+		const registrationTypes = ref(["LLC", "PLC", "NGO", "LTD"]);
 		const selectedRegType = ref(registrationTypes.value[0]);
 		const isApproved = ref(false);
 		const busiDetailsData = ref({});
