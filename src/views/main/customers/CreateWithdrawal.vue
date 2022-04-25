@@ -19,7 +19,7 @@
 								stroke-linejoin="round"
 							/>
 						</svg>
-						<span class="blacktext ml-4 fw-600 fs-18"> Create Deposit</span>
+						<span class="blacktext ml-4 fw-600 fs-18"> Create Withdrawal</span>
 					</div>
 				</div>
 				<!-- --------------------- -->
@@ -257,17 +257,19 @@
 					</div>
 				</div>
 
-				<ConfirmTransaction v-else-if="steps === 2" @cancel="decreaseStep" />
+				<ConfirmWithdrawal v-else-if="steps === 2" @cancel="decreaseStep" />
 
 				<!-- <ConfirmWithdrawal /> -->
 				<!-- ------------------ -->
 			</div>
 		</div>
+		<!-- <successful-transaction-modal /> -->
 	</div>
 </template>
 
 <script>
 import { useRouter } from "vue-router";
+// import SuccessfulTransactionModal from "./SuccessfulTransactionModal.vue";
 
 // import { useStore } from "vuex";
 // import CancelSvg from "./CancelSvg.vue";
@@ -279,7 +281,7 @@ import {
 	//  computed,
 	// watch,
 } from "vue";
-import ConfirmTransaction from "./ConfirmTransaction.vue";
+import ConfirmWithdrawal from "./ConfirmWithdrawal.vue";
 // import UserInfo from "@/services/userInfo/userInfo.js";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
@@ -299,11 +301,12 @@ import {
 // import numeral from "numeral";
 
 export default {
-	name: "CreateDeposit",
+	name: "NaijaWithdraw",
 
 	components: {
 		// CancelSvg,
-		ConfirmTransaction,
+		ConfirmWithdrawal,
+		// SuccessfulTransactionModal,
 
 		Listbox,
 		ListboxButton,

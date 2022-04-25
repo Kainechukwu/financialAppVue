@@ -340,19 +340,19 @@
 
 				<!-- ---------------- -->
 				<div class="mb-6">
-					<label for="Opening Address" class="fs-14 fw-400 tx-666666">Opening Address</label>
+					<label for="Operating Address" class="fs-14 fw-400 tx-666666">Operating Address</label>
 					<Field
-						id="Opening Address"
-						name="openingAddress"
+						id="Operating Address"
+						name="operatingAddress"
 						type="text"
 						autocomplete="off"
 						required=""
 						v-model="address"
 						placeholder=""
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-						:class="{ 'is-invalid': errors.openingAddress }"
+						:class="{ 'is-invalid': errors.operatingAddress }"
 					/>
-					<div class="invalid-feedback text-red-500">{{ errors.openingAddress }}</div>
+					<div class="invalid-feedback text-red-500">{{ errors.operatingAddress }}</div>
 				</div>
 
 				<!-- ----------------------- -->
@@ -850,8 +850,8 @@ export default {
 			websiteUrl: Yup.string().required("Website url is required"),
 			companyName: Yup.string().required("Company name is required"),
 			registrationDate: Yup.string().required("Registration Date is required"),
-			openingAddress: Yup.string().required("Opening Address is required"),
-			rcNumber: Yup.string().required("Opening Address is required"),
+			operatingAddress: Yup.string().required("Operating Address is required"),
+			rcNumber: Yup.string().required("RC Number is required"),
 			ultimateBeneficialOwners: Yup.string().required("Ultimate Beneficial Owners is required"),
 		});
 
@@ -864,7 +864,7 @@ export default {
 				countryId: id,
 				// stateId: stateId,
 				registrationType: selectedRegType.value,
-				address: values.openingAddress,
+				address: values.operatingAddress,
 				registrationDate: values.registrationDate,
 				industry: selectedIndustry.value.name,
 				numberOfStaff: values.numberOfStaff,

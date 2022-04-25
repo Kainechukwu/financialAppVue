@@ -268,6 +268,16 @@ export default [
 						component: () => import("@/views/main/customers/CreateDeposit.vue")
 					},
 					{
+						path: "/customers/create_withdrawal",
+						name: "CreateWithdrawal",
+						component: () => import("@/views/main/customers/CreateWithdrawal.vue")
+					},
+					{
+						path: "/customers/deposit_funds",
+						name: "DepositFunds",
+						component: () => import("@/views/main/customers/DepositFunds.vue")
+					},
+					{
 						path: "/backOffice/transactions",
 						redirect: "/backoffice/transactions/deposit_list",
 						name: "Transactions",
@@ -383,11 +393,19 @@ export default [
 							// },
 							{
 								path: "/settings/pin",
-								name: "PIN",
+								name: "PIN Settings",
 								meta: {
 									auth: Constants.merchantAuth,
 								},
 								component: () => import("@/views/settings/Pin.vue")
+							},
+							{
+								path: "/settings/rates",
+								name: "RATES Settings",
+								meta: {
+									auth: Constants.merchantAuth,
+								},
+								component: () => import("@/views/settings/Rates.vue")
 							}
 						]
 					},

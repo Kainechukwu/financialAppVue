@@ -66,13 +66,36 @@
 									>
 								</MenuItem>
 								<MenuItem v-slot="{ active }">
-									<span
+									<router-link
+										to="/customers/create_withdrawal"
+										class="cursor-pointer border-b border-gray-100"
+										:class="[
+											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+											'block px-4 py-2 fs-14 fw-400 blacktext',
+										]"
+										>Create Withdrawal</router-link
+									>
+								</MenuItem>
+								<MenuItem v-slot="{ active }">
+									<router-link
+										to="/deposit"
+										class="cursor-pointer border-b border-gray-100"
+										:class="[
+											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+											'block px-4 py-2 fs-14 fw-400 blacktext',
+										]"
+										>Deposit Funds</router-link
+									>
+								</MenuItem>
+								<MenuItem v-slot="{ active }">
+									<router-link
+										to="/settings/rates"
 										class="cursor-pointer"
 										:class="[
 											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
 											'block px-4 py-2 fs-14 fw-400 blacktext',
 										]"
-										>Configure Rate</span
+										>Configure Rate</router-link
 									>
 								</MenuItem>
 							</div>

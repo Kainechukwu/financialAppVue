@@ -87,7 +87,7 @@
 		</div>
 		<!-- ---------------- -->
 		<div class="mb-6">
-			<label for="Oprning Address" class="fs-14 fw-400 tx-666666">Opening Address</label>
+			<label for="Operating Address" class="fs-14 fw-400 tx-666666">Operating Address</label>
 			<input
 				readonly
 				id="Oprning Address"
