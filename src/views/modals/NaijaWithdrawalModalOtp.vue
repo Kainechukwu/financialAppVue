@@ -163,7 +163,7 @@ import UserActions from "@/services/userActions/userActions.js";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
 import { onMounted, watch } from "vue";
 import { reactive, toRefs, ref, toRef } from "vue";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 // import { useRouter } from "vue-router";
 
 export default {
@@ -241,7 +241,7 @@ export default {
 		};
 
 		const submitCode = () => {
-			Log.info("pin: " + prepareDetails().pin);
+			Log.info("pin: " + JSON.stringify(prepareDetails()));
 			submitLoading.value = true;
 
 			if (prepareDetails().pin.length < 6) {
@@ -255,18 +255,20 @@ export default {
 						Log.info("transaction withdrawal response" + String(response));
 						close();
 						resetInput();
-						store.commit("setNaijaTransactionSuccessfulModal", true);
+						context.emit("success");
 					},
 					(error) => {
 						submitLoading.value = false;
 						Log.error("naija withdrawal response " + String(error));
-						errorMessage.value = error.response.data.Message;
+						// errorMessage.value = error.response.data.Message;
 						// // store.commit("setNaijaTransactionSuccessfulModal", true);
-						// close();
-						resetInput();
-						// close();
 
-						// context.emit("success");
+						close();
+						resetInput();
+
+						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+
+						// close();
 
 						Log.info(store.state.naijaTransactionSuccessfulModal);
 					}

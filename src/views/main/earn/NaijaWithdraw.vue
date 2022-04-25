@@ -418,7 +418,7 @@
 									</div>
 								</div>
 							</button> -->
-								<div v-if="beneficiaryLoading" class="h-8 w-8 mx-auto rounded-md block">
+								<div v-if="beneficiaryLoading" class="mb-6 h-8 w-8 mx-auto rounded-md block">
 									<div class="roundLoader opacity-25 mx-auto"></div>
 								</div>
 								<button
@@ -639,6 +639,16 @@ export default {
 			// store.commit("setTransactionSuccessfulModal", true);
 		};
 
+		const openSuccessModal = () => {
+			Util.throttle({
+				key: "Open-success-modal",
+				run: () => {
+					store.commit("setTransactionSuccessfulModal", true);
+				},
+				time: 400,
+			});
+		};
+
 		const closeNaijaWithdrawalOtp = () => {
 			naijaWithdrawalOtpOpen.value = false;
 		};
@@ -763,10 +773,6 @@ export default {
 			Log.info("Proceed");
 		};
 
-		const openSuccessModal = () => {
-			store.commit("setNaijaTransactionSuccessfulModal", true);
-		};
-
 		const pickBank = (picked) => {
 			bankText.value = picked.name;
 			selectedBank.value = picked;
@@ -777,15 +783,15 @@ export default {
 			Log.info(selectedBank.value);
 		};
 
-		// watch(selectedBank, (newValue) => {
-		// 	// store.commit("bankDetails/rateId", newValue.id);
-		// 	Log.info("Changed");
-		// 	bankText.value = newValue.name;
-		// 	if (beneficiaryAccountNumber.value.length === 10) {
-		// 		getNaijaBeneficiary();
-		// 	}
-		// 	Log.info(newValue);
-		// });
+		watch(selectedBank, (newValue) => {
+			// store.commit("bankDetails/rateId", newValue.id);
+			Log.info("Changed");
+			// bankText.value = newValue.name;
+			if (beneficiaryAccountNumber.value.length === 10) {
+				getNaijaBeneficiary();
+			}
+			Log.info(newValue);
+		});
 
 		// watch(rate, (newValue) => {
 		// 	Log.info(newValue);
