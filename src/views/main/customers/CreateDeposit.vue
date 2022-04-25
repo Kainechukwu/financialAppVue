@@ -142,103 +142,100 @@
 										</div>
 										<!-- ------------------------- -->
 									</div>
-									<div class="col-span-2 sm:col-span-1">
-										<!-- ------------------------ -->
-										<div class="flex flex-col">
-											<!-- <div class="relative">
-												<Listbox as="div" v-model="selectedCurrency">
-													<ListboxLabel class="block fs-14 tx-666666 fw-600 truncate">
-														Enter Amount
-													</ListboxLabel>
-													<div class="h-full relative">
-														<ListboxButton
-															class="text-gray-400 h-full bg-gray-100 w-20 pr-2 pl-1 py-2 focus:outline-none sm:text-sm rounded-l-md"
-														>
-															<span class="block truncate">
-																{{ selectedCurrency.currency }}
-																
-															</span>
-															<span
-																class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
-															>
-																<div
-																	class="h-5 my-auto flex items-center justify-center text-gray-400"
-																>
-																	<svg
-																		width="12"
-																		height="6"
-																		viewBox="0 0 12 6"
-																		fill="none"
-																		xmlns="http://www.w3.org/2000/svg"
-																	>
-																		<path
-																			d="M1 1L5.73 5.2L10.46 1"
-																			stroke="#BFBFBF"
-																			stroke-width="1.5"
-																			stroke-linecap="round"
-																			stroke-linejoin="round"
-																		/>
-																	</svg>
-																</div>
-															</span>
-														</ListboxButton>
 
-														<transition
-															leave-active-class="transition ease-in duration-100"
-															leave-from-class="opacity-100"
-															leave-to-class="opacity-0"
+									<!-- ---------------- -->
+									<div class="flex flex-col col-span-2 sm:col-span-1">
+										<label class="block fs-14 tx-666666 fw-600 truncate"> Enter Amount </label>
+										<div class="flex br-5 h-12 mt-2">
+											<Listbox as="div" v-model="selectedCurrency">
+												<div class="h-full relative">
+													<ListboxButton
+														class="text-gray-400 h-full bg-gray-100 w-20 pr-2 pl-1 py-2 focus:outline-none sm:text-sm rounded-l-md"
+													>
+														<span class="block truncate">
+															{{ selectedCurrency.currency }}
+														</span>
+														<span
+															class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
 														>
-															<ListboxOptions
-																class="absolute z-10 w-full bg-white shadow-lg max-h-60 rounded-b-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+															<div
+																class="h-5 my-auto flex items-center justify-center text-gray-400"
 															>
-																<ListboxOption
-																	as="template"
-																	v-for="currency in currencies"
-																	:key="currency.id"
-																	:value="currency"
-																	v-slot="{ active, selectedCurrency }"
+																<svg
+																	width="12"
+																	height="6"
+																	viewBox="0 0 12 6"
+																	fill="none"
+																	xmlns="http://www.w3.org/2000/svg"
 																>
-																	<li
+																	<path
+																		d="M1 1L5.73 5.2L10.46 1"
+																		stroke="#BFBFBF"
+																		stroke-width="1.5"
+																		stroke-linecap="round"
+																		stroke-linejoin="round"
+																	/>
+																</svg>
+															</div>
+														</span>
+													</ListboxButton>
+
+													<transition
+														leave-active-class="transition ease-in duration-100"
+														leave-from-class="opacity-100"
+														leave-to-class="opacity-0"
+													>
+														<ListboxOptions
+															class="absolute z-10 w-full bg-white shadow-lg max-h-60 rounded-b-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+														>
+															<ListboxOption
+																as="template"
+																v-for="currency in currencies"
+																:key="currency.id"
+																:value="currency"
+																v-slot="{ active, selectedCurrency }"
+															>
+																<li
+																	:class="[
+																		active ? 'blacktext bg-gray-100' : 'blacktext',
+																		'cursor-default select-none relative py-2 pl-3 pr-9',
+																	]"
+																>
+																	<span
 																		:class="[
-																			active ? 'blacktext bg-gray-100' : 'blacktext',
-																			'cursor-default select-none relative py-2 pl-3 pr-9',
+																			selectedCurrency ? 'font-semibold' : 'font-normal',
+																			'block truncate',
 																		]"
 																	>
-																		<span
-																			:class="[
-																				selectedCurrency ? 'font-semibold' : 'font-normal',
-																				'block truncate',
-																			]"
-																		>
-																			{{ currency.currency }}
-																			
-																		</span>
+																		{{ currency.currency }}
+																	</span>
 
-																		<span
-																			v-if="selectedCurrency"
-																			:class="[
-																				active ? 'text-white' : 'text-indigo-600',
-																				'absolute inset-y-0 right-0 flex items-center pr-4',
-																			]"
-																		>
-																		</span>
-																	</li>
-																</ListboxOption>
-															</ListboxOptions>
-														</transition>
-													</div>
-												</Listbox>
-											</div>
-											<div class="ml-20 invalid-feedback text-red-500">
-												{{ errors.amount }}
-											</div> -->
+																	<span
+																		v-if="selectedCurrency"
+																		:class="[
+																			active ? 'text-white' : 'text-indigo-600',
+																			'absolute inset-y-0 right-0 flex items-center pr-4',
+																		]"
+																	>
+																	</span>
+																</li>
+															</ListboxOption>
+														</ListboxOptions>
+													</transition>
+												</div>
+											</Listbox>
+											<Field
+												autofocus
+												class="pl-3 w-full rounded-r-md border border-gray-100 text-gray-900 focus:outline-none sm:text-sm"
+												type="number"
+												name="amount"
+												placeholder="1000.00"
+												:class="{ 'is-invalid': errors.email }"
+											/>
 										</div>
-										<!-- ------------------------- -->
-									</div>
-									<div class="col-span-2 sm:col-span-1">
-										<!-- ------------------------ -->
-
-										<!-- ------------------------- -->
+										<div class="ml-20 invalid-feedback text-red-500">
+											{{ errors.amount }}
+										</div>
 									</div>
 								</div>
 
@@ -358,7 +355,7 @@ export default {
 			amount: Yup.string()
 				.required("Amount is required")
 				.matches(/^[0-9]+$/, "Amount must contain only numbers"),
-			email: Yup.string().required("Email is required"),
+			email: Yup.string().required("Email is required").email("Email is invalid"),
 		});
 
 		// const getBalance = () => {
