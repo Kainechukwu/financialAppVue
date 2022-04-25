@@ -21,6 +21,7 @@ export default createStore({
     notification: { show: false, text: "", type: "" },
     bankDetailsPinModal: false,
     transactionSuccessfulModal: false,
+    customSuccessTransactionModal: false,
     naijaTransactionSuccessfulModal: false,
 
     rerender: 0,
@@ -30,6 +31,10 @@ export default createStore({
 
   },
   mutations: {
+    setCustomSuccessTransactionModal(state, payload) {
+      state.customSuccessTransactionModal = payload;
+
+    },
     setNaijaTransactionSuccessfulModal(state, payload) {
       state.naijaTransactionSuccessfulModal = payload;
     },

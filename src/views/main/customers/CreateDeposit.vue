@@ -24,6 +24,7 @@
 				</div>
 				<!-- --------------------- -->
 				<div
+					v-if="steps === 1"
 					style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05)"
 					class="br-10 bg-white max-w-xl mx-auto pt-5 pb-10"
 				>
@@ -256,16 +257,21 @@
 					</div>
 				</div>
 
+				<ConfirmTransaction v-else-if="steps === 2" @cancel="decreaseStep" />
+
 				<!-- <ConfirmWithdrawal /> -->
 				<!-- ------------------ -->
 			</div>
 		</div>
+		<successful-transaction-modal />
 	</div>
 </template>
 
 <script>
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
+import SuccessfulTransactionModal from "./SuccessfulTransactionModal.vue";
+
+// import { useStore } from "vuex";
 // import CancelSvg from "./CancelSvg.vue";
 import { Log, Util, Constants } from "@/components/util";
 import {
@@ -275,6 +281,7 @@ import {
 	//  computed,
 	// watch,
 } from "vue";
+import ConfirmTransaction from "./ConfirmTransaction.vue";
 // import UserInfo from "@/services/userInfo/userInfo.js";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
@@ -287,6 +294,7 @@ import {
 	ListboxOption,
 	ListboxOptions,
 } from "@headlessui/vue";
+
 // import { useStore } from "vuex";
 // import { numeralFormat } from "vue-numerals";
 // var numeral = require("numeral");
@@ -297,6 +305,8 @@ export default {
 
 	components: {
 		// CancelSvg,
+		ConfirmTransaction,
+		SuccessfulTransactionModal,
 
 		Listbox,
 		ListboxButton,
@@ -318,7 +328,7 @@ export default {
 		});
 
 		const steps = ref(1);
-		const store = useStore();
+		// const store = useStore();
 		const router = useRouter();
 		const currencies = ref([
 			{
@@ -327,7 +337,7 @@ export default {
 			},
 		]);
 
-		const userId = ref(store.getters["authToken/userId"]);
+		// const userId = ref(store.getters["authToken/userId"]);
 
 		const selectedCurrency = ref(currencies.value[0]);
 
@@ -335,9 +345,15 @@ export default {
 			return Util.currencyFormatter(balance, Constants.currencyFormat);
 		};
 
-		// const increaseStep = () => {
-		// 	steps.value += 1;
-		// };
+		const increaseStep = () => {
+			steps.value += 1;
+		};
+
+		const decreaseStep = () => {
+			if (steps.value > 1) {
+				steps.value -= 1;
+			}
+		};
 
 		const goToRootPage = () => {
 			router.push("/customers");
@@ -346,8 +362,8 @@ export default {
 		const goBack = () => {
 			if (steps.value === 1) {
 				goToRootPage();
-			} else {
-				steps.value -= 1;
+			} else if (steps.value > 1) {
+				decreaseStep();
 			}
 		};
 
@@ -375,9 +391,10 @@ export default {
 		// 	);
 		// };
 
-		const proceed = () => {
+		const proceed = (values) => {
 			Log.info("Proceed");
-			Log.info(userId.value);
+			Log.info(values);
+			increaseStep();
 		};
 
 		// const openSuccessModal = () => {
@@ -388,10 +405,11 @@ export default {
 			proceed,
 			currencies,
 			selectedCurrency,
+			decreaseStep,
 
 			goBack,
 			formatCurr,
-
+			steps,
 			schema,
 
 			// addComma,
