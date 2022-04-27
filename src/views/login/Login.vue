@@ -104,6 +104,7 @@
 <script>
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
 import { reactive, toRefs } from "vue";
+import UserInfo from "@/services/userInfo/userInfo.js";
 
 import { useRouter } from "vue-router";
 import { Form, Field } from "vee-validate";
@@ -111,7 +112,7 @@ import * as Yup from "yup";
 import LoginService from "@/services/login/LoginService.js";
 import { Log, Util, Constants } from "@/components/util";
 import UserActions from "@/services/userActions/userActions.js";
-// import { useStore } from "vuex";
+import { useStore } from "vuex";
 // import { askForPermissioToReceiveNotifications } from "@/push-notification";
 
 export default {
@@ -123,7 +124,7 @@ export default {
 	},
 	setup() {
 		const router = useRouter();
-		// const store = useStore();
+		const store = useStore();
 		const loginUser = reactive({
 			loading: false,
 		});
@@ -161,6 +162,21 @@ export default {
 			);
 		};
 
+		const generateKeys = () => {
+			UserInfo.getClientKeys(
+				(response) => {
+					Log.info(response);
+					const data = response.data.data;
+
+					store.commit("authToken/clientLiveKey", data.liveKey);
+					store.commit("authToken/clientTestKey", data.testKey);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
 		const handleLogin = (values) => {
 			loginUser.loading = true;
 			Log.info(loginUser.loading);
@@ -185,6 +201,7 @@ export default {
 						// askForPermissioToReceiveNotifications();
 					}
 					Util.handleGlobalAlert(true, "success", response.data.message);
+					generateKeys();
 				},
 				(error) => {
 					Log.error("login error:" + JSON.stringify(error));

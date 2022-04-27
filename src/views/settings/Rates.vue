@@ -102,6 +102,9 @@ import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import { ref } from "vue";
 import { Log } from "@/components/util";
+import { onMounted } from "vue";
+import { useStore } from "vuex";
+import CustomerService from "@/services/userActions/customerService.js";
 
 export default {
 	name: "Rates",
@@ -110,7 +113,12 @@ export default {
 		Field,
 	},
 	setup() {
+		onMounted(() => {
+			getAllCustomerRates();
+		});
 		const saveLoading = ref(false);
+		const store = useStore();
+		const merchantId = store.getters["authToken/userId"];
 
 		const schema = Yup.object().shape({
 			suprbizBuy: Yup.string().required("Suprbiz buy is required"),
@@ -118,6 +126,19 @@ export default {
 			customerBuy: Yup.string().required("Customer buy is required"),
 			customerSell: Yup.string().required("Customer sell is required"),
 		});
+
+		const getAllCustomerRates = () => {
+			CustomerService.getAllCustomerRates(
+				merchantId,
+				(response) => {
+					Log.info(response);
+				},
+				(error) => {
+					Log.info(error);
+					// getAllCustomerRates();
+				}
+			);
+		};
 
 		const updateRates = (values) => {
 			Log.info(JSON.stringify(values));

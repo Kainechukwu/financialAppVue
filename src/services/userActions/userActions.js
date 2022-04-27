@@ -28,6 +28,8 @@ export default class UserActions {
 	}
 
 
+
+
 	static transactionDeposit(details, successHandler, errorHandler) {
 		Web.post(
 			Constants.API_BASE + "/Transactions/manual-deposit",

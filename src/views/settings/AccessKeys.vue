@@ -3,7 +3,7 @@
 		<div class="col-span-1">
 			<div class="grid grid-rows-3 gap-5 mb-10">
 				<div class="">
-					<label for="acceskey1" class="fs-14 fw-400 tx-666666">Test Public Key</label>
+					<label for="acceskey1" class="fs-14 fw-400 tx-666666">Live Key</label>
 					<div class="relative">
 						<input
 							readonly
@@ -50,7 +50,7 @@
 
 				<!-- ---------------- -->
 				<div class="">
-					<label for="acceskey2" class="fs-14 fw-400 tx-666666">Test Secret Key</label>
+					<label for="acceskey2" class="fs-14 fw-400 tx-666666">Test Key</label>
 					<div class="relative">
 						<input
 							readonly
@@ -158,7 +158,7 @@
 <script>
 import { reactive, toRefs, onMounted } from "vue";
 import UserInfo from "@/services/userInfo/userInfo.js";
-// import { useStore } from "vuex";
+import { useStore } from "vuex";
 // import { useRouter } from "vue-router";
 import { Log } from "@/components/util";
 export default {
@@ -168,10 +168,12 @@ export default {
 			generateKeys();
 		});
 
+		const store = useStore();
+
 		const accessKeys = reactive({
 			key1: "",
 			key2: "",
-			key3: "40a5caaf054d552c3e8387a9",
+			key3: "",
 		});
 		const copyToClipboard = (id) => {
 			var textBox = document.getElementById(id);
@@ -186,6 +188,7 @@ export default {
 					const data = response.data.data;
 					accessKeys.key1 = data.liveKey;
 					accessKeys.key2 = data.testKey;
+					store.commit("authToken/clientLiveKey", data.liveKey);
 				},
 				(error) => {
 					Log.error(error);
