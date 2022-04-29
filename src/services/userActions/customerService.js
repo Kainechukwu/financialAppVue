@@ -11,7 +11,13 @@ export default class CustomerService {
 		)
 	}
 
-	static saveRates(credentials, successHandler, errorHandler) {
+	static getAllCustomers(merchantId, successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Customers/${merchantId}/get-all`, successHandler, errorHandler)
+
+	}
+
+	static saveRate(credentials, successHandler, errorHandler) {
 
 		Web.postCustomer(
 			Constants.API_BASE + "/Rates/save",
@@ -21,17 +27,18 @@ export default class CustomerService {
 		)
 	}
 
-	static getAllCustomerRates(merchantId, successHandler, errorHandler) {
+	static getCustomerRate(successHandler, errorHandler) {
 
-		Web.getCustomer(Constants.API_BASE + `/Rates/${merchantId}/get`, successHandler, errorHandler)
+		Web.getCustomer(Constants.API_BASE + `/Rates/get`, successHandler, errorHandler)
+
+	}
+
+	static getSuprbizRate(successHandler, errorHandler) {
+		Web.getCustomer(Constants.API_BASE + `/Rates/master-rate`, successHandler, errorHandler)
 
 	}
 
-	static getAllCustomers(merchantId, successHandler, errorHandler) {
 
-		Web.getCustomer(Constants.API_BASE + `/Customers/${merchantId}/get-all`, successHandler, errorHandler)
-
-	}
 
 
 

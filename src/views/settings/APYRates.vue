@@ -7,8 +7,9 @@
 					<span class="fs-12 fw-400 tx-666666">Set your rates for your customers</span>
 				</div>
 			</div>
+			<LoadingInputs v-if="suprbizRateLoading || customerRateLoading" />
 
-			<div class="col-span-3">
+			<div v-else class="col-span-3">
 				<Form @submit="getPin" :validation-schema="schema" v-slot="{ errors }">
 					<div class="flex flex-col w-9/12">
 						<div class="flex flex-col">
@@ -16,7 +17,7 @@
 							<div class="grid grid-cols-1 gap-4">
 								<div class="mb-8 col-span-1">
 									<label for="Buy" class="fs-14 fw-400 tx-666666">Suprbiz Rates</label>
-									<Field
+									<input
 										readonly
 										id="Buy"
 										name="suprbizRates"
@@ -25,9 +26,8 @@
 										autocomplete="off"
 										required=""
 										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
-										:class="{ 'is-invalid': errors.suprbizRates }"
 									/>
-									<div class="invalid-feedback text-red-500">{{ errors.suprbizRates }}</div>
+									<!-- <div class="invalid-feedback text-red-500">{{ errors.suprbizRates }}</div> -->
 								</div>
 							</div>
 
@@ -39,6 +39,7 @@
 									<Field
 										id="Buy"
 										name="yourRates"
+										v-model="yourRate"
 										type="number"
 										autocomplete="off"
 										required=""
@@ -75,11 +76,12 @@
 <script>
 import { Form, Field } from "vee-validate";
 import PinCodeModal from "@/views/modals/PinCodeModal";
+import LoadingInputs from "./LoadingInputs.vue";
 import * as Yup from "yup";
 import { ref } from "vue";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 import { onMounted } from "vue";
-import { useStore } from "vuex";
+// import { useStore } from "vuex";
 import CustomerService from "@/services/userActions/customerService.js";
 
 export default {
@@ -88,26 +90,30 @@ export default {
 		Form,
 		Field,
 		PinCodeModal,
+		LoadingInputs,
 	},
 	setup() {
 		onMounted(() => {
-			getAllCustomerRates();
+			getSuprbizRate();
+			getCustomerRate();
 		});
-		const store = useStore();
+		// const store = useStore();
 		const saveLoading = ref(false);
+		const suprbizRateLoading = ref(false);
+		const customerRateLoading = ref(false);
 		const isPinAuthOpen = ref(false);
-		const suprbizRate = ref("");
-		const merchantId = store.getters["authToken/userId"];
+		const suprbizRate = ref(null);
+		const yourRate = ref(null);
 		const ratesDetails = ref({
-			merchantId: merchantId,
-			buyingRate: 0,
-			sellingRate: 0,
-			pin: "string",
+			interestPercent: 0,
+			pin: "",
 		});
 
 		const schema = Yup.object().shape({
 			// suprbizRates: Yup.string(),
-			yourRates: Yup.string().required("Your rate is required"),
+			yourRates: Yup.number()
+				.typeError("Rates is required and must be a number")
+				.required("Your rate is required"),
 		});
 
 		const openPinAuth = () => {
@@ -119,29 +125,62 @@ export default {
 			isPinAuthOpen.value = false;
 		};
 
-		const getAllCustomerRates = () => {
-			CustomerService.getAllCustomerRates(
-				merchantId,
+		const getCustomerRate = () => {
+			customerRateLoading.value = true;
+			CustomerService.getCustomerRate(
 				(response) => {
+					customerRateLoading.value = false;
 					Log.info(response);
+					if (response.data.data > 0) {
+						yourRate.value = response.data.data;
+					}
 				},
 				(error) => {
+					customerRateLoading.value = false;
 					Log.info(error);
-					// getAllCustomerRates();
+					// getCustomerRates();
+				}
+			);
+		};
+
+		const getSuprbizRate = () => {
+			suprbizRateLoading.value = true;
+			CustomerService.getSuprbizRate(
+				(response) => {
+					suprbizRateLoading.value = false;
+					Log.info(response);
+					suprbizRate.value = response.data.data;
+				},
+				(error) => {
+					suprbizRateLoading.value = false;
+					Log.error(error);
 				}
 			);
 		};
 
 		const getPin = (values) => {
 			Log.info(JSON.stringify(values));
-			ratesDetails.value.sellingRate = values.yourRates;
+			ratesDetails.value.interestPercent = Number(values.yourRates);
 			openPinAuth();
 		};
 
 		const saveRate = (pin) => {
+			saveLoading.value = true;
 			Log.info("pin: " + pin);
 			ratesDetails.value.pin = pin;
 			Log.info("ratesDetails: " + JSON.stringify(ratesDetails.value));
+			CustomerService.saveRate(
+				ratesDetails.value,
+				(response) => {
+					saveLoading.value = false;
+					Log.info(response);
+					Util.handleGlobalAlert(true, "success", response.data.message);
+				},
+				(error) => {
+					saveLoading.value = false;
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+				}
+			);
 		};
 
 		//after filling rate input
@@ -156,6 +195,9 @@ export default {
 			openPinAuth,
 			closePinAuth,
 			isPinAuthOpen,
+			yourRate,
+			suprbizRateLoading,
+			customerRateLoading,
 		};
 	},
 };
