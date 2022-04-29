@@ -165,7 +165,7 @@
 											class="cursor-pointer bluebtn fs-14 fw-500 w-2/4 h-12 br-5 flex items-center justify-center"
 										>
 											<div class="flex items-center justify-center">
-												<span class="text-white">Create Customer</span>
+												<span class="text-white">Create Customers</span>
 												<div v-if="loading" class="h-4 w-4 ml-4 rounded-md block">
 													<div class="roundLoader opacity-50 mx-auto"></div>
 												</div>
@@ -185,9 +185,9 @@
 
 <script>
 import { onMounted, ref, toRef } from "vue";
-// import UserActions from "@/services/userActions/userActions.js";
+import CustomerService from "@/services/userActions/customerService.js";
 // import StaticBusinessDetails from "./StaticBusinessDetails.vue";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 // import { useStore } from "vuex";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
@@ -212,7 +212,8 @@ export default {
 
 		// const store = useStore();
 		const isModalOpen = toRef(props, "open");
-		// const store = useStore();
+
+		// const clientKey = computed(() => store.getters["authToken/clientLiveKey"]);
 		// const router = useRouter();
 
 		const loading = ref(false);
@@ -226,29 +227,40 @@ export default {
 		const schema = Yup.object().shape({
 			firstName: Yup.string().required("First Name is required"),
 			lastName: Yup.string().required("Last Name is required"),
-
 			email: Yup.string().required("Email Address is required"),
 			fiat: Yup.string().required("Fiat is required"),
 			rate: Yup.string().required("Rate is required"),
 		});
 
-		// const prepareCustomerDetails = (values) => {
-		// 	const obj = {
-		// 		ownerId: userId,
-		// 		firstName: values.firstName,
-		// 		lastName: values.lastName,
-		// 		fiat: values.fiat,
-		// 		emailAddress: values.email,
-		// 		rate: values.rate,
-		// 	};
-		// 	return obj;
-		// };
+		const prepareCustomerDetails = (values) => {
+			const obj = {
+				firstName: values.firstName,
+				lastName: values.lastName,
+				fiatCurrency: values.fiat,
+				emailAddress: values.email,
+				rate: values.rate,
+			};
+			return obj;
+		};
 
 		const saveDetails = (values) => {
 			Log.info("values");
 			Log.info(values);
-			// loading.value = true;
-			// Log.info(prepareCustomerDetails(values));
+			loading.value = true;
+			Log.info(prepareCustomerDetails(values));
+			CustomerService.createCustomer(
+				prepareCustomerDetails(values),
+				(response) => {
+					loading.value = false;
+					close();
+					Util.handleGlobalAlert(true, "success", response.data.message);
+				},
+				(error) => {
+					loading.value = false;
+					close();
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+				}
+			);
 			// loading.value = false;
 		};
 
@@ -261,6 +273,7 @@ export default {
 			saveDetails,
 
 			schema,
+			// clientKey,
 		};
 	},
 };

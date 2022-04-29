@@ -19,13 +19,21 @@ const state = {
 	isProfileUpdated: false,
 	isPhoneNumberVerified: false,
 	isKycDone: false,
-	count: 0
+	count: 0,
+	clientLiveKey: "",
+	clientTestKey: ""
 
 	// authorizations: [],
 };
 
 
 const getters = {
+	clientLiveKey(state) {
+		return state.clientLiveKey;
+	},
+	clientTestKey(state) {
+		return state.clientTestKey;
+	},
 	countryName(state) {
 		return state.countryName;
 	},
@@ -99,6 +107,13 @@ const getters = {
 
 
 const mutations = {
+	clientLiveKey(state, clientLiveKey) {
+		state.clientLiveKey = clientLiveKey;
+	},
+
+	clientTestKey(state, clientTestKey) {
+		state.clientTestKey = clientTestKey;
+	},
 	countryName(state, countryName) {
 		state.countryName = countryName;
 	},

@@ -399,13 +399,21 @@ export default [
 								},
 								component: () => import("@/views/settings/Pin.vue")
 							},
+							// {
+							// 	path: "/settings/rates",
+							// 	name: "RATES Settings",
+							// 	meta: {
+							// 		auth: Constants.merchantAuth,
+							// 	},
+							// 	component: () => import("@/views/settings/Rates.vue")
+							// },
 							{
-								path: "/settings/rates",
-								name: "RATES Settings",
+								path: "/settings/apy_rates",
+								name: "APY RATES Settings",
 								meta: {
 									auth: Constants.merchantAuth,
 								},
-								component: () => import("@/views/settings/Rates.vue")
+								component: () => import("@/views/settings/APYRates.vue")
 							}
 						]
 					},

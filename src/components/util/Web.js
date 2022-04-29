@@ -22,6 +22,15 @@ axios.interceptors.request.use(req => {
 
 	if (
 		matchingExcludePaths.length === 0
+		&& process.env.VUE_APP_CUSTOMER_SERVICE
+		&& req.url?.startsWith(process.env.VUE_APP_CUSTOMER_SERVICE)
+	) {
+		req.headers.Authorization = "Bearer " + store.getters['authToken/apiToken'];
+		req.headers.clientKey = store.getters['authToken/clientLiveKey'];
+	}
+
+	if (
+		matchingExcludePaths.length === 0
 		&& process.env.VUE_APP_BO_BASE_URL
 		&& req.url?.startsWith(process.env.VUE_APP_BO_BASE_URL)
 	) {
@@ -41,6 +50,7 @@ axios.interceptors.request.use(req => {
 export default class Web {
 	static BASE_URL = process.env.VUE_APP_BASE_URL;
 	static BO_BASE_URL = process.env.VUE_APP_BO_BASE_URL
+	static CUSTOMER_SERVICE = process.env.VUE_APP_CUSTOMER_SERVICE
 
 	static get(url, successCallback, errorCallback) {
 		Web.getAbsolute(Web.BASE_URL + url, successCallback, errorCallback);
@@ -48,6 +58,10 @@ export default class Web {
 
 	static getBackOffice(url, successCallback, errorCallback) {
 		Web.getAbsolute(Web.BO_BASE_URL + url, successCallback, errorCallback);
+	}
+
+	static getCustomer(url, successCallback, errorCallback) {
+		Web.getAbsolute(Web.CUSTOMER_SERVICE + url, successCallback, errorCallback);
 	}
 
 
@@ -63,6 +77,7 @@ export default class Web {
 		window.location.href = url;
 	}
 
+
 	static post(url, data, successCallback, errorCallback) {
 		Web.postAbsolute(Web.BASE_URL + url, data, successCallback, errorCallback);
 	}
@@ -77,6 +92,10 @@ export default class Web {
 		axios.post(url, data)
 			.then(successCallback)
 			.catch(errorCallback);
+	}
+
+	static postCustomer(url, data, successCallback, errorCallback) {
+		Web.postAbsolute(Web.CUSTOMER_SERVICE + url, data, successCallback, errorCallback);
 	}
 
 	static postRefreshToken(url, data, refreshToken, successCallback, errorCallback) {
@@ -135,6 +154,12 @@ export default class Web {
 			.then(successCallback)
 			.catch(errorCallback);
 	}
+
+
+
+
+
+
 
 
 

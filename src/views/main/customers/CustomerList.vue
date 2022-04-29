@@ -162,39 +162,39 @@
 												scope="col"
 												class="pr-6 pl-4 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
 											>
-												Cust ID
+												ID
 											</th>
 											<th
 												scope="col"
 												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
 											>
-												Customer Name
+												Name
 											</th>
-											<th
+											<!-- <th
 												scope="col"
 												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
 											>
 												Merch ID
+											</th> -->
+											<th
+												scope="col"
+												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
+											>
+												Email
 											</th>
 											<th
 												scope="col"
 												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
 											>
-												Email Address
-											</th>
-											<th
-												scope="col"
-												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
-											>
-												Account No
+												Product(s)
 											</th>
 
-											<th
+											<!-- <th
 												scope="col"
 												class="sr-only px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
 											>
 												View
-											</th>
+											</th> -->
 										</tr>
 									</thead>
 
@@ -206,23 +206,23 @@
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 												{{ customer.customerName }}
 											</td>
-											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
+											<!-- <td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 												{{ customer.merchantId }}
+											</td> -->
+											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
+												{{ customer.customerEmail }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ customer.emailAddress }}
+												{{ customer.product }}
 											</td>
-											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ customer.accountNumber }}
-											</td>
-											<td
+											<!-- <td
 												style="color: #1860b9"
 												class="px-6 py-4 cursor-pointer whitespace-nowrap fs-14 fw-500"
 											>
 												<router-link :to="`/customers/transactions/${customer.merchantId}`"
 													>view</router-link
 												>
-											</td>
+											</td> -->
 										</tr>
 									</tbody>
 								</table>
@@ -238,7 +238,7 @@
 </template>
 
 <script>
-import UserActions from "@/services/userActions/userActions.js";
+import CustomerService from "@/services/userActions/customerService.js";
 import { useStore } from "vuex";
 // import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
@@ -263,16 +263,8 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			UserActions.getCustomers(
-				merchantId,
-				(response) => {
-					Log.info(response);
-					customers.value = response.data.data;
-				},
-				(error) => {
-					Log.info(error);
-				}
-			);
+			getAllCustomers();
+			Log.info("customers");
 		});
 		const store = useStore();
 		// const router = useRouter();
@@ -283,6 +275,20 @@ export default {
 		// };
 		// const items = ["1", "2", "3", "4"];
 		// const selected = ref(items.value[0]);
+
+		const getAllCustomers = () => {
+			CustomerService.getAllCustomers(
+				merchantId,
+				(response) => {
+					Log.info(response);
+					Log.info("customers2");
+					customers.value = response.data.data;
+				},
+				(error) => {
+					Log.info(error);
+				}
+			);
+		};
 
 		return {
 			customers,
