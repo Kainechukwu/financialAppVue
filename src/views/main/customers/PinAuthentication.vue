@@ -156,16 +156,15 @@
 </template>
 
 <script>
-// import { useStore } from "vuex";
+import { useStore } from "vuex";
 // import { useRouter } from "vue-router";
 // import UserActions from "@/services/userActions/userActions.js";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
-import { onMounted, watch } from "vue";
+import { onMounted, watch, computed } from "vue";
 import { reactive, toRefs, ref, toRef } from "vue";
-import {
-	Log,
-	//  Util
-} from "@/components/util";
+import CustomerService from "@/services/userActions/customerService.js";
+
+import { Log, Util } from "@/components/util";
 // import { useRouter } from "vue-router";
 
 export default {
@@ -180,11 +179,6 @@ export default {
 	// },
 	props: {
 		open: Boolean,
-		// amount: String,
-		// destinationAccountNumber: String,
-		// destinationAccountName: String,
-		// destinationBankCode: String,
-		// destinationBankName: String,
 	},
 	setup(props, context) {
 		onMounted(() => {
@@ -200,9 +194,10 @@ export default {
 			code5: "",
 			code6: "",
 		});
-		// const store = useStore();
+		const store = useStore();
 		const errorMessage = ref("");
 		const submitLoading = ref(false);
+		const customerDepositDetails = computed(() => store.getters["customer/transactionDetails"]);
 		const isModalOpen = toRef(props, "open");
 		// const router = useRouter();
 		function clickEvent(e, next) {
@@ -220,14 +215,11 @@ export default {
 				codes.code1 + codes.code2 + codes.code3 + codes.code4 + codes.code5 + codes.code6;
 
 			const obj = {
+				customerId: store.getters["customer/customerId"],
+				product: customerDepositDetails.value.product,
+				transactionRefCode: customerDepositDetails.value.transactionRefCode,
+				amount: customerDepositDetails.value.amount,
 				pin: code,
-				// amount: Number(props.amount),
-				// userId: store.getters["authToken/userId"],
-				// wallet: store.getters["bankDetails/walletId"],
-				// destinationAccountNumber: props.destinationAccountNumber,
-				// destinationAccountName: props.destinationAccountName,
-				// destinationBankCode: props.destinationBankCode,
-				// destinationBankName: props.destinationBankName,
 			};
 
 			return obj;
@@ -250,35 +242,35 @@ export default {
 				submitLoading.value = false;
 				errorMessage.value = "All fields must be filled";
 			} else {
-				// UserActions.naijaWithdrawal(
-				// 	prepareDetails(),
-				// 	(response) => {
-				// 		submitLoading.value = false;
-				// 		Log.info("transaction withdrawal response" + String(response));
-				// 		close();
-				// 		resetInput();
-				// 		context.emit("success");
-				// 	},
-				// 	(error) => {
-				// 		submitLoading.value = false;
-				// 		Log.error("naija withdrawal response " + String(error));
-				// 		// errorMessage.value = error.response.data.Message;
-				// 		// // store.commit("setNaijaTransactionSuccessfulModal", true);
+				CustomerService.customerConfirmDeposit(
+					prepareDetails(),
+					(response) => {
+						submitLoading.value = false;
+						Log.info("transaction deposit response" + String(response));
+						close();
+						resetInput();
+						context.emit("success");
+					},
+					(error) => {
+						submitLoading.value = false;
+						Log.error("naija deposit response " + String(error));
+						// errorMessage.value = error.response.data.Message;
+						// // store.commit("setNaijaTransactionSuccessfulModal", true);
 
-				// 		close();
+						close();
+						resetInput();
 
-				// 		Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 
-				// 		// close();
+						// close();
 
-				// 		Log.info(store.state.naijaTransactionSuccessfulModal);
-				// 	}
-				// );
-				// store.commit("setTransactionSuccessfulModal", true);
+						Log.info(store.state.naijaTransactionSuccessfulModal);
+					}
+				);
+
+				// close();
 				// resetInput();
-				close();
-				resetInput();
-				context.emit("success");
+				// context.emit("success");
 				Log.info(prepareDetails());
 			}
 		};

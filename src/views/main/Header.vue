@@ -290,26 +290,26 @@ export default {
 		};
 
 		const removeEvent = () => {
-			window.removeEventListener("scroll", onScroll);
+			// window.removeEventListener("scroll", onScroll);
 		};
 
 		const addEvent = () => {
-			window.addEventListener("scroll", onScroll);
+			// window.addEventListener("scroll", onScroll);
 		};
 
-		const loadMore = () => {
-			busy.value = true;
-			pageNumber.value += 1;
+		// const loadMore = () => {
+		// 	busy.value = true;
+		// 	pageNumber.value += 1;
 
-			getAllNotifications();
+		// 	getAllNotifications();
 
-			busy.value = false;
-		};
+		// 	busy.value = false;
+		// };
 
-		const checkPagesLeft = () => {
-			const bool = Math.ceil(totalPages.value / pageSize.value) > pageNumber.value;
-			return bool;
-		};
+		// const checkPagesLeft = () => {
+		// 	const bool = Math.ceil(totalPages.value / pageSize.value) > pageNumber.value;
+		// 	return bool;
+		// };
 
 		const dateFormat = (date) => {
 			const d = Util.formatTime(date, "YYYY-MM-DD HH:mm:ss.SSSS", "MMM DD ddd hh:mm a");
@@ -335,27 +335,27 @@ export default {
 			);
 		};
 
-		const onScroll = () => {
-			Util.throttle({
-				key: "Notifications-infinite-scroll",
-				run: () => {
-					if (busy.value) {
-						return;
-					}
-					let element = notificationScroll.value;
-					if (element === null) {
-						return;
-					}
+		// const onScroll = () => {
+		// 	Util.throttle({
+		// 		key: "Notifications-infinite-scroll",
+		// 		run: () => {
+		// 			if (busy.value) {
+		// 				return;
+		// 			}
+		// 			let element = notificationScroll.value;
+		// 			if (element === null) {
+		// 				return;
+		// 			}
 
-					if (element !== null && element.getBoundingClientRect().bottom < window.innerHeight) {
-						if (checkPagesLeft()) {
-							loadMore();
-						}
-					}
-				},
-				time: 100,
-			});
-		};
+		// 			if (element !== null && element.getBoundingClientRect().bottom < window.innerHeight) {
+		// 				if (checkPagesLeft()) {
+		// 					loadMore();
+		// 				}
+		// 			}
+		// 		},
+		// 		time: 100,
+		// 	});
+		// };
 		return {
 			enabled,
 			toggle,

@@ -5,8 +5,9 @@
 	>
 		<div class="flex px-4 pb-3 items-center justify-between border-b border-gray-100">
 			<div>
-				<span class="fw-600 fs-16 blacktext">Deposit Funds</span>
+				<span class="fw-600 fs-16 blacktext">Deposit Fundsss</span>
 			</div>
+			<span>{{ country }}</span>
 			<div>
 				<CancelSvg />
 			</div>
@@ -17,13 +18,22 @@
 
 <script>
 import CancelSvg from "./CancelSvg.vue";
+import { useStore } from "vuex";
+import { onMounted } from "vue";
+import { Log } from "@/components/util";
+
 export default {
 	name: "Deposit",
 	components: {
 		CancelSvg,
 	},
 	setup() {
-		return {};
+		onMounted(() => {
+			Log.info(country);
+		});
+		const store = useStore();
+		const country = store.getters["authToken/countryName"];
+		return { country };
 	},
 };
 </script>

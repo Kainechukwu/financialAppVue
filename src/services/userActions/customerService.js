@@ -38,6 +38,53 @@ export default class CustomerService {
 
 	}
 
+	static customerSearch(pageNumber, pageSize, searchText, successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Customers/search?PageNumber=${pageNumber}&PageSize=${pageSize}&searchText=${searchText}`, successHandler, errorHandler)
+
+	}
+
+	static customerTransactionDeposit(credentials, successHandler, errorHandler) {
+
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/deposit",
+			credentials,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static customerConfirmDeposit(credentials, successHandler, errorHandler) {
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/confirm-deposit",
+			credentials,
+			successHandler,
+			errorHandler
+		)
+
+	}
+
+	static customerTransactionWithdrawal(credentials, successHandler, errorHandler) {
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/withdrawal",
+			credentials,
+			successHandler,
+			errorHandler
+		)
+
+	}
+
+
+	static customerConfirmWithdrawal(credentials, successHandler, errorHandler) {
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/confirm-withdrawal",
+			credentials,
+			successHandler,
+			errorHandler
+		)
+
+	}
+
 
 
 

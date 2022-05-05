@@ -38,7 +38,7 @@
 								<div class="grid grid-cols-2 gap-4 py-6">
 									<div class="col-span-2">
 										<!-- ------------------------ -->
-										<div class="mb-6 col-span-1">
+										<div class="mb-6 col-span-1 relative">
 											<label for="Email Address" class="fs-14 fw-400 tx-666666"
 												>Email Address</label
 											>
@@ -46,11 +46,55 @@
 												id="Email Address"
 												name="email"
 												type="text"
+												v-model="searchText"
 												autocomplete="off"
+												@focus="customerListIsVisible = true"
+												@blur="customerListIsVisible = false"
+												v-on:keyup="customerSearch"
 												required=""
 												class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 												:class="{ 'is-invalid': errors.email }"
 											/>
+											<transition
+												leave-active-class="transition ease-in duration-100"
+												leave-from-class="opacity-100"
+												leave-to-class="opacity-0"
+											>
+												<div
+													v-if="customerListIsVisible && customers?.length > 0"
+													class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+												>
+													<ul
+														id="customerOptions"
+														class="customerOptions"
+														as="template"
+														v-for="customer in customers"
+														:key="customer.customerId"
+													>
+														<li
+															@click="pickCustomer(customer)"
+															:class="[
+																'cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-gray-200',
+															]"
+														>
+															<span
+																:class="[
+																	selectedCustomer ? 'font-semibold' : 'font-normal',
+																	'block truncate',
+																]"
+															>
+																{{ customer.customerEmail }}
+															</span>
+
+															<!-- <span
+																	v-if="selectedcustomer"
+																	:class="['absolute inset-y-0 right-0 flex items-center pr-4']"
+																>
+																</span> -->
+														</li>
+													</ul>
+												</div>
+											</transition>
 											<div class="invalid-feedback text-red-500">{{ errors.email }}</div>
 										</div>
 										<!-- ------------------------- -->
@@ -247,9 +291,9 @@
 								>
 									<div class="flex items-center justify-center">
 										<span class="fw-500 fs-16 text-white">Proceed</span>
-										<!-- <div v-if="beneficiaryLoading" class="h-4 w-4 ml-4 rounded-md block">
-										<div class="roundLoader opacity-50 mx-auto"></div>
-									</div> -->
+										<div v-if="withdrawalLoading" class="h-4 w-4 ml-4 rounded-md block">
+											<div class="roundLoader opacity-50 mx-auto"></div>
+										</div>
 									</div>
 								</button>
 							</div>
@@ -271,7 +315,7 @@
 import { useRouter } from "vue-router";
 // import SuccessfulTransactionModal from "./SuccessfulTransactionModal.vue";
 
-// import { useStore } from "vuex";
+import { useStore } from "vuex";
 // import CancelSvg from "./CancelSvg.vue";
 import { Log, Util, Constants } from "@/components/util";
 import {
@@ -294,6 +338,7 @@ import {
 	ListboxOption,
 	ListboxOptions,
 } from "@headlessui/vue";
+import CustomerService from "@/services/userActions/customerService.js";
 
 // import { useStore } from "vuex";
 // import { numeralFormat } from "vue-numerals";
@@ -328,7 +373,7 @@ export default {
 		});
 
 		const steps = ref(1);
-		// const store = useStore();
+		const store = useStore();
 		const router = useRouter();
 		const currencies = ref([
 			{
@@ -336,6 +381,13 @@ export default {
 				id: 5,
 			},
 		]);
+		const customerListIsVisible = ref(false);
+		const pageNumber = ref(1);
+		const pageSize = ref(10);
+		const searchText = ref("");
+		const customers = ref([]);
+		const selectedCustomer = ref({});
+		const withdrawalLoading = ref(false);
 
 		// const userId = ref(store.getters["authToken/userId"]);
 
@@ -391,10 +443,52 @@ export default {
 		// 	);
 		// };
 
+		const customerSearch = () => {
+			if (searchText.value.length > 0) {
+				CustomerService.customerSearch(
+					pageNumber.value,
+					pageSize.value,
+					searchText.value,
+					(response) => {
+						Log.info(response);
+						customers.value = response.data.data;
+					},
+					(error) => {
+						Log.error(error);
+					}
+				);
+			}
+		};
+
+		const pickCustomer = (customer) => {
+			searchText.value = customer.customerEmail;
+			store.commit("customer/customerId", customer.customerId);
+
+			Log.info(customer);
+			selectedCustomer.value = customer;
+		};
+
 		const proceed = (values) => {
 			Log.info("Proceed");
 			Log.info(values);
-			increaseStep();
+			withdrawalLoading.value = true;
+			CustomerService.customerTransactionWithdrawal(
+				{
+					customerId: selectedCustomer.value.customerId,
+					product: selectedCurrency.value.currency,
+					amount: Number(values.amount),
+				},
+				(response) => {
+					withdrawalLoading.value = false;
+					Log.info("deposit response: " + JSON.stringify(response));
+					store.commit("customer/transactionDetails", response.data.data);
+					increaseStep();
+				},
+				(error) => {
+					withdrawalLoading.value = false;
+					Log.error(error);
+				}
+			);
 		};
 
 		// const openSuccessModal = () => {
@@ -406,6 +500,13 @@ export default {
 			currencies,
 			selectedCurrency,
 			decreaseStep,
+			customerListIsVisible,
+			pickCustomer,
+			selectedCustomer,
+			searchText,
+			customerSearch,
+			customers,
+			withdrawalLoading,
 
 			goBack,
 			formatCurr,

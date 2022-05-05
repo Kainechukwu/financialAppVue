@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import authToken from "./modules/authToken";
+import customer from "./modules/customer";
 import bankDetails from "./modules/bankDetails";
 import deposit from "./modules/deposit";
 import backOffice from "./modules/backOffice"
@@ -115,7 +116,8 @@ export default createStore({
     authToken,
     bankDetails,
     deposit,
-    backOffice
+    backOffice,
+    customer
   },
   plugins: [createPersistedState()],
 
