@@ -151,7 +151,7 @@
 															<ListboxOption
 																as="template"
 																v-for="currency in currencies"
-																:key="currency.id"
+																:key="currency"
 																:value="currency"
 																v-slot="{ active, selectedCurrency }"
 															>
@@ -237,7 +237,7 @@
 															<ListboxOption
 																as="template"
 																v-for="currency in currencies"
-																:key="currency.id"
+																:key="currency"
 																:value="currency"
 																v-slot="{ active, selectedCurrency }"
 															>
@@ -383,7 +383,7 @@ export default {
 		const currencies = ref([
 			{
 				currency: "NGN",
-				id: 5,
+				// id: 5,
 			},
 		]);
 
