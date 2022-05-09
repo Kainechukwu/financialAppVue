@@ -3,6 +3,7 @@
 const state = {
 
 	pin: "",
+	transType: 0,
 	amount: 0,
 	rateId: "",
 	beneficiaryName: "",
@@ -26,6 +27,9 @@ const getters = {
 	// details(state) {
 	// 	return state.details
 	// }
+	transType(state) {
+		return state.transType
+	},
 	naijaBankDetails(state) {
 		return state.naijaBankDetails
 	},
@@ -75,6 +79,9 @@ const getters = {
 
 
 const mutations = {
+	transType(state, transType) {
+		state.transType = transType;
+	},
 
 	naijaBankDetails(state, naijaBankDetails) {
 		state.naijaBankDetails = naijaBankDetails;

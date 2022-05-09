@@ -351,10 +351,13 @@ export default {
 			// const input = document.getElementById("earnInput");
 			// input.focus();
 			getRates();
+
+			Log.info("TransTypppeee: " + transType);
 		});
 		// const page = toRef(props, "page");
 		const router = useRouter();
 		const store = useStore();
+		const transType = store.getters["bankDetails/transType"];
 		const depositAmount = ref("");
 		const requestLoading = ref(false);
 		const sendAmountLoading = ref(false);
@@ -404,7 +407,11 @@ export default {
 
 		const goToRootPage = () => {
 			// Log.info(page.value);
-			router.push("/earn/overview");
+			if (transType === 0) {
+				router.push("/earn/overview");
+			} else if (transType === 1) {
+				router.push("/customers");
+			}
 		};
 
 		const increaseStep = () => {

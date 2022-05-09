@@ -129,9 +129,7 @@
 						class="fw-600 fs-14"
 						:class="{ 'nav-link-color': currentPage === 'Customers Transactions' }"
 					>
-						<router-link :to="`/customers/transactions/${merchantId}`"
-							>Customer Transactions</router-link
-						>
+						<router-link :to="`/customers/transactions`">Customer Transactions</router-link>
 					</div>
 					<div
 						class="h-02rem"
@@ -169,8 +167,10 @@
 <script>
 import { useRoute } from "vue-router";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
+import { Log } from "@/components/util";
+
 import CreateCustomer from "@/views/modals/CreateCustomer.vue";
 import CustomerBalanceCard from "./CustomerBalanceCard.vue";
 import CustomerInterestEarnedPlate from "./CustomerInterestEarnedPlate.vue";
@@ -186,10 +186,14 @@ export default {
 		CreateCustomer,
 	},
 	setup() {
+		onMounted(() => {
+			store.commit("bankDetails/transType", 1);
+			Log.info("transType:" + store.getters["bankDetails/transType"]);
+		});
 		const route = ref(useRoute());
 		const store = useStore();
 		const isCreateCustomerOpen = ref(false);
-		const merchantId = store.getters["authToken/userId"];
+		// const merchantId = store.getters["authToken/userId"];
 
 		const currentPage = computed(() => route.value.name);
 		const openCreateCustomer = () => {
@@ -201,7 +205,7 @@ export default {
 		};
 		return {
 			currentPage,
-			merchantId,
+			// merchantId,
 			openCreateCustomer,
 			isCreateCustomerOpen,
 			closeCreateCustomer,

@@ -66,6 +66,7 @@ export default {
 
 	setup() {
 		onMounted(() => {
+			store.commit("bankDetails/transType", 0);
 			// const messaging = inject("messaging");
 
 			console.log("Firebase cloud messaging object", messaging);
@@ -93,6 +94,7 @@ export default {
 			);
 
 			getNaijaBankAccountDetails();
+			Log.info("transType:" + store.getters["bankDetails/transType"]);
 		});
 
 		const messaging = inject("messaging");
@@ -107,6 +109,7 @@ export default {
 			if (isNigerian) {
 				UserActions.getNaijaBankAccountDetails(
 					userId,
+					0,
 					(response) => {
 						Log.info("responseNaijaBank:" + JSON.stringify(response));
 						// const fakeData = {
