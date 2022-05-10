@@ -124,7 +124,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import UserInfo from "@/services/userInfo/userInfo.js";
 import { useStore } from "vuex";
 import AddFundsNaija from "@/views/modals/AddFundsNaija.vue";
-import UserActions from "@/services/userActions/userActions.js";
+import CustomerService from "@/services/userActions/customerService.js";
 
 import { useRouter } from "vue-router";
 import { onMounted, ref, computed, watch } from "vue";
@@ -150,11 +150,11 @@ export default {
 			// Log.info("rerender:" + JSON.stringify(rerender));
 			getBalance();
 			setInterval(add, 1000);
-			getNaijaBankAccountDetails();
+			getCustomerNaijaBankAccountDetails();
 		});
 
 		const store = useStore();
-		const userId = store.getters["authToken/userId"];
+		// const userId = store.getters["authToken/userId"];
 
 		const router = useRouter();
 		const totalBalance = ref("0.00");
@@ -241,10 +241,9 @@ export default {
 			);
 		};
 
-		const getNaijaBankAccountDetails = () => {
+		const getCustomerNaijaBankAccountDetails = () => {
 			if (props.currency === "NGN") {
-				UserActions.getNaijaBankAccountDetails(
-					userId,
+				CustomerService.getCustomerNaijaBankAccountDetails(
 					1,
 					(response) => {
 						Log.info("responseNaijaBank:" + JSON.stringify(response));

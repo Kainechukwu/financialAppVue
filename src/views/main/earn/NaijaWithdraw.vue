@@ -483,6 +483,8 @@ import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import EarnDepositLoading from "./earnDepositLoading.vue";
 import UserActions from "@/services/userActions/userActions.js";
+import CustomerService from "@/services/userActions/customerService.js";
+
 import NaijaBeneficiaryList from "./NaijaBeneficiaryList.vue";
 import NaijaWithdrawalModalOtp from "@/views/modals/NaijaWithdrawalModalOtp";
 import {
@@ -537,6 +539,7 @@ export default {
 				id: 5,
 			},
 		]);
+		const transType = store.getters["bankDetails/transType"];
 		const wallet = ref("Principal Account");
 		const beneficiaryName = ref("");
 		const beneficiaryAccountNumber = ref("");
@@ -604,7 +607,11 @@ export default {
 		};
 
 		const goToRootPage = () => {
-			router.push("/earn/overview");
+			if (transType === 0) {
+				router.push("/earn/overview");
+			} else if (transType === 1) {
+				router.push("/customers");
+			}
 		};
 
 		const goBack = () => {
@@ -686,69 +693,101 @@ export default {
 		};
 
 		const getBankList = () => {
-			UserActions.getBankList(
-				(response) => {
-					banks.value = response.data.data;
-					selectedBank.value = banks.value !== null ? banks.value[0] : {};
-					bankText.value = banks.value !== null ? banks.value[0].name : "";
-					Log.info(response);
-				},
-				(error) => {
-					Log.error(error);
-				}
-			);
+			if (transType === 0) {
+				UserActions.getBankList(
+					(response) => {
+						banks.value = response.data.data;
+						selectedBank.value = banks.value !== null ? banks.value[0] : {};
+						bankText.value = banks.value !== null ? banks.value[0].name : "";
+						Log.info(response);
+					},
+					(error) => {
+						Log.error(error);
+					}
+				);
+			} else if (transType === 1) {
+				CustomerService.getCustomerBanks(
+					(response) => {
+						banks.value = response.data.data;
+						selectedBank.value = banks.value !== null ? banks.value[0] : {};
+						bankText.value = banks.value !== null ? banks.value[0].name : "";
+						Log.info(response);
+					},
+					(error) => {
+						Log.error(error);
+					}
+				);
+			}
 		};
 
 		const getPrevBeneficiaries = () => {
-			UserActions.getPrevBeneficiaries(
-				userId.value,
-				pageNumber.value,
-				pageSize.value,
-				(response) => {
-					// const fakeData = [
-					// 	{
-					// 		accountName: "Kaine Bismarck",
-					// 		accountNumber: "0123456789",
-					// 		bankName: "ACCESS BANK",
-					// 		bankCode: "000114",
-					// 		id: "1",
-					// 	},
-					// 	{
-					// 		accountName: "Wale Adenuga",
-					// 		accountNumber: "0123456789",
-					// 		bankName: "Access Bank",
-					// 		bankCode: "000115",
-					// 		id: "2",
-					// 	},
-					// ];
-					beneficiaryListArray.value = response.data.data.length > 0 ? response.data.data : [];
-					Log.info(response);
-				},
-				(error) => {
-					Log.error(error);
-				}
-			);
+			if (transType === 0) {
+				UserActions.getPrevBeneficiaries(
+					userId.value,
+					pageNumber.value,
+					pageSize.value,
+					(response) => {
+						beneficiaryListArray.value = response.data.data.length > 0 ? response.data.data : [];
+						Log.info(response);
+					},
+					(error) => {
+						Log.error(error);
+					}
+				);
+			} else if (transType === 1) {
+				CustomerService.getPrevCustomerBeneficiaries(
+					pageNumber.value,
+					pageSize.value,
+					(response) => {
+						beneficiaryListArray.value = response.data.data.length > 0 ? response.data.data : [];
+						Log.info(response);
+					},
+					(error) => {
+						Log.error(error);
+					}
+				);
+			}
 		};
 
 		const getNaijaBeneficiary = () => {
 			beneficiaryLoading.value = true;
-			UserActions.getNaijaBeneficiary(
-				{
-					bankCode: String(selectedBank.value.code),
-					accountNumber: String(beneficiaryAccountNumber.value),
-				},
-				(response) => {
-					beneficiaryLoading.value = false;
-					beneficiaryName.value = response.data.data ? response.data.data : "";
+			if (transType === 0) {
+				UserActions.getNaijaBeneficiary(
+					{
+						bankCode: String(selectedBank.value.code),
+						accountNumber: String(beneficiaryAccountNumber.value),
+					},
+					(response) => {
+						beneficiaryLoading.value = false;
+						beneficiaryName.value = response.data.data ? response.data.data : "";
 
-					Log.info(response);
-				},
-				(error) => {
-					beneficiaryLoading.value = false;
+						Log.info(response);
+					},
+					(error) => {
+						beneficiaryLoading.value = false;
 
-					Log.error(error);
-				}
-			);
+						Log.error(error);
+					}
+				);
+			} else if (transType === 1) {
+				CustomerService.getNaijaCustomerBeneficiary(
+					{
+						bankCode: String(selectedBank.value.code),
+						accountNumber: String(beneficiaryAccountNumber.value),
+					},
+					(response) => {
+						beneficiaryLoading.value = false;
+						beneficiaryName.value = response.data.data ? response.data.data : "";
+
+						Log.info(response);
+					},
+					(error) => {
+						beneficiaryLoading.value = false;
+
+						Log.error(error);
+					}
+				);
+			}
 		};
 
 		// const getAllRates = () => {
@@ -876,6 +915,7 @@ export default {
 			schema,
 			openBankArray,
 			bankListIsVisible,
+			transType,
 
 			// addComma,
 		};

@@ -314,6 +314,8 @@
 <script>
 import { useRouter } from "vue-router";
 import UserActions from "@/services/userActions/userActions.js";
+import CustomerService from "@/services/userActions/customerService.js";
+
 import {
 	ref,
 	// toRef,
@@ -443,36 +445,70 @@ export default {
 			// sendAmountLoading.value = false;
 			// router.push("/earn/fund_account");
 
-			UserActions.transactionDeposit(
-				{
-					rateId: rateId.value,
-					userId: store.getters["authToken/userId"],
-					amount: depositAmount.value,
-				},
-				(response) => {
-					const data = response.data.data;
-					Log.info(data);
-					store.commit("deposit/rateId", rateId.value);
-					store.commit("deposit/amountToSend", data.amountToSend);
-					store.commit("deposit/amountRecieved", data.amountRecieved);
-					store.commit("deposit/holderName", data.bankDetails.holderName);
-					store.commit("deposit/bankAddress", data.bankDetails.bankAddress);
-					store.commit("deposit/accountNumber", data.bankDetails.accountNumber);
-					store.commit("deposit/bankName", data.bankDetails.bankName);
-					store.commit("deposit/routingNumber", data.bankDetails.routingNumber);
-					store.commit("deposit/transactionFee", data.transactionFee);
-					store.commit("deposit/transactionRefCode", data.transactionRefCode);
-					store.commit("deposit/transactionsReference", data.transactionsReference);
-					sendAmountLoading.value = false;
-					increaseStep();
-					// router.push("/earn/fund_account");
-				},
-				(error) => {
-					Log.error(error);
-					sendAmountLoading.value = false;
-					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-				}
-			);
+			if (transType === 0) {
+				UserActions.transactionDeposit(
+					{
+						rateId: rateId.value,
+						userId: store.getters["authToken/userId"],
+						amount: depositAmount.value,
+					},
+					(response) => {
+						const data = response.data.data;
+						Log.info(data);
+						store.commit("deposit/rateId", rateId.value);
+						store.commit("deposit/amountToSend", data.amountToSend);
+						store.commit("deposit/amountRecieved", data.amountRecieved);
+						store.commit("deposit/holderName", data.bankDetails.holderName);
+						store.commit("deposit/bankAddress", data.bankDetails.bankAddress);
+						store.commit("deposit/accountNumber", data.bankDetails.accountNumber);
+						store.commit("deposit/bankName", data.bankDetails.bankName);
+						store.commit("deposit/routingNumber", data.bankDetails.routingNumber);
+						store.commit("deposit/transactionFee", data.transactionFee);
+						store.commit("deposit/transactionRefCode", data.transactionRefCode);
+						store.commit("deposit/transactionsReference", data.transactionsReference);
+						sendAmountLoading.value = false;
+						increaseStep();
+						// router.push("/earn/fund_account");
+					},
+					(error) => {
+						Log.error(error);
+						sendAmountLoading.value = false;
+						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					}
+				);
+			} else if (transType === 1) {
+				CustomerService.transactionDeposit(
+					{
+						rateId: rateId.value,
+						userId: store.getters["authToken/userId"],
+						amount: depositAmount.value,
+					},
+					(response) => {
+						const data = response.data.data;
+						Log.info(data);
+						store.commit("deposit/rateId", rateId.value);
+						store.commit("deposit/amountToSend", data.amountToSend);
+						store.commit("deposit/amountRecieved", data.amountRecieved);
+						store.commit("deposit/holderName", data.bankDetails.holderName);
+						store.commit("deposit/bankAddress", data.bankDetails.bankAddress);
+						store.commit("deposit/accountNumber", data.bankDetails.accountNumber);
+						store.commit("deposit/bankName", data.bankDetails.bankName);
+						store.commit("deposit/routingNumber", data.bankDetails.routingNumber);
+						store.commit("deposit/transactionFee", data.transactionFee);
+						store.commit("deposit/transactionRefCode", data.transactionRefCode);
+						store.commit("deposit/transactionsReference", data.transactionsReference);
+						sendAmountLoading.value = false;
+						increaseStep();
+						// router.push("/earn/fund_account");
+					},
+					(error) => {
+						Log.error(error);
+						sendAmountLoading.value = false;
+						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					}
+				);
+			}
+
 			// }
 		};
 

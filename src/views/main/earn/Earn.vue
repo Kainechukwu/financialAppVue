@@ -43,7 +43,7 @@
 import AddFundsNaija from "@/views/modals/AddFundsNaija.vue";
 import { onMounted, ref } from "vue";
 import UserActions from "@/services/userActions/userActions.js";
-import { Log, Util } from "@/components/util";
+import { Log } from "@/components/util";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import UserInfo from "@/services/userInfo/userInfo.js";
@@ -75,23 +75,8 @@ export default {
 			// 	"Success",
 			// 	"Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet."
 			// );
+			getCharges();
 			askForPermissioToReceiveNotifications();
-
-			UserActions.getCharges(
-				(response) => {
-					Log.info(response);
-					const charges = response.data.data;
-
-					store.commit("bankDetails/withdrawalFee", charges.withdrawalFee);
-					Log.info(charges.withdrawalFee);
-					store.commit("bankDetails/depositFee", charges.depositFee);
-					Log.info(charges.depositFee);
-				},
-				(error) => {
-					Log.error(error);
-					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-				}
-			);
 
 			getNaijaBankAccountDetails();
 			Log.info("transType:" + store.getters["bankDetails/transType"]);
@@ -143,6 +128,24 @@ export default {
 
 		const closeAddFundsNaija = () => {
 			isAddFundsNaijaOpen.value = false;
+		};
+
+		const getCharges = () => {
+			UserActions.getCharges(
+				(response) => {
+					Log.info(response);
+					const charges = response.data.data;
+
+					store.commit("bankDetails/withdrawalFee", charges.withdrawalFee);
+					Log.info(charges.withdrawalFee);
+					store.commit("bankDetails/depositFee", charges.depositFee);
+					Log.info(charges.depositFee);
+				},
+				(error) => {
+					Log.error(error);
+					// Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+				}
+			);
 		};
 
 		const goToWithdraw = () => {

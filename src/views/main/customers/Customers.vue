@@ -168,6 +168,8 @@
 import { useRoute } from "vue-router";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { computed, ref, onMounted } from "vue";
+import CustomerService from "@/services/userActions/customerService.js";
+
 import { useStore } from "vuex";
 import { Log } from "@/components/util";
 
@@ -188,6 +190,7 @@ export default {
 	setup() {
 		onMounted(() => {
 			store.commit("bankDetails/transType", 1);
+			getCharges();
 			Log.info("transType:" + store.getters["bankDetails/transType"]);
 		});
 		const route = ref(useRoute());
@@ -202,6 +205,24 @@ export default {
 
 		const closeCreateCustomer = () => {
 			isCreateCustomerOpen.value = false;
+		};
+
+		const getCharges = () => {
+			CustomerService.getCharges(
+				(response) => {
+					Log.info(response);
+					const charges = response.data.data;
+
+					store.commit("bankDetails/withdrawalFee", charges.withdrawalFee);
+					Log.info(charges.withdrawalFee);
+					store.commit("bankDetails/depositFee", charges.depositFee);
+					Log.info(charges.depositFee);
+				},
+				(error) => {
+					Log.error(error);
+					// Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+				}
+			);
 		};
 		return {
 			currentPage,

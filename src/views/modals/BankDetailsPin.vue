@@ -126,6 +126,8 @@
 									<span class="text-red-500">{{ errorMessage }}</span>
 								</div>
 
+								<!-- <div>transType: {{ transType }}</div> -->
+
 								<div class="mt-8">
 									<button
 										:disabled="submitLoading"
@@ -159,6 +161,7 @@ import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
 import { computed, onMounted, watch } from "vue";
 import { reactive, toRefs, ref } from "vue";
 import { Log } from "@/components/util";
+import CustomerService from "@/services/userActions/customerService.js";
 // import { useRouter } from "vue-router";
 
 export default {
@@ -172,11 +175,12 @@ export default {
 	// 	},
 	// },
 	setup() {
-		const store = useStore();
 		onMounted(() => {
 			// document.getElementById("code01").focus();
 		});
 		// const router = useRouter();
+		const store = useStore();
+		const transType = computed(() => store.getters["bankDetails/transType"]);
 
 		const codes = reactive({
 			code1: "",
@@ -231,22 +235,42 @@ export default {
 			const code =
 				codes.code1 + codes.code2 + codes.code3 + codes.code4 + codes.code5 + codes.code6;
 
-			const obj = {
-				pin: code,
-				amount: store.getters["bankDetails/amount"],
-				rateId: store.getters["bankDetails/rateId"],
-				userId: store.getters["authToken/userId"],
-				wallet: store.getters["bankDetails/walletId"],
-				bank: {
-					beneficiaryName: store.getters["bankDetails/beneficiaryName"],
-					beneficiaryAccountNumber: store.getters["bankDetails/beneficiaryAccountNumber"],
-					bankName: store.getters["bankDetails/bankName"],
-					abaRoutingNumber: store.getters["bankDetails/abaRoutingNumber"],
-					bankAddress: store.getters["bankDetails/bankAddress"],
-				},
-			};
+			if (transType.value === 0) {
+				const obj = {
+					pin: code,
+					amount: store.getters["bankDetails/amount"],
+					rateId: store.getters["bankDetails/rateId"],
+					userId: store.getters["authToken/userId"],
+					wallet: store.getters["bankDetails/walletId"],
+					bank: {
+						beneficiaryName: store.getters["bankDetails/beneficiaryName"],
+						beneficiaryAccountNumber: store.getters["bankDetails/beneficiaryAccountNumber"],
+						bankName: store.getters["bankDetails/bankName"],
+						abaRoutingNumber: store.getters["bankDetails/abaRoutingNumber"],
+						bankAddress: store.getters["bankDetails/bankAddress"],
+					},
+				};
 
-			return obj;
+				return obj;
+			} else if (transType.value === 1) {
+				const obj = {
+					pin: code,
+					amount: store.getters["bankDetails/amount"],
+					rateId: store.getters["bankDetails/rateId"],
+					userId: store.getters["authToken/userId"],
+					wallet: store.getters["bankDetails/walletId"],
+					type: 1,
+					bank: {
+						beneficiaryName: store.getters["bankDetails/beneficiaryName"],
+						beneficiaryAccountNumber: store.getters["bankDetails/beneficiaryAccountNumber"],
+						bankName: store.getters["bankDetails/bankName"],
+						abaRoutingNumber: store.getters["bankDetails/abaRoutingNumber"],
+						bankAddress: store.getters["bankDetails/bankAddress"],
+					},
+				};
+
+				return obj;
+			}
 		};
 
 		const resetInput = () => {
@@ -266,33 +290,66 @@ export default {
 				submitLoading.value = false;
 				errorMessage.value = "All fields must be filled";
 			} else {
-				UserActions.transactionWithdrawal(
-					prepareDetails(),
-
-					(response) => {
-						submitLoading.value = false;
-						Log.info("transaction withjdrawal response" + String(response));
-						store.commit("setBankDetailsPinModal", false);
-						// router.push("/earn/overview");
-						resetInput();
-
-						store.commit("setTransactionSuccessfulModal", true);
-					},
-					(error) => {
-						submitLoading.value = false;
-						Log.error("transaction withdrawal response" + String(error));
-						resetInput();
-						// store.commit("setBankDetailsPinModal", false);
-						// router.push("/withdraw");
-						errorMessage.value = error.response.data.Message;
-						// Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-					}
-				);
+				if (transType.value === 0) {
+					merchantWithdrawal();
+				} else if (transType.value === 1) {
+					customerWithdrawal();
+				}
 			}
 		};
 		const close = () => {
 			store.commit("setBankDetailsPinModal", false);
 			errorMessage.value = "";
+		};
+
+		const merchantWithdrawal = () => {
+			UserActions.transactionWithdrawal(
+				prepareDetails(),
+
+				(response) => {
+					submitLoading.value = false;
+					Log.info("transaction withjdrawal response" + String(response));
+					store.commit("setBankDetailsPinModal", false);
+					// router.push("/earn/overview");
+					resetInput();
+
+					store.commit("setTransactionSuccessfulModal", true);
+				},
+				(error) => {
+					submitLoading.value = false;
+					Log.error("transaction withdrawal response" + String(error));
+					resetInput();
+					// store.commit("setBankDetailsPinModal", false);
+					// router.push("/withdraw");
+					errorMessage.value = error.response.data.Message;
+					// Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+				}
+			);
+		};
+
+		const customerWithdrawal = () => {
+			CustomerService.transactionCustomerWithdrawal(
+				prepareDetails(),
+
+				(response) => {
+					submitLoading.value = false;
+					Log.info("transaction withjdrawal response" + String(response));
+					store.commit("setBankDetailsPinModal", false);
+					// router.push("/earn/overview");
+					resetInput();
+
+					store.commit("setTransactionSuccessfulModal", true);
+				},
+				(error) => {
+					submitLoading.value = false;
+					Log.error("transaction withdrawal response" + String(error));
+					resetInput();
+					// store.commit("setBankDetailsPinModal", false);
+					// router.push("/withdraw");
+					errorMessage.value = error.response.data.Message;
+					// Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+				}
+			);
 		};
 
 		watch(codes, (newValue) => {
@@ -311,6 +368,7 @@ export default {
 			clickEvent,
 			errorMessage,
 			submitLoading,
+			transType,
 			// del,
 		};
 	},

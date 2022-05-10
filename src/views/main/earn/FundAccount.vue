@@ -146,6 +146,8 @@ import UserActions from "@/services/userActions/userActions.js";
 import { ref, watch } from "vue";
 import { Util, Log, Constants } from "@/components/util";
 import { useStore } from "vuex";
+import CustomerService from "@/services/userActions/customerService.js";
+
 // import { useRouter } from "vue-router";
 // var numeral = require("numeral");
 // import { useRouter } from "vue-router";
@@ -166,6 +168,8 @@ export default {
 
 		// });
 		const store = useStore();
+		const transType = store.getters["bankDetails/transType"];
+
 		// const router = useRouter();
 		// const router = useRouter();
 		const isMoneySent = ref(false);
@@ -199,28 +203,53 @@ export default {
 				sendAmountLoading.value = false;
 				Util.handleGlobalAlert(true, "failed", "You must agree to Terms and Conditions");
 			} else {
-				UserActions.confirmDeposit(
-					{
-						amountInUst: store.getters["deposit/amountRecieved"],
-						rateId: store.getters["deposit/rateId"],
-						transactionRefCode: bankDetails.transactionRefCode,
-						userId: store.getters["authToken/userId"],
-					},
-					(response) => {
-						Log.info(response);
-						sendAmountLoading.value = false;
-						isMoneySent.value = true;
-						context.emit("finalStep");
-						// router.push("/earn/overview");
-						// Util.handleGlobalAlert(true, "success", response.data.message);
-					},
-					(error) => {
-						Log.error(error);
-						sendAmountLoading.value = false;
-						// router.push("/earn/overview");
-						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-					}
-				);
+				if (transType === 0) {
+					UserActions.confirmDeposit(
+						{
+							amountInUst: store.getters["deposit/amountRecieved"],
+							rateId: store.getters["deposit/rateId"],
+							transactionRefCode: bankDetails.transactionRefCode,
+							userId: store.getters["authToken/userId"],
+						},
+						(response) => {
+							Log.info(response);
+							sendAmountLoading.value = false;
+							isMoneySent.value = true;
+							context.emit("finalStep");
+							// router.push("/earn/overview");
+							// Util.handleGlobalAlert(true, "success", response.data.message);
+						},
+						(error) => {
+							Log.error(error);
+							sendAmountLoading.value = false;
+							// router.push("/earn/overview");
+							Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+						}
+					);
+				} else if (transType === 1) {
+					CustomerService.confirmDeposit(
+						{
+							amountInUst: store.getters["deposit/amountRecieved"],
+							rateId: store.getters["deposit/rateId"],
+							transactionRefCode: bankDetails.transactionRefCode,
+							userId: store.getters["authToken/userId"],
+						},
+						(response) => {
+							Log.info(response);
+							sendAmountLoading.value = false;
+							isMoneySent.value = true;
+							context.emit("finalStep");
+							// router.push("/earn/overview");
+							// Util.handleGlobalAlert(true, "success", response.data.message);
+						},
+						(error) => {
+							Log.error(error);
+							sendAmountLoading.value = false;
+							// router.push("/earn/overview");
+							Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+						}
+					);
+				}
 			}
 		};
 

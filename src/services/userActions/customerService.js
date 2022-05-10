@@ -100,7 +100,80 @@ export default class CustomerService {
 
 	}
 
+	static getCustomerBanks(successHandler, errorHandler) {
 
+		Web.getCustomer(Constants.API_BASE + `/Transactions/banks`, successHandler, errorHandler)
+
+	}
+
+	static getNaijaCustomerBeneficiary(bankDetails, successHandler, errorHandler) {
+
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/resolve-nuban",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static getCustomerNaijaBankAccountDetails(type, successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Transactions/bank-account-details?type=${type}`, successHandler, errorHandler)
+
+	}
+
+	static getPrevCustomerBeneficiaries(pageNumber, pageSize, successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Transactions/beneficiaries?pageNumber=${pageNumber}&pageSize=${pageSize}`, successHandler, errorHandler)
+
+	}
+
+	static naijaCustomerWithdrawal(bankDetails, successHandler, errorHandler) {
+
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/withdraw-nigerian",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static transactionCustomerWithdrawal(bankDetails, successHandler, errorHandler) {
+
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/withdraw",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+
+	}
+
+
+	static transactionDeposit(details, successHandler, errorHandler) {
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/manual-deposit",
+			details,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static confirmDeposit(credentials, successHandler, errorHandler) {
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/confirm-deposit",
+			credentials,
+			successHandler,
+			errorHandler
+		)
+
+	}
+
+	static getCharges(successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + '/Transactions/get-charges', successHandler, errorHandler)
+
+	}
 
 
 
