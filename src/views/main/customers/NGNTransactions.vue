@@ -37,8 +37,11 @@
 				<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div class="overflow-hidden border-b border-gray-100 sm:rounded-lg">
+							<div v-if="transactions.length === 0 && loading">
+								<TableSkeleton />
+							</div>
 							<div
-								v-if="transactions.length === 0"
+								v-else-if="transactions.length === 0 && !loading"
 								class="py-56 w-full bg-white flex flex-col items-center justify-center"
 							>
 								<div>
@@ -54,13 +57,7 @@
 												scope="col"
 												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
 											>
-												ID
-											</th>
-											<th
-												scope="col"
-												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
-											>
-												Customer
+												Description
 											</th>
 											<th
 												scope="col"
@@ -80,6 +77,7 @@
 											>
 												Type
 											</th>
+
 											<th
 												scope="col"
 												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
@@ -96,32 +94,34 @@
 									</thead>
 
 									<tbody class="bg-white divide-y divide-gray-100">
-										<tr class="" v-for="(person, index) in people" :key="index">
+										<tr class="" v-for="(transaction, index) in transactions" :key="index">
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.id }}
+												{{ transaction.narration }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.customer }}
+												{{ transaction.amount }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap blacktext fw-600 fs-14">
-												{{ person.amount }}
+												{{ transaction.userTransactionRef }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.reference }}
+												{{ transaction.transactionType }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.type }}
+												{{ transaction.transactionDate }}
 											</td>
-											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.date }}
-											</td>
+
 											<td style="color: #18ae81" class="px-6 py-4 whitespace-nowrap fs-12 fw-600">
 												<div
 													class="flex justify-center items-center h-8"
-													:class="person.status === 'Success' ? 'bg-success' : 'bg-failed'"
+													:class="
+														transaction.transactionStatus === 'Successful'
+															? 'bg-success'
+															: 'bg-failed'
+													"
 													style="border-radius: 100px; max-width: 93px"
 												>
-													{{ person.status }}
+													{{ transaction.transactionStatus }}
 												</div>
 											</td>
 										</tr>
@@ -139,95 +139,92 @@
 </template>
 
 <script>
-import UserActions from "@/services/userActions/userActions.js";
+import CustomerService from "@/services/userActions/customerService.js";
 import { onMounted, ref } from "vue";
 import { Log } from "@/components/util";
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
+import TableSkeleton from "@/components/skeletons/TableSkeletons.vue";
+
 import TransactionHistoryEmptySvg from "@/components/svg/TransactionHistoryEmptySvg.vue";
 
 export default {
 	name: "NGNTransactions",
 	components: {
 		TransactionHistoryEmptySvg,
+		TableSkeleton,
 	},
 	setup() {
 		onMounted(() => {
-			Log.info("merchantId:" + merchantId.value);
-			UserActions.getCustomerTransactions(
-				merchantId.value,
+			getMerchantTransactions(
+				pageNumber.value,
+				pageSize.value,
+				status.value,
+				type,
+				origin.value,
+				source.value,
+				from.value,
+				to.value
+				// loading.value,
+				// transactions.value,
+				// totalPages.value
+			);
+		});
+
+		// watchEffect(() => {
+		// 	getMerchantTransactions(
+		// 		pageNumber.value,
+		// 		pageSize.value,
+		// 		status.value,
+		// 		type,
+		// 		origin.value,
+		// 		source.value,
+		// 		from.value,
+		// 		to.value
+		// 		// loading.value,
+		// 		// transactions.value,
+		// 		// totalPages.value
+		// 	);
+		// });
+
+		const transactions = ref([]);
+		const pageNumber = ref(1);
+		const pageSize = ref(10);
+		const totalPages = ref(0);
+		const status = ref(1);
+		const type = 1;
+		const origin = ref(1);
+		const source = ref(1);
+		const from = ref("2022-01-14T12:10:13");
+		const to = ref("2022-02-12T19:30:13");
+		const loading = ref(false);
+
+		const getMerchantTransactions = () => {
+			loading.value = true;
+			CustomerService.getMerchantTransactions(
+				pageNumber.value,
+				pageSize.value,
+				status.value,
+				type,
+				origin.value,
+				source.value,
+				from.value,
+				to.value,
+
 				(response) => {
+					loading.value = false;
 					Log.info(response);
 					transactions.value = response.data.data;
+					totalPages.value = response.data.total;
 
 					Log.info("query done");
 				},
 				(error) => {
+					loading.value = false;
 					Log.error(error);
 				}
 			);
-		});
-
-		const route = useRoute();
-		const merchantId = ref(route.params.merchantId);
-		const transactions = ref([]);
-		const people = [
-			{
-				id: "1",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "Credit",
-				date: "April 28, 2016",
-				status: "Success",
-			},
-			{
-				id: "2",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "Credit",
-				date: "April 28, 2016",
-				status: "Failed",
-			},
-			{
-				id: "3",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "Credit",
-				date: "April 28, 2016",
-				status: "Success",
-			},
-			{
-				id: "4",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "Credit",
-				date: "April 28, 2016",
-				status: "Success",
-			},
-			{
-				id: "5",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "Credit",
-				date: "April 28, 2016",
-				status: "Failed",
-			},
-			{
-				id: "6",
-				customer: "Jane Cooper",
-				amount: "NGN 12,000.00",
-				reference: "5iq10he7fg",
-				type: "Credit",
-				date: "April 28, 2016",
-				status: "Success",
-			},
-			// More people...
-		];
-		return { people, transactions };
+		};
+		return { transactions };
 	},
 };
 </script>

@@ -13,9 +13,9 @@ export default class CustomerService {
 		)
 	}
 
-	static getAllCustomers(merchantId, successHandler, errorHandler) {
+	static getAllCustomers(pageNumber, pageSize, successHandler, errorHandler) {
 
-		Web.getCustomer(Constants.API_BASE + `/Customers/${merchantId}/get-all`, successHandler, errorHandler)
+		Web.getCustomer(Constants.API_BASE + `/Customers/get-all?PageNumber=${pageNumber}&PageSize=${pageSize}`, successHandler, errorHandler)
 
 	}
 
@@ -172,6 +172,11 @@ export default class CustomerService {
 	static getCharges(successHandler, errorHandler) {
 
 		Web.getCustomer(Constants.API_BASE + '/Transactions/get-charges', successHandler, errorHandler)
+
+	}
+
+	static getMerchantTransactions(pageNumber, pageSize, status, type, origin, source, from, to, successHandler, errorHandler) {
+		Web.getCustomer(Constants.API_BASE + `/Transactions/merchant/transactions?PageNumber=${pageNumber}&PageSize=${pageSize}&Status=${status}&Type=${type}&Origin=${origin}&Source=${source}&From=${from}&To=${to}`, successHandler, errorHandler)
 
 	}
 

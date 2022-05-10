@@ -107,8 +107,11 @@
 				<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div class="overflow-hidden border-b border-gray-100 sm:rounded-lg">
+							<div v-if="customers.length === 0 && loading">
+								<TableSkeleton />
+							</div>
 							<div
-								v-if="customers.length === 0"
+								v-else-if="customers.length === 0 && !loading"
 								class="py-56 w-full bg-white flex flex-col items-center justify-center"
 							>
 								<div>
@@ -226,6 +229,50 @@
 										</tr>
 									</tbody>
 								</table>
+								<div class="px-6 h-16 sm:rounded-b-lg bg-white">
+									<div class="px-1 h-full flex justify-between items-center">
+										<div>
+											<!-- <p class="my-auto hidden">Showing 1-15 of 300 entries</p> -->
+										</div>
+
+										<div class="flex">
+											<div @click="prev" class="cursor-pointer">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="h-5 w-5"
+													viewBox="0 0 20 20"
+													fill="currentColor"
+												>
+													<path
+														fill-rule="evenodd"
+														d="M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414zm-6 0a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 1.414L5.414 10l4.293 4.293a1 1 0 010 1.414z"
+														clip-rule="evenodd"
+													/>
+												</svg>
+											</div>
+											<span class="mx-3.5"> Page {{ pageNumber }}</span>
+											<div @click="next" class="cursor-pointer">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="h-5 w-5"
+													viewBox="0 0 20 20"
+													fill="currentColor"
+												>
+													<path
+														fill-rule="evenodd"
+														d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+														clip-rule="evenodd"
+													/>
+													<path
+														fill-rule="evenodd"
+														d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+														clip-rule="evenodd"
+													/>
+												</svg>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -239,9 +286,11 @@
 
 <script>
 import CustomerService from "@/services/userActions/customerService.js";
-import { useStore } from "vuex";
+import TableSkeleton from "@/components/skeletons/TableSkeletons.vue";
+
+// import { useStore } from "vuex";
 // import { useRouter } from "vue-router";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { Log } from "@/components/util";
 // import {
 // 	Listbox,
@@ -254,6 +303,7 @@ import { Log } from "@/components/util";
 export default {
 	name: "Customer List",
 	components: {
+		TableSkeleton,
 		// Listbox,
 		// ListboxButton,
 		// ListboxOption,
@@ -266,35 +316,63 @@ export default {
 			getAllCustomers();
 			Log.info("customers");
 		});
-		const store = useStore();
+		// const store = useStore();
 		// const router = useRouter();
-		const merchantId = store.getters["authToken/userId"];
+		// const merchantId = store.getters["authToken/userId"];
 		const customers = ref([]);
-		// const goToUserTransactions = (merchantId) => {
-		// 	router.push(`/customers/transactions/${merchantId}`);
-		// };
-		// const items = ["1", "2", "3", "4"];
-		// const selected = ref(items.value[0]);
+		const pageNumber = ref(1);
+		const pageSize = ref(10);
+		const totalPages = ref(0);
+		const loading = ref(false);
 
 		const getAllCustomers = () => {
+			loading.value = true;
 			CustomerService.getAllCustomers(
-				merchantId,
+				pageNumber.value,
+				pageSize.value,
 				(response) => {
+					loading.value = false;
 					Log.info(response);
 					Log.info("customers2");
+
 					customers.value = response.data.data;
+					totalPages.value = response.data.total;
 				},
 				(error) => {
+					loading.value = false;
 					Log.info(error);
 				}
 			);
 		};
 
+		const checkPagesLeft = () => {
+			const bool = Math.ceil(totalPages.value / pageSize.value) > pageNumber.value;
+			return bool;
+		};
+
+		const prev = () => {
+			if (pageNumber.value > 1) {
+				pageNumber.value--;
+			}
+		};
+
+		const next = () => {
+			if (checkPagesLeft()) {
+				pageNumber.value++;
+			}
+		};
+
+		watch(pageNumber, (newValue) => {
+			Log.info(newValue);
+			getAllCustomers();
+		});
+
 		return {
 			customers,
-			// goToUserTransactions,
-			// items,
-			// selected
+			loading,
+			prev,
+			next,
+			pageNumber,
 		};
 	},
 };
