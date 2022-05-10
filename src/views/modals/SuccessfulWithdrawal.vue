@@ -47,6 +47,7 @@
 							<p class="tx-666666 fw-400 fs-14 text-center mt-2">
 								Your withdrawal has been processed and will be credited to your account
 							</p>
+							<!-- <div>transType: {{ transType }}</div> -->
 
 							<div class="w-full flex justify-center mt-6">
 								<button
@@ -81,6 +82,8 @@ export default {
 	},
 	setup() {
 		const store = useStore();
+		const transType = computed(() => store.getters["bankDetails/transType"]);
+
 		const router = useRouter();
 		const isModalOpen = computed(() => store.state.transactionSuccessfulModal);
 
@@ -88,9 +91,11 @@ export default {
 			close();
 		};
 		const close = () => {
-			// store.commit("setRerender", 1);
-			router.push("/earn/overview");
-			// router.go();
+			if (transType.value === 0) {
+				router.push("/earn/overview");
+			} else if (transType.value === 1) {
+				router.push("/customers");
+			}
 			store.commit("setTransactionSuccessfulModal", false);
 
 			// router.go();
@@ -100,6 +105,7 @@ export default {
 			close,
 			isModalOpen,
 			done,
+			transType,
 		};
 	},
 };

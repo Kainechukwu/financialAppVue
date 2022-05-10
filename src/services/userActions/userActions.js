@@ -30,6 +30,8 @@ export default class UserActions {
 
 
 
+
+
 	static transactionDeposit(details, successHandler, errorHandler) {
 		Web.post(
 			Constants.API_BASE + "/Transactions/manual-deposit",
@@ -76,9 +78,9 @@ export default class UserActions {
 		)
 	}
 
-	static getNaijaBankAccountDetails(customerId, successHandler, errorHandler) {
+	static getNaijaBankAccountDetails(customerId, type, successHandler, errorHandler) {
 
-		Web.get(Constants.API_BASE + `/Transactions/${customerId}/bank-account-details`, successHandler, errorHandler)
+		Web.get(Constants.API_BASE + `/Transactions/${customerId}/bank-account-details?type=${type}`, successHandler, errorHandler)
 
 	}
 

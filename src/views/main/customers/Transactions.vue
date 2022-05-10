@@ -60,7 +60,25 @@
 												scope="col"
 												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
 											>
-												Customer
+												Name
+											</th>
+											<th
+												scope="col"
+												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
+											>
+												Email
+											</th>
+											<th
+												scope="col"
+												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
+											>
+												Product Type
+											</th>
+											<th
+												scope="col"
+												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
+											>
+												Currency
 											</th>
 											<th
 												scope="col"
@@ -72,57 +90,33 @@
 												scope="col"
 												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
 											>
-												Reference
-											</th>
-											<th
-												scope="col"
-												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
-											>
-												Type
-											</th>
-											<th
-												scope="col"
-												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
-											>
-												Date
-											</th>
-											<th
-												scope="col"
-												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
-											>
-												Status
+												value
 											</th>
 										</tr>
 									</thead>
 
 									<tbody class="bg-white divide-y divide-gray-100">
-										<tr class="" v-for="(person, index) in people" :key="index">
+										<tr class="" v-for="(transaction, index) in transactions" :key="index">
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.id }}
+												{{ transaction.externalReference }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.customer }}
+												{{ transaction.customerName }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap blacktext fw-600 fs-14">
-												{{ person.amount }}
+												{{ transaction.customerEmail }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.reference }}
+												{{ transaction.product }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.type }}
+												{{ transaction.currency }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ person.date }}
+												{{ transaction.amount }}
 											</td>
-											<td style="color: #18ae81" class="px-6 py-4 whitespace-nowrap fs-12 fw-600">
-												<div
-													class="flex justify-center items-center h-8"
-													:class="person.status === 'Success' ? 'bg-success' : 'bg-failed'"
-													style="border-radius: 100px; max-width: 93px"
-												>
-													{{ person.status }}
-												</div>
+											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
+												{{ transaction.value }}
 											</td>
 										</tr>
 									</tbody>
@@ -139,10 +133,10 @@
 </template>
 
 <script>
-import UserActions from "@/services/userActions/userActions.js";
+import CustomerService from "@/services/userActions/customerService.js";
 import { onMounted, ref } from "vue";
 import { Log } from "@/components/util";
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
 import TransactionHistoryEmptySvg from "@/components/svg/TransactionHistoryEmptySvg.vue";
 
 export default {
@@ -152,9 +146,9 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			Log.info("merchantId:" + merchantId.value);
-			UserActions.getCustomerTransactions(
-				merchantId.value,
+			CustomerService.getCustomerTransactions(
+				pageNumber.value,
+				pageSize.value,
 				(response) => {
 					Log.info(response);
 					transactions.value = response.data.data;
@@ -167,8 +161,9 @@ export default {
 			);
 		});
 
-		const route = useRoute();
-		const merchantId = ref(route.params.merchantId);
+		// const route = useRoute();
+		const pageNumber = ref(1);
+		const pageSize = ref(10);
 		const transactions = ref([]);
 		const people = [
 			{

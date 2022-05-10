@@ -160,6 +160,7 @@
 import { useStore } from "vuex";
 // import { useRouter } from "vue-router";
 import UserActions from "@/services/userActions/userActions.js";
+import CustomerService from "@/services/userActions/customerService.js";
 import OtpNumberSvg from "@/components/svg/OtpNumberSvg.vue";
 import { onMounted, watch } from "vue";
 import { reactive, toRefs, ref, toRef } from "vue";
@@ -199,6 +200,7 @@ export default {
 			code6: "",
 		});
 		const store = useStore();
+		const transType = store.getters["bankDetails/transType"];
 		const errorMessage = ref("");
 		const submitLoading = ref(false);
 		const isModalOpen = toRef(props, "open");
@@ -217,18 +219,33 @@ export default {
 			const code =
 				codes.code1 + codes.code2 + codes.code3 + codes.code4 + codes.code5 + codes.code6;
 
-			const obj = {
-				pin: code,
-				amount: Number(props.amount),
-				userId: store.getters["authToken/userId"],
-				wallet: store.getters["bankDetails/walletId"],
-				destinationAccountNumber: props.destinationAccountNumber,
-				destinationAccountName: props.destinationAccountName,
-				destinationBankCode: props.destinationBankCode,
-				destinationBankName: props.destinationBankName,
-			};
+			if (transType === 0) {
+				const obj = {
+					pin: code,
+					amount: Number(props.amount),
+					userId: store.getters["authToken/userId"],
+					wallet: store.getters["bankDetails/walletId"],
+					destinationAccountNumber: props.destinationAccountNumber,
+					destinationAccountName: props.destinationAccountName,
+					destinationBankCode: props.destinationBankCode,
+					destinationBankName: props.destinationBankName,
+				};
 
-			return obj;
+				return obj;
+			} else if (transType === 1) {
+				const obj = {
+					pin: code,
+					amount: Number(props.amount),
+					wallet: store.getters["bankDetails/walletId"],
+					destinationAccountNumber: props.destinationAccountNumber,
+					destinationAccountName: props.destinationAccountName,
+					destinationBankCode: props.destinationBankCode,
+					destinationBankName: props.destinationBankName,
+					type: 1,
+				};
+
+				return obj;
+			}
 		};
 
 		const resetInput = () => {
@@ -248,31 +265,12 @@ export default {
 				submitLoading.value = false;
 				errorMessage.value = "All fields must be filled";
 			} else {
-				UserActions.naijaWithdrawal(
-					prepareDetails(),
-					(response) => {
-						submitLoading.value = false;
-						Log.info("transaction withdrawal response" + String(response));
-						close();
-						resetInput();
-						context.emit("success");
-					},
-					(error) => {
-						submitLoading.value = false;
-						Log.error("naija withdrawal response " + String(error));
-						// errorMessage.value = error.response.data.Message;
-						// // store.commit("setNaijaTransactionSuccessfulModal", true);
+				if (transType === 0) {
+					merchantNaijaWithdrawal();
+				} else if (transType === 1) {
+					naijaCustomerWithdrawal();
+				}
 
-						close();
-						resetInput();
-
-						Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-
-						// close();
-
-						Log.info(store.state.naijaTransactionSuccessfulModal);
-					}
-				);
 				// store.commit("setTransactionSuccessfulModal", true);
 				// resetInput();
 				// close();
@@ -283,6 +281,62 @@ export default {
 		const close = () => {
 			context.emit("close");
 			errorMessage.value = "";
+		};
+
+		const merchantNaijaWithdrawal = () => {
+			UserActions.naijaWithdrawal(
+				prepareDetails(),
+				(response) => {
+					submitLoading.value = false;
+					Log.info("transaction withdrawal response" + String(response));
+					close();
+					resetInput();
+					context.emit("success");
+				},
+				(error) => {
+					submitLoading.value = false;
+					Log.error("naija withdrawal response " + String(error));
+					// errorMessage.value = error.response.data.Message;
+					// // store.commit("setNaijaTransactionSuccessfulModal", true);
+
+					close();
+					resetInput();
+
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+
+					// close();
+
+					Log.info(store.state.naijaTransactionSuccessfulModal);
+				}
+			);
+		};
+
+		const naijaCustomerWithdrawal = () => {
+			CustomerService.naijaCustomerWithdrawal(
+				prepareDetails(),
+				(response) => {
+					submitLoading.value = false;
+					Log.info("transaction withdrawal response" + String(response));
+					close();
+					resetInput();
+					context.emit("success");
+				},
+				(error) => {
+					submitLoading.value = false;
+					Log.error("naija withdrawal response " + String(error));
+					// errorMessage.value = error.response.data.Message;
+					// // store.commit("setNaijaTransactionSuccessfulModal", true);
+
+					close();
+					resetInput();
+
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+
+					// close();
+
+					Log.info(store.state.naijaTransactionSuccessfulModal);
+				}
+			);
 		};
 
 		watch(codes, (newValue) => {

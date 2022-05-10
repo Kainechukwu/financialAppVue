@@ -407,6 +407,9 @@ export default {
 		// 	Util.numWithComma(n);
 		// };
 		const steps = ref(1);
+		const store = useStore();
+		const transType = store.getters["bankDetails/transType"];
+
 		const router = useRouter();
 		const withdrawalAmount = ref("");
 		const sendAmountLoading = ref(false);
@@ -414,7 +417,7 @@ export default {
 		const rate = ref(0);
 		// const state =
 		// const youReceive = ref(0)rate
-		const store = useStore();
+
 		const requestLoading = ref(false);
 		const charges = Util.currencyFormatter(
 			store.getters["bankDetails/withdrawalFee"],
@@ -449,7 +452,11 @@ export default {
 		};
 
 		const goToRootPage = () => {
-			router.push("/earn/overview");
+			if (transType === 0) {
+				router.push("/earn/overview");
+			} else if (transType === 1) {
+				router.push("/customers");
+			}
 		};
 
 		const goBack = () => {
@@ -592,6 +599,7 @@ export default {
 			goBack,
 			formatCurr,
 			goToRootPage,
+
 			// addComma,
 		};
 	},

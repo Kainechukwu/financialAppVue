@@ -95,12 +95,14 @@
 
 				<div class="flex items-center mt-4">
 					<div
+						@click="goToDeposit"
 						style="background-color: #18ae81; min-width: 102px"
 						class="cursor-pointer br-3 px-4 flex mr-4 items-center justify-center h-8 text-white"
 					>
 						<span class="my-auto">Add Funds</span>
 					</div>
 					<div
+						@click="goToWithdraw"
 						style="background-color: #e6edff; border: 1px solid #bdd1ff"
 						class="cursor-pointer br-3 px-4 flex items-center justify-center h-8 tx-666666"
 					>
@@ -112,6 +114,7 @@
 				<!-- <slot></slot> -->
 			</div>
 		</div>
+		<add-funds-naija :open="isAddFundsNaijaOpen" @close="closeAddFundsNaija" />
 	</div>
 </template>
 
@@ -120,7 +123,10 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 
 import UserInfo from "@/services/userInfo/userInfo.js";
 import { useStore } from "vuex";
-// import { useRouter } from "vue-router";
+import AddFundsNaija from "@/views/modals/AddFundsNaija.vue";
+import CustomerService from "@/services/userActions/customerService.js";
+
+import { useRouter } from "vue-router";
 import { onMounted, ref, computed, watch } from "vue";
 import { Log, Util, Constants } from "@/components/util";
 // var detect = require("detect");
@@ -134,8 +140,9 @@ export default {
 		Popover,
 		PopoverButton,
 		PopoverPanel,
+		AddFundsNaija,
 	},
-	setup() {
+	setup(props) {
 		onMounted(() => {
 			// Log.info("navigator:" + JSON.stringify(window.navigator.userAgent));
 			// Log.info("us" + ua.name );
@@ -143,9 +150,13 @@ export default {
 			// Log.info("rerender:" + JSON.stringify(rerender));
 			getBalance();
 			setInterval(add, 1000);
+			getCustomerNaijaBankAccountDetails();
 		});
 
 		const store = useStore();
+		// const userId = store.getters["authToken/userId"];
+
+		const router = useRouter();
 		const totalBalance = ref("0.00");
 		const isNigerian = UserInfo.isNigerian();
 		const total = ref(0);
@@ -156,6 +167,7 @@ export default {
 		const interestRate = ref(0);
 		const value = ref(0);
 		const adjustedInterest = ref(0);
+		const isAddFundsNaijaOpen = ref(false);
 		const watchThis = computed(() => (interestRate.value * principalBalance.value) / 86400);
 		// const d = ref(computed(() => new Date()));
 
@@ -175,6 +187,30 @@ export default {
 
 			return displayValue.slice(displayValue.length - 6, displayValue.length);
 		});
+
+		const openAddFundsNaija = () => {
+			isAddFundsNaijaOpen.value = true;
+		};
+
+		const closeAddFundsNaija = () => {
+			isAddFundsNaijaOpen.value = false;
+		};
+
+		const goToDeposit = () => {
+			if (props.currency === "NGN") {
+				openAddFundsNaija();
+			} else if (props.currency === "USD") {
+				router.push("/deposit");
+			}
+		};
+
+		const goToWithdraw = () => {
+			if (props.currency === "NGN") {
+				router.push("/withdraw-n");
+			} else if (props.currency === "USD") {
+				router.push("/withdraw");
+			}
+		};
 
 		const getBalance = () => {
 			UserInfo.accountBalance(
@@ -203,6 +239,30 @@ export default {
 					Log.error(error);
 				}
 			);
+		};
+
+		const getCustomerNaijaBankAccountDetails = () => {
+			if (props.currency === "NGN") {
+				CustomerService.getCustomerNaijaBankAccountDetails(
+					1,
+					(response) => {
+						Log.info("responseNaijaBank:" + JSON.stringify(response));
+						// const fakeData = {
+						// 	accountNumber: "111",
+						// 	accountName: "kaine",
+						// 	bankName: "Access",
+						// };
+						store.commit(
+							"bankDetails/naijaBankDetails",
+							// fakeData
+							response.data.data
+						);
+					},
+					(error) => {
+						Log.error(error);
+					}
+				);
+			}
 		};
 
 		const getInterestRate = () => {
@@ -264,6 +324,11 @@ export default {
 			availableBalance,
 			interectDecimal,
 			isNigerian,
+			openAddFundsNaija,
+			isAddFundsNaijaOpen,
+			closeAddFundsNaija,
+			goToWithdraw,
+			goToDeposit,
 		};
 	},
 };

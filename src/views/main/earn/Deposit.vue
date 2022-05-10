@@ -5,7 +5,7 @@
 	>
 		<div class="flex px-4 pb-3 items-center justify-between border-b border-gray-100">
 			<div>
-				<span class="fw-600 fs-16 blacktext">Deposit Fundsss</span>
+				<span class="fw-600 fs-16 blacktext">Deposit Funds</span>
 			</div>
 			<span>{{ country }}</span>
 			<div>

@@ -1,6 +1,8 @@
 import { Web, Constants } from "@/components/util"
 
 export default class CustomerService {
+
+	// Customers
 	static createCustomer(credentials, successHandler, errorHandler) {
 
 		Web.postCustomer(
@@ -16,6 +18,14 @@ export default class CustomerService {
 		Web.getCustomer(Constants.API_BASE + `/Customers/${merchantId}/get-all`, successHandler, errorHandler)
 
 	}
+
+	static customerSearch(pageNumber, pageSize, searchText, successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Customers/search?PageNumber=${pageNumber}&PageSize=${pageSize}&searchText=${searchText}`, successHandler, errorHandler)
+
+	}
+
+	//Rates
 
 	static saveRate(credentials, successHandler, errorHandler) {
 
@@ -38,16 +48,14 @@ export default class CustomerService {
 
 	}
 
-	static customerSearch(pageNumber, pageSize, searchText, successHandler, errorHandler) {
 
-		Web.getCustomer(Constants.API_BASE + `/Customers/search?PageNumber=${pageNumber}&PageSize=${pageSize}&searchText=${searchText}`, successHandler, errorHandler)
+	//Transactions
 
-	}
 
 	static customerTransactionDeposit(credentials, successHandler, errorHandler) {
 
 		Web.postCustomer(
-			Constants.API_BASE + "/Transactions/deposit",
+			Constants.API_BASE + "/Transactions/customer/deposit",
 			credentials,
 			successHandler,
 			errorHandler
@@ -56,7 +64,7 @@ export default class CustomerService {
 
 	static customerConfirmDeposit(credentials, successHandler, errorHandler) {
 		Web.postCustomer(
-			Constants.API_BASE + "/Transactions/confirm-deposit",
+			Constants.API_BASE + "/Transactions/customer/confirm-deposit",
 			credentials,
 			successHandler,
 			errorHandler
@@ -66,7 +74,7 @@ export default class CustomerService {
 
 	static customerTransactionWithdrawal(credentials, successHandler, errorHandler) {
 		Web.postCustomer(
-			Constants.API_BASE + "/Transactions/withdrawal",
+			Constants.API_BASE + "/Transactions/customer/withdrawal",
 			credentials,
 			successHandler,
 			errorHandler
@@ -77,7 +85,7 @@ export default class CustomerService {
 
 	static customerConfirmWithdrawal(credentials, successHandler, errorHandler) {
 		Web.postCustomer(
-			Constants.API_BASE + "/Transactions/confirm-withdrawal",
+			Constants.API_BASE + "/Transactions/customer/confirm-withdrawal",
 			credentials,
 			successHandler,
 			errorHandler
@@ -86,6 +94,86 @@ export default class CustomerService {
 	}
 
 
+	static getCustomerTransactions(PageNumber, PageSize, successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Transactions/customer/transactions?PageNumber=${PageNumber}&PageSize=${PageSize}`, successHandler, errorHandler)
+
+	}
+
+	static getCustomerBanks(successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Transactions/banks`, successHandler, errorHandler)
+
+	}
+
+	static getNaijaCustomerBeneficiary(bankDetails, successHandler, errorHandler) {
+
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/resolve-nuban",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static getCustomerNaijaBankAccountDetails(type, successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Transactions/bank-account-details?type=${type}`, successHandler, errorHandler)
+
+	}
+
+	static getPrevCustomerBeneficiaries(pageNumber, pageSize, successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Transactions/beneficiaries?pageNumber=${pageNumber}&pageSize=${pageSize}`, successHandler, errorHandler)
+
+	}
+
+	static naijaCustomerWithdrawal(bankDetails, successHandler, errorHandler) {
+
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/withdraw-nigerian",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static transactionCustomerWithdrawal(bankDetails, successHandler, errorHandler) {
+
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/withdraw",
+			bankDetails,
+			successHandler,
+			errorHandler
+		)
+
+	}
+
+
+	static transactionDeposit(details, successHandler, errorHandler) {
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/manual-deposit",
+			details,
+			successHandler,
+			errorHandler
+		)
+	}
+
+	static confirmDeposit(credentials, successHandler, errorHandler) {
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/confirm-deposit",
+			credentials,
+			successHandler,
+			errorHandler
+		)
+
+	}
+
+	static getCharges(successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + '/Transactions/get-charges', successHandler, errorHandler)
+
+	}
 
 
 

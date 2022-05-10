@@ -112,7 +112,7 @@
 														class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 sm:text-sm"
 													>
 														<span class="block truncate">
-															{{ selectedCurrency.currency }}
+															{{ selectedCurrency }}
 															<!-- UST -->
 														</span>
 														<span
@@ -151,7 +151,7 @@
 															<ListboxOption
 																as="template"
 																v-for="currency in currencies"
-																:key="currency.id"
+																:key="currency"
 																:value="currency"
 																v-slot="{ active, selectedCurrency }"
 															>
@@ -167,7 +167,7 @@
 																			'block truncate',
 																		]"
 																	>
-																		{{ currency.currency }}
+																		{{ currency }}
 																		<!-- UST -->
 																	</span>
 
@@ -199,7 +199,7 @@
 														class="text-gray-400 h-full bg-gray-100 w-20 pr-2 pl-1 py-2 focus:outline-none sm:text-sm rounded-l-md"
 													>
 														<span class="block truncate">
-															{{ selectedCurrency.currency }}
+															{{ selectedCurrency }}
 														</span>
 														<span
 															class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
@@ -237,7 +237,7 @@
 															<ListboxOption
 																as="template"
 																v-for="currency in currencies"
-																:key="currency.id"
+																:key="currency"
 																:value="currency"
 																v-slot="{ active, selectedCurrency }"
 															>
@@ -253,7 +253,7 @@
 																			'block truncate',
 																		]"
 																	>
-																		{{ currency.currency }}
+																		{{ currency }}
 																	</span>
 
 																	<span
@@ -380,12 +380,7 @@ export default {
 		const selectedCustomer = ref({});
 		const depositLoading = ref(false);
 		const router = useRouter();
-		const currencies = ref([
-			{
-				currency: "NGN",
-				id: 5,
-			},
-		]);
+		const currencies = ref(["NGN"]);
 
 		// const userId = ref(store.getters["authToken/userId"]);
 
@@ -418,6 +413,8 @@ export default {
 
 			Log.info(customer);
 			selectedCustomer.value = customer;
+
+			currencies.value = customer?.product.split(",");
 		};
 
 		const increaseStep = () => {
@@ -473,7 +470,7 @@ export default {
 			CustomerService.customerTransactionDeposit(
 				{
 					customerId: selectedCustomer.value.customerId,
-					product: selectedCurrency.value.currency,
+					product: selectedCurrency.value,
 					amount: Number(values.amount),
 				},
 				(response) => {
