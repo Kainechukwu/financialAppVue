@@ -127,6 +127,50 @@
 										</tr>
 									</tbody>
 								</table>
+								<div class="px-6 h-16 sm:rounded-b-lg bg-white">
+									<div class="px-1 h-full flex justify-between items-center">
+										<div>
+											<!-- <p class="my-auto hidden">Showing 1-15 of 300 entries</p> -->
+										</div>
+
+										<div class="flex">
+											<div @click="prev" class="cursor-pointer">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="h-5 w-5"
+													viewBox="0 0 20 20"
+													fill="currentColor"
+												>
+													<path
+														fill-rule="evenodd"
+														d="M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414zm-6 0a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 1.414L5.414 10l4.293 4.293a1 1 0 010 1.414z"
+														clip-rule="evenodd"
+													/>
+												</svg>
+											</div>
+											<span class="mx-3.5"> Page {{ pageNumber }}</span>
+											<div @click="next" class="cursor-pointer">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="h-5 w-5"
+													viewBox="0 0 20 20"
+													fill="currentColor"
+												>
+													<path
+														fill-rule="evenodd"
+														d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+														clip-rule="evenodd"
+													/>
+													<path
+														fill-rule="evenodd"
+														d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+														clip-rule="evenodd"
+													/>
+												</svg>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -140,7 +184,7 @@
 
 <script>
 import CustomerService from "@/services/userActions/customerService.js";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { Log } from "@/components/util";
 // import { useRoute } from "vue-router";
 import TableSkeleton from "@/components/skeletons/TableSkeletons.vue";
@@ -155,19 +199,7 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			getMerchantTransactions(
-				pageNumber.value,
-				pageSize.value,
-				status.value,
-				type,
-				origin.value,
-				source.value,
-				from.value,
-				to.value
-				// loading.value,
-				// transactions.value,
-				// totalPages.value
-			);
+			getMerchantTransactions();
 		});
 
 		// watchEffect(() => {
@@ -224,7 +256,34 @@ export default {
 				}
 			);
 		};
-		return { transactions };
+
+		const checkPagesLeft = () => {
+			const bool = Math.ceil(totalPages.value / pageSize.value) > pageNumber.value;
+			return bool;
+		};
+
+		const prev = () => {
+			if (pageNumber.value > 1) {
+				// depositTransactions.value = [];
+				pageNumber.value--;
+			}
+		};
+
+		const next = () => {
+			if (checkPagesLeft()) {
+				// depositTransactions.value = [];
+				pageNumber.value++;
+			}
+			// else {
+			// 	pageNumber.value++;
+			// }
+		};
+
+		watch(pageNumber, (newValue) => {
+			Log.info(newValue);
+			getMerchantTransactions();
+		});
+		return { transactions, prev, next, pageNumber, loading };
 	},
 };
 </script>

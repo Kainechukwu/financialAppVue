@@ -209,8 +209,8 @@ export default {
 		const getCustomerTransactions = () => {
 			loading.value = true;
 			CustomerService.getCustomerTransactions(
-				String(pageNumber.value),
-				String(pageSize.value),
+				pageNumber.value,
+				pageSize.value,
 				(response) => {
 					loading.value = false;
 					Log.info(response);
