@@ -118,7 +118,7 @@
 				</div>
 			</div>
 			<div class="mb-6 col-span-1">
-				<label for="RC Number" class="fs-14 tx-666666 fw-600">RC Number</label>
+				<label for="RC Number" class="fs-14 tx-666666 fw-600">Registration Number</label>
 				<div class="relative">
 					<input
 						readonly
@@ -181,7 +181,7 @@
 
 		<!-- --------------------- -->
 		<div class="grid grid-cols-2 gap-4">
-			<div class="mb-6 col-span-1">
+			<div class="mb-6 col-span-2">
 				<label for="Website Url" class="fs-14 tx-666666 fw-600">Website Url</label>
 				<div class="relative">
 					<input
@@ -196,7 +196,7 @@
 					/>
 				</div>
 			</div>
-			<div class="mb-6 col-span-1">
+			<!-- <div class="mb-6 col-span-1">
 				<label for="Ultimate Beneficial Owners" class="fs-14 tx-666666 fw-600"
 					>Ultimate Beneficial Owners</label
 				>
@@ -212,7 +212,7 @@
 						class="mt-1.5 br-5 h-12 appearance-none relative block w-full border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-gray-400 focus:z-10 sm:text-sm"
 					/>
 				</div>
-			</div>
+			</div> -->
 		</div>
 
 		<!-- ---------------- -->
