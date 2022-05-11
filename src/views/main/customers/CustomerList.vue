@@ -10,6 +10,7 @@
 					name="Search"
 					type="text"
 					autocomplete="off"
+					v-model="searchText"
 					required=""
 					placeholder="Search"
 					class="mt-1.5 mr-4 br-5 h-12 appearance-none relative block w-60 px-3 py-2 border-0 focus:outline-none focus:z-10 sm:text-sm"
@@ -324,6 +325,7 @@ export default {
 		const pageSize = ref(10);
 		const totalPages = ref(0);
 		const loading = ref(false);
+		const searchText = ref("");
 
 		const getAllCustomers = () => {
 			loading.value = true;
@@ -343,6 +345,22 @@ export default {
 					Log.info(error);
 				}
 			);
+		};
+		const customerSearch = () => {
+			if (searchText.value.length > 0) {
+				CustomerService.customerSearch(
+					pageNumber.value,
+					pageSize.value,
+					searchText.value,
+					(response) => {
+						Log.info(response);
+						customers.value = response.data.data;
+					},
+					(error) => {
+						Log.error(error);
+					}
+				);
+			}
 		};
 
 		const checkPagesLeft = () => {
@@ -367,12 +385,18 @@ export default {
 			getAllCustomers();
 		});
 
+		watch(searchText, (newValue) => {
+			Log.info(newValue);
+			customerSearch();
+		});
+
 		return {
 			customers,
 			loading,
 			prev,
 			next,
 			pageNumber,
+			searchText,
 		};
 	},
 };

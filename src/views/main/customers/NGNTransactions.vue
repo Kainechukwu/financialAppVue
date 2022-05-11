@@ -4,6 +4,7 @@
 		<div class="mb-6">
 			<!-- <h1 class="fw-600 fs-24 blacktext mb-4">Transactions</h1> -->
 			<div class="flex">
+				<!-- {{ selectedStatus }} {{ selectedOrigin }} -->
 				<input
 					style="border: none"
 					id="Searrch"
@@ -16,16 +17,253 @@
 				/>
 
 				<!-- <div class=" flex"> -->
-				<select
-					id="location"
-					name="location"
-					class="text-gray-400 block mt-1.5 h-12 w-36 pl-3 pr-10 py-2 focus:outline-none sm:text-sm rounded-md"
-				>
-					<option selected="" class="hidden">Filter</option>
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-				</select>
+				<Popover class="relative">
+					<PopoverButton
+						id="filterMenu2"
+						class="text-left text-gray-400 mt-1.5 br-5 h-12 bg-white w-36 pr-2 pl-3 py-2 border focus:outline-none sm:text-sm rounded-l-md"
+					>
+						<span>Filters</span>
+						<!-- :class="[ open ? 'text-gray-600' : 'text-gray-400', 'ml-2 h-5 w-5
+					group-hover:text-gray-500', ]" -->
+						<span
+							aria-hidden="true"
+							class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
+						>
+							<div class="h-5 my-auto flex items-center justify-center text-gray-400">
+								<svg
+									width="12"
+									height="6"
+									viewBox="0 0 12 6"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M1 1L5.73 5.2L10.46 1"
+										stroke="#BFBFBF"
+										stroke-width="1.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							</div>
+						</span>
+					</PopoverButton>
+
+					<transition
+						enter-active-class="transition ease-out duration-200"
+						enter-from-class="opacity-0 translate-y-1"
+						enter-to-class="opacity-100 translate-y-0"
+						leave-active-class="transition ease-in duration-150"
+						leave-from-class="opacity-100 translate-y-0"
+						leave-to-class="opacity-0 translate-y-1"
+					>
+						<PopoverPanel
+							class="absolute left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-sm sm:px-0"
+						>
+							<div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+								<div class="relative grid gap-6 bg-white px-1 py-6 sm:gap-8 sm:p-8">
+									<div>
+										<Listbox as="div" v-model="selectedStatus">
+											<ListboxLabel class="block text-sm font-medium text-gray-700">
+												Status
+											</ListboxLabel>
+											<div class="mt-1 relative">
+												<ListboxButton
+													class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+												>
+													<span class="block truncate">{{ selectedStatus.name }}</span>
+													<span
+														class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
+													>
+														<div class="h-5 my-auto flex items-center justify-center text-gray-400">
+															<svg
+																width="12"
+																height="6"
+																viewBox="0 0 12 6"
+																fill="none"
+																xmlns="http://www.w3.org/2000/svg"
+															>
+																<path
+																	d="M1 1L5.73 5.2L10.46 1"
+																	stroke="#BFBFBF"
+																	stroke-width="1.5"
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																/>
+															</svg>
+														</div>
+													</span>
+												</ListboxButton>
+
+												<transition
+													leave-active-class="transition ease-in duration-100"
+													leave-from-class="opacity-100"
+													leave-to-class="opacity-0"
+												>
+													<ListboxOptions
+														class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+													>
+														<ListboxOption
+															as="template"
+															v-for="status in statuses"
+															:key="status.value"
+															:value="status"
+															v-slot="{ active, selectedStatus }"
+														>
+															<li
+																:class="[
+																	active ? 'text-white bg-indigo-600' : 'text-gray-900',
+																	'cursor-default select-none relative py-2 pl-3 pr-9',
+																]"
+															>
+																<span
+																	:class="[
+																		selectedStatus ? 'font-semibold' : 'font-normal',
+																		'block truncate',
+																	]"
+																>
+																	{{ status.name }}
+																</span>
+
+																<span
+																	v-if="selectedStatus"
+																	:class="[
+																		active ? 'text-white' : 'text-indigo-600',
+																		'absolute inset-y-0 right-0 flex items-center pr-4',
+																	]"
+																>
+																</span>
+															</li>
+														</ListboxOption>
+													</ListboxOptions>
+												</transition>
+											</div>
+										</Listbox>
+									</div>
+
+									<div>
+										<Listbox as="div" v-model="selectedOrigin">
+											<ListboxLabel class="block text-sm font-medium text-gray-700">
+												Origin
+											</ListboxLabel>
+											<div class="mt-1 relative">
+												<ListboxButton
+													class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+												>
+													<span class="block truncate">{{ selectedOrigin.name }}</span>
+													<span
+														class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
+													>
+														<div class="h-5 my-auto flex items-center justify-center text-gray-400">
+															<svg
+																width="12"
+																height="6"
+																viewBox="0 0 12 6"
+																fill="none"
+																xmlns="http://www.w3.org/2000/svg"
+															>
+																<path
+																	d="M1 1L5.73 5.2L10.46 1"
+																	stroke="#BFBFBF"
+																	stroke-width="1.5"
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																/>
+															</svg>
+														</div>
+													</span>
+												</ListboxButton>
+
+												<transition
+													leave-active-class="transition ease-in duration-100"
+													leave-from-class="opacity-100"
+													leave-to-class="opacity-0"
+												>
+													<ListboxOptions
+														class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-28 overflow-auto rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+													>
+														<ListboxOption
+															as="template"
+															v-for="item in origin"
+															:key="item.value"
+															:value="item"
+															v-slot="{ active, selectedOrigin }"
+														>
+															<li
+																:class="[
+																	active ? 'text-white bg-indigo-600' : 'text-gray-900',
+																	'cursor-default select-none relative py-2 pl-3 pr-9',
+																]"
+															>
+																<span
+																	:class="[
+																		selectedOrigin ? 'font-semibold' : 'font-normal',
+																		'block truncate',
+																	]"
+																>
+																	{{ item.name }}
+																</span>
+
+																<span
+																	v-if="selectedOrigin"
+																	:class="[
+																		active ? 'text-white' : 'text-indigo-600',
+																		'absolute inset-y-0 right-0 flex items-center pr-4',
+																	]"
+																>
+																</span>
+															</li>
+														</ListboxOption>
+													</ListboxOptions>
+												</transition>
+											</div>
+										</Listbox>
+									</div>
+									<!-- <div>
+									name="meeting-time"
+										value="2018-06-12T19:30"
+										min="2018-06-07T00:00"
+										max="2018-06-14T00:00"
+									<input type="datetime-local" id="meeting-time" v-model="startDate" />
+								</div> -->
+
+									<!-- <div class="flex flex-col mx-auto"> -->
+									<div class="mb-1 w-full">
+										<label for="Date of Birth" class="fs-14 fw-400 tx-666666">From</label>
+										<input
+											class="mt-1.5 br-5 h-10 w-full appearance-none relative block px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+											type="datetime-local"
+											step="1"
+											id="from"
+											v-model="from"
+										/>
+									</div>
+									<div class="mb-1 w-full">
+										<label for="Date of Birth" class="fs-14 fw-400 tx-666666">To</label>
+										<input
+											class="mt-1.5 br-5 h-10 w-full appearance-none relative block px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+											type="datetime-local"
+											step="1"
+											id="to"
+											v-model="to"
+										/>
+									</div>
+									<!-- </div> -->
+									<div class="flex justify-between items-center mt-2">
+										<div @click="clear" class="px-6 py-2 br-5 cursor-pointer">Clear</div>
+										<div
+											@click="applyFilter"
+											style="background-color: #268bd0"
+											class="cursor-pointer px-6 py-2 br-5 text-white"
+										>
+											Filter
+										</div>
+									</div>
+								</div>
+							</div>
+						</PopoverPanel>
+					</transition>
+				</Popover>
 				<!-- </div> -->
 			</div>
 		</div>
@@ -184,10 +422,19 @@
 
 <script>
 import CustomerService from "@/services/userActions/customerService.js";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, reactive, watch, toRefs } from "vue";
 import { Log } from "@/components/util";
 // import { useRoute } from "vue-router";
 import TableSkeleton from "@/components/skeletons/TableSkeletons.vue";
+import {
+	Listbox,
+	ListboxButton,
+	ListboxLabel,
+	ListboxOption,
+	ListboxOptions,
+} from "@headlessui/vue";
+
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 
 import TransactionHistoryEmptySvg from "@/components/svg/TransactionHistoryEmptySvg.vue";
 
@@ -196,51 +443,88 @@ export default {
 	components: {
 		TransactionHistoryEmptySvg,
 		TableSkeleton,
+		Popover,
+		PopoverButton,
+		PopoverPanel,
+		Listbox,
+		ListboxButton,
+		ListboxLabel,
+		ListboxOption,
+		ListboxOptions,
 	},
 	setup() {
 		onMounted(() => {
 			getMerchantTransactions();
 		});
 
-		// watchEffect(() => {
-		// 	getMerchantTransactions(
-		// 		pageNumber.value,
-		// 		pageSize.value,
-		// 		status.value,
-		// 		type,
-		// 		origin.value,
-		// 		source.value,
-		// 		from.value,
-		// 		to.value
-		// 		// loading.value,
-		// 		// transactions.value,
-		// 		// totalPages.value
-		// 	);
-		// });
-
 		const transactions = ref([]);
-		const pageNumber = ref(1);
-		const pageSize = ref(10);
-		const totalPages = ref(0);
-		const status = ref(1);
-		const type = 1;
-		const origin = ref(1);
-		const source = ref(1);
-		const from = ref("2022-01-14T12:10:13");
-		const to = ref("2022-02-12T19:30:13");
 		const loading = ref(false);
+
+		const statuses = [
+			{
+				name: "All",
+				value: 1,
+			},
+			{
+				name: "Pending",
+				value: 2,
+			},
+			{
+				name: "Successful",
+				value: 3,
+			},
+			{
+				name: "Processing",
+				value: 4,
+			},
+			{
+				name: "Declined",
+				value: 5,
+			},
+			{
+				name: "Expired",
+				value: 6,
+			},
+			{
+				name: "Failed",
+				value: 7,
+			},
+		];
+
+		const origin = [
+			{
+				name: "Principal",
+				value: 1,
+			},
+			{
+				name: "Interest",
+				value: 2,
+			},
+		];
+		const totalPages = ref(0);
+		const state = reactive({
+			pageNumber: 1,
+			pageSize: 10,
+
+			selectedStatus: statuses[0],
+			type: 1,
+			selectedOrigin: origin[0],
+			source: 1,
+			from: "2022-01-14T12:10:13",
+			to: "2022-02-12T19:30:13",
+		});
 
 		const getMerchantTransactions = () => {
 			loading.value = true;
 			CustomerService.getMerchantTransactions(
-				pageNumber.value,
-				pageSize.value,
-				status.value,
-				type,
-				origin.value,
-				source.value,
-				from.value,
-				to.value,
+				state.pageNumber,
+				state.pageSize,
+				state.selectedStatus.value,
+				state.type,
+				state.selectedOrigin.value,
+				state.source,
+				state.from,
+				state.to,
 
 				(response) => {
 					loading.value = false;
@@ -258,32 +542,61 @@ export default {
 		};
 
 		const checkPagesLeft = () => {
-			const bool = Math.ceil(totalPages.value / pageSize.value) > pageNumber.value;
+			const bool = Math.ceil(totalPages.value / state.pageSize) > state.pageNumber;
 			return bool;
 		};
 
 		const prev = () => {
-			if (pageNumber.value > 1) {
+			if (state.pageNumber > 1) {
 				// depositTransactions.value = [];
-				pageNumber.value--;
+				state.pageNumber--;
 			}
 		};
 
 		const next = () => {
 			if (checkPagesLeft()) {
 				// depositTransactions.value = [];
-				pageNumber.value++;
+				state.pageNumber++;
 			}
 			// else {
-			// 	pageNumber.value++;
+			// 	state.pageNumber++;
 			// }
 		};
 
-		watch(pageNumber, (newValue) => {
-			Log.info(newValue);
+		const clear = () => {
+			state.selectedStatus = statuses[0];
+			state.selectedOrigin = origin[0];
+
+			state.from = "2022-01-14T12:10:13";
+			state.to = "2022-02-12T19:30:13";
+		};
+
+		const applyFilter = () => {
+			// filterClicked.value = true;
 			getMerchantTransactions();
-		});
-		return { transactions, prev, next, pageNumber, loading };
+			// filterClicked.value = false;
+			const button = document.getElementById("filterMenu2");
+			button.click();
+		};
+
+		watch(
+			() => state.pageNumber,
+			(newValue) => {
+				Log.info(newValue);
+				getMerchantTransactions();
+			}
+		);
+		return {
+			transactions,
+			prev,
+			next,
+			...toRefs(state),
+			applyFilter,
+			loading,
+			origin,
+			statuses,
+			clear,
+		};
 	},
 };
 </script>
