@@ -10,6 +10,7 @@ body {
   font-size: 14px;
 }
 
+textarea,
 input[type="text"],
 input[type="date"],
 input[type="email"],
@@ -26,6 +27,14 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.listBoxButton {
+  border: 1px solid #e2e2e2;
+
+  &:focus {
+    border: 1px solid #b7b7b7;
+  }
 }
 
 /* Firefox */

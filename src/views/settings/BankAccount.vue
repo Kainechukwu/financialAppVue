@@ -218,13 +218,13 @@ export default {
 		const userId = store.getters["authToken/userId"];
 
 		const schema = Yup.object().shape({
-			bankPhoneNumber: Yup.string().required("Bank Phone Number field is required"),
+			bankPhoneNumber: Yup.string(),
 			accountName: Yup.string().required("Account Name is required"),
 			bankName: Yup.string().required("Bank name is required"),
-			bankOfficer: Yup.string().required("Bank Officer is required"),
+			bankOfficer: Yup.string(),
 			bankAddress: Yup.string().required("Bank Address is required"),
 			accountNumber: Yup.string().required("Account Number is required"),
-			transferType: Yup.string().required("Transfer Type Owners is required"),
+			transferType: Yup.string(),
 		});
 
 		const prepareBankDetails = (values) => {

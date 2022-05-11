@@ -362,7 +362,7 @@
 							<ListboxLabel class="block fs-14 tx-666666 fw-600"> Registration Type </ListboxLabel>
 							<div class="mt-1 relative">
 								<ListboxButton
-									class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 sm:text-sm"
+									class="bg-white h-12 mt-1 relative w-full listBoxButton rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 sm:text-sm"
 								>
 									<span class="block truncate">{{ selectedRegType }}</span>
 									<span
@@ -434,7 +434,7 @@
 						</Listbox>
 					</div>
 					<div class="mb-6 col-span-2 sm:col-span-1">
-						<label for="Rc Number" class="fs-14 tx-666666 fw-600">Rc Number</label>
+						<label for="Rc Number" class="fs-14 tx-666666 fw-600">Registration Number</label>
 						<div class="relative">
 							<Field
 								id="rcNumber"
@@ -470,6 +470,7 @@
 						/>
 						<div class="absolute mx-3 inset-y-0 h-full flex items-center">
 							<svg
+								v-if="typeof selectedFile !== 'object'"
 								width="21"
 								height="20"
 								viewBox="0 0 21 20"
@@ -491,7 +492,7 @@
 									stroke-linejoin="round"
 								/>
 							</svg>
-							<!-- <GreenCheckedSvg v-else  /> -->
+							<GreenCheckedSvg v-else />
 						</div>
 						<input
 							required
@@ -511,7 +512,7 @@
 				</div>
 				<!-- ---------------- -->
 				<div class="grid grid-cols-2 xl:gap-4">
-					<div class="mb-6 col-span-2 xl:col-span-1">
+					<div class="mb-6 col-span-2">
 						<label for="Website URL" class="fs-14 fw-400 tx-666666">Website URL</label>
 						<Field
 							id="Website URL"
@@ -533,7 +534,7 @@
 								text-overflow: ellipsis;
 								display: inline-block;
 							" -->
-					<div class="mb-6 col-span-2 xl:col-span-1">
+					<!-- <div class="mb-6 col-span-2 xl:col-span-1">
 						<label for="Ultimate Beneficial Owners" class="fs-14 tx-666666 fw-600"
 							>Ultimate Beneficial Owners</label
 						>
@@ -551,7 +552,7 @@
 							/>
 							<div class="invalid-feedback text-red-500">{{ errors.ultimateBeneficialOwners }}</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 
 				<!-- ---------------- -->
@@ -568,7 +569,7 @@
 						autocomplete="off"
 						required=""
 						placeholder=""
-						class="mt-1.5 br-5 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						class="mt-1.5 br-5 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm"
 					></textarea>
 				</div>
 
@@ -604,7 +605,7 @@ import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import { useRouter } from "vue-router";
 import FormEmptyState from "./FormEmptyStates.vue";
-// import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
+import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
 
 import {
 	Listbox,
@@ -621,7 +622,7 @@ export default {
 		ListboxLabel,
 		ListboxOption,
 		ListboxOptions,
-		// GreenCheckedSvg,
+		GreenCheckedSvg,
 		FormEmptyState,
 		Form,
 		Field,
@@ -846,13 +847,13 @@ export default {
 		};
 
 		const schema = Yup.object().shape({
-			numberOfStaff: Yup.string().required("Number of staff field is required"),
-			websiteUrl: Yup.string().required("Website url is required"),
+			numberOfStaff: Yup.string(),
+			websiteUrl: Yup.string(),
 			companyName: Yup.string().required("Company name is required"),
 			registrationDate: Yup.string().required("Registration Date is required"),
 			operatingAddress: Yup.string().required("Operating Address is required"),
 			rcNumber: Yup.string().required("RC Number is required"),
-			ultimateBeneficialOwners: Yup.string().required("Ultimate Beneficial Owners is required"),
+			// ultimateBeneficialOwners: Yup.string().required("Ultimate Beneficial Owners is required"),
 		});
 
 		const prepareBusinessDetails = (values) => {
@@ -871,7 +872,7 @@ export default {
 				websiteUrl: "http://" + values.websiteUrl,
 				about: about.value,
 				rcNumber: values.rcNumber,
-				beneficiaryOwners: values.ultimateBeneficialOwners,
+				// beneficiaryOwners: values.ultimateBeneficialOwners,
 				documentName: businessDetails.documentName,
 				documentBase64: businessDetails.documentBase64,
 				ownerId: store.getters["authToken/userId"],
