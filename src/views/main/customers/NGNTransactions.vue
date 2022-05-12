@@ -11,6 +11,7 @@
 					name="Search"
 					type="text"
 					autocomplete="off"
+					v-model="searchText"
 					required=""
 					placeholder="Search"
 					class="mt-1.5 mr-4 br-5 h-12 appearance-none relative block w-60 px-3 py-2 border-0 focus:outline-none focus:z-10 sm:text-sm"
@@ -219,14 +220,166 @@
 											</div>
 										</Listbox>
 									</div>
-									<!-- <div>
-									name="meeting-time"
-										value="2018-06-12T19:30"
-										min="2018-06-07T00:00"
-										max="2018-06-14T00:00"
-									<input type="datetime-local" id="meeting-time" v-model="startDate" />
-								</div> -->
 
+									<!-- //types -->
+									<div>
+										<Listbox as="div" v-model="selectedType">
+											<ListboxLabel class="block text-sm font-medium text-gray-700">
+												Type
+											</ListboxLabel>
+											<div class="mt-1 relative">
+												<ListboxButton
+													class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+												>
+													<span class="block truncate">{{ selectedType.name }}</span>
+													<span
+														class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
+													>
+														<div class="h-5 my-auto flex items-center justify-center text-gray-400">
+															<svg
+																width="12"
+																height="6"
+																viewBox="0 0 12 6"
+																fill="none"
+																xmlns="http://www.w3.org/2000/svg"
+															>
+																<path
+																	d="M1 1L5.73 5.2L10.46 1"
+																	stroke="#BFBFBF"
+																	stroke-width="1.5"
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																/>
+															</svg>
+														</div>
+													</span>
+												</ListboxButton>
+
+												<transition
+													leave-active-class="transition ease-in duration-100"
+													leave-from-class="opacity-100"
+													leave-to-class="opacity-0"
+												>
+													<ListboxOptions
+														class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-28 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+													>
+														<ListboxOption
+															as="template"
+															v-for="type in types"
+															:key="type.value"
+															:value="type"
+															v-slot="{ active, selectedType }"
+														>
+															<li
+																:class="[
+																	active ? 'text-white bg-indigo-600' : 'text-gray-900',
+																	'cursor-default select-none relative py-2 pl-3 pr-9',
+																]"
+															>
+																<span
+																	:class="[
+																		selectedType ? 'font-semibold' : 'font-normal',
+																		'block truncate',
+																	]"
+																>
+																	{{ type.name }}
+																</span>
+
+																<span
+																	v-if="selectedType"
+																	:class="[
+																		active ? 'text-white' : 'text-indigo-600',
+																		'absolute inset-y-0 right-0 flex items-center pr-4',
+																	]"
+																>
+																</span>
+															</li>
+														</ListboxOption>
+													</ListboxOptions>
+												</transition>
+											</div>
+										</Listbox>
+									</div>
+
+									<!-- Source -->
+									<!-- <div>
+										<Listbox as="div" v-model="selectedSource">
+											<ListboxLabel class="block text-sm font-medium text-gray-700">
+												Source
+											</ListboxLabel>
+											<div class="mt-1 relative">
+												<ListboxButton
+													class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+												>
+													<span class="block truncate">{{ selectedSource.name }}</span>
+													<span
+														class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
+													>
+														<div class="h-5 my-auto flex items-center justify-center text-gray-400">
+															<svg
+																width="12"
+																height="6"
+																viewBox="0 0 12 6"
+																fill="none"
+																xmlns="http://www.w3.org/2000/svg"
+															>
+																<path
+																	d="M1 1L5.73 5.2L10.46 1"
+																	stroke="#BFBFBF"
+																	stroke-width="1.5"
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																/>
+															</svg>
+														</div>
+													</span>
+												</ListboxButton>
+
+												<transition
+													leave-active-class="transition ease-in duration-100"
+													leave-from-class="opacity-100"
+													leave-to-class="opacity-0"
+												>
+													<ListboxOptions
+														class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-28 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+													>
+														<ListboxOption
+															as="template"
+															v-for="source in sources"
+															:key="source.value"
+															:value="source"
+															v-slot="{ active, selectedSource }"
+														>
+															<li
+																:class="[
+																	active ? 'text-white bg-indigo-600' : 'text-gray-900',
+																	'cursor-default select-none relative py-2 pl-3 pr-9',
+																]"
+															>
+																<span
+																	:class="[
+																		selectedSource ? 'font-semibold' : 'font-normal',
+																		'block truncate',
+																	]"
+																>
+																	{{ source.name }}
+																</span>
+
+																<span
+																	v-if="selectedSource"
+																	:class="[
+																		active ? 'text-white' : 'text-indigo-600',
+																		'absolute inset-y-0 right-0 flex items-center pr-4',
+																	]"
+																>
+																</span>
+															</li>
+														</ListboxOption>
+													</ListboxOptions>
+												</transition>
+											</div>
+										</Listbox>
+									</div> -->
 									<!-- <div class="flex flex-col mx-auto"> -->
 									<div class="mb-1 w-full">
 										<label for="Date of Birth" class="fs-14 fw-400 tx-666666">From</label>
@@ -459,6 +612,7 @@ export default {
 
 		const transactions = ref([]);
 		const loading = ref(false);
+		const searchText = ref("");
 
 		const statuses = [
 			{
@@ -501,17 +655,47 @@ export default {
 				value: 2,
 			},
 		];
+		const types = [
+			{
+				name: "All",
+				value: 1,
+			},
+			{
+				name: "Debit",
+				value: 2,
+			},
+			{
+				name: "Credit",
+				value: 3,
+			},
+		];
+
+		const sources = [
+			{
+				name: "Treasury",
+				value: 0,
+			},
+			{
+				name: "Local",
+				value: 1,
+			},
+			{
+				name: "USD",
+				value: 2,
+			},
+		];
+
 		const totalPages = ref(0);
 		const state = reactive({
 			pageNumber: 1,
 			pageSize: 10,
 
 			selectedStatus: statuses[0],
-			type: 1,
+			selectedType: types[0],
 			selectedOrigin: origin[0],
-			source: 1,
-			from: "2022-01-14T12:10:13",
-			to: "2022-02-12T19:30:13",
+			selectedSource: sources[1],
+			from: "",
+			to: "",
 		});
 
 		const getMerchantTransactions = () => {
@@ -520,9 +704,9 @@ export default {
 				state.pageNumber,
 				state.pageSize,
 				state.selectedStatus.value,
-				state.type,
+				state.selectedType.value,
 				state.selectedOrigin.value,
-				state.source,
+				state.selectedSource.value,
 				state.from,
 				state.to,
 
@@ -539,6 +723,30 @@ export default {
 					Log.error(error);
 				}
 			);
+		};
+
+		const searchMerchantTransactions = () => {
+			if (searchText.value.length > 0) {
+				loading.value = true;
+				CustomerService.searchMerchantTransactions(
+					searchText.value,
+					state.selectedSource.value,
+					state.pageSize,
+					state.pageNumber,
+					(response) => {
+						loading.value = false;
+						Log.info(response);
+						transactions.value = response.data.data;
+						// totalPages.value = response.data.total;
+
+						Log.info("query done");
+					},
+					(error) => {
+						loading.value = false;
+						Log.error(error);
+					}
+				);
+			}
 		};
 
 		const checkPagesLeft = () => {
@@ -567,8 +775,8 @@ export default {
 			state.selectedStatus = statuses[0];
 			state.selectedOrigin = origin[0];
 
-			state.from = "2022-01-14T12:10:13";
-			state.to = "2022-02-12T19:30:13";
+			state.from = "";
+			state.to = "";
 		};
 
 		const applyFilter = () => {
@@ -586,6 +794,17 @@ export default {
 				getMerchantTransactions();
 			}
 		);
+
+		watch(searchText, (newValue, oldValue) => {
+			Log.info("newValue: " + newValue);
+			Log.info("oldValue: " + oldValue);
+			if (newValue.length < oldValue.length && newValue.length === 0) {
+				Log.info("Do Query");
+				getMerchantTransactions();
+			} else {
+				searchMerchantTransactions();
+			}
+		});
 		return {
 			transactions,
 			prev,
@@ -595,7 +814,10 @@ export default {
 			loading,
 			origin,
 			statuses,
+			types,
+			sources,
 			clear,
+			searchText,
 		};
 	},
 };

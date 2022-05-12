@@ -144,12 +144,24 @@
 				</div>
 				<div class="flex flex-col justify-between mt-1 h-full">
 					<span class="fw-400 fs-24 blacktext mr-3"
-						>${{ interestMain }}<span class="fs-14 ml-px">{{ interestDecimal }}</span></span
+						>${{ usdInterestMain }}<span class="fs-14 ml-px">{{ usdInterestDecimal }}</span></span
 					>
 
 					<div class="inline-block mt-auto">
 						<span class="fw-400 fs-12 tx-666666"
-							>Gross Interest: <span class="blacktext">$0.00</span></span
+							>USD Interest: <span class="blacktext">$0.00</span></span
+						>
+					</div>
+					<!-- <slot></slot> -->
+				</div>
+				<div class="flex flex-col justify-between mt-1 h-full">
+					<span class="fw-400 fs-24 blacktext mr-3"
+						>N{{ ngnInterestMain }}<span class="fs-14 ml-px">{{ ngnInterestDecimal }}</span></span
+					>
+
+					<div class="inline-block mt-auto">
+						<span class="fw-400 fs-12 tx-666666"
+							>NGN Interest: <span class="blacktext">N0.00</span></span
 						>
 					</div>
 					<!-- <slot></slot> -->
@@ -162,11 +174,11 @@
 <script>
 import counterUp from "counterup2";
 import UserInfo from "@/services/userInfo/userInfo.js";
-
+import CustomerService from "@/services/userActions/customerService.js";
 import { onMounted, ref, watch, computed } from "vue";
 import { Log, Util, Constants } from "@/components/util";
-import UserActions from "@/services/userActions/userActions.js";
-import { useStore } from "vuex";
+// import UserActions from "@/services/userActions/userActions.js";
+// import { useStore } from "vuex";
 // import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 
 import {
@@ -190,11 +202,13 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			getEarnings();
+			// getEarnings();
+			getCustomerUSDEarnings();
+			getCustomerNGNEarnings();
 			counter();
 		});
-		const store = useStore();
-		const userId = store.getters["authToken/userId"];
+		// const store = useStore();
+		// const userId = store.getters["authToken/userId"];
 		const periods = [
 			{ period: "Lifetime", value: 5 },
 			{ period: "Today", value: 1 },
@@ -206,34 +220,64 @@ export default {
 
 		// const currency = isNigerian ? "N" : "$";
 		const selected = ref(periods[0]);
-		const interest = ref(Util.currencyFormatter(0, Constants.btcFormat));
-		const interestMain = computed(() => {
-			const displayValue = interest.value;
+		const usdInterest = ref(Util.currencyFormatter(0, Constants.btcFormat));
+		const usdInterestMain = computed(() => {
+			const displayValue = usdInterest.value;
 
 			return displayValue.slice(0, displayValue.length - 6);
 		});
-		const interestDecimal = computed(() => {
-			const displayValue = interest.value;
+		const usdInterestDecimal = computed(() => {
+			const displayValue = usdInterest.value;
 
 			return displayValue.slice(displayValue.length - 6, displayValue.length);
 		});
 
-		const getEarnings = () => {
-			UserActions.getEarnings(
-				userId,
-				selected.value.value,
-				(response) => {
-					Log.info(response);
+		const ngnInterest = ref(Util.currencyFormatter(0, Constants.btcFormat));
+		const ngnInterestMain = computed(() => {
+			const displayValue = ngnInterest.value;
 
-					interest.value = Util.currencyFormatter(
+			return displayValue.slice(0, displayValue.length - 6);
+		});
+		const ngnInterestDecimal = computed(() => {
+			const displayValue = ngnInterest.value;
+
+			return displayValue.slice(displayValue.length - 6, displayValue.length);
+		});
+
+		const getCustomerUSDEarnings = () => {
+			CustomerService.getCustomerEarnings(
+				selected.value.value,
+				1,
+				(response) => {
+					Log.info("LocalInterest: " + JSON.stringify(response));
+
+					usdInterest.value = Util.currencyFormatter(
 						response.data.data.amountEarned,
+
 						Constants.btcFormat
 					);
-					// Util.handleGlobalAlert(true, "success", "fetched");
 				},
 				(error) => {
-					Log.error(error);
-					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+					Log.error("LocalInterestError: " + JSON.stringify(error));
+				}
+			);
+		};
+
+		const getCustomerNGNEarnings = () => {
+			CustomerService.getCustomerEarnings(
+				selected.value.value,
+				2,
+				(response) => {
+					Log.info("LocalInterest: " + JSON.stringify(response));
+
+					ngnInterest.value = Util.currencyFormatter(
+						response.data.data.amountEarned,
+
+						Constants.btcFormat
+					);
+				},
+				(error) => {
+					Log.error("LocalInterestError: " + JSON.stringify(error));
 				}
 			);
 		};
@@ -252,9 +296,19 @@ export default {
 
 		watch(selected, (newValue) => {
 			Log.info(newValue);
-			getEarnings();
+			// getEarnings();
+			getCustomerUSDEarnings();
+			getCustomerNGNEarnings();
 		});
-		return { periods, selected, interest, isNigerian, interestDecimal, interestMain };
+		return {
+			periods,
+			selected,
+			isNigerian,
+			usdInterestDecimal,
+			usdInterestMain,
+			ngnInterestDecimal,
+			ngnInterestMain,
+		};
 	},
 };
 </script>

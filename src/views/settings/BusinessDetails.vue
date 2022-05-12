@@ -28,7 +28,10 @@
 				class="flex flex-col"
 			>
 				<div class="mb-6">
-					<label for="Company Name" class="fs-14 fw-400 tx-666666">Company Name</label>
+					<div class="flex items-center">
+						<label for="Company Name" class="fs-14 fw-400 tx-666666">Company Name </label>
+						<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+					</div>
 					<Field
 						id="Company Name"
 						name="companyName"
@@ -48,9 +51,12 @@
 					<div class="mb-6 col-span-2 sm:col-span-1">
 						<div class="relative">
 							<Listbox as="div" v-model="selected">
-								<ListboxLabel class="block fs-14 tx-666666 fw-600 truncate">
-									Country of Incorporation
-								</ListboxLabel>
+								<div class="flex items-center">
+									<ListboxLabel class="block fs-14 tx-666666 fw-600 truncate">
+										Country of Incorporation
+									</ListboxLabel>
+									<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+								</div>
 								<div class="mt-1 relative">
 									<ListboxButton
 										class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 sm:text-sm"
@@ -203,7 +209,12 @@
 					</div> -->
 
 					<div class="mb-6 col-span-2 sm:col-span-1">
-						<label for="Registration Date" class="fs-14 fw-400 tx-666666">Registration Date</label>
+						<div class="flex items-center">
+							<label for="Registration Date" class="fs-14 fw-400 tx-666666"
+								>Registration Date</label
+							>
+							<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+						</div>
 						<Field
 							id="Registration Date"
 							name="registrationDate"
@@ -224,7 +235,10 @@
 					<div class="mb-6 col-span-2 sm:col-span-1">
 						<div class="relative">
 							<Listbox as="div" v-model="selectedIndustry">
-								<ListboxLabel class="block fs-14 tx-666666 fw-600"> Industry </ListboxLabel>
+								<div class="flex items-center">
+									<ListboxLabel class="block fs-14 tx-666666 fw-600"> Industry </ListboxLabel>
+									<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+								</div>
 								<div class="mt-1 relative">
 									<ListboxButton
 										class="bg-white h-12 mt-1 relative w-full border border-gray-200 rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-gray-200 focus:border-gray-200 sm:text-sm"
@@ -340,7 +354,10 @@
 
 				<!-- ---------------- -->
 				<div class="mb-6">
-					<label for="Operating Address" class="fs-14 fw-400 tx-666666">Operating Address</label>
+					<div class="flex items-center">
+						<label for="Operating Address" class="fs-14 fw-400 tx-666666">Operating Address</label>
+						<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+					</div>
 					<Field
 						id="Operating Address"
 						name="operatingAddress"
@@ -359,7 +376,12 @@
 				<div class="grid grid-cols-2 sm:gap-4">
 					<div class="mb-6 col-span-2 sm:col-span-1">
 						<Listbox as="div" v-model="selectedRegType">
-							<ListboxLabel class="block fs-14 tx-666666 fw-600"> Registration Type </ListboxLabel>
+							<div class="flex items-center">
+								<ListboxLabel class="block fs-14 tx-666666 fw-600">
+									Registration Type
+								</ListboxLabel>
+								<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+							</div>
 							<div class="mt-1 relative">
 								<ListboxButton
 									class="bg-white h-12 mt-1 relative w-full listBoxButton rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 sm:text-sm"
@@ -434,7 +456,10 @@
 						</Listbox>
 					</div>
 					<div class="mb-6 col-span-2 sm:col-span-1">
-						<label for="Rc Number" class="fs-14 tx-666666 fw-600">Registration Number</label>
+						<div class="flex items-center">
+							<label for="Rc Number" class="fs-14 tx-666666 fw-600">Registration Number</label>
+							<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+						</div>
 						<div class="relative">
 							<Field
 								id="rcNumber"
@@ -452,9 +477,12 @@
 					</div>
 				</div>
 				<div class="mb-8">
-					<label for="Upload ID" class="fs-14 fw-400 tx-666666"
-						>Upload Incorporation Document</label
-					>
+					<div class="flex items-center">
+						<label for="Upload ID" class="fs-14 fw-400 tx-666666"
+							>Upload Incorporation Document</label
+						>
+						<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+					</div>
 					<div @click="chooseFiles" class="relative">
 						<input
 							readonly

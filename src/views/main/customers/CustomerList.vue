@@ -27,6 +27,8 @@
 					<option>2</option>
 					<option>3</option>
 				</select>
+
+				<!-- {{ loading }} -->
 				<!-- </div> -->
 				<!-- <div class="relative">
 					<Listbox as="div" v-model="selected">
@@ -205,7 +207,7 @@
 									<tbody class="bg-white divide-y divide-gray-100">
 										<tr class="" v-for="customer in customers" :key="customer.customerId">
 											<td class="pr-6 pl-4 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ customer.customerId }}
+												{{ customer.userId }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 												{{ customer.customerName }}
@@ -342,7 +344,7 @@ export default {
 				},
 				(error) => {
 					loading.value = false;
-					Log.info(error);
+					Log.error(error);
 				}
 			);
 		};
@@ -385,9 +387,14 @@ export default {
 			getAllCustomers();
 		});
 
-		watch(searchText, (newValue) => {
+		watch(searchText, (newValue, oldValue) => {
 			Log.info(newValue);
-			customerSearch();
+			if (newValue.length < oldValue.length && newValue.length === 0) {
+				Log.info("Do Query");
+				getAllCustomers();
+			} else {
+				customerSearch();
+			}
 		});
 
 		return {

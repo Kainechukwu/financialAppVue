@@ -78,18 +78,18 @@
 				</div>
 				<div v-if="currency === 'NGN'" class="flex justify-between">
 					<span class="fw-400 fs-12 tx-666666"
-						>Ledger: <span class="blacktext">N{{ availableBalance }}</span></span
+						>Ledger: <span class="blacktext">N{{ ledgerBalance }}</span></span
 					>
 					<span class="fw-400 fs-12 tx-666666"
-						>Pending: <span class="blacktext">N{{ availableBalance }}</span></span
+						>Pending: <span class="blacktext">N{{ pendingInvestment }}</span></span
 					>
 				</div>
 				<div class="flex justify-between" v-else-if="currency === 'USD'">
 					<span class="fw-400 fs-12 tx-666666"
-						>Ledger: <span class="blacktext">${{ availableBalance }}</span></span
+						>Ledger: <span class="blacktext">${{ ledgerBalance }}</span></span
 					>
 					<span class="fw-400 fs-12 tx-666666"
-						>Pending: <span class="blacktext">${{ availableBalance }}</span></span
+						>Pending: <span class="blacktext">${{ pendingInvestment }}</span></span
 					>
 				</div>
 
@@ -109,6 +109,7 @@
 						<span class="my-auto">Withdraw</span>
 					</div>
 				</div>
+				<!-- {{ interestRate }} -->
 				<!-- <span>{{ totalWithPerSecInterest }}</span> -->
 
 				<!-- <slot></slot> -->
@@ -146,10 +147,13 @@ export default {
 		onMounted(() => {
 			// Log.info("navigator:" + JSON.stringify(window.navigator.userAgent));
 			// Log.info("us" + ua.name );
-			getInterestRate();
+			// getInterestRate();
+			getSuprbizRate();
 			// Log.info("rerender:" + JSON.stringify(rerender));
-			getBalance();
+			// getBalance();
 			setInterval(add, 1000);
+			getWalletBalance();
+			getPendingInvestment();
 			getCustomerNaijaBankAccountDetails();
 		});
 
@@ -160,7 +164,9 @@ export default {
 		const totalBalance = ref("0.00");
 		const isNigerian = UserInfo.isNigerian();
 		const total = ref(0);
+
 		const availableBalance = ref("0.00");
+		const pendingInvestment = ref("0.00");
 		const principalBalance = ref(0);
 		const walletBalance = ref(0);
 		const ledgerBalance = ref(0);
@@ -172,7 +178,7 @@ export default {
 		// const d = ref(computed(() => new Date()));
 
 		// const interestPerSecond = computed(() => interestCalculation());
-		const customerId = store.getters["authToken/userId"];
+		// const customerId = store.getters["authToken/userId"];
 		// const currentdate = ref(new Date());
 
 		const totalWithPerSecInterest = computed(() => {
@@ -212,11 +218,58 @@ export default {
 			}
 		};
 
-		const getBalance = () => {
-			UserInfo.accountBalance(
-				customerId,
+		const getWalletBalance = () => {
+			if (props.currency === "NGN") {
+				localWalletBalance();
+			} else if (props.currency === "USD") {
+				usdWalletBalance();
+			}
+		};
+
+		const getPendingInvestment = () => {
+			if (props.currency === "NGN") {
+				localPendingInvestment();
+			} else if (props.currency === "USD") {
+				usdPendingInvestment();
+			}
+		};
+
+		const localPendingInvestment = () => {
+			CustomerService.customerPendingInvestment(
+				1,
 				(response) => {
-					Log.info(response);
+					Log.info("customerPendingInvestment: " + JSON.stringify(response));
+					pendingInvestment.value = Util.currencyFormatter(
+						response.data.data.amount,
+						Constants.currencyFormat
+					);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
+		const usdPendingInvestment = () => {
+			CustomerService.customerPendingInvestment(
+				2,
+				(response) => {
+					Log.info("customerPendingInvestment: " + JSON.stringify(response));
+					pendingInvestment.value = Util.currencyFormatter(
+						response.data.data.amount,
+						Constants.currencyFormat
+					);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
+		const localWalletBalance = () => {
+			CustomerService.localWalletBalance(
+				(response) => {
+					Log.info("LocalBalance: " + JSON.stringify(response));
 					const balance = response.data.data;
 					principalBalance.value = balance.principalBalance;
 					ledgerBalance.value = balance.ledgerBalance;
@@ -229,17 +282,76 @@ export default {
 						principalBalance.value + balance.interestBalance,
 						Constants.currencyFormat
 					);
-					// interestBalance.value = Util.currencyFormatter(
-					// 	balance.interestBalance,
-					// 	Constants.currencyFormat
-					// );
 				},
 				(error) => {
-					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
 					Log.error(error);
 				}
 			);
 		};
+
+		const usdWalletBalance = () => {
+			CustomerService.usdWalletBalance(
+				(response) => {
+					Log.info("usdBalance: " + JSON.stringify(response));
+					const balance = response.data.data;
+					principalBalance.value = balance.principalBalance;
+					ledgerBalance.value = balance.ledgerBalance;
+					walletBalance.value = principalBalance.value - ledgerBalance.value;
+
+					total.value = principalBalance.value + balance.interestBalance + balance.suspenseBalance;
+
+					totalBalance.value = Util.currencyFormatter(total.value, Constants.currencyFormat);
+					availableBalance.value = Util.currencyFormatter(
+						principalBalance.value + balance.interestBalance,
+						Constants.currencyFormat
+					);
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
+		const getSuprbizRate = () => {
+			CustomerService.getSuprbizRate(
+				(response) => {
+					Log.info(response);
+					interestRate.value = response.data.data;
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
+		// const getBalance = () => {
+		// 	UserInfo.accountBalance(
+		// 		customerId,
+		// 		(response) => {
+		// 			Log.info(response);
+		// 			const balance = response.data.data;
+		// 			principalBalance.value = balance.principalBalance;
+		// 			ledgerBalance.value = balance.ledgerBalance;
+		// 			walletBalance.value = principalBalance.value - ledgerBalance.value;
+
+		// 			total.value = principalBalance.value + balance.interestBalance + balance.suspenseBalance;
+
+		// 			totalBalance.value = Util.currencyFormatter(total.value, Constants.currencyFormat);
+		// 			availableBalance.value = Util.currencyFormatter(
+		// 				principalBalance.value + balance.interestBalance,
+		// 				Constants.currencyFormat
+		// 			);
+		// 			// interestBalance.value = Util.currencyFormatter(
+		// 			// 	balance.interestBalance,
+		// 			// 	Constants.currencyFormat
+		// 			// );
+		// 		},
+		// 		(error) => {
+		// 			Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+		// 			Log.error(error);
+		// 		}
+		// 	);
+		// };
 
 		const getCustomerNaijaBankAccountDetails = () => {
 			if (props.currency === "NGN") {
@@ -265,18 +377,18 @@ export default {
 			}
 		};
 
-		const getInterestRate = () => {
-			UserInfo.getInterestRate(
-				(response) => {
-					Log.info(response);
-					interestRate.value = response.data.data / 100;
-					// interestAdjustMent();
-				},
-				(error) => {
-					Log.error(error);
-				}
-			);
-		};
+		// const getInterestRate = () => {
+		// 	UserInfo.getInterestRate(
+		// 		(response) => {
+		// 			Log.info(response);
+		// 			interestRate.value = response.data.data / 100;
+		// 			// interestAdjustMent();
+		// 		},
+		// 		(error) => {
+		// 			Log.error(error);
+		// 		}
+		// 	);
+		// };
 
 		const interestAdjustMent = () => {
 			const date = new Date();
@@ -321,7 +433,9 @@ export default {
 			totalWithPerSecInterest,
 			value,
 			totalBalance,
-			availableBalance,
+			interestRate,
+
+			ledgerBalance,
 			interectDecimal,
 			isNigerian,
 			openAddFundsNaija,
@@ -329,6 +443,7 @@ export default {
 			closeAddFundsNaija,
 			goToWithdraw,
 			goToDeposit,
+			pendingInvestment,
 		};
 	},
 };
