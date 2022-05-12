@@ -1,7 +1,7 @@
 <template>
 	<div class="w-full px-10 pb-8">
 		<div class="grid grid-cols-5 mt-12">
-			<div class="col-span-2 mr-4">
+			<div class="col-span-5 sm:col-span-2 mr-4 mb-8">
 				<div class="flex flex-col">
 					<h1 class="blacktext fw-500 fs-18 mb-3">APY Rates</h1>
 					<span class="fs-12 fw-400 tx-666666">Set your rates for your customers</span>
@@ -9,14 +9,15 @@
 			</div>
 			<LoadingInputs v-if="suprbizRateLoading || customerRateLoading" />
 
-			<div v-else class="col-span-3">
+			<div v-else class="col-span-5 sm:col-span-3">
 				<Form @submit="getPin" :validation-schema="schema" v-slot="{ errors }">
 					<div class="flex flex-col w-9/12">
+						<div class="tx-666666 fw-500 fs-18 mb-3">USD</div>
 						<div class="flex flex-col">
 							<!-- <span class="blacktext fw-500 fs-14 mb-4">Suprbiz Rates</span> -->
-							<div class="grid grid-cols-1 gap-4">
-								<div class="mb-8 col-span-1">
-									<label for="Buy" class="fs-14 fw-400 tx-666666">Suprbiz Rates</label>
+							<div class="grid grid-cols-2 gap-4">
+								<div class="mb-4 md:mb-8 col-span-2 md:col-span-1">
+									<label for="Buy" class="fs-14 fw-400 tx-666666">Our Rates</label>
 									<input
 										readonly
 										id="Buy"
@@ -29,24 +30,53 @@
 									/>
 									<!-- <div class="invalid-feedback text-red-500">{{ errors.suprbizRates }}</div> -->
 								</div>
-							</div>
 
-							<!-- ----------  -->
-
-							<div class="grid grid-cols-1 gap-4">
-								<div class="mb-8 col-span-1">
+								<div class="mb-8 col-span-2 md:col-span-1">
 									<label for="Buy" class="fs-14 fw-400 tx-666666">Your Rates</label>
 									<Field
 										id="Buy"
-										name="yourRates"
-										v-model="yourRate"
+										name="yourUSDRates"
+										v-model="yourUSDRate"
 										type="number"
 										autocomplete="off"
 										required=""
 										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
-										:class="{ 'is-invalid': errors.yourRates }"
+										:class="{ 'is-invalid': errors.yourUSDRates }"
 									/>
-									<div class="invalid-feedback text-red-500">{{ errors.yourRates }}</div>
+									<div class="invalid-feedback text-red-500">{{ errors.yourUSDRates }}</div>
+								</div>
+							</div>
+
+							<!-- ----------  -->
+							<div class="tx-666666 fw-500 fs-18 mb-3">NGN</div>
+							<div class="grid grid-cols-2 gap-4">
+								<div class="mb-4 md:mb-8 col-span-2 md:col-span-1">
+									<label for="Buy" class="fs-14 fw-400 tx-666666">Our Rates</label>
+									<input
+										readonly
+										id="Buy"
+										name="suprbizRates"
+										v-model="suprbizRate"
+										type="number"
+										autocomplete="off"
+										required=""
+										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
+									/>
+									<!-- <div class="invalid-feedback text-red-500">{{ errors.suprbizRates }}</div> -->
+								</div>
+								<div class="mb-8 col-span-2 md:col-span-1">
+									<label for="Buy" class="fs-14 fw-400 tx-666666">Your Rates</label>
+									<Field
+										id="Buy"
+										name="yourNGNRates"
+										v-model="yourNGNRate"
+										type="number"
+										autocomplete="off"
+										required=""
+										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
+										:class="{ 'is-invalid': errors.yourNGNRates }"
+									/>
+									<div class="invalid-feedback text-red-500">{{ errors.yourNGNRates }}</div>
 								</div>
 							</div>
 
@@ -103,16 +133,29 @@ export default {
 		const customerRateLoading = ref(false);
 		const isPinAuthOpen = ref(false);
 		const suprbizRate = ref(null);
-		const yourRate = ref(null);
+		const yourUSDRate = ref(null);
+		const yourNGNRate = ref(null);
 		const ratesDetails = ref({
-			interestPercent: 0,
+			rates: [
+				{
+					interestPercent: 0,
+					product: "USD",
+				},
+				{
+					interestPercent: 0,
+					product: "NGN",
+				},
+			],
 			pin: "",
 		});
 
 		const schema = Yup.object().shape({
 			// suprbizRates: Yup.string(),
-			yourRates: Yup.number()
-				.typeError("Rates is required and must be a number")
+			yourUSDRates: Yup.number()
+				.typeError("USD rates is required and must be a number")
+				.required("Your rate is required"),
+			yourNGNRates: Yup.number()
+				.typeError("NGN rates is required and must be a number")
 				.required("Your rate is required"),
 		});
 
@@ -130,10 +173,15 @@ export default {
 			CustomerService.getCustomerRate(
 				(response) => {
 					customerRateLoading.value = false;
-					Log.info(response);
-					if (response.data.data > 0) {
-						yourRate.value = response.data.data;
-					}
+					Log.info("customer-rate" + JSON.stringify(response));
+					const rates = response.data.data;
+					rates.forEach((rate) => {
+						if (rate.product === "USD" && rate.interestPercent > 0) {
+							yourUSDRate.value = rate.interestPercent;
+						} else if (rate.product === "NGN" && rate.interestPercent > 0) {
+							yourNGNRate.value = rate.interestPercent;
+						}
+					});
 				},
 				(error) => {
 					customerRateLoading.value = false;
@@ -160,7 +208,8 @@ export default {
 
 		const getPin = (values) => {
 			Log.info(JSON.stringify(values));
-			ratesDetails.value.interestPercent = Number(values.yourRates);
+			ratesDetails.value.rates[0].interestPercent = Number(values.yourUSDRates);
+			ratesDetails.value.rates[1].interestPercent = Number(values.yourNGNRates);
 			openPinAuth();
 		};
 
@@ -195,7 +244,8 @@ export default {
 			openPinAuth,
 			closePinAuth,
 			isPinAuthOpen,
-			yourRate,
+			yourUSDRate,
+			yourNGNRate,
 			suprbizRateLoading,
 			customerRateLoading,
 		};

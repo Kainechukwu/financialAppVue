@@ -27,7 +27,10 @@
 				<!-- --------------- -->
 				<div class="grid grid-cols-2 sm:gap-4">
 					<div class="mb-6 col-span-2 sm:col-span-1">
-						<label for="Bank Name" class="fs-14 fw-400 tx-666666">Bank Name</label>
+						<div class="flex items-center">
+							<label for="Bank Name" class="fs-14 fw-400 tx-666666">Bank Name</label>
+							<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+						</div>
 						<Field
 							id="Bank Name"
 							name="bankName"
@@ -60,7 +63,10 @@
 
 				<!-- ---------------- -->
 				<div class="mb-6">
-					<label for="Bank Address" class="fs-14 fw-400 tx-666666">Bank Address</label>
+					<div class="flex items-center">
+						<label for="Bank Address" class="fs-14 fw-400 tx-666666">Bank Address</label>
+						<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+					</div>
 					<Field
 						id="Bank Address"
 						name="bankAddress"
@@ -95,7 +101,10 @@
 					</div>
 
 					<div class="mb-6 col-span-2 md:col-span-1">
-						<label for="Account Name" class="fs-14 fw-400 tx-666666">Account Name</label>
+						<div class="flex items-center">
+							<label for="Account Name" class="fs-14 fw-400 tx-666666">Account Name</label>
+							<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+						</div>
 						<Field
 							id="Account Name"
 							name="accountName"
@@ -112,7 +121,10 @@
 
 				<div class="grid grid-cols-2 sm:gap-4">
 					<div class="mb-6 col-span-2 sm:col-span-1">
-						<label for="Account Number" class="fs-14 fw-400 tx-666666">Account Number</label>
+						<div class="flex items-center">
+							<label for="Account Number" class="fs-14 fw-400 tx-666666">Account Number</label>
+							<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+						</div>
 						<Field
 							id="Account Number"
 							name="accountNumber"

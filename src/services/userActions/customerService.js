@@ -94,9 +94,15 @@ export default class CustomerService {
 	}
 
 
-	static getCustomerTransactions(PageNumber, PageSize, successHandler, errorHandler) {
+	static getCustomerTransactions(PageNumber, PageSize, from, to, type, product, successHandler, errorHandler) {
 
-		Web.getCustomer(Constants.API_BASE + `/Transactions/customer/transactions?PageNumber=${PageNumber}&PageSize=${PageSize}`, successHandler, errorHandler)
+		Web.getCustomer(Constants.API_BASE + `/Transactions/customer/transactions?PageNumber=${PageNumber}&PageSize=${PageSize}&From=${from}&To=${to}&type=${type}&product=${product}`, successHandler, errorHandler)
+
+	}
+
+	static searchCustomerTransactions(searchText, pageSize, pageNumber, successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Transactions/merchant/search?PageNumber=${pageNumber}&PageSize=${pageSize}&searchText=${searchText}`, successHandler, errorHandler)
 
 	}
 
@@ -179,6 +185,38 @@ export default class CustomerService {
 		Web.getCustomer(Constants.API_BASE + `/Transactions/merchant/transactions?PageNumber=${pageNumber}&PageSize=${pageSize}&Status=${status}&Type=${type}&Origin=${origin}&Source=${source}&From=${from}&To=${to}`, successHandler, errorHandler)
 
 	}
+
+	static searchMerchantTransactions(searchText, source, pageSize, pageNumber, successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Transactions/merchant/search?searchText=${searchText}&source=${source}&pageSize=${pageSize}&pageNumber=${pageNumber}`, successHandler, errorHandler)
+
+	}
+
+	static localWalletBalance(successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Wallets/local-balance`, successHandler, errorHandler)
+
+	}
+
+	static usdWalletBalance(successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Wallets/usd-balance`, successHandler, errorHandler)
+
+	}
+
+	static getCustomerEarnings(period, type, successHandler, errorHandler) {
+		Web.getCustomer(Constants.API_BASE + `/Wallets/get-earnings?period=${period}&type=${type}`, successHandler, errorHandler)
+
+
+	}
+
+	static customerPendingInvestment(type, successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Wallets/pending-investment?type=${type}`, successHandler, errorHandler)
+
+	}
+
+
 
 
 
