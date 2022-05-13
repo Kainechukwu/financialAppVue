@@ -175,6 +175,24 @@ input[type="number"] {
   font-weight: 700;
 }
 
+.bg-Approved {
+  background-color: #d2f9ed;
+  color: #18ae81;
+}
+.bg-Expired {
+  background-color: #ffe8e5;
+  color: #ff4d4f;
+}
+.bg-Pending {
+  background-color: #fbecd0;
+  color: #cc890f;
+}
+
+.bg-Created {
+  background-color: #e6edff;
+  color: #00267a;
+}
+
 .greenButton {
   background-color: #1ed69e;
 }

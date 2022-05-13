@@ -8,15 +8,7 @@
 					<h1 class="blacktext fw-500 fs-18 mb-8">Personal Information</h1>
 				</div>
 			</div>
-			<StaticProfileSettings
-				v-if="
-					profileData &&
-					profileData.phoneNumber &&
-					profileData.phoneNumber === null &&
-					profileData.phoneNumber.length > 0
-				"
-				:details="profileData"
-			/>
+			<StaticProfileSettings v-if="isPhoneNumberVerified" :details="profileData" />
 			<div v-else class="col-span-3">
 				<Form @submit="updateProfile" :validation-schema="schema" v-slot="{ errors }">
 					<div class="flex flex-col w-9/12">
@@ -97,14 +89,14 @@
 								<Field
 									id="Date of Birth"
 									name="dob"
-									:type="isProfileUpdated ? 'text' : 'date'"
+									type="date"
 									autocomplete="off"
 									v-model="dob"
 									required=""
 									class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 									:class="{ 'is-invalid': errors.dob }"
 								/>
-								<div v-if="!isProfileUpdated" class="invalid-feedback text-red-500">
+								<div class="invalid-feedback text-red-500">
 									{{ errors.dob }}
 								</div>
 							</div>
@@ -120,6 +112,7 @@
 										>Resend OTP</span
 									>
 								</div>
+								<!-- {{ otpPhoneNumberModal }} -->
 								<button
 									:disabled="submitLoading"
 									type="submit"
@@ -171,20 +164,28 @@ export default {
 		const store = useStore();
 		// const profileUpdate = ApiResource.create();
 		const submitLoading = ref(false);
+		// const otpPhoneNumberModal = computed(() => store.state.otpPhoneNumberModal);
+		const isPhoneNumberVerified = store.getters["authToken/isPhoneNumberVerified"];
 		const phoneNumCheck = computed(() => store.getters["authToken/phoneNumber"]);
 		const userId = store.getters["authToken/userId"];
 		// const isProfileUpdated = computed(() => store.getters["authToken/isProfileUpdated"]);
 		const profileData = ref({});
 		const userProfile = reactive({
-			email: store.getters["authToken/email"],
-			dob: "",
+			email: computed(() => store.getters["authToken/email"]),
+			dob: computed(() =>
+				store.getters["authToken/dob"]
+					? Util.formatTime("06/02/1990", "DD/MM/YYYY", "YYYY-MM-DD")
+					: ""
+			),
 			// dob: store.getters["authToken/dob"],
 			// .length > 0
 			// 	? computed(() => store.getters["authToken/dob"])
 			// 	: "",
 			firstName: computed(() => store.getters["authToken/firstName"]),
-			lastName: store.getters["authToken/lastName"],
-			phoneNo: store.getters["authToken/phoneNumber"] ? store.getters["authToken/phoneNumber"] : "",
+			lastName: computed(() => store.getters["authToken/lastName"]),
+			phoneNo: computed(() =>
+				store.getters["authToken/phoneNumber"] ? store.getters["authToken/phoneNumber"] : ""
+			),
 
 			// userType: "Corporate",
 			// accountCreated: false,
@@ -224,7 +225,7 @@ export default {
 				merchantId: store.getters["authToken/userId"],
 				firstName: values.firstName,
 				lastName: values.lastName,
-				// dob: new Date(values.dob),
+				email: values.email,
 				dob: values.dob,
 				phoneNumber: values.phoneNo,
 			};
@@ -237,13 +238,15 @@ export default {
 				(response) => {
 					submitLoading.value = false;
 					Log.info("profileUpdate response" + String(response));
+					Log.info("profileUpdate userDetails" + String(userDetails));
 
-					store.commit("setOtpPhoneNumberModal", true);
 					store.commit("authToken/phoneNumber", userDetails.phoneNumber);
 					store.commit("authToken/firstName", userDetails.firstName);
 					store.commit("authToken/lastName", userDetails.lastName);
-					store.commit("authToken/email", userDetails.values.email);
-					store.commit("authToken/dob", userDetails.values.dob);
+					store.commit("authToken/email", userDetails.email);
+					store.commit("authToken/dob", userDetails.dob);
+
+					store.commit("setOtpPhoneNumberModal", true);
 
 					// Util.handleGlobalAlert(true, "success", response.data.message);
 				},
@@ -278,7 +281,9 @@ export default {
 			phoneNumCheck,
 			// isProfileUpdated,
 			profileData,
+			isPhoneNumberVerified,
 			resendPhonenumberConfirmation,
+			// otpPhoneNumberModal,
 		};
 	},
 };
