@@ -499,18 +499,14 @@
 												{{ transaction.transactionType }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ transaction.transactionDate }}
+												{{ dateFormat(transaction.transactionDate) }}
 											</td>
 
 											<td style="color: #18ae81" class="px-6 py-4 whitespace-nowrap fs-12 fw-600">
 												<div
+													:class="displayStyle(transaction.transactionStatus)"
 													class="flex justify-center items-center h-8"
-													:class="
-														transaction.transactionStatus === 'Successful'
-															? 'bg-success'
-															: 'bg-failed'
-													"
-													style="border-radius: 100px; max-width: 93px"
+													style="border-radius: 100px; min-width: 93px"
 												>
 													{{ transaction.transactionStatus }}
 												</div>
@@ -576,7 +572,7 @@
 <script>
 import CustomerService from "@/services/userActions/customerService.js";
 import { onMounted, ref, reactive, watch, toRefs } from "vue";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 // import { useRoute } from "vue-router";
 import TableSkeleton from "@/components/skeletons/TableSkeletons.vue";
 import {
@@ -787,6 +783,24 @@ export default {
 			button.click();
 		};
 
+		const dateFormat = (date) => {
+			const d = Util.formatTime(date, "YYYY-MM-DD HH:mm:ss.SSSS", "MMM DD ddd YYYY hh:mm a");
+			return d;
+		};
+
+		const displayStyle = (status) => {
+			Log.info("Status: " + status);
+			if (status === "Successful") {
+				return "bg-Approved";
+			} else if (status === "Failed" || status === "Declined" || status === "Expired") {
+				return "bg-Expired";
+			} else if (status === "Pending") {
+				return "bg-Pending";
+			} else if (status === "Created") {
+				return "bg-Created";
+			}
+		};
+
 		watch(
 			() => state.pageNumber,
 			(newValue) => {
@@ -818,19 +832,30 @@ export default {
 			sources,
 			clear,
 			searchText,
+			displayStyle,
+			dateFormat,
 		};
 	},
 };
 </script>
 
 <style lang="scss" scoped>
-.bg-success {
+.bg-Approved {
 	background-color: #d2f9ed;
 	color: #18ae81;
 }
-.bg-failed {
+.bg-Expired {
 	background-color: #ffe8e5;
 	color: #ff4d4f;
+}
+.bg-Pending {
+	background-color: #fbecd0;
+	color: #cc890f;
+}
+
+.bg-Created {
+	background-color: #e6edff;
+	color: #00267a;
 }
 
 .select {

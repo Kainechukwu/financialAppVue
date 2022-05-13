@@ -124,6 +124,7 @@
 										<ListboxOptions
 											class="absolute z-10 w-full bg-white shadow-lg max-h-60 rounded-b-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
 										>
+											<!-- ListboxOption v-if=""></ -->
 											<ListboxOption
 												as="template"
 												v-for="currency in currencies"
@@ -381,7 +382,14 @@ export default {
 			requestLoading.value = true;
 			UserActions.getAllRates(
 				(response) => {
-					currencies.value = response.data.data;
+					if (transType === 0) {
+						currencies.value = response.data.data;
+					} else if (transType === 1) {
+						currencies.value.push(
+							response.data.data.find((currency) => (currency.currency = "USD"))
+						);
+					}
+
 					selected.value = currencies.value.length > 0 ? currencies.value[0] : {};
 
 					// rate.value = computed(() => depositAmount.value / selected.value.sellingRate);
@@ -389,7 +397,7 @@ export default {
 					rateId.value = selected.value.id;
 
 					// Log.info(rate);
-					Log.info("curbelow");
+					// Log.info("curbelow");
 					Log.info("currency: " + JSON.stringify(currencies.value));
 					// Log.info("rateId:" + rateId.value);
 					// Log.info(selected.value);
@@ -535,6 +543,7 @@ export default {
 			goToRootPage,
 			increaseStep,
 			setMoneySent,
+			transType,
 		};
 	},
 };
