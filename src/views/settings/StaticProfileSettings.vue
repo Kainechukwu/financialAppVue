@@ -1,13 +1,13 @@
 /*eslint quote-props: ["error", "consistent-as-needed"]*/
 
 <template>
-	<div class="col-span-3">
+	<div class="col-span-5 sm:col-span-3">
 		<div>
-			<div class="flex flex-col w-9/12">
+			<div class="flex flex-col w-full">
 				<div class="flex flex-col">
-					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-						<div class="md:mb-8 col-span-1">
-							<label for="First Name" class="fs-14 fw-400 tx-666666">First Name</label>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 md:mb-6">
+						<div class="col-span-1">
+							<label for="First Name" class="fs-14 fw-400 tx-666666">First Name </label>
 							<input
 								readonly
 								id="First Name"
@@ -20,7 +20,7 @@
 							/>
 						</div>
 
-						<div class="mb-4 md:mb-8 col-span-1">
+						<div class="col-span-1">
 							<label for="Last Name" class="fs-14 fw-400 tx-666666">Last Name</label>
 							<input
 								readonly
@@ -35,9 +35,9 @@
 						</div>
 					</div>
 
-					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 md:mb-6">
 						<!-- -------------- -->
-						<div class="md:mb-8 col-span-1">
+						<div class="col-span-1">
 							<label for="Email Address" class="fs-14 fw-400 tx-666666">Email Address</label>
 							<input
 								readonly
@@ -52,7 +52,7 @@
 							/>
 						</div>
 
-						<div class="mb-4 md:mb-0 col-span-1">
+						<div class="col-span-1">
 							<label for="Phone No" class="fs-14 tx-666666 fw-600">Phone No</label>
 							<div class="relative">
 								<input
@@ -69,7 +69,7 @@
 						</div>
 					</div>
 
-					<div class="mb-8">
+					<div class="mb-6">
 						<label for="Date of Birth" class="fs-14 fw-400 tx-666666">Date of Birth</label>
 						<input
 							readonly
@@ -89,7 +89,7 @@
 						<button
 							:disabled="true"
 							type="submit"
-							class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
+							class="cursor-pointer opacity-25 greenButton fs-14 fw-500 w-2/4 h-12 br-5 flex items-center justify-center"
 						>
 							<div class="flex items-center justify-center">
 								<span class="text-white">Submit</span>
@@ -103,32 +103,58 @@
 </template>
 
 <script>
-// import { computed, onMounted } from "vue";
+import { onMounted } from "vue";
+import UserActions from "@/services/userActions/userActions.js";
 
-import { reactive, toRefs } from "vue";
+import {
+	// reactive, toRefs,
+	ref,
+} from "vue";
+import { useStore } from "vuex";
+import { Log } from "@/components/util";
 
 /*eslint quote-props: ["error", "consistent"]*/
 
 export default {
 	name: "StaticProfileSettings",
-	props: {
-		details: Object,
-	},
 
-	setup(props) {
-		const userProfile = reactive({
-			email: props.details.email,
-			dob: props.details.dob,
-			firstName: props.details.firstName,
-			lastName: props.details.lastName,
-			phoneNo: props.details.phoneNumber,
-
-			// userType: "Corporate",
-			// accountCreated: false,
+	setup() {
+		onMounted(() => {
+			getProfile();
 		});
+		const store = useStore();
+		const userId = store.getters["authToken/userId"];
+
+		const firstName = ref("");
+		const email = ref("");
+		const dob = ref("");
+		const lastName = ref("");
+		const phoneNo = ref("");
+		const getProfile = () => {
+			UserActions.getProfileDetails(
+				userId,
+				(response) => {
+					const data = response.data.data;
+					firstName.value = data.firstName;
+					email.value = data.email;
+					dob.value = data.dob;
+					lastName.value = data.lastName;
+					phoneNo.value = data.phoneNumber;
+					Log.info("Static profile data: " + JSON.stringify(response));
+				},
+				(error) => {
+					Log.info(error);
+				}
+			);
+		};
 
 		return {
-			...toRefs(userProfile),
+			// profileData,
+			firstName,
+			email,
+			dob,
+			lastName,
+			phoneNo,
 		};
 	},
 };

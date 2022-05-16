@@ -44,6 +44,7 @@
 												>Email Address</label
 											>
 											<Field
+												autofocus
 												id="Email Address"
 												name="email"
 												type="text"
@@ -443,7 +444,14 @@ export default {
 			amount: Yup.string()
 				.required("Amount is required")
 				.matches(/^[0-9]+$/, "Amount must contain only numbers"),
-			email: Yup.string().required("Email is required").email("Email is invalid"),
+			email: Yup.string()
+				.required("Email is required")
+				.email("Email is invalid")
+				.test("exists", "Email must be valid and must belong to a Suprbiz customer", (val) =>
+					customers.value?.length > 0
+						? customers.value.some((customer) => customer.customerEmail === val)
+						: false
+				),
 		});
 
 		// const getBalance = () => {

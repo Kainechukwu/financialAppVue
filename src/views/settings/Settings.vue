@@ -7,7 +7,10 @@
 			<div class="grid grid-cols-5">
 				<div class="col-span-5 bg-white pb-12 br-5">
 					<div class="w-full">
+						<!-- <div class="w-full px-2"> -->
 						<SettingsHeader />
+						<!-- </div> -->
+
 						<router-view></router-view>
 					</div>
 				</div>

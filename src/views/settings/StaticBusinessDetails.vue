@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col">
-		<div class="mb-8">
+		<div class="mb-6">
 			<label for="Company Name" class="fs-14 fw-400 tx-666666">Company Name</label>
 			<input
 				readonly
@@ -15,8 +15,8 @@
 		</div>
 
 		<!-- --------------- -->
-		<div class="grid grid-cols-2 gap-4">
-			<div class="mb-6 col-span-1">
+		<div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+			<div class="col-span-1">
 				<label for="Country of Incorporation" class="fs-14 tx-666666 fw-600"
 					>Country of Incorporation</label
 				>
@@ -34,7 +34,7 @@
 				</div>
 			</div>
 
-			<div class="mb-6 col-span-1">
+			<div class="col-span-1">
 				<label for="Registration Date" class="fs-14 tx-666666 fw-600">Registration Date</label>
 				<div class="relative">
 					<input
@@ -53,8 +53,8 @@
 
 		<!-- -------------- -->
 
-		<div class="grid grid-cols-2 gap-4">
-			<div class="mb-6 col-span-1">
+		<div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+			<div class="col-span-1">
 				<label for="Industry" class="fs-14 tx-666666 fw-600">Industry</label>
 				<div class="relative">
 					<input
@@ -69,7 +69,7 @@
 					/>
 				</div>
 			</div>
-			<div class="mb-6 col-span-1">
+			<div class="col-span-1">
 				<label for="Number of Staff" class="fs-14 tx-666666 fw-600">Number of Staff</label>
 				<div class="relative">
 					<input
@@ -101,8 +101,8 @@
 		</div>
 		<!-- ---------------- -->
 
-		<div class="grid grid-cols-2 gap-4">
-			<div class="mb-6 col-span-1">
+		<div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+			<div class="col-span-1">
 				<label for="Registration Type" class="fs-14 tx-666666 fw-600">Registration Type</label>
 				<div class="relative">
 					<input
@@ -117,7 +117,7 @@
 					/>
 				</div>
 			</div>
-			<div class="mb-6 col-span-1">
+			<div class="col-span-1">
 				<label for="RC Number" class="fs-14 tx-666666 fw-600">Registration Number</label>
 				<div class="relative">
 					<input
@@ -136,7 +136,7 @@
 
 		<!-- ------------------- -->
 
-		<div class="mb-8">
+		<div class="mb-6">
 			<label for="Upload Incorporation Document" class="fs-14 fw-400 tx-666666"
 				>Upload Incorporation Document</label
 			>
@@ -180,8 +180,8 @@
 		</div>
 
 		<!-- --------------------- -->
-		<div class="grid grid-cols-2 gap-4">
-			<div class="mb-6 col-span-2">
+		<div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+			<div class="col-span-2">
 				<label for="Website Url" class="fs-14 tx-666666 fw-600">Website Url</label>
 				<div class="relative">
 					<input
@@ -238,7 +238,7 @@
 		<div class="flex justify-end">
 			<button
 				:disabled="true"
-				class="opacity-25 cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
+				class="opacity-25 cursor-pointer greenButton fs-14 fw-500 w-2/4 h-12 br-5 flex items-center justify-center"
 			>
 				<div class="flex items-center justify-center">
 					<span class="text-white">Save</span>

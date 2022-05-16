@@ -5,11 +5,11 @@
 				<h1 class="blacktext fw-500 fs-18 mb-8">Business Details</h1>
 			</div>
 		</div> -->
-	<div class="col-span-3">
+	<div class="col-span-5 md:col-span-3">
 		<div v-if="businessDetailsLoading">
 			<FormEmptyState />
 		</div>
-		<div v-else class="flex flex-col w-10/12">
+		<div v-else class="flex flex-col w-full lg:w-10/12">
 			<StaticBusinessDetails
 				v-if="
 					businessDetailsData &&
@@ -47,8 +47,8 @@
 				</div>
 
 				<!-- --------------- -->
-				<div class="grid grid-cols-2 sm:gap-4">
-					<div class="mb-6 col-span-2 sm:col-span-1">
+				<div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+					<div class="col-span-1">
 						<div class="relative">
 							<Listbox as="div" v-model="selected">
 								<div class="flex items-center">
@@ -208,7 +208,7 @@
 						</div>
 					</div> -->
 
-					<div class="mb-6 col-span-2 sm:col-span-1">
+					<div class="col-span-1">
 						<div class="flex items-center">
 							<label for="Registration Date" class="fs-14 fw-400 tx-666666"
 								>Registration Date</label
@@ -231,8 +231,8 @@
 
 				<!-- -------------- -->
 
-				<div class="grid grid-cols-2 sm:gap-4">
-					<div class="mb-6 col-span-2 sm:col-span-1">
+				<div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+					<div class="col-span-1">
 						<div class="relative">
 							<Listbox as="div" v-model="selectedIndustry">
 								<div class="flex items-center">
@@ -313,7 +313,7 @@
 							</Listbox>
 						</div>
 					</div>
-					<div class="mb-6 col-span-2 sm:col-span-1">
+					<div class="col-span-1">
 						<label for="Number of Staff" class="mb-2 block fs-14 tx-666666 fw-600"
 							>Number of Staff</label
 						>
@@ -373,8 +373,8 @@
 				</div>
 
 				<!-- ----------------------- -->
-				<div class="grid grid-cols-2 sm:gap-4">
-					<div class="mb-6 col-span-2 sm:col-span-1">
+				<div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+					<div class="col-span-1">
 						<Listbox as="div" v-model="selectedRegType">
 							<div class="flex items-center">
 								<ListboxLabel class="block fs-14 tx-666666 fw-600">
@@ -455,7 +455,7 @@
 							</div>
 						</Listbox>
 					</div>
-					<div class="mb-6 col-span-2 sm:col-span-1">
+					<div class="col-span-1">
 						<div class="flex items-center">
 							<label for="Rc Number" class="fs-14 tx-666666 fw-600">Registration Number</label>
 							<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
@@ -476,7 +476,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="mb-8">
+				<div class="mb-6">
 					<div class="flex items-center">
 						<label for="Upload ID" class="fs-14 fw-400 tx-666666"
 							>Upload Incorporation Document</label
@@ -539,7 +539,7 @@
 					<div class="invalid-feedback text-red-500">{{ fileAttatchedErr }}</div>
 				</div>
 				<!-- ---------------- -->
-				<div class="grid grid-cols-2 xl:gap-4">
+				<div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
 					<div class="mb-6 col-span-2">
 						<label for="Website URL" class="fs-14 fw-400 tx-666666">Website URL</label>
 						<Field
@@ -607,7 +607,7 @@
 					<button
 						type="submit"
 						:disabled="loading"
-						class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
+						class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-12 br-5 flex items-center justify-center"
 					>
 						<div class="flex items-center justify-center">
 							<span class="text-white">Save</span>
