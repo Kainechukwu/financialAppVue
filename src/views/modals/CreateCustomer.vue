@@ -229,7 +229,7 @@ export default {
 			lastName: Yup.string().required("Last Name is required"),
 			email: Yup.string().required("Email Address is required"),
 			fiat: Yup.string().required("Fiat is required"),
-			rate: Yup.string().required("Rate is required"),
+			rate: Yup.string(),
 		});
 
 		const prepareCustomerDetails = (values) => {

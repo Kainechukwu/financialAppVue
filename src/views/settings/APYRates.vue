@@ -153,10 +153,20 @@ export default {
 			// suprbizRates: Yup.string(),
 			yourUSDRates: Yup.number()
 				.typeError("USD rates is required and must be a number")
-				.required("Your rate is required"),
+				.required("Your rate is required")
+				.test(
+					"max",
+					"USD rate must be less than or equal to suprbiz rate",
+					(val) => val <= suprbizRate.value
+				),
 			yourNGNRates: Yup.number()
 				.typeError("NGN rates is required and must be a number")
-				.required("Your rate is required"),
+				.required("Your rate is required")
+				.test(
+					"max",
+					"NGN rate must be less than or equal to suprbiz rate",
+					(val) => val <= suprbizRate.value
+				),
 		});
 
 		const openPinAuth = () => {

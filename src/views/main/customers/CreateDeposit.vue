@@ -380,7 +380,7 @@ export default {
 		const selectedCustomer = ref({});
 		const depositLoading = ref(false);
 		const router = useRouter();
-		const currencies = ref(["NGN"]);
+		const currencies = ref(["NGN", "USD"]);
 
 		// const userId = ref(store.getters["authToken/userId"]);
 
