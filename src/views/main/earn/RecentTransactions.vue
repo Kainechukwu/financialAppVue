@@ -4,7 +4,7 @@
 		<!-- -------Table-------- -->
 		<div class="flex flex-col">
 			<!-- style="min-width: 100%; max-width: 100%" -->
-			<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+			<div class="-my-2 overflow-x-auto innerScrollBar sm:-mx-6 lg:-mx-8">
 				<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 					<div class="overflow-hidden border-b border-gray-100 sm:rounded-lg">
 						<div v-if="depositTransactions.length === 0 && loading">

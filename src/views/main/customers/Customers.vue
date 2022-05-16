@@ -111,7 +111,7 @@
 				<CustomerInterestEarnedPlate />
 			</div>
 			<!-- --------------- -->
-			<div class="flex w-full border-b border-gray-200 mb-6">
+			<div class="flex w-full border-b border-gray-200 mb-6 overflow-x-auto innerScrollBar">
 				<!-- ------------------------- -->
 
 				<!-- ------------------------- -->

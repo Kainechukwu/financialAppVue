@@ -25,6 +25,12 @@ export default class CustomerService {
 
 	}
 
+	static getAllCustomerRates(successHandler, errorHandler) {
+
+		Web.getCustomer(Constants.API_BASE + `/Rates/exchange-rates`, successHandler, errorHandler)
+
+	}
+
 	//Rates
 
 	static saveRate(credentials, successHandler, errorHandler) {
