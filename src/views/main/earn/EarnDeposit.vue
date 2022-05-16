@@ -84,9 +84,7 @@
 				>
 					<EarnDepositLoading v-if="requestLoading" />
 					<div v-else class="flex flex-col px-6 pt-6 pb-9">
-						<span class="fw-400 fs-14 tx-666666 mb-3"
-							>How much would you like to deposit {{ selected }} : {{ rateId }}</span
-						>
+						<span class="fw-400 fs-14 tx-666666 mb-3">How much would you like to deposit </span>
 						<div class="flex br-5 h-12">
 							<Listbox as="div" v-model="selected">
 								<!-- <ListboxLabel class="hidden block fs-14 tx-666666 fw-600"> Currencies </ListboxLabel> -->
