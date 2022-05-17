@@ -488,7 +488,7 @@ export default {
 				CustomerService.transactionDeposit(
 					{
 						rateId: rateId.value,
-						userId: store.getters["authToken/userId"],
+						type: 2,
 						amount: depositAmount.value,
 					},
 					(response) => {

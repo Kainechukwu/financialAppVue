@@ -232,7 +232,7 @@ export default {
 							amountInUst: store.getters["deposit/amountRecieved"],
 							rateId: store.getters["deposit/rateId"],
 							transactionRefCode: bankDetails.transactionRefCode,
-							userId: store.getters["authToken/userId"],
+							type: 2,
 						},
 						(response) => {
 							Log.info(response);

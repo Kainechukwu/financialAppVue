@@ -68,6 +68,26 @@ export default class CustomerService {
 		)
 	}
 
+	// static customerManualDeposit(credentials, successHandler, errorHandler) {
+
+	// 	Web.postCustomer(
+	// 		Constants.API_BASE + "/Transactions/manual-deposit",
+	// 		credentials,
+	// 		successHandler,
+	// 		errorHandler
+	// 	)
+	// }
+
+	// static customerManualDeposit(credentials, successHandler, errorHandler) {
+
+	// 	Web.postCustomer(
+	// 		Constants.API_BASE + "/Transactions/confirm-deposit",
+	// 		credentials,
+	// 		successHandler,
+	// 		errorHandler
+	// 	)
+	// }
+
 	static customerConfirmDeposit(credentials, successHandler, errorHandler) {
 		Web.postCustomer(
 			Constants.API_BASE + "/Transactions/customer/confirm-deposit",

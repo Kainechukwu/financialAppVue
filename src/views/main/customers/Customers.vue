@@ -1,5 +1,5 @@
 <template>
-	<div class="main-page p-8 h-full">
+	<div class="main-page pt-8 px-8 pb-56 h-full">
 		<div class="flex flex-col justify-start">
 			<div class="mb-2 flex justify-between">
 				<h1 class="fw-600 fs-24 blacktext mb-4">Customers</h1>
