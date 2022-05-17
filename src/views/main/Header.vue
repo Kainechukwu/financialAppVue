@@ -42,6 +42,7 @@
 									v-slot="{ active }"
 								>
 									<div
+										id="notification"
 										@click="openNotification(notification)"
 										style="border-bottom: 1px solid #f1f1f1"
 										class="cursor-pointer flex flex-col px-3 py-3"
