@@ -78,18 +78,18 @@
 				</div>
 				<div v-if="currency === 'NGN'" class="flex justify-between">
 					<span class="fw-400 fs-12 tx-666666"
-						>Ledger: <span class="blacktext">N{{ ledgerBalance }}</span></span
+						>Ledger: <span class="blacktext">N{{ formatCurrency(ledgerBalance) }}</span></span
 					>
 					<span class="fw-400 fs-12 tx-666666"
-						>Pending: <span class="blacktext">N{{ pendingInvestment }}</span></span
+						>Pending: <span class="blacktext">N{{ formatCurrency(pendingInvestment) }}</span></span
 					>
 				</div>
 				<div class="flex justify-between" v-else-if="currency === 'USD'">
 					<span class="fw-400 fs-12 tx-666666"
-						>Ledger: <span class="blacktext">${{ ledgerBalance }}</span></span
+						>Ledger: <span class="blacktext">${{ formatCurrency(ledgerBalance) }}</span></span
 					>
 					<span class="fw-400 fs-12 tx-666666"
-						>Pending: <span class="blacktext">${{ pendingInvestment }}</span></span
+						>Pending: <span class="blacktext">${{ formatCurrency(pendingInvestment) }}</span></span
 					>
 				</div>
 
@@ -419,6 +419,10 @@ export default {
 			// Log.info("values: " + value.value);
 		};
 
+		const formatCurrency = (curr) => {
+			return Util.currencyFormatter(curr, Constants.currencyFormat);
+		};
+
 		watch(watchThis, (newValue) => {
 			if (newValue > 0) {
 				interestAdjustMent();
@@ -444,6 +448,7 @@ export default {
 			goToWithdraw,
 			goToDeposit,
 			pendingInvestment,
+			formatCurrency,
 		};
 	},
 };

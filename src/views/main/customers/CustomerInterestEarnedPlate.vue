@@ -148,9 +148,7 @@
 					>
 
 					<div class="inline-block mt-auto">
-						<span class="fw-400 fs-12 tx-666666"
-							>USD Interest: <span class="blacktext">$0.00</span></span
-						>
+						<span class="fw-400 fs-12 tx-666666">USD Interest</span>
 					</div>
 					<!-- <slot></slot> -->
 				</div>
@@ -160,9 +158,7 @@
 					>
 
 					<div class="inline-block mt-auto">
-						<span class="fw-400 fs-12 tx-666666"
-							>NGN Interest: <span class="blacktext">N0.00</span></span
-						>
+						<span class="fw-400 fs-12 tx-666666">NGN Interest</span>
 					</div>
 					<!-- <slot></slot> -->
 				</div>
