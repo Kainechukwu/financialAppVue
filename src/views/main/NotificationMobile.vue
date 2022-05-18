@@ -49,8 +49,17 @@
 						<div class="p-3" v-else-if="notifications.length === 0 && !loading">
 							<span>No notifications</span>
 						</div> -->
-						<div ref="notificationScroll" class="py-1" v-if="notifications.length > 0">
-							<div v-for="notification in notifications" :key="notification.id">
+						<div
+							ref="notificationScroll"
+							id="notificationScrollArea"
+							class="py-1"
+							v-if="notifications.length > 0"
+						>
+							<div
+								class="notification"
+								v-for="notification in notifications"
+								:key="notification.id"
+							>
 								<div
 									@click="openNotification(notification)"
 									style="border-bottom: 1px solid #f1f1f1"
@@ -109,7 +118,7 @@
 import { Log, Util } from "@/components/util";
 import UserActions from "@/services/userActions/userActions.js";
 import NotificationModal from "@/views/modals/NotificationModal.vue";
-import { ref, toRef, onMounted, onUnmounted } from "vue";
+import { ref, toRef, onMounted, onUnmounted, watch } from "vue";
 
 export default {
 	name: "NotificationMobile",
@@ -122,18 +131,18 @@ export default {
 	},
 	setup(props, context) {
 		onMounted(() => {
-			addEvent();
 			getAllNotifications();
 			// Log.info("mobileNotices:" + JSON.stringify(notifications.value));
 		});
 
 		onUnmounted(() => {
-			removeEvent();
+			observer.disconnect();
 		});
 
 		const notifications = ref([]);
 		const userId = toRef(props, "userId");
 		const notificationScroll = ref(null);
+		const notificationItem = ref(null);
 		const pageNumber = ref(1);
 		const totalPages = ref(0);
 		const pageSize = ref(6);
@@ -143,13 +152,24 @@ export default {
 
 		const loading = ref(false);
 
-		const removeEvent = () => {
-			window.removeEventListener("scroll", onScroll);
-		};
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const lastCard = entries[0];
 
-		const addEvent = () => {
-			window.addEventListener("scroll", onScroll);
-		};
+				if (!lastCard.isIntersecting) return;
+
+				if (checkPagesLeft()) {
+					loadMore();
+				}
+
+				observer.unobserve(lastCard.target);
+			},
+			{
+				root: document.querySelector("#notificationScrollArea"),
+				rootMargin: "0px",
+				threshold: 0.5,
+			}
+		);
 
 		const loadMore = () => {
 			busy.value = true;
@@ -182,39 +202,6 @@ export default {
 					Log.error(error);
 				}
 			);
-		};
-
-		const onScroll = () => {
-			if (busy.value) {
-				return;
-			}
-			let element = notificationScroll.value;
-
-			if (element === null) {
-				return;
-			}
-
-			if (element !== null && element.getBoundingClientRect().bottom < window.innerHeight) {
-				if (checkPagesLeft()) {
-					loadMore();
-				}
-			}
-			// Util.throttle({
-			// 	key: "Notifications-infinite-scroll",
-			// 	run: () => {
-			// 		if (busy.value) {
-			// 			return;
-			// 		}
-			// 		let element = notificationScroll.value;
-
-			// 		if (element.getBoundingClientRect().bottom < window.innerHeight) {
-			// 			if (checkPagesLeft()) {
-			// 				loadMore();
-			// 			}
-			// 		}
-			// 	},
-			// 	time: 100,
-			// });
 		};
 
 		const passNotificationInfo = (info) => {
@@ -281,6 +268,19 @@ export default {
 		const close = () => {
 			context.emit("close");
 		};
+
+		watch(notificationScroll, (newValue) => {
+			notificationItem.value = document.querySelector(".notification:last-child");
+			// Log.info("Watched notificationScroll: " + JSON.stringify(newValue));
+
+			if (newValue !== null || undefined) {
+				Log.info("Watched notificationScroll: " + JSON.stringify(newValue));
+
+				observer.observe(notificationItem.value);
+			} else {
+				observer.disconnect();
+			}
+		});
 
 		return {
 			close,
