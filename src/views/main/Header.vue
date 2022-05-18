@@ -1,5 +1,8 @@
 <template>
-	<div style="height: 4.375rem" class="header w-full flex items-center px-8">
+	<div
+		style="height: 4.375rem"
+		class="bg-white sticky top-0 z-30 header w-full flex items-center px-8"
+	>
 		<!-- <div class="block 900:hidden"> -->
 		<MainMenuBtn />
 		<!-- </div> -->
@@ -35,14 +38,19 @@
 							<div class="p-3" v-else-if="notifications.length === 0 && !loading">
 								<span>No notifications</span>
 							</div>
-							<div class="py-1" v-if="notifications.length > 0">
+							<div
+								ref="notificationSection"
+								id="scrollArea"
+								class="py-1"
+								v-if="notifications.length > 0"
+							>
 								<MenuItem
+									class="notificationItem"
 									v-for="notification in notifications"
 									:key="notification.id"
 									v-slot="{ active }"
 								>
 									<div
-										id="notification"
 										@click="openNotification(notification)"
 										style="border-bottom: 1px solid #f1f1f1"
 										class="cursor-pointer flex flex-col px-3 py-3"
@@ -170,7 +178,7 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch } from "vue";
 import NotificationModal from "@/views/modals/NotificationModal.vue";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 // import { DotsVerticalIcon } from '@heroicons/vue/solid'
@@ -198,12 +206,9 @@ export default {
 	},
 	setup() {
 		onMounted(() => {
-			addEvent();
 			getAllNotifications();
 		});
-		onUnmounted(() => {
-			removeEvent();
-		});
+		onUnmounted(() => {});
 		const store = useStore();
 		const isNoticeMobileOpen = ref(false);
 		const notificationOpen = ref(false);
@@ -222,10 +227,31 @@ export default {
 		const totalPages = ref(0);
 		const pageSize = ref(5);
 		const loading = ref(false);
+		const notificationSection = ref(null);
+		const notificationItem = ref(null);
 
 		const passNotificationInfo = (info) => {
 			clickedNotification.value = info;
 		};
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const lastCard = entries[0];
+
+				if (!lastCard.isIntersecting) return;
+
+				if (checkPagesLeft()) {
+					loadMore();
+				}
+
+				observer.unobserve(lastCard.target);
+			},
+			{
+				root: document.querySelector("#scrollArea"),
+				rootMargin: "0px",
+				threshold: 1.0,
+			}
+		);
 
 		const openNotification = (info) => {
 			passNotificationInfo(info);
@@ -290,27 +316,19 @@ export default {
 			enabled.value = !enabled.value;
 		};
 
-		const removeEvent = () => {
-			// window.removeEventListener("scroll", onScroll);
+		const loadMore = () => {
+			busy.value = true;
+			pageNumber.value += 1;
+
+			getAllNotifications();
+
+			busy.value = false;
 		};
 
-		const addEvent = () => {
-			// window.addEventListener("scroll", onScroll);
+		const checkPagesLeft = () => {
+			const bool = Math.ceil(totalPages.value / pageSize.value) > pageNumber.value;
+			return bool;
 		};
-
-		// const loadMore = () => {
-		// 	busy.value = true;
-		// 	pageNumber.value += 1;
-
-		// 	getAllNotifications();
-
-		// 	busy.value = false;
-		// };
-
-		// const checkPagesLeft = () => {
-		// 	const bool = Math.ceil(totalPages.value / pageSize.value) > pageNumber.value;
-		// 	return bool;
-		// };
 
 		const dateFormat = (date) => {
 			const d = Util.formatTime(date, "YYYY-MM-DD HH:mm:ss.SSSS", "MMM DD ddd hh:mm a");
@@ -357,6 +375,20 @@ export default {
 		// 		time: 100,
 		// 	});
 		// };
+
+		watch(notificationSection, (newValue) => {
+			notificationItem.value = document.querySelector(".notificationItem:last-child");
+			// Log.info("Watched notificationSection: " + JSON.stringify(newValue));
+
+			if (newValue !== null || undefined) {
+				Log.info("Watched notificationSection: " + JSON.stringify(newValue));
+
+				observer.observe(notificationItem.value);
+			} else {
+				observer.disconnect();
+			}
+		});
+
 		return {
 			enabled,
 			toggle,
@@ -376,6 +408,7 @@ export default {
 			isNoticeMobileOpen,
 			openNoticeMobile,
 			closeNoticeMobile,
+			notificationSection,
 		};
 	},
 };

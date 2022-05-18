@@ -1,5 +1,5 @@
 <template>
-	<div class="900:ml-64 h-full">
+	<div class="900:ml-64">
 		<Header />
 		<transition name="slideOut">
 			<div

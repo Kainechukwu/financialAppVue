@@ -1,1 +1,0 @@
-const sectionOne = document.querySelector("#notification")
