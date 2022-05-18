@@ -1,12 +1,20 @@
 import store from '@/store';
-import { Log, Web, Util } from '@/components/util';
+import { Log, Util } from '@/components/util';
+import LoginService from "@/services/login/LoginService"
 
 
 const authRoute = async (to, from, next) => {
 	Log.info('Auth Logged In: ' + store.getters['authToken/loggedIn']);
 	Log.info('to meta: ' + JSON.stringify(to.meta));
+	// const authenticated = await store.dispatch("authToken/authenticate");
+	// Log.info("DispatchAuth: " )
+	// if (authenticated) {
+	// 	console.log("authenticated: " + authenticated)
+	// }
 
-	if (store.getters['authToken/loggedIn']) {
+	if (store.getters['authToken/loggedIn']
+		// && authenticated
+	) {
 		// const authenticated = await store.dispatch('authToken/authenticate');
 		// if (!authenticated) {
 		// 	navigateLogin(to, next);
@@ -39,7 +47,8 @@ const authRoute = async (to, from, next) => {
 const navigateLogin = (to, next) => {
 	Log.info(next)
 	store.commit('entryUrl', to.path);
-	Web.navigate('/login');
+	LoginService.handleLogout()
+
 };
 
 

@@ -1,4 +1,6 @@
-import { Log } from "@/components/util";
+import { Log, Web, Constants, Util } from "@/components/util";
+import store from '@/store';
+
 const state = {
 	// username: '',
 	isVerified: false,
@@ -195,7 +197,44 @@ const actions = {
 		setInterval(() => {
 			commit('increment')
 		}, 1000)
-	}
+	},
+
+	refreshToken() {
+		// return new Promise((resolve) => {
+		Web.postRefreshToken(
+			Constants.API_BASE + "/Account/refresh-token",
+			"",
+			store.getters["authToken/refreshToken"],
+
+			(response) => {
+				const data = response.data.data;
+				store.commit("authToken/apiToken", data.jwToken);
+				store.commit("authToken/refreshToken", data.refreshToken);
+
+				Log.info("refreshAuth: " + JSON.stringify(response))
+				// resolve(true);
+			},
+
+			(error) => {
+
+				Log.error("refreshErr: " + JSON.stringify(error))
+				// resolve(false);
+			}
+		);
+		// });
+	},
+	async checkTokenExpiration() {
+		return new Promise((resolve) => {
+			const token = store.getters["authToken/apiToken"];
+			const isTokenValid = Util.tokenValid(Util.parseJwt(token))
+			if (isTokenValid) {
+				resolve(true)
+			} else {
+				resolve(false)
+			}
+
+		});
+	},
 
 };
 

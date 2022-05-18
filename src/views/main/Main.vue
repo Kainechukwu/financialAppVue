@@ -10,7 +10,7 @@
 			</div>
 		</transition>
 		<AutoLogout />
-		<RefreshToken />
+		<!-- <RefreshToken /> -->
 		<div class="900:px-0 900:mx-0">
 			<router-view />
 		</div>
@@ -23,7 +23,7 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import AutoLogout from "@/views/AutoLogout.vue";
 import MainSidebar from "@/views/MainSideBar.vue";
-import RefreshToken from "@/views/RefreshToken.vue";
+// import RefreshToken from "@/views/RefreshToken.vue";
 
 export default {
 	name: "Overview",
@@ -31,7 +31,7 @@ export default {
 		Header,
 		MainSidebar,
 		AutoLogout,
-		RefreshToken,
+		// RefreshToken,
 	},
 	setup() {
 		const store = useStore();

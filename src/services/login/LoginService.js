@@ -100,7 +100,7 @@ export default class LoginService {
 		const data = response.data.data;
 		Log.info("below is data")
 		Log.info(data);
-		store.commit("authToken/apiToken", data.jwToken);
+		store.commit("authToken/apiToken", data.jwToken ? data.jwToken : null);
 
 		store.commit("authToken/isVerified", data.isVerified);
 		store.commit("authToken/userId", data.id);
@@ -119,7 +119,7 @@ export default class LoginService {
 		store.commit("authToken/isKycDone", data.isKycDone);
 
 		//commit refreshToken
-		store.commit("authToken/refreshToken", data.refreshToken)
+		store.commit("authToken/refreshToken", data.refreshToken ? data.refreshToken : null)
 
 		// store.dispatch('authToken/increment')
 		//set interval to call refreshtoken endpoint and pass jwToken
@@ -133,6 +133,6 @@ export default class LoginService {
 
 	static handleLogout() {
 		localStorage.clear();
-
+		Web.navigate('/login');
 	}
 }
