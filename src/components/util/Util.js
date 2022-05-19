@@ -147,11 +147,12 @@ export default class Util {
 
 		// check time of token expiration
 		const expiry = token.exp;
-		Log.info(now)
-		Log.info(expiry)
+		// Log.info(now)
+		// Log.info(expiry)
 
-		Log.info((expiry - now) / 60)
-		//check if current time is before expiration and give buffer (e.g 5mins)  
+		// Log.info((expiry - now) / 60)
+		//check if current time is before expiration and give buffer (e.g 5mins) 
+		//so if time left for token to expire is greater than 5 mins function returns true (i.e token is valid)
 		// Log.info(now < expiry && (expiry - now) / 60 >= 5)
 		return now < expiry && (expiry - now) / 60 >= 5;
 	}
