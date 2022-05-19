@@ -199,7 +199,7 @@ const actions = {
 		}, 1000)
 	},
 
-	refreshToken() {
+	refreshTheToken() {
 		// return new Promise((resolve) => {
 		Web.postRefreshToken(
 			Constants.API_BASE + "/Account/refresh-token",

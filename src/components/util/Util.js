@@ -152,8 +152,8 @@ export default class Util {
 
 		Log.info((expiry - now) / 60)
 		//check if current time is before expiration and give buffer (e.g 5mins)  
-		Log.info(now < expiry && (expiry - now) / 60 >= 19)
-		return now < expiry && (expiry - now) / 60 >= 19;
+		// Log.info(now < expiry && (expiry - now) / 60 >= 5)
+		return now < expiry && (expiry - now) / 60 >= 5;
 	}
 
 

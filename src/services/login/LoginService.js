@@ -75,22 +75,21 @@ export default class LoginService {
 	// 		}
 	// 	)
 	// }
-	// static replaceToken = () => {
-	// 	LoginService.getRefreshToken(
-	// 		store.getters["authToken/refreshToken"],
-	// 		(response) => {
-	// 			const data = response.data.data;
-	// 			store.commit("authToken/apiToken", data.jwToken);
-	// 			store.commit("authToken/refreshToken", data.refreshToken);
-	// 			Log.info("tokenData:" + JSON.stringify(data));
-	// 			let t = 0;
-	// 			Log.info(t++);
-	// 		},
-	// 		(error) => {
-	// 			Log.info("Tokenerror: " + error);
-	// 		}
-	// 	);
-	// };
+	static refreshToken = () => {
+		LoginService.getRefreshToken(
+			store.getters["authToken/refreshToken"],
+			(response) => {
+				const data = response.data.data;
+				store.commit("authToken/apiToken", data.jwToken);
+				store.commit("authToken/refreshToken", data.refreshToken);
+
+				Log.info("refreshAuth: " + JSON.stringify(response))
+			},
+			(error) => {
+				Log.info("Tokenerror: " + error);
+			}
+		);
+	};
 
 
 

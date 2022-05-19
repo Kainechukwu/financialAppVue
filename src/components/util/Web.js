@@ -1,34 +1,20 @@
 import axios from 'axios';
 import store from "@/store";
 import Log from "./Log.js";
+// import Util from "./Util.js";
 import Constants from "./Constants.js";
+// import LoginService from "@/services/login/LoginService.js"
 // import store from "../../store/index.js";
 
 axios.interceptors.request.use(req => {
 
-	// req.headers["user_id"] = localStorage.getItem("user_id");
-	// let tokenIsValid = null
 	const matchingExcludePaths = Constants.authExcludeApiPaths.filter((value) => {
 		req.url = req.url || '';
 		return req.url.indexOf(value) > -1;
 	});
-	// check if token is valid
-
-	const isTokenValid = async () => {
-		const tokenIsValid = await store.dispatch("authToken/checkTokenExpiration");
-		// if (!tokenIsValid) {
-		// 	store.dispatch("authToken/refreshToken");
-		// 	Log.info("is token now Valid: " + JSON.stringify(tokenIsValid))
-		// }
-		Log.info("is token Valid: " + JSON.stringify(tokenIsValid))
-		// return tokenIsValid
-	}
 
 
-
-	//check if url should not exclude authentication
-	if (matchingExcludePaths.length === 0) {
-		isTokenValid()
+	const setHeaders = () => {
 		if (process.env.VUE_APP_BASE_URL
 			&& req.url?.startsWith(process.env.VUE_APP_BASE_URL)
 		) {
@@ -47,6 +33,18 @@ axios.interceptors.request.use(req => {
 		) {
 			req.headers.Authorization = "Bearer " + store.getters['authToken/apiToken'];
 		}
+
+
+		// Log.info("reqH: " + JSON.stringify(req))
+	}
+
+
+
+	//check if url should not exclude authentication
+	if (matchingExcludePaths.length === 0) {
+
+		setHeaders()
+
 	}
 
 	return req;
