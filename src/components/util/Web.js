@@ -1,40 +1,50 @@
 import axios from 'axios';
-// import store from "@/store";
+import store from "@/store";
 import Log from "./Log.js";
+// import Util from "./Util.js";
 import Constants from "./Constants.js";
-import store from "../../store/index.js";
+// import LoginService from "@/services/login/LoginService.js"
+// import store from "../../store/index.js";
 
 axios.interceptors.request.use(req => {
 
-	// req.headers["user_id"] = localStorage.getItem("user_id");
 	const matchingExcludePaths = Constants.authExcludeApiPaths.filter((value) => {
 		req.url = req.url || '';
 		return req.url.indexOf(value) > -1;
 	});
 
-	if (
-		matchingExcludePaths.length === 0
-		&& process.env.VUE_APP_BASE_URL
-		&& req.url?.startsWith(process.env.VUE_APP_BASE_URL)
-	) {
-		req.headers.Authorization = "Bearer " + store.getters['authToken/apiToken'];
+
+	const setHeaders = () => {
+		if (process.env.VUE_APP_BASE_URL
+			&& req.url?.startsWith(process.env.VUE_APP_BASE_URL)
+		) {
+			req.headers.Authorization = "Bearer " + store.getters['authToken/apiToken'];
+		}
+
+		if (process.env.VUE_APP_CUSTOMER_SERVICE
+			&& req.url?.startsWith(process.env.VUE_APP_CUSTOMER_SERVICE)
+		) {
+			req.headers.Authorization = "Bearer " + store.getters['authToken/apiToken'];
+			req.headers.clientKey = store.getters['authToken/clientLiveKey'];
+		}
+
+		if (process.env.VUE_APP_BO_BASE_URL
+			&& req.url?.startsWith(process.env.VUE_APP_BO_BASE_URL)
+		) {
+			req.headers.Authorization = "Bearer " + store.getters['authToken/apiToken'];
+		}
+
+
+		// Log.info("reqH: " + JSON.stringify(req))
 	}
 
-	if (
-		matchingExcludePaths.length === 0
-		&& process.env.VUE_APP_CUSTOMER_SERVICE
-		&& req.url?.startsWith(process.env.VUE_APP_CUSTOMER_SERVICE)
-	) {
-		req.headers.Authorization = "Bearer " + store.getters['authToken/apiToken'];
-		req.headers.clientKey = store.getters['authToken/clientLiveKey'];
-	}
 
-	if (
-		matchingExcludePaths.length === 0
-		&& process.env.VUE_APP_BO_BASE_URL
-		&& req.url?.startsWith(process.env.VUE_APP_BO_BASE_URL)
-	) {
-		req.headers.Authorization = "Bearer " + store.getters['authToken/apiToken'];
+
+	//check if url should not exclude authentication
+	if (matchingExcludePaths.length === 0) {
+
+		setHeaders()
+
 	}
 
 	return req;

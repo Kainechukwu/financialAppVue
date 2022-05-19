@@ -1,18 +1,21 @@
 import store from '@/store';
-import { Log, Web, Util } from '@/components/util';
+import { Log, Util } from '@/components/util';
+import LoginService from "@/services/login/LoginService"
 
 
 const authRoute = async (to, from, next) => {
-	Log.info('Auth Logged In: ' + store.getters['authToken/loggedIn']);
-	Log.info('to meta: ' + JSON.stringify(to.meta));
+	// Log.info('Auth Logged In: ' + store.getters['authToken/loggedIn']);
+	// Log.info('to meta: ' + JSON.stringify(to.meta));
+
 
 	if (store.getters['authToken/loggedIn']) {
-		// const authenticated = await store.dispatch('authToken/authenticate');
-		// if (!authenticated) {
-		// 	navigateLogin(to, next);
-		// } else {
-		// 	let userActive = store.getters['authToken/isUserActive'];
-		// 	if (userActive === true) {
+		//If they are logged in check if their token is valid
+		const tokenIsValid = await store.dispatch("authToken/checkTokenExpiration");
+		if (!tokenIsValid) {
+			//If token is not valid then refresh the token
+			store.dispatch("authToken/refreshTheToken")
+		}
+
 		if (to.meta.auth) {
 			//check if user is authorised to see the page
 			if (Util.checkAuth(to.meta.auth)) {
@@ -24,12 +27,7 @@ const authRoute = async (to, from, next) => {
 		}
 
 		navigatePath(next);
-		// 	} else if (userActive === false) {
-		// 		Web.navigate('/user_activation');
-		// 	} else {
-		// 		Log.warn('userActive flag undefined. Unable to proceed');
-		// 	}
-		// }
+
 	} else {
 		navigateLogin(to, next);
 	}
@@ -39,7 +37,8 @@ const authRoute = async (to, from, next) => {
 const navigateLogin = (to, next) => {
 	Log.info(next)
 	store.commit('entryUrl', to.path);
-	Web.navigate('/login');
+	LoginService.handleLogout()
+
 };
 
 

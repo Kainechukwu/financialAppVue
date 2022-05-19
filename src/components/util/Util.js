@@ -103,7 +103,7 @@ export default class Util {
 	static numWithComma(x) {
 		const parts = x.toString().split(".");
 		parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		// console.log(parts.join("."))
+		// Log.info(parts.join("."))
 		return Number(parts.join("."));
 	}
 
@@ -124,6 +124,37 @@ export default class Util {
 
 		return bool
 
+	}
+
+	static parseJwt(token) {
+		let base64Url = token.split(".")[1];
+		let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+		let jsonPayload = decodeURIComponent(
+			Buffer.from(base64, 'base64').toString('ascii')
+				.split("")
+				.map(function (c) {
+					return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+				})
+				.join("")
+		);
+
+		return JSON.parse(jsonPayload);
+	}
+
+	static tokenValid(token = {}) {
+		//get current time
+		const now = Date.now() / 1000;
+
+		// check time of token expiration
+		const expiry = token.exp;
+		// Log.info(now)
+		// Log.info(expiry)
+
+		// Log.info((expiry - now) / 60)
+		//check if current time is before expiration and give buffer (e.g 5mins) 
+		//so if time left for token to expire is greater than 5 mins function returns true (i.e token is valid)
+		// Log.info(now < expiry && (expiry - now) / 60 >= 5)
+		return now < expiry && (expiry - now) / 60 >= 5;
 	}
 
 

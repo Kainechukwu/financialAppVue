@@ -12,7 +12,7 @@
 import { useStore } from "vuex";
 import { onMounted, onUnmounted, ref, computed } from "vue";
 import LoginService from "@/services/login/LoginService.js";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 
 export default {
 	name: "AutoLogout",
@@ -32,7 +32,7 @@ export default {
 			clearTimeout(logoutTimer.value);
 		});
 		const store = useStore();
-		const router = useRouter();
+		// const router = useRouter();
 
 		const warningTimer = ref(null);
 		const warningZone = ref(false);
@@ -56,8 +56,6 @@ export default {
 
 		const logoutUser = function () {
 			LoginService.handleLogout();
-
-			router.push("/login");
 		};
 		return { isLoggedIn, warningZone };
 	},

@@ -123,7 +123,7 @@ export default {
 		const logout = () => {
 			LoginService.handleLogout();
 			show.state = false;
-			router.push("/login");
+			// router.push("/login");
 		};
 		const firstName = store.getters["authToken/firstName"];
 		const lastName = store.getters["authToken/lastName"];
