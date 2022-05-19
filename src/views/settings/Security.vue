@@ -1,8 +1,8 @@
 <template>
 	<div class="w-full px-10 pb-8">
-		<div class="grid grid-cols-5 mt-12">
-			<div class="col-span-2">
-				<div class="flex flex-col mr-12">
+		<div class="grid grid-cols-5 gap-8 lg:gap-4 mt-12">
+			<div class="col-span-5 sm:col-span-3 md:col-span-2">
+				<div class="flex flex-col">
 					<h1 class="blacktext fw-500 fs-18 mb-8">Change Password</h1>
 					<div class="">
 						<p class="tx-666666 fs-14 fw-400">
@@ -12,12 +12,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-span-3">
+			<div class="col-span-5 sm:col-span-3">
 				<Form
 					@submit="changePassword"
 					:validation-schema="schema"
 					v-slot="{ errors }"
-					class="flex flex-col w-9/12"
+					class="flex flex-col lg:w-9/12"
 				>
 					<div class="flex flex-col">
 						<div class="mb-8">
@@ -68,7 +68,7 @@
 							<button
 								type="submit"
 								:disabled="loading"
-								class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
+								class="cursor-pointer greenButton fs-14 fw-500 w-full sm:w-3/4 md:w-2/4 h-14 br-5 flex items-center justify-center"
 							>
 								<div class="flex items-center justify-center">
 									<span class="text-white">Change Password</span>

@@ -1,7 +1,7 @@
 <template>
 	<div class="w-full px-10 pb-8">
-		<div class="grid grid-cols-5 mt-12">
-			<div class="col-span-5 sm:col-span-2 mr-4 mb-8">
+		<div class="grid grid-cols-5 gap-8 lg:gap-4 mt-12">
+			<div class="col-span-5 sm:col-span-3 md:col-span-2">
 				<div class="flex flex-col">
 					<h1 class="blacktext fw-500 fs-18 mb-3">APY Rates</h1>
 					<span class="fs-12 fw-400 tx-666666">Set your rates for your customers</span>
@@ -11,7 +11,7 @@
 
 			<div v-else class="col-span-5 sm:col-span-3">
 				<Form @submit="getPin" :validation-schema="schema" v-slot="{ errors }">
-					<div class="flex flex-col w-9/12">
+					<div class="flex flex-col lg:w-10/12">
 						<div class="tx-666666 fw-500 fs-18 mb-3">USD</div>
 						<div class="flex flex-col">
 							<!-- <span class="blacktext fw-500 fs-14 mb-4">Suprbiz Rates</span> -->
@@ -84,7 +84,7 @@
 								<button
 									:disabled="saveLoading"
 									type="submit"
-									class="cursor-pointer greenButton fs-14 fw-500 w-2/4 h-14 br-5 flex items-center justify-center"
+									class="cursor-pointer greenButton fs-14 fw-500 w-3/4 sm:w-2/4 h-14 br-5 flex items-center justify-center"
 								>
 									<div class="flex items-center justify-center">
 										<span class="text-white">Save Changes</span>

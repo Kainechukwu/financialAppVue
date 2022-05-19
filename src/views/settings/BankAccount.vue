@@ -5,8 +5,8 @@
 				<h1 class="blacktext fw-500 fs-18 mb-8">Business Details</h1>
 			</div>
 		</div> -->
-	<div class="col-span-3">
-		<div class="flex flex-col w-10/12">
+	<div class="col-span-5 md:col-span-3">
+		<div class="flex flex-col w-full lg:w-10/12">
 			<StaticBankAccount
 				v-if="
 					bankAccountData &&

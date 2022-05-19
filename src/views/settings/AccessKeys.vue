@@ -1,6 +1,6 @@
 <template>
-	<div class="w-full px-10 pb-8 pt-10 grid grid-cols-2">
-		<div class="col-span-1">
+	<div class="w-full px-10 pb-8 pt-10 grid grid-cols-6">
+		<div class="col-span-6 sm:col-span-4 lg:col-span-3">
 			<div class="grid grid-rows-3 gap-5 mb-10">
 				<div class="">
 					<label for="acceskey1" class="fs-14 fw-400 tx-666666">Live Key</label>

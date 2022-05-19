@@ -63,8 +63,8 @@
 									v-slot="{ errors }"
 									class="flex flex-col"
 								>
-									<div class="grid grid-cols-2 gap-4">
-										<div class="mb-6 col-span-1">
+									<div class="grid grid-cols-2 gap-4 mb-6">
+										<div class="col-span-1">
 											<label for="First Name" class="fs-14 fw-400 tx-666666">First Name</label>
 											<Field
 												id="First Name"
@@ -78,7 +78,7 @@
 											<div class="invalid-feedback text-red-500">{{ errors.firstName }}</div>
 										</div>
 
-										<div class="mb-6 col-span-1">
+										<div class="col-span-1">
 											<label for="Last Name" class="fs-14 tx-666666 fw-600">Last Name</label>
 											<div class="relative">
 												<Field
@@ -98,8 +98,8 @@
 										</div>
 									</div>
 
-									<div class="grid grid-cols-2 gap-4">
-										<div class="mb-6 col-span-1">
+									<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+										<div class="col-span-1">
 											<label for="Phone Number" class="fs-14 fw-400 tx-666666">Phone Number</label>
 											<Field
 												id="Phone Number"
@@ -113,7 +113,7 @@
 											<div class="invalid-feedback text-red-500">{{ errors.phoneNumber }}</div>
 										</div>
 
-										<div class="mb-6 col-span-1">
+										<div class="col-span-1">
 											<label for="Email Address" class="fs-14 tx-666666 fw-600"
 												>Email Address</label
 											>
@@ -136,8 +136,8 @@
 									</div>
 
 									<!-- --------------- -->
-									<div class="grid grid-cols-2 gap-4">
-										<div class="mb-6">
+									<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+										<div class="col-span-1">
 											<label for="Date of Birth" class="fs-14 fw-400 tx-666666"
 												>Date of Birth</label
 											>
@@ -153,7 +153,7 @@
 											<div class="invalid-feedback text-red-500">{{ errors.DOB }}</div>
 										</div>
 
-										<div class="mb-6 col-span-1">
+										<div class="col-span-1">
 											<div class="relative">
 												<Listbox as="div" v-model="selected">
 													<ListboxLabel class="block fs-14 tx-666666 fw-600">
@@ -315,7 +315,7 @@
 									</div>
 									<!-- ------------------- -->
 
-									<div class="mb-8">
+									<div class="mb-6">
 										<label for="Address" class="fs-14 fw-400 tx-666666">Address</label>
 										<Field
 											id="Address"
@@ -332,8 +332,8 @@
 
 									<!-- -------------- -->
 
-									<div class="grid grid-cols-2 gap-4">
-										<div class="mb-6 col-span-1">
+									<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+										<div class="col-span-1">
 											<div class="relative">
 												<Listbox as="div" v-model="selectedId">
 													<ListboxLabel class="block fs-14 tx-666666 fw-600">
@@ -413,7 +413,7 @@
 												</Listbox>
 											</div>
 										</div>
-										<div class="mb-6 col-span-1">
+										<div class="col-span-1">
 											<label for="Identification Number" class="mb-2 block fs-14 tx-666666 fw-600"
 												>Identification Number</label
 											>
