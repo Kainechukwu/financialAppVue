@@ -6,7 +6,7 @@
 		<!-- <div class="block 900:hidden"> -->
 		<MainMenuBtn />
 		<!-- </div> -->
-		<div class="flex 900:mr-0 w-full items-center justify-end">
+		<div class="flex w-full items-center justify-end appSpread">
 			<div class="flex mr-8">
 				<div class="md:hidden">
 					<NotificationBell @click="openNoticeMobile" />

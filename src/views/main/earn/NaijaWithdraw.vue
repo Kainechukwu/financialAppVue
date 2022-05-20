@@ -1,6 +1,6 @@
 <template>
 	<div class="main-page pb-8 px-8">
-		<div class="w-full mx-auto mb-64">
+		<div class="w-full mb-64 appSpread">
 			<div>
 				<div style="border-bottom: 1px solid #c7d8ff" class="py-4 pt-6 flex justify-between mb-10">
 					<div @click="goBack" class="flex cursor-pointer items-center">
@@ -22,7 +22,7 @@
 						<span class="blacktext ml-4 fw-600 fs-18"> Withdraw Funds</span>
 					</div>
 
-					<div class="flex text-white">
+					<div class="flex text-white justify-end">
 						<div
 							:class="steps >= 1 ? 'done' : 'undone'"
 							class="flex items-center justify-center h-10 w-10 rounded-full mr-4"
@@ -47,7 +47,7 @@
 						</div>
 						<div
 							:class="steps >= 2 ? 'done' : 'undone'"
-							class="flex items-center justify-center h-10 w-10 rounded-full mr-4"
+							class="flex items-center justify-center h-10 w-10 rounded-full"
 						>
 							<svg
 								v-if="steps > 2"

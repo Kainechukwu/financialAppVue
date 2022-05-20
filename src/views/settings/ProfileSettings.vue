@@ -2,10 +2,10 @@
 
 <template>
 	<div class="w-full px-10 pb-8">
-		<div class="grid grid-cols-5 mt-12">
-			<div class="col-span-5 sm:col-span-2 mr-4">
+		<div class="grid grid-cols-5 gap-8 mt-12">
+			<div class="col-span-5 sm:col-span-3 md:col-span-2">
 				<div class="flex flex-col">
-					<h1 class="blacktext fw-500 fs-18 mb-8">Personal Information</h1>
+					<h1 class="blacktext fw-500 fs-18">Personal Information</h1>
 				</div>
 			</div>
 			<StaticProfileSettings v-if="isPhoneNumberVerified" />
