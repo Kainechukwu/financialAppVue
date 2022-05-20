@@ -6,8 +6,8 @@ export default class UserActions {
 
 
 
-	static getEarnings(userId, period, successHandler, errorHandler) {
-		Web.get(Constants.API_BASE + '/Wallets/get-earnings?userId=' + userId + "&Period=" + period, successHandler, errorHandler)
+	static getEarnings(userId, period, type, successHandler, errorHandler) {
+		Web.get(Constants.API_BASE + '/Wallets/get-earnings?userId=' + userId + "&Period=" + period + "&Type=" + type, successHandler, errorHandler)
 
 	}
 

@@ -159,9 +159,8 @@ export default class Util {
 
 
 
-	// static getId = (obj) => {
-	// 	const id = array.value.find((obj) => obj.name === string).id;
+	static checkIfServerError(status) {
+		return String(status)[0] == 5;
 
-	// 	return id;
-	// };
+	}
 }
