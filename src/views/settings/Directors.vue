@@ -1,6 +1,6 @@
 <template>
-	<div class="col-span-3">
-		<div class="blacktext flex flex-col w-8/12">
+	<div class="col-span-5 sm:col-span-3">
+		<div class="blacktext flex flex-col md:w-10/12 lg:w-8/12">
 			<h1 class="fw-500 fs-18 blacktext">Directors</h1>
 
 			<div v-if="directors.length > 0" class="flex flex-col mt-3 mb-4">
