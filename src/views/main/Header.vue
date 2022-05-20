@@ -1,7 +1,7 @@
 <template>
 	<div
 		style="height: 4.375rem"
-		class="bg-white sticky top-0 z-30 header w-full flex items-center px-8"
+		class="bg-white sticky top-0 z-30 header w-full flex items-center px-4 md:px-8"
 	>
 		<!-- <div class="block 900:hidden"> -->
 		<MainMenuBtn />

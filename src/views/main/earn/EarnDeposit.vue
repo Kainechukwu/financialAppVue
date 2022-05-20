@@ -1,5 +1,5 @@
 <template>
-	<div class="main-page pb-8 px-8">
+	<div class="main-page pb-8 px-4 md:px-8">
 		<div class="w-full appSpread mb-64">
 			<div class="">
 				<div style="border-bottom: 1px solid #c7d8ff" class="py-4 pt-6 flex justify-between mb-10">

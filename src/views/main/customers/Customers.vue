@@ -1,5 +1,5 @@
 <template>
-	<div class="main-page pt-8 px-8 pb-56 h-full">
+	<div class="main-page pt-8 px-4 md:px-8 pb-56 h-full">
 		<div class="flex flex-col justify-start appSpread">
 			<div class="mb-2 flex justify-between">
 				<h1 class="fw-600 fs-24 blacktext mb-4">Customers</h1>
@@ -105,7 +105,9 @@
 				<!-- --------------------- -->
 			</div>
 
-			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+			<div
+				class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-8 xl:gap-4 mb-4"
+			>
 				<CustomerBalanceCard currency="NGN" />
 				<CustomerBalanceCard currency="USD" />
 				<CustomerInterestEarnedPlate />

@@ -1,5 +1,5 @@
 <template>
-	<div class="main-page pb-8 px-8">
+	<div class="main-page pb-8 px-4 md:px-8">
 		<div class="w-full mb-64 appSpread">
 			<!-- <EarnDeposit @rootPage="returnToRoot" v-if="page === 'Earn Deposit'" :page="'Earn Deposit'" /> -->
 			<div class="flex flex-col py-10">

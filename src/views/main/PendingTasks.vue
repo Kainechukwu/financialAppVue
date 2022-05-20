@@ -1,5 +1,5 @@
 <template>
-	<div class="main-page p-8">
+	<div class="main-page py-8 px-4 md:px-8">
 		<div class="flex flex-col justify-start appSpread">
 			<div class="mb-6">
 				<h1 class="fw-600 fs-24 blacktext">Get Started</h1>
