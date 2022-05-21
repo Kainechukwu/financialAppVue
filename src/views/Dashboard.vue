@@ -1,5 +1,5 @@
 <template>
-	<div class="h-full">
+	<div style="min-width: 350px" class="h-full">
 		<div class="hidden 900:block vertical-menu h-full w-64 fixed py-5 px-6 overflow-y-auto">
 			<MainSideBar />
 		</div>
