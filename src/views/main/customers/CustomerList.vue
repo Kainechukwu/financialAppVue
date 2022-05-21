@@ -17,16 +17,16 @@
 				/>
 
 				<!-- <div class=" flex"> -->
-				<select
+				<!-- <select
 					id="location"
 					name="location"
-					class="text-gray-400 block mt-1.5 h-12 w-36 pl-3 pr-10 py-2 focus:outline-none sm:text-sm rounded-md"
+					class=" text-gray-400 block mt-1.5 h-12 w-36 pl-3 pr-10 py-2 focus:outline-none sm:text-sm rounded-md"
 				>
-					<option selected="" class="hidden rounded-md">Filter</option>
+					<option selected="" class="rounded-md">Filter</option>
 					<option>1</option>
 					<option>2</option>
 					<option>3</option>
-				</select>
+				</select> -->
 
 				<!-- {{ loading }} -->
 				<!-- </div> -->

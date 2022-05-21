@@ -5,6 +5,7 @@
 				<h1 class="blacktext fw-500 fs-18 mb-8">Business Details</h1>
 			</div>
 		</div> -->
+	<div>test</div>
 	<div class="col-span-5 md:col-span-3">
 		<div v-if="businessDetailsLoading">
 			<FormEmptyState />
@@ -662,7 +663,7 @@ export default {
 		details: Object,
 		detailsLoading: Boolean,
 	},
-	setup(props) {
+	setup(props, context) {
 		onMounted(() => {
 			UserActions.getCountries(
 				(response) => {
@@ -919,6 +920,7 @@ export default {
 					loading.value = false;
 					// store.commit("authToken/companyName", values.companyName);
 					Util.handleGlobalAlert(true, "success", response.data.message);
+					context.emit("success");
 					Log.info(response);
 					// if (store.getters["authToken/isKycDone"] === false) {
 					// 	router.push("/settings/compliance");

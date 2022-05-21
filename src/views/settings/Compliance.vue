@@ -48,10 +48,15 @@
 
 				<BusinessDetails
 					v-if="currentView === 'BusinessDetails'"
+					@success="changeView('BankAccount')"
 					:details="businessDetailsData"
 					:detailsLoading="businessDetailsLoading"
 				/>
-				<BankAccount v-if="currentView === 'BankAccount'" :details="bankAccountData" />
+				<BankAccount
+					v-if="currentView === 'BankAccount'"
+					@success="changeView('Directors')"
+					:details="bankAccountData"
+				/>
 
 				<Directors
 					v-if="currentView === 'Directors'"

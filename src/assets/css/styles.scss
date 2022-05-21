@@ -321,6 +321,16 @@ input[type="number"] {
   background-color: #f2f6ff;
 }
 
+.customerBalancePopOver {
+  max-width: 17rem;
+}
+
+@media (min-width: 768px) {
+  .customerBalancePopOver {
+    max-width: 20rem;
+  }
+}
+
 .roundLoader {
   border: 6px solid #f3f3f3;
   border-radius: 50%;
