@@ -1,12 +1,12 @@
 <template>
 	<div
 		style="height: 4.375rem"
-		class="bg-white sticky top-0 z-30 header w-full flex items-center px-8"
+		class="bg-white sticky top-0 z-30 header w-full flex items-center px-4 md:px-8"
 	>
 		<!-- <div class="block 900:hidden"> -->
 		<MainMenuBtn />
 		<!-- </div> -->
-		<div class="flex 900:mr-0 w-full items-center justify-end">
+		<div class="flex w-full items-center justify-end appSpread">
 			<div class="flex mr-8">
 				<div class="md:hidden">
 					<NotificationBell @click="openNoticeMobile" />

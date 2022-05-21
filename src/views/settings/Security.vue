@@ -1,11 +1,11 @@
 <template>
 	<div class="w-full px-10 pb-8">
-		<div class="grid grid-cols-5 gap-8 lg:gap-4 mt-12">
+		<div class="grid grid-cols-5 gap-8 mt-12">
 			<div class="col-span-5 sm:col-span-3 md:col-span-2">
 				<div class="flex flex-col">
 					<h1 class="blacktext fw-500 fs-18 mb-8">Change Password</h1>
 					<div class="">
-						<p class="tx-666666 fs-14 fw-400">
+						<p class="tx-666666 fs-12 fw-400">
 							Your password should be at least 8 characters and contain a uppercase, lowercase,
 							number and special character
 						</p>

@@ -208,11 +208,12 @@ export default {
 			UserActions.getEarnings(
 				userId,
 				selected.value.value,
+				0,
 				(response) => {
 					Log.info(response);
 
 					interest.value = Util.currencyFormatter(
-						response.data.data.amountEarned,
+						response.data.data?.amountEarned,
 						Constants.currencyFormat
 					);
 					// Util.handleGlobalAlert(true, "success", "fetched");

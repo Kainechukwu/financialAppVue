@@ -52,7 +52,9 @@
 							leave-from-class="opacity-100 translate-y-0"
 							leave-to-class="opacity-0 translate-y-1"
 						>
-							<PopoverPanel class="absolute right-0 transform px-2 w-screen max-w-xs sm:px-0">
+							<PopoverPanel
+								class="absolute right-0 transform px-2 w-screen customerBalancePopOver sm:px-0 flex flex-wrap"
+							>
 								<div style="background-color: #666666" class="br-5 px-3 py-3">
 									<span class="text-white">
 										Your available balance is the value you can withdraw. Bornfree gives you
@@ -76,7 +78,7 @@
 					>
 					<!-- <img src="totalbalance.jpg" class="h-8 w-8" alt="" /> -->
 				</div>
-				<div v-if="currency === 'NGN'" class="flex justify-between">
+				<div v-if="currency === 'NGN'" class="flex justify-between flex-wrap">
 					<span class="fw-400 fs-12 tx-666666"
 						>Ledger: <span class="blacktext">N{{ formatCurrency(ledgerBalance) }}</span></span
 					>
@@ -84,7 +86,7 @@
 						>Pending: <span class="blacktext">N{{ formatCurrency(pendingInvestment) }}</span></span
 					>
 				</div>
-				<div class="flex justify-between" v-else-if="currency === 'USD'">
+				<div class="flex justify-between flex-wrap" v-else-if="currency === 'USD'">
 					<span class="fw-400 fs-12 tx-666666"
 						>Ledger: <span class="blacktext">${{ formatCurrency(ledgerBalance) }}</span></span
 					>

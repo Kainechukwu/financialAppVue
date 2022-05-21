@@ -219,21 +219,21 @@ export default [
 					// 	name: "Transactions",
 					// 	component: () => import("@/views/main/Transactions.vue")
 					// },
-					{
-						path: "/payouts",
-						name: "Payouts",
-						component: () => import("@/views/main/Payouts.vue")
-					},
-					{
-						path: "/plans",
-						name: "Plans",
-						component: () => import("@/views/main/plans/Plans.vue")
-					},
-					{
-						path: "/merchants",
-						name: "Merchants",
-						component: () => import("@/views/main/Merchants.vue")
-					},
+					// {
+					// 	path: "/payouts",
+					// 	name: "Payouts",
+					// 	component: () => import("@/views/main/Payouts.vue")
+					// },
+					// {
+					// 	path: "/plans",
+					// 	name: "Plans",
+					// 	component: () => import("@/views/main/plans/Plans.vue")
+					// },
+					// {
+					// 	path: "/merchants",
+					// 	name: "Merchants",
+					// 	component: () => import("@/views/main/Merchants.vue")
+					// },
 					{
 						path: "/customers",
 						redirect: "/customers/customer_list",
@@ -277,64 +277,64 @@ export default [
 						name: "DepositFunds",
 						component: () => import("@/views/main/customers/DepositFunds.vue")
 					},
-					{
-						path: "/backOffice/transactions",
-						redirect: "/backoffice/transactions/deposit_list",
-						name: "Transactions",
-						meta: {
-							auth: Constants.backOfficeAuth,
-						},
-						component: () => import("@/views/backoffice/transactions.vue"),
-						children: [
-							{
-								path: "/backoffice/transactions/deposit_list",
-								name: 'Transactions Deposit List',
-								meta: {
-									auth: Constants.backOfficeAuth,
-								},
-								component: () => import("@/views/backoffice/DepositList.vue")
+					// {
+					// 	path: "/backOffice/transactions",
+					// 	redirect: "/backoffice/transactions/deposit_list",
+					// 	name: "Transactions",
+					// 	meta: {
+					// 		auth: Constants.backOfficeAuth,
+					// 	},
+					// 	component: () => import("@/views/backoffice/transactions.vue"),
+					// 	children: [
+					// 		{
+					// 			path: "/backoffice/transactions/deposit_list",
+					// 			name: 'Transactions Deposit List',
+					// 			meta: {
+					// 				auth: Constants.backOfficeAuth,
+					// 			},
+					// 			component: () => import("@/views/backoffice/DepositList.vue")
 
-							},
-							{
-								path: "/backoffice/transactions/withdrawal_list",
-								name: 'Transactions Withdrawal List',
-								meta: {
-									auth: Constants.backOfficeAuth,
-								},
-								component: () => import("@/views/backoffice/WithdrawalList.vue")
+					// 		},
+					// 		{
+					// 			path: "/backoffice/transactions/withdrawal_list",
+					// 			name: 'Transactions Withdrawal List',
+					// 			meta: {
+					// 				auth: Constants.backOfficeAuth,
+					// 			},
+					// 			component: () => import("@/views/backoffice/WithdrawalList.vue")
 
-							}
-						]
-					},
-					{
-						path: "/backOffice/merchants",
-						redirect: "/backoffice/merchants/verified",
-						name: "Merchants",
-						meta: {
-							auth: Constants.backOfficeAuth,
-						},
-						component: () => import("@/views/backoffice/merchants/merchants.vue"),
-						children: [
-							{
-								path: "/backoffice/merchants/verified",
-								name: 'Verified Merchants',
-								meta: {
-									auth: Constants.backOfficeAuth,
-								},
-								component: () => import("@/views/backoffice/merchants/VerifiedCustomers.vue")
+					// 		}
+					// 	]
+					// },
+					// {
+					// 	path: "/backOffice/merchants",
+					// 	redirect: "/backoffice/merchants/verified",
+					// 	name: "Merchants",
+					// 	meta: {
+					// 		auth: Constants.backOfficeAuth,
+					// 	},
+					// 	component: () => import("@/views/backoffice/merchants/merchants.vue"),
+					// 	children: [
+					// 		{
+					// 			path: "/backoffice/merchants/verified",
+					// 			name: 'Verified Merchants',
+					// 			meta: {
+					// 				auth: Constants.backOfficeAuth,
+					// 			},
+					// 			component: () => import("@/views/backoffice/merchants/VerifiedCustomers.vue")
 
-							},
-							{
-								path: "/backoffice/merchants/pending",
-								name: 'Pending Merchants',
-								meta: {
-									auth: Constants.backOfficeAuth,
-								},
-								component: () => import("@/views/backoffice/merchants/Pending.vue")
+					// 		},
+					// 		{
+					// 			path: "/backoffice/merchants/pending",
+					// 			name: 'Pending Merchants',
+					// 			meta: {
+					// 				auth: Constants.backOfficeAuth,
+					// 			},
+					// 			component: () => import("@/views/backoffice/merchants/Pending.vue")
 
-							}
-						]
-					},
+					// 		}
+					// 	]
+					// },
 					{
 						path: "/settings",
 						redirect: "/settings/profile",
@@ -417,41 +417,41 @@ export default [
 							}
 						]
 					},
-					{
-						path: "/configurations",
-						name: "Configurations",
-						meta: {
-							auth: Constants.backOfficeAuth,
-						},
-						redirect: "/configurations/profile"
-						, component: () => import("@/views/main/configurations/Configurations.vue"),
-						children: [
-							{
-								path: "/configurations/profile",
-								name: "Configurations Profile",
-								meta: {
-									auth: Constants.backOfficeAuth,
-								},
-								component: () => import("@/views/main/configurations/ConfigProfile.vue")
-							},
-							{
-								path: "/configurations/settings",
-								name: "Configurations Setting",
-								meta: {
-									auth: Constants.backOfficeAuth,
-								},
-								component: () => import("@/views/main/configurations/ConfigSettings.vue")
-							},
-							{
-								path: "/configurations/rates",
-								name: "Configurations Rates",
-								meta: {
-									auth: Constants.backOfficeAuth,
-								},
-								component: () => import("@/views/main/configurations/ConfigRates.vue")
-							}
-						]
-					},
+					// {
+					// 	path: "/configurations",
+					// 	name: "Configurations",
+					// 	meta: {
+					// 		auth: Constants.backOfficeAuth,
+					// 	},
+					// 	redirect: "/configurations/profile"
+					// 	, component: () => import("@/views/main/configurations/Configurations.vue"),
+					// 	children: [
+					// 		{
+					// 			path: "/configurations/profile",
+					// 			name: "Configurations Profile",
+					// 			meta: {
+					// 				auth: Constants.backOfficeAuth,
+					// 			},
+					// 			component: () => import("@/views/main/configurations/ConfigProfile.vue")
+					// 		},
+					// 		{
+					// 			path: "/configurations/settings",
+					// 			name: "Configurations Setting",
+					// 			meta: {
+					// 				auth: Constants.backOfficeAuth,
+					// 			},
+					// 			component: () => import("@/views/main/configurations/ConfigSettings.vue")
+					// 		},
+					// 		{
+					// 			path: "/configurations/rates",
+					// 			name: "Configurations Rates",
+					// 			meta: {
+					// 				auth: Constants.backOfficeAuth,
+					// 			},
+					// 			component: () => import("@/views/main/configurations/ConfigRates.vue")
+					// 		}
+					// 	]
+					// },
 					// {
 					// 	path: "/audit_logs",
 					// 	name: "AuditLogs",

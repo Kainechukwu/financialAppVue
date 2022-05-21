@@ -1,6 +1,6 @@
 <template>
-	<div class="main-page pb-8 px-8">
-		<div class="w-full mx-auto mb-64">
+	<div class="main-page pb-8 px-4 md:px-8">
+		<div class="w-full mb-64 appSpread">
 			<div>
 				<div style="border-bottom: 1px solid #c7d8ff" class="py-4 pt-6 flex justify-between mb-10">
 					<div @click="goBack" class="flex cursor-pointer items-center">

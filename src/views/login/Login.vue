@@ -68,7 +68,7 @@
 
 					<div class="">
 						<button
-							:disabled="loginUser.loading"
+							:disabled="loading"
 							type="submit"
 							class="bluebtn h-50px relative w-full py-2 px-4 border border-transparent text-sm font-medium br-5 text-white bg-indigo-600"
 						>
@@ -76,7 +76,7 @@
 								<span class="fs-14 items-center text-white fw-400 my-auto">
 									Login to your account
 								</span>
-								<div v-if="loginUser.loading" class="h-4 w-4 ml-4 rounded-md block">
+								<div v-if="loading" class="h-4 w-4 ml-4 rounded-md block">
 									<div class="roundLoader opacity-50 mx-auto"></div>
 								</div>
 							</div>
@@ -103,7 +103,7 @@
 
 <script>
 import SuprBizLogo from "@/components/svg/SuprBizLogo.vue";
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, ref } from "vue";
 import UserInfo from "@/services/userInfo/userInfo.js";
 
 import { useRouter } from "vue-router";
@@ -125,9 +125,7 @@ export default {
 	setup() {
 		const router = useRouter();
 		const store = useStore();
-		const loginUser = reactive({
-			loading: false,
-		});
+		const loading = ref(false);
 
 		const user = reactive({
 			userEmail: "",
@@ -178,8 +176,8 @@ export default {
 		};
 
 		const handleLogin = (values) => {
-			loginUser.loading = true;
-			Log.info(loginUser.loading);
+			loading.value = true;
+			Log.info(loading.value);
 			Log.info("user:" + JSON.stringify(user));
 			LoginService.loginUser(
 				{
@@ -189,13 +187,11 @@ export default {
 				(response) => {
 					Log.info("login response:" + JSON.stringify(response.data));
 
-					loginUser.loading = false;
+					loading.value = false;
 
 					LoginService.handleSuccessfulLogin(response);
 
-					if (Util.checkAuth(Constants.backOfficeAuth)) {
-						router.push("/backOffice/transactions");
-					} else if (Util.checkAuth(Constants.merchantAuth)) {
+					if (Util.checkAuth(Constants.merchantAuth)) {
 						router.push("/earn");
 						postDeviceInfo();
 						// askForPermissioToReceiveNotifications();
@@ -206,17 +202,25 @@ export default {
 				(error) => {
 					Log.error("login error:" + JSON.stringify(error));
 					// Log.info("it erred")
-					loginUser.loading = false;
+					loading.value = false;
+
+					// if (Util.checkIfServerError(error.response.status)) {
+					// 	Log.error(" error status:" + JSON.stringify(error.response.status));
+
+					// 	return;
+					// }
+
 					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-					Log.info("loginLoading " + String(loginUser.loading));
+
 					// Util.throttle({
 					// 	key: "login",
 					// 	run: () => {
-					// 		handleLogin();
+					// 		Log.info("re do login");
+					// handleLogin();
 					// 	},
 					// 	time: 400,
 					// });
-					handleLogin();
+					// handleLogin();
 				}
 			);
 		};
@@ -235,7 +239,7 @@ export default {
 			goToSignUp,
 			schema,
 			goToPasswordReset,
-			loginUser,
+			loading,
 		};
 	},
 };
