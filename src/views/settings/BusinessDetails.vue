@@ -5,7 +5,7 @@
 				<h1 class="blacktext fw-500 fs-18 mb-8">Business Details</h1>
 			</div>
 		</div> -->
-	<div>test</div>
+	<!-- <div>test</div> -->
 	<div class="col-span-5 md:col-span-3">
 		<div v-if="businessDetailsLoading">
 			<FormEmptyState />
