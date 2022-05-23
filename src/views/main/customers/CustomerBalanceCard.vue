@@ -166,6 +166,7 @@ export default {
 		const totalBalance = ref("0.00");
 		const isNigerian = UserInfo.isNigerian();
 		const total = ref(0);
+		const refetchTime = ref(0);
 
 		const availableBalance = ref("0.00");
 		const pendingInvestment = ref("0.00");
@@ -242,7 +243,7 @@ export default {
 				(response) => {
 					Log.info("customerPendingInvestment: " + JSON.stringify(response));
 					pendingInvestment.value = Util.currencyFormatter(
-						response.data.data.amount,
+						response.data.data?.amount,
 						Constants.currencyFormat
 					);
 				},
@@ -258,7 +259,7 @@ export default {
 				(response) => {
 					Log.info("customerPendingInvestment: " + JSON.stringify(response));
 					pendingInvestment.value = Util.currencyFormatter(
-						response.data.data.amount,
+						response.data.data?.amount,
 						Constants.currencyFormat
 					);
 				},
@@ -287,6 +288,21 @@ export default {
 				},
 				(error) => {
 					Log.error(error);
+					if (Util.checkIfServerError(error.response.status)) {
+						Log.error(" error status:" + JSON.stringify(error.response.status));
+						if (refetchTime.value < 5000) {
+							refetchTime.value += 1000;
+						}
+						Log.info(" refetchTime.value:" + JSON.stringify(refetchTime.value));
+						Util.throttle({
+							key: "localWalletBalance",
+							run: () => {
+								Log.info("re do login");
+								localWalletBalance();
+							},
+							time: refetchTime.value,
+						});
+					}
 				}
 			);
 		};
@@ -310,6 +326,21 @@ export default {
 				},
 				(error) => {
 					Log.error(error);
+					if (Util.checkIfServerError(error.response.status)) {
+						Log.error(" error status:" + JSON.stringify(error.response.status));
+						if (refetchTime.value < 5000) {
+							refetchTime.value += 1000;
+						}
+						Log.info(" refetchTime.value:" + JSON.stringify(refetchTime.value));
+						Util.throttle({
+							key: "usdWalletBalance",
+							run: () => {
+								Log.info("re do login");
+								usdWalletBalance();
+							},
+							time: refetchTime.value,
+						});
+					}
 				}
 			);
 		};
