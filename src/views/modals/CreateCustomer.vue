@@ -137,15 +137,17 @@
 
 										<div class="col-span-1">
 											<Listbox as="div" v-model="selected">
-												<div class="flex items-center">
-													<ListboxLabel class="block fs-14 tx-666666 fw-600">
+												<div class="flex">
+													<ListboxLabel class="block fs-14 tx-666666 fw-400">
 														Fiat Currency
 													</ListboxLabel>
-													<p class="text-red-500 fs-24 fw-400 h-6 ml-2">*</p>
+													<div class="smy-auto max-w-max ml-2 h-2">
+														<h1 class="text-red-500 fs-24 fw-400">*</h1>
+													</div>
 												</div>
-												<div class="mt-1 relative">
+												<div class="mt-1.5 relative">
 													<ListboxButton
-														class="bg-white h-12 mt-1 relative w-full listBoxButton rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 sm:text-sm"
+														class="bg-white h-11 relative w-full listBoxButton rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none sm:text-sm"
 													>
 														<span class="block truncate">{{ selected.currency }}</span>
 														<span

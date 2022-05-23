@@ -4,7 +4,7 @@
 		<transition name="slideOut">
 			<div
 				v-if="isOpen"
-				class="mainMenuBtn z-40 vertical-menu h-full w-64 fixed py-5 px-6 overflow-y-auto"
+				class="mainMenuBtn z-40 vertical-menu mobileMenuHeight w-64 fixed py-5 px-6 overflow-y-auto"
 			>
 				<MainSidebar />
 			</div>

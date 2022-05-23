@@ -1,6 +1,6 @@
 <template>
 	<!-- <div class="hidden 900:block vertical-menu h-full w-64 fixed py-5 px-6 overflow-y-auto"> -->
-	<div class="full flex flex-col">
+	<div class="flex flex-col">
 		<Menu as="div" class="relative inline-block text-left">
 			<MenuButton class="cursor-pointer br-5 bg-white flex flex-col px-5 py-4 relative w-full">
 				<div class="flex justify-between relative w-full">

@@ -256,6 +256,11 @@ input[type="number"] {
   display: block;
 }
 
+.mobileMenuHeight {
+  // overflow-y: scroll;
+  height: calc(100% - 4.375rem);
+}
+
 .main-page {
   background-color: #f2f6ff;
   min-height: 100vh;
