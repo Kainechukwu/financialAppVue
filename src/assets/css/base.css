@@ -50,10 +50,10 @@ label {
 .register-form {
   /* max-width: 500px; */
   margin: 0 auto;
-  background: #fff;
+  background: transparent;
   border-radius: 10px;
-  padding: 40px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1); */
 }
 
 .text-primary {
@@ -214,4 +214,15 @@ label {
 
 .header-item.blue-nav {
   color: #1860b9;
+}
+
+@media (min-width: 640px) {
+  .register-form {
+    /* max-width: 500px; */
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+  }
 }

@@ -162,7 +162,7 @@ export default {
 
 		const logout = () => {
 			LoginService.handleLogout();
-			closeSidebar();
+			// closeSidebar();
 			// router.push("/login");
 		};
 		const firstName = store.getters["authToken/firstName"];

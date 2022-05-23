@@ -251,6 +251,18 @@ export default class UserActions {
 		Web.post(Constants.API_BASE + "/Account/change-pin", userDetails, successHandler, errorHandler)
 	}
 
+	static forgotPin(successHandler, errorHandler) {
+
+		Web.get(Constants.API_BASE + `/Account/forgot-pin`, successHandler, errorHandler)
+
+	}
+
+	static resetPin(pinDetails, successHandler, errorHandler) {
+
+		Web.post(Constants.API_BASE + "/Account/reset-pin", pinDetails, successHandler, errorHandler)
+
+	}
+
 	static getComplianceDetails(userId, successHandler, errorHandler) {
 		Web.get(Constants.API_BASE + `/Kyc/compliances/business/${userId}`, successHandler, errorHandler)
 

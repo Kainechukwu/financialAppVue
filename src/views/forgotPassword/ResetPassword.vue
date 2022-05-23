@@ -9,7 +9,7 @@
 			</div>
 			<div style="max-width: 500px" class="register-form sm:mx-auto w-full sm:w-full">
 				<div class="">
-					<div class="flex flex-col justify-center items-center">
+					<div class="flex flex-col justify-center items-center mb-6">
 						<h2 class="mb-2 fs-24 fw-600 font-extrabold blacktext">Reset Password</h2>
 						<p class="tx-666666 fw-400 fs-14">Enter the email associated with your account.</p>
 					</div>

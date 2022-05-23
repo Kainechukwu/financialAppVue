@@ -8,7 +8,7 @@
 				<SuprBizLogo />
 			</div>
 			<div style="max-width: 500px" class="register-form">
-				<div class="flex flex-col justify-center items-center">
+				<div class="flex flex-col justify-center items-center mb-6">
 					<h2 class="mb-0 fs-24 fw-600 font-extrabold blacktext">Create an account</h2>
 				</div>
 

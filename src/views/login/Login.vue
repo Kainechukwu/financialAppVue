@@ -9,7 +9,7 @@
 			</div>
 			<div style="max-width: 500px" class="register-form sm:mx-auto w-full sm:w-full">
 				<!-- <div class="w-96"> -->
-				<div class="flex flex-col justify-center items-center">
+				<div class="flex flex-col justify-center items-center mb-6">
 					<h2 class="mb-0 fs-24 fw-600 font-extrabold blacktext">Welcome Back</h2>
 				</div>
 

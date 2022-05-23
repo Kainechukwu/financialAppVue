@@ -12,12 +12,13 @@
 						</p>
 						<p class="tx-666666 inter fs-12 fw-400">
 							Forgot your PIN?
-							<span class="fw-500 blacktext">Reset it here</span>
+							<span @click="forgotPin" class="fw-500 blacktext cursor-pointer">Reset it here</span>
 						</p>
 					</div>
 				</div>
 			</div>
-			<div class="col-span-5 sm:col-span-3">
+			<ResetPin v-if="showResetPage" @close="hideResetPage" />
+			<div v-else class="col-span-5 sm:col-span-3">
 				<div class="flex flex-col lg:w-9/12">
 					<Form
 						@submit="updatePIN"
@@ -85,30 +86,40 @@
 				</div>
 			</div>
 		</div>
+		<!-- <reset-pin-otp :isOpen="isOpen" @close="closeOtpModal" /> -->
 	</div>
 </template>
 
 <script>
 import { ref, computed, onMounted } from "vue";
+// import ResetPinOtp from "@/views/modals/ResetPinOtp.vue";
+import ResetPin from "@/views/modals/ResetPin.vue";
 import { useStore } from "vuex";
 import CreatePin from "./CreatePin.vue";
 // import ApiResource from "@/components/core/ApiResource";
 import { Log, Util } from "@/components/util";
-import userActions from "@/services/userActions/userActions";
+import UserActions from "@/services/userActions/userActions";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
+
 export default {
 	name: "PIN",
 	components: {
 		CreatePin,
 		Form,
 		Field,
+		ResetPin,
+		// ResetPinOtp,
 	},
 	setup() {
 		onMounted(() => {
 			preventLetterInput();
 		});
 		const store = useStore();
+
+		// const isOpen = ref(false);
+
+		const showResetPage = ref(false);
 
 		const hasPIN = computed(() => store.getters["authToken/hasPin"]);
 
@@ -142,7 +153,7 @@ export default {
 		const updatePIN = (values) => {
 			pinUpdateLoading.value = true;
 			// Log.info("userDetails: " + JSON.stringify(userDetails));
-			userActions.changePIN(
+			UserActions.changePIN(
 				{
 					currentPin: String(values.currentPin),
 					newPin: String(values.newPin),
@@ -181,11 +192,37 @@ export default {
 			});
 		};
 
+		const forgotPin = () => {
+			UserActions.forgotPin(
+				(response) => {
+					Log.info(response);
+					openResetPage();
+				},
+				(error) => {
+					Log.error(error);
+				}
+			);
+		};
+
+		const openResetPage = () => {
+			showResetPage.value = true;
+		};
+
+		const hideResetPage = () => {
+			showResetPage.value = false;
+		};
+
 		return {
 			updatePIN,
 			hasPIN,
 			pinUpdateLoading,
 			schema,
+
+			forgotPin,
+
+			showResetPage,
+
+			hideResetPage,
 		};
 	},
 };
