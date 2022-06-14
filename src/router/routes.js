@@ -1,15 +1,17 @@
-import Home from '../views/Home.vue'
-import { Constants } from '@/components/util';
+import Home from "../views/Home.vue";
+import Login from "@/views/login/Login.vue";
+import Signup from "@/views/signup/Signup.vue";
+import { Constants } from "@/components/util";
 
 export default [
 	{
-		path: '/',
+		path: "/",
 		redirect: "/login",
-		name: 'Home',
+		name: "Home",
 		meta: {
 			skipAuth: true,
 		},
-		component: Home
+		component: Home,
 	},
 	// {
 	// 	path: "/semanticUi",
@@ -25,7 +27,7 @@ export default [
 		meta: {
 			skipAuth: true,
 		},
-		component: () => import("@/views/signup/Signup.vue")
+		component: Signup,
 	},
 	{
 		path: "/account_created",
@@ -33,7 +35,7 @@ export default [
 		meta: {
 			skipAuth: true,
 		},
-		component: () => import("@/views/signup/AccountCreated.vue")
+		component: () => import("@/views/signup/AccountCreated.vue"),
 	},
 	{
 		path: "/login",
@@ -41,7 +43,7 @@ export default [
 		meta: {
 			skipAuth: true,
 		},
-		component: () => import("@/views/login/Login.vue")
+		component: Login,
 	},
 	{
 		path: "/reset_password",
@@ -49,7 +51,7 @@ export default [
 		meta: {
 			skipAuth: true,
 		},
-		component: () => import("@/views/forgotPassword/ResetPassword.vue")
+		component: () => import("@/views/forgotPassword/ResetPassword.vue"),
 	},
 	{
 		path: "/set_new_password",
@@ -57,7 +59,7 @@ export default [
 		meta: {
 			skipAuth: true,
 		},
-		component: () => import("@/views/forgotPassword/SetNewPassword.vue")
+		component: () => import("@/views/forgotPassword/SetNewPassword.vue"),
 	},
 	{
 		path: "/verification_code",
@@ -65,7 +67,7 @@ export default [
 		meta: {
 			skipAuth: true,
 		},
-		component: () => import("@/views/otp/VerificationCode.vue")
+		component: () => import("@/views/otp/VerificationCode.vue"),
 	},
 	{
 		path: "/api/v1/account/confirm-email",
@@ -74,7 +76,6 @@ export default [
 			skipAuth: true,
 		},
 		component: () => import("@/views/redirect/ConfirmEmailRedirect.vue"),
-
 	},
 	{
 		path: "/api/v1/account/reset-password",
@@ -84,7 +85,6 @@ export default [
 		},
 		redirect: "/set_new_password",
 		component: () => import("@/views/redirect/ConfirmEmailRedirect.vue"),
-
 	},
 	// {
 	// 	path: "/letters",
@@ -124,7 +124,7 @@ export default [
 						meta: {
 							auth: Constants.merchantAuth,
 						},
-						component: () => import("@/views/main/PendingTasks.vue")
+						component: () => import("@/views/main/PendingTasks.vue"),
 					},
 					{
 						path: "/earn",
@@ -141,7 +141,7 @@ export default [
 								meta: {
 									auth: Constants.merchantAuth,
 								},
-								component: () => import("@/views/main/earn/EarnOverview.vue")
+								component: () => import("@/views/main/earn/EarnOverview.vue"),
 							},
 							// {
 							// 	path: "/deposit",
@@ -187,8 +187,7 @@ export default [
 							// 	name: "Earn_Confirm Withdrawal",
 							// 	component: () => import("@/views/main/earn/ConfirmWithdrawal.vue")
 							// },
-
-						]
+						],
 					},
 					{
 						path: "/withdraw",
@@ -196,7 +195,7 @@ export default [
 						meta: {
 							auth: Constants.merchantAuth,
 						},
-						component: () => import("@/views/main/earn/Withdraw.vue")
+						component: () => import("@/views/main/earn/Withdraw.vue"),
 					},
 					{
 						path: "/withdraw-n",
@@ -204,7 +203,7 @@ export default [
 						meta: {
 							auth: Constants.merchantAuth,
 						},
-						component: () => import("@/views/main/earn/NaijaWithdraw.vue")
+						component: () => import("@/views/main/earn/NaijaWithdraw.vue"),
 					},
 					{
 						path: "/deposit",
@@ -212,7 +211,7 @@ export default [
 						meta: {
 							auth: Constants.merchantAuth,
 						},
-						component: () => import("@/views/main/earn/EarnDeposit.vue")
+						component: () => import("@/views/main/earn/EarnDeposit.vue"),
 					},
 					// {
 					// 	path: "/transactions",
@@ -243,39 +242,39 @@ export default [
 							{
 								path: "/customers/customer_list",
 								name: "Customers List",
-								component: () => import("@/views/main/customers/CustomerList.vue")
+								component: () => import("@/views/main/customers/CustomerList.vue"),
 							},
 							{
 								path: "/customers/transactions",
 								name: "Customers Transactions",
-								component: () => import("@/views/main/customers/Transactions.vue")
+								component: () => import("@/views/main/customers/Transactions.vue"),
 							},
 							{
 								path: "/customers/ngn_transactions",
 								name: "NGN Transactions",
-								component: () => import("@/views/main/customers/NGNTransactions.vue")
+								component: () => import("@/views/main/customers/NGNTransactions.vue"),
 							},
 							{
 								path: "/customers/usd_transactions",
 								name: "USD Transactions",
-								component: () => import("@/views/main/customers/USDTransactions.vue")
+								component: () => import("@/views/main/customers/USDTransactions.vue"),
 							},
-						]
+						],
 					},
 					{
 						path: "/customers/create_deposit",
 						name: "CreateDeposit",
-						component: () => import("@/views/main/customers/CreateDeposit.vue")
+						component: () => import("@/views/main/customers/CreateDeposit.vue"),
 					},
 					{
 						path: "/customers/create_withdrawal",
 						name: "CreateWithdrawal",
-						component: () => import("@/views/main/customers/CreateWithdrawal.vue")
+						component: () => import("@/views/main/customers/CreateWithdrawal.vue"),
 					},
 					{
 						path: "/customers/deposit_funds",
 						name: "DepositFunds",
-						component: () => import("@/views/main/customers/DepositFunds.vue")
+						component: () => import("@/views/main/customers/DepositFunds.vue"),
 					},
 					// {
 					// 	path: "/backOffice/transactions",
@@ -350,8 +349,7 @@ export default [
 								meta: {
 									auth: Constants.merchantAuth,
 								},
-								component: () => import("@/views/settings/ProfileSettings.vue")
-
+								component: () => import("@/views/settings/ProfileSettings.vue"),
 							},
 							{
 								path: "/settings/business_details",
@@ -359,8 +357,7 @@ export default [
 								meta: {
 									auth: Constants.merchantAuth,
 								},
-								component: () => import("@/views/settings/BusinessDetails.vue")
-
+								component: () => import("@/views/settings/BusinessDetails.vue"),
 							},
 							{
 								path: "/settings/security",
@@ -368,7 +365,7 @@ export default [
 								meta: {
 									auth: Constants.merchantAuth,
 								},
-								component: () => import("@/views/settings/Security.vue")
+								component: () => import("@/views/settings/Security.vue"),
 							},
 							{
 								path: "/settings/access_keys",
@@ -376,7 +373,7 @@ export default [
 								meta: {
 									auth: Constants.merchantAuth,
 								},
-								component: () => import("@/views/settings/AccessKeys.vue")
+								component: () => import("@/views/settings/AccessKeys.vue"),
 							},
 							{
 								path: "/settings/compliance",
@@ -384,7 +381,7 @@ export default [
 								meta: {
 									auth: Constants.merchantAuth,
 								},
-								component: () => import("@/views/settings/Compliance.vue")
+								component: () => import("@/views/settings/Compliance.vue"),
 							},
 							// {
 							// 	path: "/settings/roles",
@@ -397,7 +394,7 @@ export default [
 								meta: {
 									auth: Constants.merchantAuth,
 								},
-								component: () => import("@/views/settings/Pin.vue")
+								component: () => import("@/views/settings/Pin.vue"),
 							},
 							// {
 							// 	path: "/settings/rates",
@@ -413,9 +410,9 @@ export default [
 								meta: {
 									auth: Constants.merchantAuth,
 								},
-								component: () => import("@/views/settings/APYRates.vue")
-							}
-						]
+								component: () => import("@/views/settings/APYRates.vue"),
+							},
+						],
 					},
 					// {
 					// 	path: "/configurations",
@@ -457,8 +454,8 @@ export default [
 					// 	name: "AuditLogs",
 					// 	component: () => import("@/views/main/AuditLogs.vue")
 					// }
-				]
-			}
-		]
-	}
-]
+				],
+			},
+		],
+	},
+];
