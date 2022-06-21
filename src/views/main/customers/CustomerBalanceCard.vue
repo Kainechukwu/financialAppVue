@@ -288,11 +288,11 @@ export default {
 				},
 				(error) => {
 					Log.error(error);
-					if (Util.checkIfServerError(error.response.status)) {
+					if (Util.checkIfServerError(error.response.status) && refetchTime.value < 5000) {
 						Log.error(" error status:" + JSON.stringify(error.response.status));
-						if (refetchTime.value < 5000) {
-							refetchTime.value += 1000;
-						}
+						// if (refetchTime.value < 5000) {
+						refetchTime.value += 1000;
+						// }
 						Log.info(" refetchTime.value:" + JSON.stringify(refetchTime.value));
 						Util.throttle({
 							key: "localWalletBalance",
@@ -326,11 +326,11 @@ export default {
 				},
 				(error) => {
 					Log.error(error);
-					if (Util.checkIfServerError(error.response.status)) {
+					if (Util.checkIfServerError(error.response.status) && refetchTime.value < 5000) {
 						Log.error(" error status:" + JSON.stringify(error.response.status));
-						if (refetchTime.value < 5000) {
-							refetchTime.value += 1000;
-						}
+						// if (refetchTime.value < 5000) {
+						refetchTime.value += 1000;
+						// }
 						Log.info(" refetchTime.value:" + JSON.stringify(refetchTime.value));
 						Util.throttle({
 							key: "usdWalletBalance",

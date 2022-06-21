@@ -410,7 +410,7 @@ export default [
 								meta: {
 									auth: Constants.merchantAuth,
 								},
-								component: () => import("@/views/settings/APYRates.vue"),
+								component: () => import("@/views/settings/APYRates2.vue"),
 							},
 						],
 					},

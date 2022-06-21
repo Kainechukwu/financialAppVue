@@ -76,7 +76,7 @@
 										>Create Withdrawal</router-link
 									>
 								</MenuItem>
-								<MenuItem v-slot="{ active }">
+								<!-- <MenuItem v-slot="{ active }">
 									<router-link
 										to="/deposit"
 										class="cursor-pointer border-b border-gray-100"
@@ -86,7 +86,7 @@
 										]"
 										>Deposit Funds</router-link
 									>
-								</MenuItem>
+								</MenuItem> -->
 								<MenuItem v-slot="{ active }">
 									<router-link
 										to="/settings/apy_rates"
