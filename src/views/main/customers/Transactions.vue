@@ -303,12 +303,12 @@
 											>
 												Email
 											</th>
-											<th
+											<!-- <th
 												scope="col"
 												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
 											>
 												Product Type
-											</th>
+											</th> -->
 											<th
 												scope="col"
 												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
@@ -321,12 +321,12 @@
 											>
 												Amount
 											</th>
-											<th
+											<!-- <th
 												scope="col"
 												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
 											>
 												value
-											</th>
+											</th> -->
 										</tr>
 									</thead>
 
@@ -341,18 +341,18 @@
 											<td class="px-6 py-4 whitespace-nowrap blacktext fw-600 fs-14">
 												{{ transaction.customerEmail }}
 											</td>
-											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
+											<!-- <td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 												{{ transaction.product }}
-											</td>
+											</td> -->
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 												{{ transaction.currency }}
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 												{{ transaction.amount }}
 											</td>
-											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
+											<!-- <td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 												{{ transaction.value }}
-											</td>
+											</td> -->
 										</tr>
 									</tbody>
 								</table>
