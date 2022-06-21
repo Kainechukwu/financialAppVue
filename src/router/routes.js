@@ -234,6 +234,34 @@ export default [
 					// 	component: () => import("@/views/main/Merchants.vue")
 					// },
 					{
+						path: "/savings",
+						redirect: "/savings/customer_list",
+						name: "Savings",
+						component: () => import("@/views/main/savings/Savings.vue"),
+						children: [
+							{
+								path: "/savings/customer_list",
+								name: "Savings Customers List",
+								component: () => import("@/views/main/savings/SavingsCustomerList.vue"),
+							},
+							{
+								path: "/savings/transactions",
+								name: "Savings Customers Transactions",
+								component: () => import("@/views/main/customers/Transactions.vue"),
+							},
+							{
+								path: "/savings/rewards_transactions",
+								name: "Savings Rewards Transactions",
+								component: () => import("@/views/main/customers/NGNTransactions.vue"),
+							},
+							{
+								path: "/savings/wallet_transactions",
+								name: "Savings Wallet Transactions",
+								component: () => import("@/views/main/customers/USDTransactions.vue"),
+							},
+						],
+					},
+					{
 						path: "/customers",
 						redirect: "/customers/customer_list",
 						name: "Customers",

@@ -4,7 +4,7 @@
 			<div class="flex flex-col my-4 h-full">
 				<div class="flex justify-between h-6">
 					<!-- <div class="flex justify-between"> -->
-					<span class="tx-999999 fw-400 fs-12">Interest Earned</span>
+					<span class="tx-666666 fw-400 fs-12">INTEREST EARNED</span>
 
 					<!-- <div style="background-color: #f2f6ff" class="br-5 flex p-2 justify-between items-center">
 				<span class="tx-666666 mr-5 fw-500 fs-10">Today</span>
@@ -148,18 +148,18 @@
 					>
 
 					<div class="inline-block mt-auto">
-						<span class="fw-400 fs-12 tx-666666">USD Interest</span>
+						<span class="tx-666666 fw-400 fs-12">WINNINGS EARNED</span>
 					</div>
 					<!-- <slot></slot> -->
 				</div>
 				<div class="flex flex-col justify-between mt-1 h-full">
 					<span class="fw-400 fs-24 blacktext mr-3"
-						>N{{ ngnInterestMain }}<span class="fs-14 ml-px">{{ ngnInterestDecimal }}</span></span
+						>${{ ngnInterestMain }}<span class="fs-14 ml-px">{{ ngnInterestDecimal }}</span></span
 					>
 
-					<div class="inline-block mt-auto">
+					<!-- <div class="inline-block mt-auto">
 						<span class="fw-400 fs-12 tx-666666">NGN Interest</span>
-					</div>
+					</div> -->
 					<!-- <slot></slot> -->
 				</div>
 			</div>

@@ -211,6 +211,13 @@ export default {
 				routeName: "Customers",
 				visible: Util.checkAuth(Constants.merchantAuth),
 			},
+			{
+				name: "Savings",
+				href: "/savings",
+				icon: CustomersSvg,
+				routeName: "Savings",
+				visible: Util.checkAuth(Constants.merchantAuth),
+			},
 			// {
 			// 	name: "Plans",
 			// 	href: "/plans",
