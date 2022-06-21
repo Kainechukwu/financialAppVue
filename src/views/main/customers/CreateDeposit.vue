@@ -101,8 +101,8 @@
 										</div>
 										<!-- ------------------------- -->
 									</div>
-									<div class="col-span-2 sm:col-span-1">
-										<!-- ------------------------ -->
+									<!-- <div class="col-span-2 sm:col-span-1">
+										
 										<div class="relative">
 											<Listbox as="div" v-model="selectedCurrency">
 												<ListboxLabel class="block fs-14 tx-666666 fw-600 truncate">
@@ -114,7 +114,7 @@
 													>
 														<span class="block truncate">
 															{{ selectedCurrency }}
-															<!-- UST -->
+															
 														</span>
 														<span
 															class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
@@ -169,7 +169,7 @@
 																		]"
 																	>
 																		{{ currency }}
-																		<!-- UST -->
+																		
 																	</span>
 
 																	<span
@@ -187,11 +187,11 @@
 												</div>
 											</Listbox>
 										</div>
-										<!-- ------------------------- -->
-									</div>
+										
+									</div> -->
 
 									<!-- ---------------- -->
-									<div class="flex flex-col col-span-2 sm:col-span-1">
+									<div class="flex flex-col col-span-2">
 										<label class="block fs-14 tx-666666 fw-600 truncate"> Enter Amount </label>
 										<div class="flex br-5 h-12 mt-2">
 											<Listbox as="div" v-model="selectedCurrency">
@@ -333,7 +333,7 @@ import * as Yup from "yup";
 // import UserActions from "@/services/userActions/userActions.js";
 import {
 	Listbox,
-	ListboxLabel,
+	// ListboxLabel,
 	ListboxButton,
 	ListboxOption,
 	ListboxOptions,
@@ -356,7 +356,7 @@ export default {
 		ListboxButton,
 		ListboxOption,
 		ListboxOptions,
-		ListboxLabel,
+		// ListboxLabel,
 		// EarnDepositLoading,
 
 		Form,
