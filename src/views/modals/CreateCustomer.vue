@@ -98,7 +98,7 @@
 										</div>
 									</div>
 									<div class="grid grid-cols-2 gap-4 mb-6">
-										<div class="col-span-1">
+										<div class="col-span-2">
 											<label for="Email Address" class="fs-14 fw-400 tx-666666"
 												>Email Address</label
 											>
@@ -135,7 +135,7 @@
 											</div>
 										</div> -->
 
-										<div class="col-span-1">
+										<!-- <div class="col-span-1">
 											<Listbox as="div" v-model="selected">
 												<div class="flex">
 													<ListboxLabel class="block fs-14 tx-666666 fw-400">
@@ -217,10 +217,10 @@
 													</transition>
 												</div>
 											</Listbox>
-										</div>
+										</div> -->
 									</div>
 
-									<div class="grid grid-cols-2 gap-4">
+									<!-- <div class="grid grid-cols-2 gap-4">
 										<div class="mb-6 col-span-2">
 											<label for="User Rate" class="fs-14 fw-400 tx-666666"
 												>User Rate (Optional)</label
@@ -236,7 +236,7 @@
 											/>
 											<div class="invalid-feedback text-red-500">{{ errors.rate }}</div>
 										</div>
-									</div>
+									</div> -->
 
 									<!-- ---------------- -->
 
@@ -277,13 +277,13 @@ import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 // import { useRouter } from "vue-router";
 // import GreenCheckedSvg from "@/components/svg/GreenCheckedSvg.vue";
-import {
-	Listbox,
-	ListboxButton,
-	ListboxLabel,
-	ListboxOption,
-	ListboxOptions,
-} from "@headlessui/vue";
+// import {
+// 	Listbox,
+// 	ListboxButton,
+// 	ListboxLabel,
+// 	ListboxOption,
+// 	ListboxOptions,
+// } from "@headlessui/vue";
 export default {
 	name: "CreateCustomer",
 	props: {
@@ -293,29 +293,29 @@ export default {
 		// GreenCheckedSvg,
 		Form,
 		Field,
-		Listbox,
-		ListboxButton,
-		ListboxLabel,
-		ListboxOption,
-		ListboxOptions,
+		// Listbox,
+		// ListboxButton,
+		// ListboxLabel,
+		// ListboxOption,
+		// ListboxOptions,
 		// StaticBusinessDetails,
 		// CheckIcon,
 		// SelectorIcon,
 	},
 	setup(props, context) {
 		onMounted(() => {
-			getAllCustomerRates();
-			getSuprbizRate();
+			// getAllCustomerRates();
+			// getSuprbizRate();
 		});
 
 		// const store = useStore();
 		const isModalOpen = toRef(props, "open");
-		const suprbizRateLoading = ref(false);
-		const suprbizRate = ref(null);
+		// const suprbizRateLoading = ref(false);
+		// const suprbizRate = ref(null);
 		const loading = ref(false);
 
-		const currencies = ref([]);
-		const selected = ref({});
+		// const currencies = ref([]);
+		// const selected = ref({});
 
 		// const userId = store.getters["authToken/userId"];
 
@@ -328,51 +328,51 @@ export default {
 			lastName: Yup.string().required("Last Name is required"),
 			email: Yup.string().required("Email Address is required"),
 			// fiat: Yup.string().required("Fiat is required"),
-			rate: Yup.string().test(
-				"max",
-				`NGN rate must be less than or equal to suprbiz rate`,
-				(val) => val <= suprbizRate.value || val === undefined
-			),
+			// rate: Yup.string().test(
+			// 	"max",
+			// 	`NGN rate must be less than or equal to suprbiz rate`,
+			// 	(val) => val <= suprbizRate.value || val === undefined
+			// ),
 		});
 
 		const prepareCustomerDetails = (values) => {
 			const obj = {
 				firstName: values.firstName,
 				lastName: values.lastName,
-				fiatCurrency: selected.value.currency,
+				// fiatCurrency: selected.value.currency,
 				emailAddress: values.email,
-				rate: values.rate,
+				// rate: values.rate,
 			};
 			return obj;
 		};
 
-		const getAllCustomerRates = () => {
-			CustomerService.getAllCustomerRates(
-				(response) => {
-					Log.info("All customer Rates: " + JSON.stringify(response));
-					currencies.value = response.data.data;
-					selected.value = currencies.value.length > 0 ? currencies.value[3] : {};
-				},
-				(error) => {
-					Log.error(error);
-				}
-			);
-		};
+		// const getAllCustomerRates = () => {
+		// 	CustomerService.getAllCustomerRates(
+		// 		(response) => {
+		// 			Log.info("All customer Rates: " + JSON.stringify(response));
+		// 			currencies.value = response.data.data;
+		// 			selected.value = currencies.value.length > 0 ? currencies.value[3] : {};
+		// 		},
+		// 		(error) => {
+		// 			Log.error(error);
+		// 		}
+		// 	);
+		// };
 
-		const getSuprbizRate = () => {
-			suprbizRateLoading.value = true;
-			CustomerService.getSuprbizRate(
-				(response) => {
-					suprbizRateLoading.value = false;
-					Log.info(response);
-					suprbizRate.value = response.data.data;
-				},
-				(error) => {
-					suprbizRateLoading.value = false;
-					Log.error(error);
-				}
-			);
-		};
+		// const getSuprbizRate = () => {
+		// 	suprbizRateLoading.value = true;
+		// 	CustomerService.getSuprbizRate(
+		// 		(response) => {
+		// 			suprbizRateLoading.value = false;
+		// 			Log.info(response);
+		// 			suprbizRate.value = response.data.data;
+		// 		},
+		// 		(error) => {
+		// 			suprbizRateLoading.value = false;
+		// 			Log.error(error);
+		// 		}
+		// 	);
+		// };
 
 		const saveDetails = (values) => {
 			Log.info("values");
@@ -402,8 +402,8 @@ export default {
 			loading,
 
 			saveDetails,
-			currencies,
-			selected,
+			// currencies,
+			// selected,
 
 			schema,
 			// clientKey,

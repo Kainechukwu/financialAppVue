@@ -3,11 +3,11 @@
 		<div class="flex h-full flex-col bg-white br-10 px-4">
 			<div class="flex flex-col justify-between my-4">
 				<div class="flex justify-between mb-1">
-					<span v-if="currency === 'NGN'" class="fw-400 fs-12 tx-666666 uppercase"
-						>NGN BALANCE</span
+					<span v-if="title === 'WALLET BALANCE'" class="fw-400 fs-12 tx-666666 uppercase"
+						>WALLET BALANCE</span
 					>
-					<span v-if="currency === 'USD'" class="fw-400 fs-12 tx-666666 uppercase"
-						>USD BALANCE</span
+					<span v-if="title === 'REWARD BALANCE'" class="fw-400 fs-12 tx-666666 uppercase"
+						>REWARD BALANCE</span
 					>
 					<!-- <div class=" flex"> -->
 					<Popover class="relative">
@@ -68,17 +68,17 @@
 				</div>
 
 				<div class="flex">
-					<span v-if="currency === 'NGN'" class="mb-1 fw-400 fs-24 blacktext mr-3"
+					<!-- <span v-if="currency === 'NGN'" class="mb-1 fw-400 fs-24 blacktext mr-3"
 						>N{{ totalWithPerSecInterest
 						}}<span class="fs-14 ml-px">{{ interectDecimal }}</span></span
-					>
-					<span v-else-if="currency === 'USD'" class="fw-400 fs-24 blacktext mr-3"
+					> -->
+					<span class="fw-400 fs-24 blacktext mr-3"
 						>${{ totalWithPerSecInterest
 						}}<span class="fs-14 ml-px">{{ interectDecimal }}</span></span
 					>
 					<!-- <img src="totalbalance.jpg" class="h-8 w-8" alt="" /> -->
 				</div>
-				<div v-if="currency === 'NGN'" class="flex justify-between flex-wrap">
+				<!-- <div v-if="currency === 'NGN'" class="flex justify-between flex-wrap">
 					<span class="fw-400 fs-12 tx-666666"
 						>Ledger: <span class="blacktext">N{{ formatCurrency(ledgerBalance) }}</span></span
 					>
@@ -93,7 +93,7 @@
 					<span class="fw-400 fs-12 tx-666666"
 						>Pending: <span class="blacktext">${{ formatCurrency(pendingInvestment) }}</span></span
 					>
-				</div>
+				</div> -->
 
 				<div class="flex items-center mt-4">
 					<div
@@ -104,6 +104,7 @@
 						<span class="my-auto">Add Funds</span>
 					</div>
 					<div
+						v-if="title === 'WALLET BALANCE'"
 						@click="goToWithdraw"
 						style="background-color: #e6edff; border: 1px solid #bdd1ff"
 						class="cursor-pointer br-3 px-4 flex items-center justify-center h-8 tx-666666"
@@ -138,6 +139,7 @@ export default {
 	name: "CustometBalancePlate",
 	props: {
 		currency: String,
+		title: String,
 	},
 	components: {
 		Popover,
