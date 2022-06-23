@@ -22,7 +22,7 @@
 
 					<!-- ----------  -->
 
-					<div class="grid grid-cols-1 gap-4">
+					<!-- <div class="grid grid-cols-1 gap-4">
 						<div class="mb-8 col-span-1">
 							<label for="Buy" class="fs-14 fw-400 tx-666666"></label>
 							<Input
@@ -45,7 +45,7 @@
 								<span class="text-white"></span>
 							</div>
 						</button>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>

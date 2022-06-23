@@ -222,13 +222,6 @@ export default {
 
 			const obj = {
 				pin: code,
-				// amount: Number(props.amount),
-				// userId: store.getters["authToken/userId"],
-				// wallet: store.getters["bankDetails/walletId"],
-				// destinationAccountNumber: props.destinationAccountNumber,
-				// destinationAccountName: props.destinationAccountName,
-				// destinationBankCode: props.destinationBankCode,
-				// destinationBankName: props.destinationBankName,
 			};
 
 			return obj;

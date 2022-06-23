@@ -8,27 +8,28 @@
 						<span class="fs-12 fw-400 tx-666666">Set your rates for your customers</span>
 					</div>
 				</div>
-				<!-- <LoadingInputs v-if="suprbizRateLoading || customerRateLoading" /> -->
+				<LoadingInputs v-if="suprbizRateLoading" />
 
-				<div class="col-span-5 sm:col-span-3">
+				<div v-else class="col-span-5 sm:col-span-3">
 					<div class="flex flex-col lg:w-10/12">
 						<div class="tx-666666 fw-400 fs-14 mb-3">Selling Rate: {{ suprbizRate }}%</div>
 						<div class="flex flex-col">
 							<!-- <span class="blacktext fw-500 fs-14 mb-4">Suprbiz Rates</span> -->
 							<div class="grid grid-cols-2 gap-4">
 								<div class="mb-8 col-span-2">
-									<label for="Buy" class="fs-14 fw-400 tx-666666">Your Rate</label>
+									<label for="yourRate" class="fs-14 fw-400 tx-666666">Your Rate </label>
 									<Field
-										id="Buy"
-										name="yourUSDRates"
-										v-model="yourUSDRate"
+										id="yourRate"
+										name="yourRate"
+										v-model="yourRate"
 										type="number"
 										autocomplete="off"
 										required=""
 										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
-										:class="{ 'is-invalid': errors.yourUSDRates }"
+										:class="{ 'is-invalid': errors.yourRate }"
 									/>
-									<div class="invalid-feedback text-red-500">{{ errors.yourUSDRates }}</div>
+									<!-- <div class="absolute">%</div> -->
+									<div class="invalid-feedback text-red-500">{{ errors.yourRate }}</div>
 								</div>
 							</div>
 
@@ -48,26 +49,25 @@
 						>
 					</div>
 				</div>
-				<!-- <LoadingInputs v-if="suprbizRateLoading || customerRateLoading" /> -->
+				<LoadingInputs v-if="suprbizRateLoading" />
 
-				<div class="col-span-5 sm:col-span-3">
+				<div v-else class="col-span-5 sm:col-span-3">
 					<div class="flex flex-col lg:w-10/12">
 						<div class="flex flex-col">
 							<!-- <span class="blacktext fw-500 fs-14 mb-4">Suprbiz Rates</span> -->
 							<div class="grid grid-cols-2 gap-4">
 								<div class="mb-4 md:mb-8 col-span-2">
-									<label for="Buy" class="fs-14 fw-400 tx-666666">Our Rates</label>
-									<input
-										readonly
-										id="Buy"
-										name="suprbizRates"
-										v-model="suprbizRate"
+									<label for="setRate" class="fs-14 fw-400 tx-666666">Set Rate</label>
+									<Field
+										id="setRate"
+										name="setRate"
+										v-model="setRate"
 										type="number"
 										autocomplete="off"
 										required=""
 										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
 									/>
-									<!-- <div class="invalid-feedback text-red-500">{{ errors.suprbizRates }}</div> -->
+									<div class="invalid-feedback text-red-500">{{ errors.setRate }}</div>
 								</div>
 							</div>
 
@@ -99,12 +99,12 @@
 <script>
 import { Form, Field } from "vee-validate";
 import PinCodeModal from "@/views/modals/PinCodeModal";
-// import LoadingInputs from "./LoadingInputs.vue";
+import LoadingInputs from "./LoadingInputs.vue";
 import * as Yup from "yup";
 import { ref } from "vue";
 import { Log, Util } from "@/components/util";
 import { onMounted } from "vue";
-// import { useStore } from "vuex";
+import { useStore } from "vuex";
 import CustomerService from "@/services/userActions/customerService.js";
 
 export default {
@@ -113,51 +113,49 @@ export default {
 		Form,
 		Field,
 		PinCodeModal,
-		// LoadingInputs,
+		LoadingInputs,
 	},
 	setup() {
 		onMounted(() => {
-			getSuprbizRate();
-			getCustomerRate();
+			getAllSuprbizRates();
+			// getCustomerRate();
+			// getSavingsRates();
 		});
-		// const store = useStore();
+		const store = useStore();
 		const saveLoading = ref(false);
+
+		const dummyRate = ref(null);
+		// const savingsRate = ref(null)
 		const suprbizRateLoading = ref(false);
 		const customerRateLoading = ref(false);
 		const isPinAuthOpen = ref(false);
 		const suprbizRate = ref(null);
-		const yourUSDRate = ref(null);
+		const yourRate = ref(null);
+		const setRate = ref(null);
 		const yourNGNRate = ref(null);
 		const ratesDetails = ref({
-			rates: [
-				{
-					interestPercent: 0,
-					product: "USD",
-				},
-				{
-					interestPercent: 0,
-					product: "NGN",
-				},
-			],
+			customerFeeRate: 0,
+			winningsPercent: 0,
 			pin: "",
+			merchantId: store.getters["authToken/userId"],
 		});
 
 		const schema = Yup.object().shape({
 			// suprbizRates: Yup.string(),
-			yourUSDRates: Yup.number()
-				.typeError("USD rates is required and must be a number")
-				.required("Your rate is required")
+			yourRate: Yup.number()
+				.typeError("Rate is required and must be a number")
+				.required("Rate is required")
 				.test(
 					"max",
-					"USD rate must be less than or equal to suprbiz rate",
+					"Rate must be less than or equal to suprbiz rate",
 					(val) => val <= suprbizRate.value
 				),
-			yourNGNRates: Yup.number()
-				.typeError("NGN rates is required and must be a number")
-				.required("Your rate is required")
+			setRate: Yup.number()
+				.typeError("Rate is required and must be a number")
+				.required("Rate is required")
 				.test(
 					"max",
-					"NGN rate must be less than or equal to suprbiz rate",
+					"Rate must be less than or equal to suprbiz rate",
 					(val) => val <= suprbizRate.value
 				),
 		});
@@ -171,36 +169,72 @@ export default {
 			isPinAuthOpen.value = false;
 		};
 
-		const getCustomerRate = () => {
-			customerRateLoading.value = true;
-			CustomerService.getCustomerRate(
-				(response) => {
-					customerRateLoading.value = false;
-					Log.info("customer-rate" + JSON.stringify(response));
-					const rates = response.data.data;
-					rates.forEach((rate) => {
-						if (rate.product === "USD" && rate.interestPercent > 0) {
-							yourUSDRate.value = rate.interestPercent;
-						} else if (rate.product === "NGN" && rate.interestPercent > 0) {
-							yourNGNRate.value = rate.interestPercent;
-						}
-					});
-				},
-				(error) => {
-					customerRateLoading.value = false;
-					Log.info(error);
-					// getCustomerRates();
-				}
-			);
-		};
+		// const getCustomerRate = () => {
+		// 	customerRateLoading.value = true;
+		// 	CustomerService.getCustomerRate(
+		// 		(response) => {
+		// 			customerRateLoading.value = false;
+		// 			Log.info("customer-rate" + JSON.stringify(response));
+		// 			const rates = response.data.data;
+		// 			rates.forEach((rate) => {
+		// 				if (rate.product === "USD" && rate.interestPercent > 0) {
+		// 					yourRate.value = rate.interestPercent;
+		// 				} else if (rate.product === "NGN" && rate.interestPercent > 0) {
+		// 					yourNGNRate.value = rate.interestPercent;
+		// 				}
+		// 			});
+		// 		},
+		// 		(error) => {
+		// 			customerRateLoading.value = false;
+		// 			Log.info(error);
+		// 			// getCustomerRates();
+		// 		}
+		// 	);
+		// };
 
-		const getSuprbizRate = () => {
+		// const getSavingsRates = () => {
+		// 	suprbizRateLoading.value = true;
+		// 	CustomerService.getSavingsRates(
+		// 		(response) => {
+		// 			Log.info("savings rates: " + JSON.stringify(response));
+		// 			const data = response.data.data;
+		// 			if (data !== null) {
+		// 				suprbizRateLoading.value = false;
+		// 				Log.info(response);
+		// 				suprbizRate.value = data.interestPercent;
+		// 				if (data.customerFeeRate > 0) {
+		// 					yourRate.value = data.customerFeeRate;
+		// 				}
+		// 				if (data.winningsPercent > 0) {
+		// 					setRate.value = data.winningsPercent;
+		// 				}
+		// 			}
+		// 		},
+		// 		(error) => {
+		// 			suprbizRateLoading.value = false;
+		// 			Log.error(error);
+		// 		}
+		// 	);
+		// };
+
+		// const postSavingsRates = () => {
+		// 	CustomerService.postSavingsRates();
+		// };
+
+		const getAllSuprbizRates = () => {
 			suprbizRateLoading.value = true;
-			CustomerService.getSuprbizRate(
+			CustomerService.getAllSuprbizRates(
 				(response) => {
-					suprbizRateLoading.value = false;
-					Log.info(response);
-					suprbizRate.value = response.data.data;
+					Log.info("savings rates: " + JSON.stringify(response));
+					const data = response.data.data;
+					if (data !== null) {
+						suprbizRateLoading.value = false;
+						Log.info(response);
+						suprbizRate.value = data.interestPercent;
+						dummyRate.value = data.sellingFeeRate;
+						yourRate.value = data.sellingFeeRate < 0 ? data.sellingFeeRate : "";
+						setRate.value = data.sellingWinningsRate > 0 ? data.sellingWinningsRate : null;
+					}
 				},
 				(error) => {
 					suprbizRateLoading.value = false;
@@ -211,8 +245,8 @@ export default {
 
 		const getPin = (values) => {
 			Log.info(JSON.stringify(values));
-			ratesDetails.value.rates[0].interestPercent = Number(values.yourUSDRates);
-			ratesDetails.value.rates[1].interestPercent = Number(values.yourNGNRates);
+			ratesDetails.value.customerFeeRate = Number(values.yourRate);
+			ratesDetails.value.winningsPercent = Number(values.setRate);
 			openPinAuth();
 		};
 
@@ -221,7 +255,7 @@ export default {
 			Log.info("pin: " + pin);
 			ratesDetails.value.pin = pin;
 			Log.info("ratesDetails: " + JSON.stringify(ratesDetails.value));
-			CustomerService.saveRate(
+			CustomerService.postSavingsRates(
 				ratesDetails.value,
 				(response) => {
 					saveLoading.value = false;
@@ -238,6 +272,26 @@ export default {
 		//after filling rate input
 		//open modal and emit pin
 		//after emit run save rate function
+		// const addTrailingPercentage = (value) => {
+		// 	// document.getElementById("yourRate").innerHTML = value + "%";
+		// 	return value + "%";
+		// };
+
+		// const myGeeks = (value) => {
+		// 	let str = value;
+		// 	let matches = str.match(/(\d+)/);
+
+		// 	if (matches) {
+		// 		return matches[0];
+		// 	}
+		// };
+
+		// watch(yourRate, (newValue, oldValue) => {
+		// 	// if (myGeeks(newValue) !== myGeeks(oldValue)) {
+		// 	// yourRate.value = myGeeks(newValue) + "%";
+		// 	Log.info(newValue, oldValue);
+		// 	// }
+		// });
 		return {
 			saveLoading,
 			schema,
@@ -247,10 +301,12 @@ export default {
 			openPinAuth,
 			closePinAuth,
 			isPinAuthOpen,
-			yourUSDRate,
+			yourRate,
 			yourNGNRate,
 			suprbizRateLoading,
 			customerRateLoading,
+			setRate,
+			dummyRate,
 		};
 	},
 };

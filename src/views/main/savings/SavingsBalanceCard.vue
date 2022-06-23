@@ -85,15 +85,15 @@
 					<span class="fw-400 fs-12 tx-666666"
 						>Pending: <span class="blacktext">N{{ formatCurrency(pendingInvestment) }}</span></span
 					>
-				</div>
-				<div class="flex justify-between flex-wrap" v-else-if="currency === 'USD'">
+				</div> -->
+				<div class="flex justify-between flex-wrap" v-if="title === 'WALLET BALANCE'">
 					<span class="fw-400 fs-12 tx-666666"
 						>Ledger: <span class="blacktext">${{ formatCurrency(ledgerBalance) }}</span></span
 					>
 					<span class="fw-400 fs-12 tx-666666"
 						>Pending: <span class="blacktext">${{ formatCurrency(pendingInvestment) }}</span></span
 					>
-				</div> -->
+				</div>
 
 				<div class="flex items-center mt-4">
 					<div
