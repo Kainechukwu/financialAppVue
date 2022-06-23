@@ -241,12 +241,12 @@ export default [
 						children: [
 							{
 								path: "/savings/customer_list",
-								name: "Savings Customers List",
+								name: "Savings List",
 								component: () => import("@/views/main/savings/SavingsCustomerList.vue"),
 							},
 							{
 								path: "/savings/transactions",
-								name: "Savings Customers Transactions",
+								name: "Savings Transactions",
 								component: () => import("@/views/main/customers/Transactions.vue"),
 							},
 							{

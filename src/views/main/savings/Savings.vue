@@ -10,7 +10,7 @@
 							style="background-color: #18ae81"
 							class="br-3 inline-flex justify-between w-full px-4 py-2"
 						>
-							<span class="text-white fw-400 fs-14">New Actions</span>
+							<span class="text-white fw-400 fs-14">Share Rewards</span>
 							<div class="flex items-center my-auto ml-2">
 								<svg
 									width="12"
@@ -45,57 +45,13 @@
 							<div class="py-1">
 								<MenuItem v-slot="{ active }">
 									<span
-										@click="openCreateCustomer"
-										class="cursor-pointer border-b border-gray-100"
-										:class="[
-											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-											'block px-4 py-2 fs-14 fw-400 blacktext',
-										]"
-										>Create Customer</span
-									>
-								</MenuItem>
-								<MenuItem v-slot="{ active }">
-									<router-link
-										to="/customers/create_deposit"
-										class="cursor-pointer border-b border-gray-100"
-										:class="[
-											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-											'block px-4 py-2 fs-14 fw-400 blacktext',
-										]"
-										>Create Deposit</router-link
-									>
-								</MenuItem>
-								<MenuItem v-slot="{ active }">
-									<router-link
-										to="/customers/create_withdrawal"
-										class="cursor-pointer border-b border-gray-100"
-										:class="[
-											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-											'block px-4 py-2 fs-14 fw-400 blacktext',
-										]"
-										>Create Withdrawal</router-link
-									>
-								</MenuItem>
-								<!-- <MenuItem v-slot="{ active }">
-									<router-link
-										to="/deposit"
-										class="cursor-pointer border-b border-gray-100"
-										:class="[
-											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-											'block px-4 py-2 fs-14 fw-400 blacktext',
-										]"
-										>Deposit Funds</router-link
-									>
-								</MenuItem> -->
-								<MenuItem v-slot="{ active }">
-									<router-link
-										to="/settings/apy_rates"
+										@click="openShareRewards"
 										class="cursor-pointer"
 										:class="[
 											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
 											'block px-4 py-2 fs-14 fw-400 blacktext',
 										]"
-										>Configure Rate</router-link
+										>Share Rewards</span
 									>
 								</MenuItem>
 							</div>
@@ -119,29 +75,23 @@
 				<!-- ------------------------- -->
 				<div class="h-16 flex flex-col justify-between mr-10">
 					<div class="h-2"></div>
-					<div
-						class="fw-600 fs-14"
-						:class="{ 'nav-link-color': currentPage === 'Savings Customers List' }"
-					>
+					<div class="fw-600 fs-14" :class="{ 'nav-link-color': currentPage === 'Savings List' }">
 						<router-link to="/savings/customer_list">Customer List</router-link>
 					</div>
-					<div
-						class="h-02rem"
-						:class="{ 'nav-link-bg': currentPage === 'Savings Customers List' }"
-					></div>
+					<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'Savings List' }"></div>
 				</div>
 				<!-- ------------------------- -->
 				<div class="h-16 ml-2 flex flex-col justify-between mr-10">
 					<div class="h-2"></div>
 					<div
 						class="fw-600 fs-14"
-						:class="{ 'nav-link-color': currentPage === 'Savings Customers Transactions' }"
+						:class="{ 'nav-link-color': currentPage === 'Savings Transactions' }"
 					>
 						<router-link :to="`/savings/transactions`">Customer Transactions</router-link>
 					</div>
 					<div
 						class="h-02rem"
-						:class="{ 'nav-link-bg': currentPage === 'Savings Customers Transactions' }"
+						:class="{ 'nav-link-bg': currentPage === 'Savings Transactions' }"
 					></div>
 				</div>
 				<div class="h-16 flex flex-col justify-between mr-10">
@@ -174,7 +124,7 @@
 
 			<router-view></router-view>
 		</div>
-		<create-customer :open="isCreateCustomerOpen" @close="closeCreateCustomer" />
+		<share-rewards :open="isShareRewardsOpen" @close="closeShareRewards" />
 	</div>
 </template>
 
@@ -187,7 +137,7 @@ import CustomerService from "@/services/userActions/customerService.js";
 import { useStore } from "vuex";
 import { Log } from "@/components/util";
 
-import CreateCustomer from "@/views/modals/CreateCustomer.vue";
+import ShareRewards from "@/views/modals/ShareRewards.vue";
 import SavingsBalanceCard from "./SavingsBalanceCard.vue";
 import SavingsInterestEarnedPlate from "./SavingsInterestEarnedPlate.vue";
 export default {
@@ -199,7 +149,7 @@ export default {
 		MenuButton,
 		MenuItem,
 		MenuItems,
-		CreateCustomer,
+		ShareRewards,
 	},
 	setup() {
 		onMounted(() => {
@@ -209,16 +159,16 @@ export default {
 		});
 		const route = ref(useRoute());
 		const store = useStore();
-		const isCreateCustomerOpen = ref(false);
+		const isShareRewardsOpen = ref(false);
 		// const merchantId = store.getters["authToken/userId"];
 
 		const currentPage = computed(() => route.value.name);
-		const openCreateCustomer = () => {
-			isCreateCustomerOpen.value = true;
+		const openShareRewards = () => {
+			isShareRewardsOpen.value = true;
 		};
 
-		const closeCreateCustomer = () => {
-			isCreateCustomerOpen.value = false;
+		const closeShareRewards = () => {
+			isShareRewardsOpen.value = false;
 		};
 
 		const getCharges = () => {
@@ -241,9 +191,9 @@ export default {
 		return {
 			currentPage,
 			// merchantId,
-			openCreateCustomer,
-			isCreateCustomerOpen,
-			closeCreateCustomer,
+			openShareRewards,
+			isShareRewardsOpen,
+			closeShareRewards,
 		};
 	},
 };
