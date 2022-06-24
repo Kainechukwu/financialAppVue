@@ -260,6 +260,14 @@ export default class CustomerService {
 		);
 	}
 
+	static getAnyBalance(type, successHandler, errorHandler) {
+		Web.getCustomer(
+			Constants.API_BASE + `/Wallets/any-balance?type=${type}`,
+			successHandler,
+			errorHandler
+		);
+	}
+
 	static localWalletBalance(successHandler, errorHandler) {
 		Web.getCustomer(Constants.API_BASE + `/Wallets/local-balance`, successHandler, errorHandler);
 	}

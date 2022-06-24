@@ -1,7 +1,7 @@
 <template>
 	<div class="col-span-1">
 		<div class="flex h-full flex-col bg-white br-10 px-4">
-			<div class="flex flex-col justify-between my-4">
+			<div class="flex flex-col justify-between my-4 h-full">
 				<div class="flex justify-between mb-1">
 					<span v-if="title === 'WALLET BALANCE'" class="fw-400 fs-12 tx-666666 uppercase"
 						>WALLET BALANCE</span
@@ -67,7 +67,7 @@
 					</Popover>
 				</div>
 
-				<div class="flex">
+				<div class="flex mb-auto">
 					<!-- <span v-if="currency === 'NGN'" class="mb-1 fw-400 fs-24 blacktext mr-3"
 						>N{{ totalWithPerSecInterest
 						}}<span class="fs-14 ml-px">{{ interectDecimal }}</span></span
@@ -222,11 +222,12 @@ export default {
 		};
 
 		const getWalletBalance = () => {
-			if (props.currency === "NGN") {
-				localWalletBalance();
-			} else if (props.currency === "USD") {
-				usdWalletBalance();
-			}
+			getAnyBalance();
+			// if (props.title === "WALLET BALANCE") {
+			// 	getAnyBalance(3);
+			// } else if (props.title === "REWARD BALANCE") {
+			// 	getAnyBalance(4);
+			// }
 		};
 
 		const getPendingInvestment = () => {
@@ -269,8 +270,12 @@ export default {
 			);
 		};
 
-		const localWalletBalance = () => {
-			CustomerService.localWalletBalance(
+		const getAnyBalance = () => {
+			const walletType = props.title === "WALLET BALANCE" ? 3 : 4;
+
+			Log.info("walletType:" + walletType);
+			CustomerService.getAnyBalance(
+				walletType,
 				(response) => {
 					Log.info("LocalBalance: " + JSON.stringify(response));
 					const balance = response.data.data;
@@ -298,45 +303,7 @@ export default {
 							key: "localWalletBalance",
 							run: () => {
 								Log.info("re do login");
-								localWalletBalance();
-							},
-							time: refetchTime.value,
-						});
-					}
-				}
-			);
-		};
-
-		const usdWalletBalance = () => {
-			CustomerService.usdWalletBalance(
-				(response) => {
-					Log.info("usdBalance: " + JSON.stringify(response));
-					const balance = response.data.data;
-					principalBalance.value = balance.principalBalance;
-					ledgerBalance.value = balance.ledgerBalance;
-					walletBalance.value = principalBalance.value - ledgerBalance.value;
-
-					total.value = principalBalance.value + balance.interestBalance + balance.suspenseBalance;
-
-					totalBalance.value = Util.currencyFormatter(total.value, Constants.currencyFormat);
-					availableBalance.value = Util.currencyFormatter(
-						principalBalance.value + balance.interestBalance,
-						Constants.currencyFormat
-					);
-				},
-				(error) => {
-					Log.error(error);
-					if (Util.checkIfServerError(error.response.status) && refetchTime.value < 5000) {
-						Log.error(" error status:" + JSON.stringify(error.response.status));
-						// if (refetchTime.value < 5000) {
-						refetchTime.value += 1000;
-						// }
-						Log.info(" refetchTime.value:" + JSON.stringify(refetchTime.value));
-						Util.throttle({
-							key: "usdWalletBalance",
-							run: () => {
-								Log.info("re do login");
-								usdWalletBalance();
+								getAnyBalance();
 							},
 							time: refetchTime.value,
 						});
