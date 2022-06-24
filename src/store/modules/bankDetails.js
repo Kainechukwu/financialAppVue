@@ -1,7 +1,4 @@
-
-
 const state = {
-
 	pin: "",
 	transType: 0,
 	amount: 0,
@@ -16,69 +13,71 @@ const state = {
 	withdrawalFee: 0,
 	depositFee: 0,
 	walletId: 0,
-	naijaBankDetails: {}
-
-
+	customerWalletType: 0,
+	naijaBankDetails: {},
 };
 
-
 const getters = {
-
 	// details(state) {
 	// 	return state.details
 	// }
+	customerWalletType(state) {
+		return state.customerWalletType;
+	},
 	transType(state) {
-		return state.transType
+		return state.transType;
 	},
 	naijaBankDetails(state) {
-		return state.naijaBankDetails
+		return state.naijaBankDetails;
 	},
 	walletId(state) {
-		return state.walletId
+		return state.walletId;
 	},
 	depositFee(state) {
-		return state.depositFee
+		return state.depositFee;
 	},
 
 	withdrawalFee(state) {
-		return state.withdrawalFee
+		return state.withdrawalFee;
 	},
 
 	pin(state) {
-		return state.pin
+		return state.pin;
 	},
 	amountToReceive(state) {
-		return state.amountToReceive
+		return state.amountToReceive;
 	},
 	balance(state) {
-		return state.balance
+		return state.balance;
 	},
 	amount(state) {
-		return state.amount
+		return state.amount;
 	},
 	rateId(state) {
-		return state.rateId
+		return state.rateId;
 	},
 	beneficiaryName(state) {
-		return state.beneficiaryName
+		return state.beneficiaryName;
 	},
 	beneficiaryAccountNumber(state) {
-		return state.beneficiaryAccountNumber
+		return state.beneficiaryAccountNumber;
 	},
 
 	bankName(state) {
-		return state.bankName
+		return state.bankName;
 	},
 	bankAddress(state) {
-		return state.bankAddress
+		return state.bankAddress;
 	},
 	abaRoutingNumber(state) {
-		return state.abaRoutingNumber
+		return state.abaRoutingNumber;
 	},
 };
 
-
 const mutations = {
+	customerWalletType(state, customerWalletType) {
+		state.customerWalletType = customerWalletType;
+	},
 	transType(state, transType) {
 		state.transType = transType;
 	},
@@ -126,17 +125,9 @@ const mutations = {
 	abaRoutingNumber(state, abaRoutingNumber) {
 		state.abaRoutingNumber = abaRoutingNumber;
 	},
-
-
 };
 
-
-const actions = {
-
-
-
-};
-
+const actions = {};
 
 export default {
 	namespaced: true,

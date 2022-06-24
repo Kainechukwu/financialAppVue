@@ -155,7 +155,7 @@ export default {
 		onMounted(() => {
 			store.commit("bankDetails/transType", 1);
 			getCharges();
-			Log.info("transType:" + store.getters["bankDetails/transType"]);
+			// Log.info("transType:" + store.getters["bankDetails/transType"]);
 		});
 		const route = ref(useRoute());
 		const store = useStore();

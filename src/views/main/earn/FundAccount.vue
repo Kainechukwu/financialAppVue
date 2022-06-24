@@ -169,6 +169,7 @@ export default {
 		// });
 		const store = useStore();
 		const transType = store.getters["bankDetails/transType"];
+		const customerWalletType = store.getters["bankDetails/customerWalletType"];
 
 		// const router = useRouter();
 		// const router = useRouter();
@@ -232,7 +233,7 @@ export default {
 							amountInUst: store.getters["deposit/amountRecieved"],
 							rateId: store.getters["deposit/rateId"],
 							transactionRefCode: bankDetails.transactionRefCode,
-							type: 2,
+							type: customerWalletType,
 						},
 						(response) => {
 							Log.info(response);

@@ -144,7 +144,8 @@
 				</div>
 				<div class="flex flex-col justify-between mt-1 h-full">
 					<span class="fw-400 fs-24 blacktext mr-3"
-						>${{ usdInterestMain }}<span class="fs-14 ml-px">{{ usdInterestDecimal }}</span></span
+						>${{ savingsInterestMain
+						}}<span class="fs-14 ml-px">{{ savingsInterestDecimal }}</span></span
 					>
 
 					<div class="inline-block mt-auto">
@@ -154,7 +155,8 @@
 				</div>
 				<div class="flex flex-col justify-between mt-1 h-full">
 					<span class="fw-400 fs-24 blacktext mr-3"
-						>${{ ngnInterestMain }}<span class="fs-14 ml-px">{{ ngnInterestDecimal }}</span></span
+						>${{ winningsInterestMain
+						}}<span class="fs-14 ml-px">{{ winningsInterestDecimal }}</span></span
 					>
 
 					<!-- <div class="inline-block mt-auto">
@@ -199,8 +201,8 @@ export default {
 	setup() {
 		onMounted(() => {
 			// getEarnings();
-			getCustomerUSDEarnings();
-			getCustomerNGNEarnings();
+			getCustomerSavingsInterest();
+			getCustomerWinnings();
 			counter();
 		});
 		// const store = useStore();
@@ -216,38 +218,38 @@ export default {
 
 		// const currency = isNigerian ? "N" : "$";
 		const selected = ref(periods[0]);
-		const usdInterest = ref(Util.currencyFormatter(0, Constants.btcFormat));
-		const usdInterestMain = computed(() => {
-			const displayValue = usdInterest.value;
+		const savingsInterest = ref(Util.currencyFormatter(0, Constants.btcFormat));
+		const savingsInterestMain = computed(() => {
+			const displayValue = savingsInterest.value;
 
 			return displayValue.slice(0, displayValue.length - 6);
 		});
-		const usdInterestDecimal = computed(() => {
-			const displayValue = usdInterest.value;
+		const savingsInterestDecimal = computed(() => {
+			const displayValue = savingsInterest.value;
 
 			return displayValue.slice(displayValue.length - 6, displayValue.length);
 		});
 
-		const ngnInterest = ref(Util.currencyFormatter(0, Constants.btcFormat));
-		const ngnInterestMain = computed(() => {
-			const displayValue = ngnInterest.value;
+		const winningsInterest = ref(Util.currencyFormatter(0, Constants.btcFormat));
+		const winningsInterestMain = computed(() => {
+			const displayValue = winningsInterest.value;
 
 			return displayValue.slice(0, displayValue.length - 6);
 		});
-		const ngnInterestDecimal = computed(() => {
-			const displayValue = ngnInterest.value;
+		const winningsInterestDecimal = computed(() => {
+			const displayValue = winningsInterest.value;
 
 			return displayValue.slice(displayValue.length - 6, displayValue.length);
 		});
 
-		const getCustomerUSDEarnings = () => {
+		const getCustomerSavingsInterest = () => {
 			CustomerService.getCustomerEarnings(
 				selected.value.value,
-				1,
+				3,
 				(response) => {
 					Log.info("LocalInterest: " + JSON.stringify(response));
 
-					usdInterest.value = Util.currencyFormatter(
+					savingsInterest.value = Util.currencyFormatter(
 						response.data.data.amountEarned,
 
 						Constants.btcFormat
@@ -259,14 +261,14 @@ export default {
 			);
 		};
 
-		const getCustomerNGNEarnings = () => {
+		const getCustomerWinnings = () => {
 			CustomerService.getCustomerEarnings(
 				selected.value.value,
-				2,
+				4,
 				(response) => {
 					Log.info("LocalInterest: " + JSON.stringify(response));
 
-					ngnInterest.value = Util.currencyFormatter(
+					winningsInterest.value = Util.currencyFormatter(
 						response.data.data.amountEarned,
 
 						Constants.btcFormat
@@ -293,17 +295,17 @@ export default {
 		watch(selected, (newValue) => {
 			Log.info(newValue);
 			// getEarnings();
-			getCustomerUSDEarnings();
-			getCustomerNGNEarnings();
+			getCustomerSavingsInterest();
+			getCustomerWinnings();
 		});
 		return {
 			periods,
 			selected,
 			isNigerian,
-			usdInterestDecimal,
-			usdInterestMain,
-			ngnInterestDecimal,
-			ngnInterestMain,
+			savingsInterestDecimal,
+			savingsInterestMain,
+			winningsInterestDecimal,
+			winningsInterestMain,
 		};
 	},
 };

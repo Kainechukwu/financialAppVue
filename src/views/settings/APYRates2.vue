@@ -232,7 +232,7 @@ export default {
 						Log.info(response);
 						suprbizRate.value = data.interestPercent;
 						dummyRate.value = data.sellingFeeRate;
-						yourRate.value = data.sellingFeeRate < 0 ? data.sellingFeeRate : "";
+						yourRate.value = data.sellingFeeRate > 0 ? data.sellingFeeRate : null;
 						setRate.value = data.sellingWinningsRate > 0 ? data.sellingWinningsRate : null;
 					}
 				},
