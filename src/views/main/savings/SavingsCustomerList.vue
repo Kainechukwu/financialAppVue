@@ -339,7 +339,7 @@ export default {
 					Log.info(response);
 					Log.info("customers2");
 
-					customers.value = response.data.data;
+					customers.value = response.data.data !== null ? response.data.data : [];
 					totalPages.value = response.data.total;
 				},
 				(error) => {

@@ -252,12 +252,12 @@ export default [
 							{
 								path: "/savings/rewards_transactions",
 								name: "Savings Rewards Transactions",
-								component: () => import("@/views/main/customers/NGNTransactions.vue"),
+								component: () => import("@/views/main/savings/RewardsTransactions.vue"),
 							},
 							{
 								path: "/savings/wallet_transactions",
 								name: "Savings Wallet Transactions",
-								component: () => import("@/views/main/customers/USDTransactions.vue"),
+								component: () => import("@/views/main/savings/WalletTransactions.vue"),
 							},
 						],
 					},

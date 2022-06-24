@@ -114,7 +114,7 @@
 								<TableSkeleton />
 							</div>
 							<div
-								v-else-if="customers.length === 0 && !loading"
+								v-else-if="customers.length === 0 || (null && !loading)"
 								class="py-56 w-full bg-white flex flex-col items-center justify-center"
 							>
 								<div>
@@ -339,7 +339,7 @@ export default {
 					Log.info(response);
 					Log.info("customers2");
 
-					customers.value = response.data.data;
+					customers.value = response.data.data !== null ? response.data.data : [];
 					totalPages.value = response.data.total;
 				},
 				(error) => {
