@@ -208,19 +208,17 @@ export default {
 		};
 
 		const goToDeposit = () => {
-			if (props.currency === "NGN") {
-				openAddFundsNaija();
-			} else if (props.currency === "USD") {
-				router.push("/deposit");
+			if (props.title === "WALLET BALANCE") {
+				store.commit("bankDetails/customerWalletType", 3);
+			} else if (props.title === "REWARD BALANCE") {
+				store.commit("bankDetails/customerWalletType", 4);
 			}
+
+			router.push("/deposit");
 		};
 
 		const goToWithdraw = () => {
-			if (props.currency === "NGN") {
-				router.push("/withdraw-n");
-			} else if (props.currency === "USD") {
-				router.push("/withdraw");
-			}
+			router.push("/withdraw");
 		};
 
 		const getWalletBalance = () => {

@@ -360,6 +360,7 @@ export default {
 		// const page = toRef(props, "page");
 		const router = useRouter();
 		const store = useStore();
+		const customerWalletType = store.getters["bankDetails/customerWalletType"];
 		const transType = store.getters["bankDetails/transType"];
 		const depositAmount = ref("");
 		const requestLoading = ref(false);
@@ -420,7 +421,7 @@ export default {
 			if (transType === 0) {
 				router.push("/earn/overview");
 			} else if (transType === 1) {
-				router.push("/customers");
+				customerWalletType == 2 ? router.push("/customers") : router.push("/savings");
 			}
 		};
 
@@ -488,7 +489,7 @@ export default {
 				CustomerService.transactionDeposit(
 					{
 						rateId: rateId.value,
-						type: 2,
+						type: customerWalletType,
 						amount: depositAmount.value,
 					},
 					(response) => {
@@ -545,6 +546,7 @@ export default {
 			setMoneySent,
 			transType,
 			rateId,
+			customerWalletType,
 		};
 	},
 };

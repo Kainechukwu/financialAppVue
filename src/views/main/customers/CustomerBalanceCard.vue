@@ -209,6 +209,7 @@ export default {
 			if (props.currency === "NGN") {
 				openAddFundsNaija();
 			} else if (props.currency === "USD") {
+				store.commit("bankDetails/customerWalletType", 2);
 				router.push("/deposit");
 			}
 		};
