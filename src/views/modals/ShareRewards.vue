@@ -58,7 +58,7 @@
 				:details="businessDetailsData"
 			/> -->
 								<Form
-									@submit="saveDetails"
+									@submit="shareRewards"
 									:validation-schema="schema"
 									v-slot="{ errors }"
 									class="flex flex-col"
@@ -113,14 +113,14 @@
 											>
 											<Field
 												id="Set users minimum balance"
-												name="firstName"
+												name="minBalance"
 												type="number"
 												autocomplete="off"
 												required=""
 												class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-												:class="{ 'is-invalid': errors.firstName }"
+												:class="{ 'is-invalid': errors.minBalance }"
 											/>
-											<div class="invalid-feedback text-red-500">{{ errors.firstName }}</div>
+											<div class="invalid-feedback text-red-500">{{ errors.minBalance }}</div>
 										</div>
 
 										<div class="mb-6 col-span-1">
@@ -130,16 +130,16 @@
 											<div class="relative">
 												<Field
 													id="Set users maximum balance"
-													name="lastName"
+													name="maxBalance"
 													type="number"
 													autocomplete="off"
 													required=""
 													placeholder=""
 													class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-													:class="{ 'is-invalid': errors.lastName }"
+													:class="{ 'is-invalid': errors.maxBalance }"
 												/>
 												<div class="invalid-feedback text-red-500">
-													{{ errors.lastName }}
+													{{ errors.maxBalance }}
 												</div>
 											</div>
 										</div>
@@ -151,14 +151,14 @@
 											>
 											<Field
 												id="Enter amount to distribute"
-												name="email"
+												name="amount"
 												type="number"
 												autocomplete="off"
 												required=""
 												class="mt-1.5 br-5 h-11 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-												:class="{ 'is-invalid': errors.email }"
+												:class="{ 'is-invalid': errors.amount }"
 											/>
-											<div class="invalid-feedback text-red-500">{{ errors.email }}</div>
+											<div class="invalid-feedback text-red-500">{{ errors.amount }}</div>
 										</div>
 									</div>
 
@@ -248,9 +248,9 @@ export default {
 		};
 
 		const schema = Yup.object().shape({
-			firstName: Yup.number().required("Set users minimum balance is required"),
-			lastName: Yup.number().required("Set users maximum balance is required"),
-			email: Yup.number().required("Enter amount to distribute is required"),
+			minBalance: Yup.number().required("Set users minimum balance is required"),
+			maxBalance: Yup.number().required("Set users maximum balance is required"),
+			amount: Yup.number().required("Enter amount to distribute is required"),
 			// fiat: Yup.string().required("Fiat is required"),
 			// rate: Yup.string().test(
 			// 	"max",
@@ -259,13 +259,15 @@ export default {
 			// ),
 		});
 
-		const prepareCustomerDetails = (values) => {
+		const prepareRewardsDetails = (values) => {
 			const obj = {
-				firstName: values.firstName,
-				lastName: values.lastName,
-				// fiatCurrency: selected.value.currency,
-				emailAddress: values.email,
-				// rate: values.rate,
+				allUsers: allUsers.value,
+				lastSevenDays: last7days.value,
+				lastThirtyDays: last30days.value,
+				lastThreeMonths: last3months.value,
+				userMinBalance: values.minBalance,
+				userMaxBalance: values.maxBalance,
+				amountToDistribute: values.amount,
 			};
 			return obj;
 		};
@@ -298,13 +300,13 @@ export default {
 		// 	);
 		// };
 
-		const saveDetails = (values) => {
+		const shareRewards = (values) => {
 			Log.info("values");
 			Log.info(values);
 			loading.value = true;
-			Log.info(prepareCustomerDetails(values));
-			CustomerService.createCustomer(
-				prepareCustomerDetails(values),
+			Log.info(prepareRewardsDetails(values));
+			CustomerService.shareRewards(
+				prepareRewardsDetails(values),
 				(response) => {
 					loading.value = false;
 					close();
@@ -325,7 +327,7 @@ export default {
 
 			loading,
 			allUsers,
-			saveDetails,
+			shareRewards,
 			last7days,
 			last30days,
 			last3months,

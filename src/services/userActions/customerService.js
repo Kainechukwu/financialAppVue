@@ -220,6 +220,15 @@ export default class CustomerService {
 		);
 	}
 
+	static shareRewards(credentials, successHandler, errorHandler) {
+		Web.postCustomer(
+			Constants.API_BASE + "/Transactions/share-reward",
+			credentials,
+			successHandler,
+			errorHandler
+		);
+	}
+
 	static getCharges(successHandler, errorHandler) {
 		Web.getCustomer(Constants.API_BASE + "/Transactions/get-charges", successHandler, errorHandler);
 	}
