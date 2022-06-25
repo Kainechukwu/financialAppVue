@@ -10,7 +10,7 @@
 							style="background-color: #18ae81"
 							class="br-3 inline-flex justify-between w-full px-4 py-2"
 						>
-							<span class="text-white fw-400 fs-14">Share Rewards</span>
+							<span class="text-white fw-400 fs-14">New Actions</span>
 							<div class="flex items-center my-auto ml-2">
 								<svg
 									width="12"
@@ -43,6 +43,61 @@
 							class="z-30 origin-top-right absolute right-0 mt-1 w-40 br-5 menuBoxShadow bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
 						>
 							<div class="py-1">
+								<MenuItem v-slot="{ active }">
+									<span
+										@click="openCreateCustomer"
+										class="cursor-pointer border-b border-gray-100"
+										:class="[
+											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+											'block px-4 py-2 fs-14 fw-400 blacktext',
+										]"
+										>Create Customer</span
+									>
+								</MenuItem>
+								<MenuItem v-slot="{ active }">
+									<router-link
+										to="/customers/create_deposit"
+										class="cursor-pointer border-b border-gray-100"
+										:class="[
+											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+											'block px-4 py-2 fs-14 fw-400 blacktext',
+										]"
+										>Create Deposit</router-link
+									>
+								</MenuItem>
+								<MenuItem v-slot="{ active }">
+									<router-link
+										to="/customers/create_withdrawal"
+										class="cursor-pointer border-b border-gray-100"
+										:class="[
+											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+											'block px-4 py-2 fs-14 fw-400 blacktext',
+										]"
+										>Create Withdrawal</router-link
+									>
+								</MenuItem>
+								<!-- <MenuItem v-slot="{ active }">
+									<router-link
+										to="/deposit"
+										class="cursor-pointer border-b border-gray-100"
+										:class="[
+											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+											'block px-4 py-2 fs-14 fw-400 blacktext',
+										]"
+										>Deposit Funds</router-link
+									>
+								</MenuItem> -->
+								<MenuItem v-slot="{ active }">
+									<router-link
+										to="/settings/apy_rates/savings"
+										class="cursor-pointer"
+										:class="[
+											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+											'block px-4 py-2 fs-14 fw-400 blacktext',
+										]"
+										>Configure Rate</router-link
+									>
+								</MenuItem>
 								<MenuItem v-slot="{ active }">
 									<span
 										@click="openShareRewards"
@@ -125,6 +180,7 @@
 			<router-view></router-view>
 		</div>
 		<share-rewards :open="isShareRewardsOpen" @close="closeShareRewards" />
+		<create-savings-customer :open="isCreateCustomerOpen" @close="closeCreateCustomer" />
 	</div>
 </template>
 
@@ -133,6 +189,7 @@ import { useRoute } from "vue-router";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { computed, ref, onMounted } from "vue";
 import CustomerService from "@/services/userActions/customerService.js";
+import CreateSavingsCustomer from "@/views/modals/CreateSavingsCustomer.vue";
 
 import { useStore } from "vuex";
 import { Log } from "@/components/util";
@@ -143,6 +200,8 @@ import SavingsInterestEarnedPlate from "./SavingsInterestEarnedPlate.vue";
 export default {
 	name: "Savings",
 	components: {
+		CreateSavingsCustomer,
+
 		SavingsBalanceCard,
 		SavingsInterestEarnedPlate,
 		Menu,
@@ -159,6 +218,8 @@ export default {
 		});
 		const route = ref(useRoute());
 		const store = useStore();
+		const isCreateCustomerOpen = ref(false);
+
 		const isShareRewardsOpen = ref(false);
 		// const merchantId = store.getters["authToken/userId"];
 
@@ -169,6 +230,15 @@ export default {
 
 		const closeShareRewards = () => {
 			isShareRewardsOpen.value = false;
+		};
+		// const merchantId = store.getters["authToken/userId"];
+
+		const openCreateCustomer = () => {
+			isCreateCustomerOpen.value = true;
+		};
+
+		const closeCreateCustomer = () => {
+			isCreateCustomerOpen.value = false;
 		};
 
 		const getCharges = () => {
@@ -194,6 +264,9 @@ export default {
 			openShareRewards,
 			isShareRewardsOpen,
 			closeShareRewards,
+			openCreateCustomer,
+			isCreateCustomerOpen,
+			closeCreateCustomer,
 		};
 	},
 };

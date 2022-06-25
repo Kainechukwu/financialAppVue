@@ -433,12 +433,12 @@ export default [
 							// 	component: () => import("@/views/settings/Rates.vue")
 							// },
 							{
-								path: "/settings/apy_rates",
+								path: "/settings/apy_rates/:product",
 								name: "APY RATES Settings",
 								meta: {
 									auth: Constants.merchantAuth,
 								},
-								component: () => import("@/views/settings/APYRates2.vue"),
+								component: () => import("@/views/settings/AllAPYRates.vue"),
 							},
 						],
 					},
