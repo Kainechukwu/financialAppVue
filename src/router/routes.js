@@ -295,9 +295,19 @@ export default [
 						component: () => import("@/views/main/customers/CreateDeposit.vue"),
 					},
 					{
+						path: "/customers/create_deposit_savings",
+						name: "CreateSavingsDeposit",
+						component: () => import("@/views/main/savings/CreateSavingsDeposit.vue"),
+					},
+					{
 						path: "/customers/create_withdrawal",
 						name: "CreateWithdrawal",
 						component: () => import("@/views/main/customers/CreateWithdrawal.vue"),
+					},
+					{
+						path: "/customers/create_withdrawal_savings",
+						name: "CreateSavingsWithdrawal",
+						component: () => import("@/views/main/savings/CreateSavingsWithdrawal.vue"),
 					},
 					{
 						path: "/customers/deposit_funds",

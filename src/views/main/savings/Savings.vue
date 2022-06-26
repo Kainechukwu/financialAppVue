@@ -56,7 +56,7 @@
 								</MenuItem>
 								<MenuItem v-slot="{ active }">
 									<router-link
-										to="/customers/create_deposit"
+										to="/customers/create_deposit_savings"
 										class="cursor-pointer border-b border-gray-100"
 										:class="[
 											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
@@ -67,7 +67,7 @@
 								</MenuItem>
 								<MenuItem v-slot="{ active }">
 									<router-link
-										to="/customers/create_withdrawal"
+										to="/customers/create_withdrawal_savings"
 										class="cursor-pointer border-b border-gray-100"
 										:class="[
 											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
