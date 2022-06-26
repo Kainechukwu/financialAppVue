@@ -19,7 +19,7 @@
 								stroke-linejoin="round"
 							/>
 						</svg>
-						<span class="blacktext ml-4 fw-600 fs-18"> Create Deposit</span>
+						<span class="blacktext ml-4 fw-600 fs-18"> Create Withdrawal</span>
 					</div>
 				</div>
 				<!-- --------------------- -->
@@ -36,7 +36,6 @@
 						<Form @submit="proceed" :validation-schema="schema" v-slot="{ errors }">
 							<div class="flex flex-col px-6">
 								<div class="grid grid-cols-2 gap-4 py-6">
-									<!-- <div v-if="customerListIsVisible > 0">show</div> -->
 									<div class="col-span-2">
 										<!-- ------------------------ -->
 										<div class="mb-6 col-span-1 relative">
@@ -44,7 +43,6 @@
 												>Email Address</label
 											>
 											<Field
-												autofocus
 												id="Email Address"
 												name="email"
 												type="text"
@@ -101,8 +99,7 @@
 										</div>
 										<!-- ------------------------- -->
 									</div>
-									<div class="col-span-2 sm:col-span-1">
-										<!-- ------------------------ -->
+									<!-- <div class="col-span-2 sm:col-span-1">
 										<div class="relative">
 											<Listbox as="div" v-model="selectedCurrency">
 												<ListboxLabel class="block fs-14 tx-666666 fw-600 truncate">
@@ -114,7 +111,6 @@
 													>
 														<span class="block truncate">
 															{{ selectedCurrency }}
-															<!-- UST -->
 														</span>
 														<span
 															class="absolute inset-y-0 right-0 flex items-center justify-center pr-2 pointer-events-none"
@@ -169,7 +165,6 @@
 																		]"
 																	>
 																		{{ currency }}
-																		<!-- UST -->
 																	</span>
 
 																	<span
@@ -187,11 +182,10 @@
 												</div>
 											</Listbox>
 										</div>
-										<!-- ------------------------- -->
-									</div>
+									</div> -->
 
 									<!-- ---------------- -->
-									<div class="flex flex-col col-span-2 sm:col-span-1">
+									<div class="flex flex-col col-span-2">
 										<label class="block fs-14 tx-666666 fw-600 truncate"> Enter Amount </label>
 										<div class="flex br-5 h-12 mt-2">
 											<Listbox as="div" v-model="selectedCurrency">
@@ -293,7 +287,7 @@
 								>
 									<div class="flex items-center justify-center">
 										<span class="fw-500 fs-16 text-white">Proceed</span>
-										<div v-if="depositLoading" class="h-4 w-4 ml-4 rounded-md block">
+										<div v-if="withdrawalLoading" class="h-4 w-4 ml-4 rounded-md block">
 											<div class="roundLoader opacity-50 mx-auto"></div>
 										</div>
 									</div>
@@ -303,19 +297,21 @@
 					</div>
 				</div>
 
-				<ConfirmTransaction v-else-if="steps === 2" @cancel="decreaseStep" />
+				<ConfirmWithdrawal v-else-if="steps === 2" @cancel="decreaseStep" />
 
 				<!-- <ConfirmWithdrawal /> -->
 				<!-- ------------------ -->
 			</div>
 		</div>
+		<!-- <successful-transaction-modal /> -->
 	</div>
 </template>
 
 <script>
 import { useRouter } from "vue-router";
+// import SuccessfulTransactionModal from "./SuccessfulTransactionModal.vue";
 
-// import { useStore } from "vuex";
+import { useStore } from "vuex";
 // import CancelSvg from "./CancelSvg.vue";
 import { Log, Util, Constants } from "@/components/util";
 import {
@@ -325,7 +321,7 @@ import {
 	//  computed,
 	// watch,
 } from "vue";
-import ConfirmTransaction from "./ConfirmTransaction.vue";
+import ConfirmWithdrawal from "@/views/main/customers/ConfirmWithdrawal.vue";
 // import UserInfo from "@/services/userInfo/userInfo.js";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
@@ -333,30 +329,31 @@ import * as Yup from "yup";
 // import UserActions from "@/services/userActions/userActions.js";
 import {
 	Listbox,
-	ListboxLabel,
+	// ListboxLabel,
 	ListboxButton,
 	ListboxOption,
 	ListboxOptions,
 } from "@headlessui/vue";
 import CustomerService from "@/services/userActions/customerService.js";
 
-import { useStore } from "vuex";
+// import { useStore } from "vuex";
 // import { numeralFormat } from "vue-numerals";
 // var numeral = require("numeral");
 // import numeral from "numeral";
 
 export default {
-	name: "CreateDeposit",
+	name: "CreateSavingsWithdrawal",
 
 	components: {
 		// CancelSvg,
-		ConfirmTransaction,
+		ConfirmWithdrawal,
+		// SuccessfulTransactionModal,
 
 		Listbox,
 		ListboxButton,
 		ListboxOption,
 		ListboxOptions,
-		ListboxLabel,
+		// ListboxLabel,
 		// EarnDepositLoading,
 
 		Form,
@@ -370,18 +367,18 @@ export default {
 		onMounted(() => {
 			// getAllRates();
 		});
-		const store = useStore();
 
 		const steps = ref(1);
+		const store = useStore();
+		const router = useRouter();
+		const currencies = ref(["NGN", "USD"]);
 		const customerListIsVisible = ref(false);
 		const pageNumber = ref(1);
 		const pageSize = ref(10);
 		const searchText = ref("");
 		const customers = ref([]);
 		const selectedCustomer = ref({});
-		const depositLoading = ref(false);
-		const router = useRouter();
-		const currencies = ref(["NGN", "USD"]);
+		const withdrawalLoading = ref(false);
 
 		// const userId = ref(store.getters["authToken/userId"]);
 
@@ -389,33 +386,6 @@ export default {
 
 		const formatCurr = (balance) => {
 			return Util.currencyFormatter(balance, Constants.currencyFormat);
-		};
-
-		const customerSearch = () => {
-			if (searchText.value.length > 0) {
-				CustomerService.customerSearch(
-					pageNumber.value,
-					pageSize.value,
-					searchText.value,
-					(response) => {
-						Log.info(response);
-						customers.value = response.data.data;
-					},
-					(error) => {
-						Log.error(error);
-					}
-				);
-			}
-		};
-
-		const pickCustomer = (customer) => {
-			searchText.value = customer.customerEmail;
-			store.commit("customer/customerId", customer.customerId);
-
-			Log.info(customer);
-			selectedCustomer.value = customer;
-
-			currencies.value = customer?.product.split(",");
 		};
 
 		const increaseStep = () => {
@@ -429,7 +399,7 @@ export default {
 		};
 
 		const goToRootPage = () => {
-			router.push("/customers");
+			router.push("/savings");
 		};
 
 		const goBack = () => {
@@ -471,24 +441,51 @@ export default {
 		// 	);
 		// };
 
+		const customerSearch = () => {
+			if (searchText.value.length > 0) {
+				CustomerService.customerSearch(
+					pageNumber.value,
+					pageSize.value,
+					searchText.value,
+					(response) => {
+						Log.info(response);
+						customers.value = response.data.data;
+					},
+					(error) => {
+						Log.error(error);
+					}
+				);
+			}
+		};
+
+		const pickCustomer = (customer) => {
+			searchText.value = customer.customerEmail;
+			store.commit("customer/customerId", customer.customerId);
+
+			Log.info(customer);
+			selectedCustomer.value = customer;
+
+			currencies.value = customer?.product.split(",");
+		};
+
 		const proceed = (values) => {
 			Log.info("Proceed");
 			Log.info(values);
-			depositLoading.value = true;
-			CustomerService.customerTransactionDeposit(
+			withdrawalLoading.value = true;
+			CustomerService.customerTransactionWithdrawal(
 				{
 					customerId: selectedCustomer.value.customerId,
 					product: selectedCurrency.value,
 					amount: Number(values.amount),
 				},
 				(response) => {
-					depositLoading.value = false;
+					withdrawalLoading.value = false;
 					Log.info("deposit response: " + JSON.stringify(response));
 					store.commit("customer/transactionDetails", response.data.data);
 					increaseStep();
 				},
 				(error) => {
-					depositLoading.value = false;
+					withdrawalLoading.value = false;
 					Log.error(error);
 				}
 			);
@@ -506,14 +503,15 @@ export default {
 			customerListIsVisible,
 			pickCustomer,
 			selectedCustomer,
-			depositLoading,
+			searchText,
+			customerSearch,
+			customers,
+			withdrawalLoading,
+
 			goBack,
 			formatCurr,
 			steps,
 			schema,
-			searchText,
-			customerSearch,
-			customers,
 
 			// addComma,
 		};

@@ -89,7 +89,7 @@
 								</MenuItem> -->
 								<MenuItem v-slot="{ active }">
 									<router-link
-										to="/settings/apy_rates"
+										to="/settings/apy_rates/customers"
 										class="cursor-pointer"
 										:class="[
 											active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',

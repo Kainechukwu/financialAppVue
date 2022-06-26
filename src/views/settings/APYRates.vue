@@ -1,105 +1,107 @@
 <template>
-	<div class="w-full px-10 pb-8">
-		<div class="grid grid-cols-5 gap-8 mt-12">
-			<div class="col-span-5 sm:col-span-3 md:col-span-2">
-				<div class="flex flex-col">
-					<h1 class="blacktext fw-500 fs-18 mb-3">APY Rates</h1>
-					<span class="fs-12 fw-400 tx-666666">Set your rates for your customers</span>
+	<div>
+		<div class="w-full px-10 pb-8">
+			<div class="grid grid-cols-5 gap-8 mt-12">
+				<div class="col-span-5 sm:col-span-3 md:col-span-2">
+					<div class="flex flex-col">
+						<h1 class="blacktext fw-500 fs-18 mb-3">APY Rates</h1>
+						<span class="fs-12 fw-400 tx-666666">Set your rates for your customers</span>
+					</div>
 				</div>
-			</div>
-			<LoadingInputs v-if="suprbizRateLoading || customerRateLoading" />
+				<LoadingInputs v-if="suprbizRateLoading || customerRateLoading" />
 
-			<div v-else class="col-span-5 sm:col-span-3">
-				<Form @submit="getPin" :validation-schema="schema" v-slot="{ errors }">
-					<div class="flex flex-col lg:w-10/12">
-						<div class="tx-666666 fw-500 fs-18 mb-3">USD</div>
-						<div class="flex flex-col">
-							<!-- <span class="blacktext fw-500 fs-14 mb-4">Suprbiz Rates</span> -->
-							<div class="grid grid-cols-2 gap-4">
-								<div class="mb-4 md:mb-8 col-span-2 md:col-span-1">
-									<label for="Buy" class="fs-14 fw-400 tx-666666">Our Rates</label>
-									<input
-										readonly
-										id="Buy"
-										name="suprbizRates"
-										v-model="suprbizRate"
-										type="number"
-										autocomplete="off"
-										required=""
-										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
-									/>
-									<!-- <div class="invalid-feedback text-red-500">{{ errors.suprbizRates }}</div> -->
-								</div>
-
-								<div class="mb-8 col-span-2 md:col-span-1">
-									<label for="Buy" class="fs-14 fw-400 tx-666666">Your Rates</label>
-									<Field
-										id="Buy"
-										name="yourUSDRates"
-										v-model="yourUSDRate"
-										type="number"
-										autocomplete="off"
-										required=""
-										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
-										:class="{ 'is-invalid': errors.yourUSDRates }"
-									/>
-									<div class="invalid-feedback text-red-500">{{ errors.yourUSDRates }}</div>
-								</div>
-							</div>
-
-							<!-- ----------  -->
-							<div class="tx-666666 fw-500 fs-18 mb-3">NGN</div>
-							<div class="grid grid-cols-2 gap-4">
-								<div class="mb-4 md:mb-8 col-span-2 md:col-span-1">
-									<label for="Buy" class="fs-14 fw-400 tx-666666">Our Rates</label>
-									<input
-										readonly
-										id="Buy"
-										name="suprbizRates"
-										v-model="suprbizRate"
-										type="number"
-										autocomplete="off"
-										required=""
-										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
-									/>
-									<!-- <div class="invalid-feedback text-red-500">{{ errors.suprbizRates }}</div> -->
-								</div>
-								<div class="mb-8 col-span-2 md:col-span-1">
-									<label for="Buy" class="fs-14 fw-400 tx-666666">Your Rates</label>
-									<Field
-										id="Buy"
-										name="yourNGNRates"
-										v-model="yourNGNRate"
-										type="number"
-										autocomplete="off"
-										required=""
-										class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
-										:class="{ 'is-invalid': errors.yourNGNRates }"
-									/>
-									<div class="invalid-feedback text-red-500">{{ errors.yourNGNRates }}</div>
-								</div>
-							</div>
-
-							<div class="flex justify-start mt-3">
-								<button
-									:disabled="saveLoading"
-									type="submit"
-									class="cursor-pointer greenButton fs-14 fw-500 w-3/4 sm:w-2/4 h-14 br-5 flex items-center justify-center"
-								>
-									<div class="flex items-center justify-center">
-										<span class="text-white">Save Changes</span>
-										<div v-if="saveLoading" class="h-4 w-4 ml-4 rounded-md block">
-											<div class="roundLoader opacity-50 mx-auto"></div>
-										</div>
+				<div v-else class="col-span-5 sm:col-span-3">
+					<Form @submit="getPin" :validation-schema="schema" v-slot="{ errors }">
+						<div class="flex flex-col lg:w-10/12">
+							<div class="tx-666666 fw-500 fs-18 mb-3">USD</div>
+							<div class="flex flex-col">
+								<!-- <span class="blacktext fw-500 fs-14 mb-4">Suprbiz Rates</span> -->
+								<div class="grid grid-cols-2 gap-4">
+									<div class="mb-4 md:mb-8 col-span-2 md:col-span-1">
+										<label for="Buy" class="fs-14 fw-400 tx-666666">Our Rates</label>
+										<input
+											readonly
+											id="Buy"
+											name="suprbizRates"
+											v-model="suprbizRate"
+											type="number"
+											autocomplete="off"
+											required=""
+											class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
+										/>
+										<!-- <div class="invalid-feedback text-red-500">{{ errors.suprbizRates }}</div> -->
 									</div>
-								</button>
+
+									<div class="mb-8 col-span-2 md:col-span-1">
+										<label for="Buy" class="fs-14 fw-400 tx-666666">Your Rates</label>
+										<Field
+											id="Buy"
+											name="yourUSDRates"
+											v-model="yourUSDRate"
+											type="number"
+											autocomplete="off"
+											required=""
+											class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
+											:class="{ 'is-invalid': errors.yourUSDRates }"
+										/>
+										<div class="invalid-feedback text-red-500">{{ errors.yourUSDRates }}</div>
+									</div>
+								</div>
+
+								<!-- ----------  -->
+								<div class="tx-666666 fw-500 fs-18 mb-3">NGN</div>
+								<div class="grid grid-cols-2 gap-4">
+									<div class="mb-4 md:mb-8 col-span-2 md:col-span-1">
+										<label for="Buy" class="fs-14 fw-400 tx-666666">Our Rates</label>
+										<input
+											readonly
+											id="Buy"
+											name="suprbizRates"
+											v-model="suprbizRate"
+											type="number"
+											autocomplete="off"
+											required=""
+											class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
+										/>
+										<!-- <div class="invalid-feedback text-red-500">{{ errors.suprbizRates }}</div> -->
+									</div>
+									<div class="mb-8 col-span-2 md:col-span-1">
+										<label for="Buy" class="fs-14 fw-400 tx-666666">Your Rates</label>
+										<Field
+											id="Buy"
+											name="yourNGNRates"
+											v-model="yourNGNRate"
+											type="number"
+											autocomplete="off"
+											required=""
+											class="mt-1.5 br-5 h-12 appearance-none relative block w-full px-3 py-2 border border-gray-200 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-300 focus:z-10 sm:text-sm"
+											:class="{ 'is-invalid': errors.yourNGNRates }"
+										/>
+										<div class="invalid-feedback text-red-500">{{ errors.yourNGNRates }}</div>
+									</div>
+								</div>
+
+								<div class="flex justify-start mt-3">
+									<button
+										:disabled="saveLoading"
+										type="submit"
+										class="cursor-pointer greenButton fs-14 fw-500 w-3/4 sm:w-2/4 h-14 br-5 flex items-center justify-center"
+									>
+										<div class="flex items-center justify-center">
+											<span class="text-white">Save Changes</span>
+											<div v-if="saveLoading" class="h-4 w-4 ml-4 rounded-md block">
+												<div class="roundLoader opacity-50 mx-auto"></div>
+											</div>
+										</div>
+									</button>
+								</div>
 							</div>
 						</div>
-					</div>
-				</Form>
+					</Form>
+				</div>
 			</div>
+			<pin-code-modal :open="isPinAuthOpen" @success="saveRate" @close="closePinAuth" />
 		</div>
-		<pin-code-modal :open="isPinAuthOpen" @success="saveRate" @close="closePinAuth" />
 	</div>
 </template>
 

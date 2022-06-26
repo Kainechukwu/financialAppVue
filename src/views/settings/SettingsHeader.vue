@@ -103,7 +103,7 @@
 		<div class="h-16 ml-2 flex flex-col justify-between mr-10">
 			<div class="h-2"></div>
 			<div class="fw-600 fs-14" :class="{ 'nav-link-color': currentPage === 'APY RATES Settings' }">
-				<router-link to="/settings/apy_rates">APY Rates</router-link>
+				<router-link to="/settings/apy_rates/customers">APY Rates</router-link>
 			</div>
 			<div class="h-02rem" :class="{ 'nav-link-bg': currentPage === 'APY RATES Settings' }"></div>
 		</div>

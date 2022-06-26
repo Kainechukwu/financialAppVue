@@ -12,7 +12,9 @@
 
 				<div v-else class="col-span-5 sm:col-span-3">
 					<div class="flex flex-col lg:w-10/12">
-						<div class="tx-666666 fw-400 fs-14 mb-3">Selling Rate: {{ suprbizRate }}%</div>
+						<div v-if="suprbizRate !== null" class="tx-666666 fw-400 fs-14 mb-3">
+							Selling Rate: {{ suprbizRate }}%
+						</div>
 						<div class="flex flex-col">
 							<!-- <span class="blacktext fw-500 fs-14 mb-4">Suprbiz Rates</span> -->
 							<div class="grid grid-cols-2 gap-4">
