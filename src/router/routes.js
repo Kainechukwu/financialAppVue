@@ -247,7 +247,7 @@ export default [
 							{
 								path: "/savings/transactions",
 								name: "Savings Transactions",
-								component: () => import("@/views/main/customers/Transactions.vue"),
+								component: () => import("@/views/main/savings/SavingsCustomerTransactions.vue"),
 							},
 							{
 								path: "/savings/rewards_transactions",
