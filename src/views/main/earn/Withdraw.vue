@@ -409,7 +409,7 @@ export default {
 		const steps = ref(1);
 		const store = useStore();
 		const transType = store.getters["bankDetails/transType"];
-
+		const customerWalletType = store.getters["bankDetails/customerWalletType"];
 		const router = useRouter();
 		const withdrawalAmount = ref("");
 		const sendAmountLoading = ref(false);
@@ -455,7 +455,7 @@ export default {
 			if (transType === 0) {
 				router.push("/earn/overview");
 			} else if (transType === 1) {
-				router.push("/customers");
+				customerWalletType == 2 ? router.push("/customers") : router.push("/savings");
 			}
 		};
 

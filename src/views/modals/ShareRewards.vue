@@ -189,9 +189,12 @@
 
 <script>
 import { onMounted, ref, toRef } from "vue";
-import CustomerService from "@/services/userActions/customerService.js";
+// import CustomerService from "@/services/userActions/customerService.js";
 // import StaticBusinessDetails from "./StaticBusinessDetails.vue";
-import { Log, Util } from "@/components/util";
+import {
+	Log,
+	// Util
+} from "@/components/util";
 // import { useStore } from "vuex";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
@@ -265,9 +268,9 @@ export default {
 				lastSevenDays: last7days.value,
 				lastThirtyDays: last30days.value,
 				lastThreeMonths: last3months.value,
-				userMinBalance: values.minBalance,
-				userMaxBalance: values.maxBalance,
-				amountToDistribute: values.amount,
+				userMinBalance: Number(values.minBalance),
+				userMaxBalance: Number(values.maxBalance),
+				amountToDistribute: Number(values.amount),
 			};
 			return obj;
 		};
@@ -305,20 +308,10 @@ export default {
 			Log.info(values);
 			loading.value = true;
 			Log.info(prepareRewardsDetails(values));
-			CustomerService.shareRewards(
-				prepareRewardsDetails(values),
-				(response) => {
-					loading.value = false;
-					close();
-					Util.handleGlobalAlert(true, "success", response.data.message);
-				},
-				(error) => {
-					loading.value = false;
-					close();
-					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
-				}
-			);
-			// loading.value = false;
+			const rewardsData = prepareRewardsDetails(values);
+			context.emit("formFilled", rewardsData);
+
+			loading.value = false;
 		};
 
 		return {

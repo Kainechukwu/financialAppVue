@@ -179,8 +179,9 @@
 
 			<router-view></router-view>
 		</div>
-		<share-rewards :open="isShareRewardsOpen" @close="closeShareRewards" />
+		<share-rewards :open="isShareRewardsOpen" @close="closeShareRewards" @formFilled="inputPin" />
 		<create-savings-customer :open="isCreateCustomerOpen" @close="closeCreateCustomer" />
+		<pin-code-modal :open="isPinAuthOpen" @success="shareRewards" @close="closePinAuth" />
 	</div>
 </template>
 
@@ -190,9 +191,10 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { computed, ref, onMounted } from "vue";
 import CustomerService from "@/services/userActions/customerService.js";
 import CreateSavingsCustomer from "@/views/modals/CreateSavingsCustomer.vue";
+import PinCodeModal from "@/views/modals/PinCodeModal";
 
 import { useStore } from "vuex";
-import { Log } from "@/components/util";
+import { Log, Util } from "@/components/util";
 
 import ShareRewards from "@/views/modals/ShareRewards.vue";
 import SavingsBalanceCard from "./SavingsBalanceCard.vue";
@@ -209,6 +211,7 @@ export default {
 		MenuItem,
 		MenuItems,
 		ShareRewards,
+		PinCodeModal,
 	},
 	setup() {
 		onMounted(() => {
@@ -219,6 +222,8 @@ export default {
 		const route = ref(useRoute());
 		const store = useStore();
 		const isCreateCustomerOpen = ref(false);
+		const shareRewardsData = ref({});
+		const isPinAuthOpen = ref(false);
 
 		const isShareRewardsOpen = ref(false);
 		// const merchantId = store.getters["authToken/userId"];
@@ -241,6 +246,15 @@ export default {
 			isCreateCustomerOpen.value = false;
 		};
 
+		const openPinAuth = () => {
+			// Log.info("openAttempted");
+			isPinAuthOpen.value = true;
+		};
+
+		const closePinAuth = () => {
+			isPinAuthOpen.value = false;
+		};
+
 		const getCharges = () => {
 			CustomerService.getCharges(
 				(response) => {
@@ -258,8 +272,33 @@ export default {
 				}
 			);
 		};
+
+		const inputPin = (rewardsData) => {
+			shareRewardsData.value = rewardsData;
+			closeShareRewards();
+
+			openPinAuth();
+		};
+
+		const shareRewards = (pin) => {
+			shareRewardsData.value.pin = pin;
+			CustomerService.shareRewards(
+				shareRewardsData.value, ///
+				(response) => {
+					// loading.value = false;
+					// closeShareRewards();
+					Util.handleGlobalAlert(true, "success", response.data.message);
+				},
+				(error) => {
+					// loading.value = false;
+					// closeShareRewards();
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+				}
+			);
+		};
 		return {
 			currentPage,
+			inputPin,
 			// merchantId,
 			openShareRewards,
 			isShareRewardsOpen,
@@ -267,6 +306,10 @@ export default {
 			openCreateCustomer,
 			isCreateCustomerOpen,
 			closeCreateCustomer,
+			openPinAuth,
+			closePinAuth,
+			isPinAuthOpen,
+			shareRewards,
 		};
 	},
 };

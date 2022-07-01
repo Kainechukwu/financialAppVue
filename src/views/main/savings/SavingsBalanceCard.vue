@@ -218,6 +218,11 @@ export default {
 		};
 
 		const goToWithdraw = () => {
+			if (props.title === "WALLET BALANCE") {
+				store.commit("bankDetails/customerWalletType", 3);
+			}
+			Log.info("wallet: " + JSON.stringify(store.getters["bankDetails/customerWalletType"]));
+
 			router.push("/withdraw");
 		};
 
