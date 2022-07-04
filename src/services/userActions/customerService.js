@@ -127,6 +127,7 @@ export default class CustomerService {
 		PageSize,
 		from,
 		to,
+		source,
 		type,
 		product,
 		successHandler,
@@ -134,7 +135,7 @@ export default class CustomerService {
 	) {
 		Web.getCustomer(
 			Constants.API_BASE +
-				`/Transactions/customer/transactions?PageNumber=${PageNumber}&PageSize=${PageSize}&From=${from}&To=${to}&type=${type}&product=${product}`,
+				`/Transactions/customer/transactions?PageNumber=${PageNumber}&PageSize=${PageSize}&From=${from}&To=${to}&source=${source}&type=${type}&product=${product}`,
 			successHandler,
 			errorHandler
 		);

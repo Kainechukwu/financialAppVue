@@ -454,6 +454,7 @@ export default {
 		const totalPages = ref(0);
 		const loading = ref(false);
 		const searchText = ref("");
+		const source = 0;
 		const transactions = ref([]);
 		const types = [
 			{
@@ -499,6 +500,7 @@ export default {
 				pageSize.value,
 				state.from,
 				state.to,
+				source,
 				state.selectedType.value,
 				state.selectedProduct.value,
 				(response) => {
