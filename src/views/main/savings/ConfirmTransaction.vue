@@ -75,20 +75,17 @@
 			</div>
 		</div>
 
-		<pin-code-modal :open="isPinAuthOpen" @success="openSuccessModal" @close="closePinAuth" />
+		<pin-code-modal :open="isPinAuthOpen" @success="confirmTransaction" @close="closePinAuth" />
 	</div>
 </template>
 
 <script>
 import PinCodeModal from "@/views/modals/PinCodeModal";
+import CustomerService from "@/services/userActions/customerService.js";
 
 import { useStore } from "vuex";
 import { ref, computed } from "vue";
-import {
-	Util,
-	// Log,
-	Constants,
-} from "@/components/util";
+import { Util, Log, Constants } from "@/components/util";
 export default {
 	name: "ConfirmTransaction",
 	props: {},
@@ -100,6 +97,7 @@ export default {
 		const isMoneySent = ref(false);
 		const sendAmountLoading = ref(false);
 		const isPinAuthOpen = ref(false);
+		const submitLoading = ref(false);
 
 		const formatCurrency = (amount) => {
 			return Util.currencyFormatter(amount, Constants.currencyFormat);
@@ -118,6 +116,47 @@ export default {
 
 		const openSuccessModal = () => {
 			store.commit("setSavingsSuccessTransactionModal", true);
+		};
+		const prepareDetails = (pin) => {
+			const obj = {
+				customerId: store.getters["customer/customerId"],
+				product: bankDetails.value.product,
+				transactionRefCode: bankDetails.value.transactionRefCode,
+				amount: bankDetails.value.amount,
+				pin: pin,
+				type: 1,
+			};
+
+			return obj;
+		};
+
+		const confirmTransaction = (pin) => {
+			CustomerService.customerConfirmDeposit(
+				prepareDetails(pin),
+				(response) => {
+					submitLoading.value = false;
+					Log.info("transaction deposit response" + String(response));
+					// close();
+					// resetInput();
+					openSuccessModal();
+					// context.emit("success");
+				},
+				(error) => {
+					submitLoading.value = false;
+					Log.error("naija deposit response " + String(error));
+					// errorMessage.value = error.response.data.Message;
+					// // store.commit("setNaijaTransactionSuccessfulModal", true);
+
+					// close();
+					// resetInput();
+
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+
+					// close();
+
+					Log.info(store.state.naijaTransactionSuccessfulModal);
+				}
+			);
 		};
 
 		const sendMoney = () => {
@@ -167,7 +206,7 @@ export default {
 			isPinAuthOpen,
 			openSuccessModal,
 			formatCurrency,
-
+			confirmTransaction,
 			cancel,
 			sendAmountLoading,
 		};

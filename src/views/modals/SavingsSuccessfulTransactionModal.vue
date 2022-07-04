@@ -45,7 +45,7 @@
 							<h1 class="text-center mb-5 fw-600 fs-20 blacktext mt-4">Transaction Successful</h1>
 
 							<p class="tx-666666 fw-400 fs-14 text-center mt-2">
-								Your withdrawal has been processed and will be credited to your account
+								Your transaction has been processed and will be credited to your account
 							</p>
 
 							<div class="w-full flex justify-center mt-6">

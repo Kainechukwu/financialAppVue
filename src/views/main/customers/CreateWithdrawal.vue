@@ -381,6 +381,7 @@ export default {
 		const pageSize = ref(10);
 		const searchText = ref("");
 		const customers = ref([]);
+		const type = 0;
 		const selectedCustomer = ref({});
 		const withdrawalLoading = ref(false);
 
@@ -451,6 +452,7 @@ export default {
 					pageNumber.value,
 					pageSize.value,
 					searchText.value,
+					type,
 					(response) => {
 						Log.info(response);
 						customers.value = response.data.data;
@@ -481,6 +483,7 @@ export default {
 					customerId: selectedCustomer.value.customerId,
 					product: selectedCurrency.value,
 					amount: Number(values.amount),
+					type: type,
 				},
 				(response) => {
 					withdrawalLoading.value = false;
