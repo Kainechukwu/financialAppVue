@@ -321,7 +321,7 @@ import {
 	//  computed,
 	// watch,
 } from "vue";
-import ConfirmWithdrawal from "@/views/main/customers/ConfirmWithdrawal.vue";
+import ConfirmWithdrawal from "./ConfirmWithdrawal.vue";
 // import UserInfo from "@/services/userInfo/userInfo.js";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
