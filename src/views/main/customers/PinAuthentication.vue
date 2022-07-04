@@ -220,6 +220,7 @@ export default {
 				transactionRefCode: customerDepositDetails.value.transactionRefCode,
 				amount: customerDepositDetails.value.amount,
 				pin: code,
+				type: 0,
 			};
 
 			return obj;

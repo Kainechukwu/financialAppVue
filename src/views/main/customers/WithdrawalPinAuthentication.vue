@@ -221,6 +221,7 @@ export default {
 				transactionRefCode: customerWithdrawalDetails.value.transactionRefCode,
 				amount: customerWithdrawalDetails.value.amount,
 				pin: code,
+				type: 0,
 			};
 
 			return obj;

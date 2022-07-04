@@ -379,6 +379,7 @@ export default {
 		const customers = ref([]);
 		const selectedCustomer = ref({});
 		const withdrawalLoading = ref(false);
+		const type = 1;
 
 		// const userId = ref(store.getters["authToken/userId"]);
 
@@ -447,6 +448,7 @@ export default {
 					pageNumber.value,
 					pageSize.value,
 					searchText.value,
+					type,
 					(response) => {
 						Log.info(response);
 						customers.value = response.data.data;
@@ -477,6 +479,7 @@ export default {
 					customerId: selectedCustomer.value.customerId,
 					product: selectedCurrency.value,
 					amount: Number(values.amount),
+					type: type,
 				},
 				(response) => {
 					withdrawalLoading.value = false;
