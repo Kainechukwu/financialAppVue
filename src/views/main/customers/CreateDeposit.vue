@@ -19,7 +19,7 @@
 								stroke-linejoin="round"
 							/>
 						</svg>
-						<span class="blacktext ml-4 fw-600 fs-18"> Create Depositss</span>
+						<span class="blacktext ml-4 fw-600 fs-18"> Create Deposit</span>
 					</div>
 				</div>
 				<!-- --------------------- -->
