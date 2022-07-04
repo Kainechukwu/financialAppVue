@@ -489,6 +489,8 @@ export default {
 				},
 				(error) => {
 					withdrawalLoading.value = false;
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+
 					Log.error(error);
 				}
 			);

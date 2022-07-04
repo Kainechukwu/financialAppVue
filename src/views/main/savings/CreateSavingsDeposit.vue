@@ -492,6 +492,8 @@ export default {
 				},
 				(error) => {
 					depositLoading.value = false;
+					Util.handleGlobalAlert(true, "failed", error.response.data.Message);
+
 					Log.error(error);
 				}
 			);
