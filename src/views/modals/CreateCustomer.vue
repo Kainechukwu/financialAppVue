@@ -179,6 +179,7 @@
 														leave-to-class="opacity-0"
 													>
 														<ListboxOptions
+															v-if="currencies.length > 0"
 															class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
 														>
 															<ListboxOption
@@ -342,6 +343,7 @@ export default {
 				fiatCurrency: selected.value.currency,
 				emailAddress: values.email,
 				rate: values.rate,
+				type: 0,
 			};
 			return obj;
 		};
@@ -349,9 +351,9 @@ export default {
 		const getAllCustomerRates = () => {
 			CustomerService.getAllCustomerRates(
 				(response) => {
-					Log.info("All customer Rates: " + JSON.stringify(response));
+					Log.info("All customer Rates: " + JSON.stringify(response.data.data));
 					currencies.value = response.data.data;
-					selected.value = currencies.value.length > 0 ? currencies.value[3] : {};
+					selected.value = currencies.value.length > 0 ? currencies.value[1] : {};
 				},
 				(error) => {
 					Log.error(error);

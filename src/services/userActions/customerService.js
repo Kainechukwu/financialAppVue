@@ -11,18 +11,19 @@ export default class CustomerService {
 		);
 	}
 
-	static getAllCustomers(pageNumber, pageSize, successHandler, errorHandler) {
+	static getAllCustomers(pageNumber, pageSize, type, successHandler, errorHandler) {
 		Web.getCustomer(
-			Constants.API_BASE + `/Customers/get-all?PageNumber=${pageNumber}&PageSize=${pageSize}`,
+			Constants.API_BASE +
+				`/Customers/get-all?PageNumber=${pageNumber}&PageSize=${pageSize}&type=${type}`,
 			successHandler,
 			errorHandler
 		);
 	}
 
-	static customerSearch(pageNumber, pageSize, searchText, successHandler, errorHandler) {
+	static customerSearch(pageNumber, pageSize, searchText, type, successHandler, errorHandler) {
 		Web.getCustomer(
 			Constants.API_BASE +
-				`/Customers/search?PageNumber=${pageNumber}&PageSize=${pageSize}&searchText=${searchText}`,
+				`/Customers/search?PageNumber=${pageNumber}&PageSize=${pageSize}&searchText=${searchText}&type=${type}`,
 			successHandler,
 			errorHandler
 		);

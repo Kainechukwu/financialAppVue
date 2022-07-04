@@ -341,6 +341,7 @@ export default {
 				lastName: values.lastName,
 				// fiatCurrency: selected.value.currency,
 				emailAddress: values.email,
+				type: 1,
 				// rate: values.rate,
 			};
 			return obj;

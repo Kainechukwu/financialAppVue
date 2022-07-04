@@ -325,6 +325,7 @@ export default {
 		const customers = ref([]);
 		const pageNumber = ref(1);
 		const pageSize = ref(10);
+		const type = 0;
 		const totalPages = ref(0);
 		const loading = ref(false);
 		const searchText = ref("");
@@ -334,6 +335,7 @@ export default {
 			CustomerService.getAllCustomers(
 				pageNumber.value,
 				pageSize.value,
+				type,
 				(response) => {
 					loading.value = false;
 					Log.info(response);
@@ -354,6 +356,7 @@ export default {
 					pageNumber.value,
 					pageSize.value,
 					searchText.value,
+					type,
 					(response) => {
 						Log.info(response);
 						customers.value = response.data.data;
