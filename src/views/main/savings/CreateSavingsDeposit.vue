@@ -19,7 +19,7 @@
 								stroke-linejoin="round"
 							/>
 						</svg>
-						<span class="blacktext ml-4 fw-600 fs-18"> Create Deposit</span>
+						<span class="blacktext ml-4 fw-600 fs-18"> Create Depositkik</span>
 					</div>
 				</div>
 				<!-- --------------------- -->
@@ -325,7 +325,7 @@ import {
 	//  computed,
 	// watch,
 } from "vue";
-import ConfirmTransaction from "@/views/main/customers/ConfirmTransaction.vue";
+import ConfirmTransaction from "./ConfirmTransaction.vue";
 // import UserInfo from "@/services/userInfo/userInfo.js";
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";

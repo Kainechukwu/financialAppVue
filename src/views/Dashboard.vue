@@ -8,6 +8,7 @@
 		<this-plan-modal />
 		<bank-details-pin />
 		<successful-withdrawal-modal />
+		<savings-successful-transaction-modal />
 	</div>
 </template>
 
@@ -17,6 +18,7 @@ import MainSideBar from "./MainSideBar.vue";
 import ThisPlanModal from "./modals/ThisPlanModal.vue";
 import BankDetailsPin from "@/views/modals/BankDetailsPin.vue";
 import SuccessfulWithdrawalModal from "@/views/modals/SuccessfulWithdrawal.vue";
+import SavingsSuccessfulTransactionModal from "@/views/modals/SavingsSuccessfulTransactionModal";
 export default {
 	name: "Dashboard",
 	components: {
@@ -25,6 +27,7 @@ export default {
 		SuccessfulWithdrawalModal,
 		ThisPlanModal,
 		BankDetailsPin,
+		SavingsSuccessfulTransactionModal,
 	},
 	setup() {
 		return {};

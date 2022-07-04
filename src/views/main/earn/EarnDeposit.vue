@@ -87,7 +87,7 @@
 						<span class="fw-400 fs-14 tx-666666 mb-3">How much would you like to deposit </span>
 						<div class="flex br-5 h-12">
 							<Listbox as="div" v-model="selected">
-								<!-- <ListboxLabel class="hidden block fs-14 tx-666666 fw-600"> Currencies </ListboxLabel> -->
+								<!-- <ListboxLabel class="hidden  fs-14 tx-666666 fw-600"> Currencies </ListboxLabel> -->
 								<div class="h-full relative">
 									<ListboxButton
 										class="text-gray-400 h-full bg-gray-100 w-20 pr-2 pl-1 py-2 focus:outline-none sm:text-sm rounded-l-md"

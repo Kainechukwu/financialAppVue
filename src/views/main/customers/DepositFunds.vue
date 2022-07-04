@@ -19,7 +19,7 @@
 								stroke-linejoin="round"
 							/>
 						</svg>
-						<span class="blacktext ml-4 fw-600 fs-18"> Deposit Fundskjbkhjbj</span>
+						<span class="blacktext ml-4 fw-600 fs-18"> Deposit Funds</span>
 					</div>
 				</div>
 				<!-- --------------------- -->
