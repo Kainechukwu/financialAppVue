@@ -321,6 +321,13 @@
 											>
 												Amount
 											</th>
+
+											<th
+												scope="col"
+												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
+											>
+												Transaction Type
+											</th>
 											<!-- <th
 												scope="col"
 												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
@@ -349,6 +356,9 @@
 											</td>
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 												{{ transaction.amount }}
+											</td>
+											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
+												{{ transaction.transactionType }}
 											</td>
 											<!-- <td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 												{{ transaction.value }}

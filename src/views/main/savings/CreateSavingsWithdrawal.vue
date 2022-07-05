@@ -371,7 +371,7 @@ export default {
 		const steps = ref(1);
 		const store = useStore();
 		const router = useRouter();
-		const currencies = ref(["NGN", "USD"]);
+		const currencies = ref(["USD"]);
 		const customerListIsVisible = ref(false);
 		const pageNumber = ref(1);
 		const pageSize = ref(10);
