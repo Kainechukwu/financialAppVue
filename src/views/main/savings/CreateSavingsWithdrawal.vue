@@ -316,8 +316,7 @@ import { useStore } from "vuex";
 import { Log, Util, Constants } from "@/components/util";
 import {
 	ref,
-	onMounted,
-	onBeforeMount,
+
 	//  computed,
 	// watch,
 } from "vue";
@@ -363,10 +362,10 @@ export default {
 		page: String,
 	},
 	setup() {
-		onBeforeMount(() => {});
-		onMounted(() => {
-			// getAllRates();
-		});
+		// onBeforeMount(() => {});
+		// onMounted(() => {
+		// 	// getAllRates();
+		// });
 
 		const steps = ref(1);
 		const store = useStore();
@@ -380,6 +379,7 @@ export default {
 		const selectedCustomer = ref({});
 		const withdrawalLoading = ref(false);
 		const type = 1;
+		const balance = ref(null);
 
 		// const userId = ref(store.getters["authToken/userId"]);
 
@@ -414,7 +414,10 @@ export default {
 		const schema = Yup.object().shape({
 			amount: Yup.string()
 				.required("Amount is required")
-				.matches(/^[0-9]+$/, "Amount must contain only numbers"),
+				.matches(/^[0-9]+$/, "Amount must contain only numbers")
+				.test("Wallet amount", "Insufficient funds", (val) =>
+					balance.value === null ? true : balance.value >= val
+				),
 			email: Yup.string()
 				.required("Email is required")
 				.email("Email is invalid")
@@ -466,6 +469,7 @@ export default {
 
 			Log.info(customer);
 			selectedCustomer.value = customer;
+			balance.value = customer.balance;
 
 			currencies.value = customer?.product.split(",");
 		};

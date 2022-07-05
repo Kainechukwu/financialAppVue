@@ -384,6 +384,7 @@ export default {
 		const type = 0;
 		const selectedCustomer = ref({});
 		const withdrawalLoading = ref(false);
+		const balance = ref(null);
 
 		// const userId = ref(store.getters["authToken/userId"]);
 
@@ -418,7 +419,10 @@ export default {
 		const schema = Yup.object().shape({
 			amount: Yup.string()
 				.required("Amount is required")
-				.matches(/^[0-9]+$/, "Amount must contain only numbers"),
+				.matches(/^[0-9]+$/, "Amount must contain only numbers")
+				.test("Wallet amount", "Insufficient funds", (val) =>
+					balance.value === null ? true : balance.value >= val
+				),
 			email: Yup.string()
 				.required("Email is required")
 				.email("Email is invalid")
@@ -470,7 +474,7 @@ export default {
 
 			Log.info(customer);
 			selectedCustomer.value = customer;
-
+			balance.value = customer.balance;
 			currencies.value = customer?.product.split(",");
 		};
 
