@@ -190,9 +190,9 @@
 											</th>
 											<th
 												scope="col"
-												class="px-6 py-3 text-left fw-600 fs-14 blacktext tracking-wider"
+												class="px-6 py-3 text-center fw-600 fs-14 blacktext tracking-wider"
 											>
-												Product(s)
+												Balance
 											</th>
 
 											<!-- <th
@@ -218,8 +218,8 @@
 											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
 												{{ customer.customerEmail }}
 											</td>
-											<td class="px-6 py-4 whitespace-nowrap tx-666666 fs-14 fw-400">
-												{{ customer.product }}
+											<td class="px-6 py-4 text-right whitespace-nowrap tx-666666 fs-14 fw-400">
+												{{ formatCurrency(customer.balance) }}
 											</td>
 											<!-- <td
 												style="color: #1860b9"
@@ -294,7 +294,7 @@ import TableSkeleton from "@/components/skeletons/TableSkeletons.vue";
 // import { useStore } from "vuex";
 // import { useRouter } from "vue-router";
 import { ref, onMounted, watch } from "vue";
-import { Log } from "@/components/util";
+import { Log, Util, Constants } from "@/components/util";
 // import {
 // 	Listbox,
 // 	ListboxButton,
@@ -329,6 +329,10 @@ export default {
 		const totalPages = ref(0);
 		const loading = ref(false);
 		const searchText = ref("");
+
+		const formatCurrency = (amount) => {
+			return Util.currencyFormatter(amount, Constants.currencyFormat);
+		};
 
 		const getAllCustomers = () => {
 			loading.value = true;
@@ -407,6 +411,7 @@ export default {
 			next,
 			pageNumber,
 			searchText,
+			formatCurrency,
 		};
 	},
 };

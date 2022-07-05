@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col mt-8">
-		<span class="fw-500 fs-16 mb-4">Tranactions</span>
+		<span class="fw-500 fs-16 mb-4">Transactions</span>
 		<!-- -------Table-------- -->
 		<div class="flex flex-col">
 			<!-- style="min-width: 100%; max-width: 100%" -->

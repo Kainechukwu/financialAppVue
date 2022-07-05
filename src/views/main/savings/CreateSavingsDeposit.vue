@@ -19,7 +19,7 @@
 								stroke-linejoin="round"
 							/>
 						</svg>
-						<span class="blacktext ml-4 fw-600 fs-18"> Create Deposit</span>
+						<span class="blacktext ml-4 fw-600 fs-18"> Create Deposit </span>
 					</div>
 				</div>
 				<!-- --------------------- -->
@@ -384,6 +384,8 @@ export default {
 		const currencies = ref(["USD"]);
 		const type = 1;
 
+		const balance = ref(null);
+
 		// const userId = ref(store.getters["authToken/userId"]);
 
 		const selectedCurrency = ref(currencies.value[0]);
@@ -416,6 +418,7 @@ export default {
 
 			Log.info(customer);
 			selectedCustomer.value = customer;
+			balance.value = customer.balance;
 
 			currencies.value = customer?.product.split(",");
 		};
@@ -445,7 +448,13 @@ export default {
 		const schema = Yup.object().shape({
 			amount: Yup.string()
 				.required("Amount is required")
-				.matches(/^[0-9]+$/, "Amount must contain only numbers"),
+				.matches(/^[0-9]+$/, "Amount must contain only numbers")
+				// .test("Select customer", "Must select email from menu", (val) =>
+				// 	balance.value === null
+				// )
+				.test("Wallet amount", "Insufficient funds", (val) =>
+					balance.value === null ? true : balance.value >= val
+				),
 			email: Yup.string()
 				.required("Email is required")
 				.email("Email is invalid")
