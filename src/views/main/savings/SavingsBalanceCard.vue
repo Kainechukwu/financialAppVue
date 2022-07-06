@@ -155,7 +155,7 @@ export default {
 			getSuprbizRate();
 			// Log.info("rerender:" + JSON.stringify(rerender));
 			// getBalance();
-			setInterval(add, 1000);
+			// setInterval(add, 1000);
 			getWalletBalance();
 			getPendingInvestment();
 			getCustomerNaijaBankAccountDetails();
@@ -177,7 +177,7 @@ export default {
 		const ledgerBalance = ref(0);
 		const interestRate = ref(0);
 		const value = ref(0);
-		const adjustedInterest = ref(0);
+		// const adjustedInterest = ref(0);
 		const isAddFundsNaijaOpen = ref(false);
 		const watchThis = computed(() => (interestRate.value * principalBalance.value) / 86400);
 		// const d = ref(computed(() => new Date()));
@@ -395,34 +395,34 @@ export default {
 		// 	);
 		// };
 
-		const interestAdjustMent = () => {
-			const date = new Date();
-			// const lastHour = date.getHours();
-			const lastMinute = date.getMinutes();
-			const secsInLastHr = date.getSeconds();
-			const secondsPassed = lastMinute * 60 + secsInLastHr;
+		// const interestAdjustMent = () => {
+		// 	const date = new Date();
+		// 	// const lastHour = date.getHours();
+		// 	const lastMinute = date.getMinutes();
+		// 	const secsInLastHr = date.getSeconds();
+		// 	const secondsPassed = lastMinute * 60 + secsInLastHr;
 
-			adjustedInterest.value = secondsPassed * interestPerSec();
-			value.value = adjustedInterest.value;
-			Log.info("before:" + adjustedInterest.value);
-			adjustedInterest.value = 0;
-			Log.info("after:" + adjustedInterest.value);
-		};
+		// 	adjustedInterest.value = secondsPassed * interestPerSec();
+		// 	value.value = adjustedInterest.value;
+		// 	Log.info("before:" + adjustedInterest.value);
+		// 	adjustedInterest.value = 0;
+		// 	Log.info("after:" + adjustedInterest.value);
+		// };
 
 		// const resetAdjustedInterest = () => {
 		// 	adjustedInterest.value = 0;
 		// };
 
-		const interestPerSec = () => {
-			return (interestRate.value * walletBalance.value) / 86400;
-		};
+		// const interestPerSec = () => {
+		// 	return (interestRate.value * walletBalance.value) / 86400;
+		// };
 
-		const add = () => {
-			const interestPerSecond = interestPerSec();
+		// const add = () => {
+		// 	const interestPerSecond = interestPerSec();
 
-			value.value += interestPerSecond;
-			// Log.info("values: " + value.value);
-		};
+		// 	value.value += interestPerSecond;
+		// 	// Log.info("values: " + value.value);
+		// };
 
 		const formatCurrency = (curr) => {
 			return Util.currencyFormatter(curr, Constants.currencyFormat);
@@ -430,7 +430,7 @@ export default {
 
 		watch(watchThis, (newValue) => {
 			if (newValue > 0) {
-				interestAdjustMent();
+				// interestAdjustMent();
 				// Log.info("increased");
 				// if (adjustedInterest.value) {
 				// 	resetAdjustedInterest();
